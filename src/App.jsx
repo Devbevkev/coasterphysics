@@ -228,8 +228,22 @@ const motionLesson = {
         "Tangential acceleration changes speed. Radial acceleration changes direction.",
       ],
       equations: [
-        "Average acceleration: a_avg = Delta v / Delta t",
-        "Centripetal acceleration: a_c = v^2 / r",
+        {
+          label: "Average acceleration",
+          expression: (
+            <>
+              a<sub>avg</sub> = Δv / Δt
+            </>
+          ),
+        },
+        {
+          label: "Centripetal acceleration",
+          expression: (
+            <>
+              a<sub>c</sub> = v² / r
+            </>
+          ),
+        },
       ],
     },
     {
@@ -237,12 +251,42 @@ const motionLesson = {
       label: "Equations",
       title: "Important Equations",
       equations: [
-        "Average velocity: v_avg = Delta x / Delta t",
-        "Average acceleration: a_avg = Delta v / Delta t",
-        "For constant acceleration: v = v0 + at",
-        "x = x0 + v0t + (1/2)at^2",
-        "v^2 = v0^2 + 2aDelta x",
-        "For curved motion: a_c = v^2 / r",
+        {
+          label: "Average velocity",
+          expression: (
+            <>
+              v<sub>avg</sub> = Δx / Δt
+            </>
+          ),
+        },
+        {
+          label: "Average acceleration",
+          expression: (
+            <>
+              a<sub>avg</sub> = Δv / Δt
+            </>
+          ),
+        },
+        {
+          label: "Constant-acceleration velocity",
+          expression: <>v = v₀ + at</>,
+        },
+        {
+          label: "Position with constant acceleration",
+          expression: <>x = x₀ + v₀t + ½at²</>,
+        },
+        {
+          label: "Velocity-position relation",
+          expression: <>v² = v₀² + 2aΔx</>,
+        },
+        {
+          label: "Curved motion",
+          expression: (
+            <>
+              a<sub>c</sub> = v² / r
+            </>
+          ),
+        },
       ],
       body: [
         "These equations let students connect the coaster's motion to measurable changes in position, time, speed, and curvature.",
@@ -294,39 +338,42 @@ const motionLesson = {
         {
           prompt:
             "A coaster moves from position x = 10 m to x = 70 m in 4 s. What is its average velocity?",
-          answer: [
-            "v_avg = Delta x / Delta t",
-            "v_avg = (70 - 10) / 4",
-            "v_avg = 15 m/s",
-          ],
+          choices: ["10 m/s", "15 m/s", "20 m/s", "60 m/s"],
+          correctChoice: 1,
+          correctExplanation:
+            "Correct. Average velocity is Δx / Δt = (70 - 10) / 4 = 15 m/s.",
+          incorrectExplanation:
+            "Not quite. Use average velocity = displacement divided by time: (70 - 10) / 4 = 15 m/s.",
         },
         {
           prompt:
             "A coaster speeds up from 8 m/s to 28 m/s in 5 s. What is its average acceleration?",
-          answer: [
-            "a_avg = Delta v / Delta t",
-            "a_avg = (28 - 8) / 5",
-            "a_avg = 4 m/s^2",
-          ],
+          choices: ["2 m/s²", "4 m/s²", "5 m/s²", "7 m/s²"],
+          correctChoice: 1,
+          correctExplanation:
+            "Correct. Average acceleration is Δv / Δt = (28 - 8) / 5 = 4 m/s².",
+          incorrectExplanation:
+            "Not quite. The change in velocity is 20 m/s, and 20 / 5 gives 4 m/s².",
         },
         {
           prompt:
             "A coaster moves at a constant speed of 20 m/s around a curve of radius 50 m. What is its centripetal acceleration?",
-          answer: [
-            "a_c = v^2 / r",
-            "a_c = 20^2 / 50",
-            "a_c = 400 / 50",
-            "a_c = 8 m/s^2",
-          ],
+          choices: ["4 m/s²", "8 m/s²", "20 m/s²", "50 m/s²"],
+          correctChoice: 1,
+          correctExplanation:
+            "Correct. Centripetal acceleration is ac = v² / r = 20² / 50 = 400 / 50 = 8 m/s².",
+          incorrectExplanation:
+            "Not quite. Square the speed first, then divide by the radius: 20² / 50 = 8 m/s².",
         },
         {
           prompt:
-            "A coaster starts from rest and accelerates at 3 m/s^2 for 6 s. How far does it travel?",
-          answer: [
-            "x = v0t + (1/2)at^2",
-            "x = 0 + (1/2)(3)(6^2)",
-            "x = 54 m",
-          ],
+            "A coaster starts from rest and accelerates at 3 m/s² for 6 s. How far does it travel?",
+          choices: ["27 m", "36 m", "54 m", "108 m"],
+          correctChoice: 2,
+          correctExplanation:
+            "Correct. Using x = v₀t + ½at² gives x = 0 + ½(3)(6²) = 54 m.",
+          incorrectExplanation:
+            "Not quite. Start from x = v₀t + ½at². Since v₀ = 0, the distance is ½(3)(36) = 54 m.",
         },
       ],
     },
@@ -395,6 +442,54 @@ const MotionLessonView = ({
   const step = motionLesson.steps[stepIndex];
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === motionLesson.steps.length - 1;
+  const [tocOpen, setTocOpen] = useState(true);
+  const [practiceIndex, setPracticeIndex] = useState(0);
+  const [selectedPracticeChoice, setSelectedPracticeChoice] = useState(null);
+  const [practiceChecked, setPracticeChecked] = useState(false);
+
+  const currentPracticeProblem = step.problems?.[practiceIndex] ?? null;
+  const practiceIsCorrect =
+    currentPracticeProblem &&
+    selectedPracticeChoice === currentPracticeProblem.correctChoice;
+  const practiceComplete =
+    step.id === "practice" &&
+    practiceIndex === step.problems.length - 1 &&
+    practiceChecked;
+
+  useEffect(() => {
+    if (step.id !== "practice") {
+      return;
+    }
+
+    setPracticeIndex(0);
+    setSelectedPracticeChoice(null);
+    setPracticeChecked(false);
+  }, [step.id]);
+
+  useEffect(() => {
+    setSelectedPracticeChoice(null);
+    setPracticeChecked(false);
+  }, [practiceIndex]);
+
+  const handlePracticeAdvance = () => {
+    if (!currentPracticeProblem) {
+      return;
+    }
+
+    if (!practiceChecked) {
+      setPracticeChecked(true);
+      return;
+    }
+
+    if (practiceIndex < step.problems.length - 1) {
+      setPracticeIndex((current) => current + 1);
+      return;
+    }
+
+    setStepIndex((current) =>
+      Math.min(current + 1, motionLesson.steps.length - 1),
+    );
+  };
 
   return (
     <section className="py-8 sm:py-10">
@@ -418,48 +513,69 @@ const MotionLessonView = ({
 
       <div className="mt-8 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
         <aside className={`${panelClass} p-5`}>
-          <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-            {motionLesson.title}
-          </p>
-          <h2 className={`mt-4 font-display text-3xl font-semibold ${titleClass}`}>
-            {motionLesson.subtitle}
-          </h2>
-          <p className={`mt-4 text-base leading-7 ${copyClass}`}>{motionLesson.goal}</p>
-
-          <div className="mt-8 grid gap-3">
-            {motionLesson.steps.map((item, index) => {
-              const active = index === stepIndex;
-
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setStepIndex(index)}
-                  className={`rounded-2xl border px-4 py-3 text-left transition ${
-                    active
-                      ? isDark
-                        ? "border-cyan-300/40 bg-cyan-300/10"
-                        : "border-sky-300 bg-sky-50"
-                      : isDark
-                        ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
-                        : "border-slate-300/70 bg-slate-50/70 hover:bg-white"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold ${accentNumberClass}`}
-                    >
-                      {index + 1}
-                    </span>
-                    <div>
-                      <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
-                      <p className={`text-sm ${mutedClass}`}>{item.title}</p>
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+                {motionLesson.title}
+              </p>
+              <h2 className={`mt-4 font-display text-3xl font-semibold ${titleClass}`}>
+                {motionLesson.subtitle}
+              </h2>
+              <p className={`mt-4 text-base leading-7 ${copyClass}`}>{motionLesson.goal}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setTocOpen((open) => !open)}
+              className={`inline-flex items-center rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition ${
+                isDark
+                  ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                  : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+              }`}
+            >
+              {tocOpen ? "Collapse" : "Expand"}
+            </button>
           </div>
+
+          {tocOpen ? (
+            <div className="mt-8 grid gap-3">
+              {motionLesson.steps.map((item, index) => {
+                const active = index === stepIndex;
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setStepIndex(index)}
+                    className={`rounded-2xl border px-4 py-3 text-left transition ${
+                      active
+                        ? isDark
+                          ? "border-cyan-300/40 bg-cyan-300/10"
+                          : "border-sky-300 bg-sky-50"
+                        : isDark
+                          ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
+                          : "border-slate-300/70 bg-slate-50/70 hover:bg-white"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold ${accentNumberClass}`}
+                      >
+                        {index + 1}
+                      </span>
+                      <div>
+                        <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
+                        <p className={`text-sm ${mutedClass}`}>{item.title}</p>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className={`mt-6 rounded-2xl border px-4 py-3 text-sm ${subtlePanelClass} ${copyClass}`}>
+              Lesson outline hidden. Expand to jump between steps.
+            </div>
+          )}
         </aside>
 
         <article className={`${panelClass} p-7 sm:p-8`}>
@@ -502,15 +618,19 @@ const MotionLessonView = ({
           ) : null}
 
           {step.equations ? (
-            <div className={`mt-6 rounded-3xl border p-5 ${subtlePanelClass}`}>
-              <h4 className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
-                Equations
-              </h4>
-              <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                {step.equations.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {step.equations.map((item) => (
+                <div key={item.label} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
+                    {item.label}
+                  </p>
+                  <div
+                    className={`mt-4 overflow-x-auto font-display text-2xl font-semibold tracking-tight sm:text-3xl ${titleClass}`}
+                  >
+                    {item.expression}
+                  </div>
+                </div>
+              ))}
             </div>
           ) : null}
 
@@ -526,26 +646,97 @@ const MotionLessonView = ({
           ) : null}
 
           {step.problems ? (
-            <div className="mt-6 grid gap-4">
-              {step.problems.map((problem, index) => (
-                <div key={problem.prompt} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
-                  <p className={`text-lg font-semibold ${titleClass}`}>Problem {index + 1}</p>
-                  <p className={`mt-3 text-base leading-7 ${copyClass}`}>{problem.prompt}</p>
-                  <div className="mt-4">
-                    <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-                      Answer
-                    </p>
-                    <ul className={`mt-3 space-y-2 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                      {problem.answer.map((line) => (
-                        <li key={line} className="flex gap-3">
-                          <span className={`mt-2 h-2 w-2 rounded-full ${warmDotClass}`} />
-                          <span>{line}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+            <div className={`mt-6 rounded-3xl border p-6 ${subtlePanelClass}`}>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                    Practice Quiz
+                  </p>
+                  <h4 className={`mt-2 text-xl font-semibold ${titleClass}`}>
+                    Question {practiceIndex + 1} of {step.problems.length}
+                  </h4>
                 </div>
-              ))}
+                <div className={`text-sm font-semibold ${mutedClass}`}>
+                  Answer each one before moving on
+                </div>
+              </div>
+
+              <p className={`mt-6 text-base leading-7 ${copyClass}`}>
+                {currentPracticeProblem.prompt}
+              </p>
+
+              <div className="mt-6 grid gap-3">
+                {currentPracticeProblem.choices.map((choice, index) => {
+                  const selected = selectedPracticeChoice === index;
+
+                  return (
+                    <button
+                      key={choice}
+                      type="button"
+                      onClick={() => {
+                        if (!practiceChecked) {
+                          setSelectedPracticeChoice(index);
+                        }
+                      }}
+                      className={`rounded-2xl border px-4 py-4 text-left transition ${
+                        selected
+                          ? isDark
+                            ? "border-cyan-300/40 bg-cyan-300/10"
+                            : "border-sky-300 bg-sky-50"
+                          : isDark
+                            ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
+                            : "border-slate-300/70 bg-white/70 hover:bg-white"
+                      } ${practiceChecked ? "cursor-default" : ""}`}
+                    >
+                      <span className={`${isDark ? "text-slate-100" : "text-slate-800"}`}>
+                        {choice}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {practiceChecked ? (
+                <div
+                  className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
+                    practiceIsCorrect
+                      ? isDark
+                        ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-50"
+                        : "border-emerald-200 bg-emerald-50 text-emerald-900"
+                      : isDark
+                        ? "border-amber-300/20 bg-amber-300/10 text-amber-50"
+                        : "border-amber-200 bg-amber-50 text-amber-900"
+                  }`}
+                >
+                  <p className="font-semibold">
+                    {practiceIsCorrect ? "Correct" : "Not quite"}
+                  </p>
+                  <p className="mt-2">
+                    {practiceIsCorrect
+                      ? currentPracticeProblem.correctExplanation
+                      : currentPracticeProblem.incorrectExplanation}
+                  </p>
+                </div>
+              ) : null}
+
+              <div className="mt-6 flex flex-wrap gap-4">
+                <button
+                  type="button"
+                  onClick={handlePracticeAdvance}
+                  disabled={selectedPracticeChoice === null}
+                  className={`inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition ${
+                    selectedPracticeChoice === null
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:bg-cyan-200"
+                  }`}
+                >
+                  {!practiceChecked
+                    ? "Check Answer"
+                    : practiceIndex < step.problems.length - 1
+                      ? "Next Question"
+                      : "Finish Practice"}
+                </button>
+              </div>
             </div>
           ) : null}
 
@@ -592,9 +783,11 @@ const MotionLessonView = ({
                   Math.min(current + 1, motionLesson.steps.length - 1),
                 )
               }
-              disabled={isLastStep}
+              disabled={isLastStep || (step.id === "practice" && !practiceComplete)}
               className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-slate-950 transition ${
-                isLastStep ? "cursor-not-allowed opacity-50" : "hover:bg-cyan-200"
+                isLastStep || (step.id === "practice" && !practiceComplete)
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:bg-cyan-200"
               } bg-cyan-300`}
             >
               Next
