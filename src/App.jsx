@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const sections = [
   {
@@ -114,8 +114,7 @@ const sections = [
     number: "6",
     title: "Apparent Weight, Normal Force, and G-Forces",
     subtitle: "What Riders Actually Feel",
-    intro:
-      "This section connects the math to what riders actually feel.",
+    intro: "This section connects the math to what riders actually feel.",
     teach: [
       "Normal force as felt weight",
       "Apparent weight",
@@ -180,12 +179,110 @@ const sections = [
 
 const App = () => {
   const [activeSection, setActiveSection] = useState(sections[0]);
+  const [theme, setTheme] = useState("dark");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("coasterphysics-theme");
+    if (savedTheme === "light" || savedTheme === "dark") {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("coasterphysics-theme", theme);
+  }, [theme]);
+
+  const isDark = theme === "dark";
+  const panelClass = isDark
+    ? "panel border-white/10 bg-white/5"
+    : "panel border-slate-300/70 bg-white/80 shadow-[0_24px_60px_rgba(148,163,184,0.16)]";
+  const subtlePanelClass = isDark
+    ? "border-white/10 bg-white/[0.04]"
+    : "border-slate-300/70 bg-slate-50/90";
+  const titleClass = isDark ? "text-white" : "text-slate-950";
+  const copyClass = isDark ? "text-slate-300" : "text-slate-600";
+  const mutedClass = isDark ? "text-slate-400" : "text-slate-500";
+  const accentLabelClass = isDark ? "text-cyan-200" : "text-sky-700";
+  const accentNumberClass = isDark
+    ? "bg-cyan-300/15 text-cyan-100"
+    : "bg-sky-100 text-sky-700";
+  const listDotClass = isDark ? "bg-cyan-300" : "bg-sky-500";
+  const warmDotClass = isDark ? "bg-amber-300" : "bg-amber-500";
 
   return (
-    <main className="section-shell py-16 sm:py-20 lg:py-24">
-      <section className="grid min-h-[78vh] items-center gap-10 lg:grid-cols-[minmax(0,56rem)_1fr]">
+    <main className="section-shell py-10 sm:py-12 lg:py-16">
+      <div className="flex justify-end">
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setSettingsOpen((open) => !open)}
+            className={`inline-flex items-center gap-3 rounded-full border px-4 py-2.5 text-sm font-semibold transition ${
+              isDark
+                ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+            }`}
+          >
+            Settings
+            <span className={`text-xs ${mutedClass}`}>
+              {settingsOpen ? "Close" : "Open"}
+            </span>
+          </button>
+
+          {settingsOpen ? (
+            <div
+              className={`absolute right-0 top-[calc(100%+0.75rem)] z-20 w-72 rounded-3xl border p-4 ${
+                panelClass
+              }`}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className={`text-sm font-semibold ${titleClass}`}>
+                    Appearance
+                  </p>
+                  <p className={`mt-1 text-sm leading-6 ${copyClass}`}>
+                    Switch between dark and light mode.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setTheme((currentTheme) =>
+                      currentTheme === "dark" ? "light" : "dark",
+                    )
+                  }
+                  className={`relative inline-flex h-8 w-16 items-center rounded-full transition ${
+                    isDark ? "bg-cyan-300/80" : "bg-slate-300"
+                  }`}
+                  aria-label="Toggle light mode and dark mode"
+                  aria-pressed={!isDark}
+                >
+                  <span
+                    className={`inline-block h-6 w-6 rounded-full bg-white shadow-sm transition ${
+                      isDark ? "translate-x-1" : "translate-x-9"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              <div
+                className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${
+                  subtlePanelClass
+                } ${copyClass}`}
+              >
+                Current mode: <span className={titleClass}>{isDark ? "Dark" : "Light"}</span>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,52rem)_1fr]">
         <div className="max-w-4xl">
-          <h1 className="font-display text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-[6.5rem] lg:leading-[0.94]">
+          <h1
+            className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[6.5rem] lg:leading-[0.94] ${titleClass}`}
+          >
             Learn Physics
             <br />
             Through Roller
@@ -193,7 +290,7 @@ const App = () => {
             Coasters
           </h1>
 
-          <p className="mt-8 max-w-4xl text-xl leading-[1.7] text-slate-300 sm:text-2xl">
+          <p className={`mt-8 max-w-4xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
             Coaster Physics turns drops, loops, launches, brakes, and airtime
             into simple lessons about energy, forces, motion, and why every
             track element feels the way it does.
@@ -214,13 +311,15 @@ const App = () => {
 
       <section id="topics" className="py-10 sm:py-14">
         <div className="max-w-6xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-200">
+          <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
             Learning Path
           </p>
-          <h2 className="mt-4 font-display text-3xl font-semibold text-white sm:text-4xl">
+          <h2
+            className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+          >
             Select a Roller Coaster Physics Section
           </h2>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
+          <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
             Start with motion, then work through forces, energy, curves, and
             g-forces like a full coaster ride from lift hill to brake run.
           </p>
@@ -236,21 +335,29 @@ const App = () => {
                   key={section.id}
                   type="button"
                   onClick={() => setActiveSection(section)}
-                  className={`panel p-5 text-left transition ${
+                  className={`${panelClass} p-5 text-left transition ${
                     isActive
-                      ? "border-cyan-300/40 bg-cyan-300/10"
-                      : "hover:border-white/15 hover:bg-white/[0.07]"
+                      ? isDark
+                        ? "border-cyan-300/40 bg-cyan-300/10"
+                        : "border-sky-300 bg-sky-50"
+                      : isDark
+                        ? "hover:border-white/15 hover:bg-white/[0.07]"
+                        : "hover:border-slate-400 hover:bg-white"
                   }`}
                 >
                   <div className="flex items-start gap-4">
-                    <span className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-cyan-100">
+                    <span
+                      className={`mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
+                    >
                       {section.number}
                     </span>
                     <div>
-                      <h3 className="text-xl font-semibold text-white">
+                      <h3 className={`text-xl font-semibold ${titleClass}`}>
                         {section.title}
                       </h3>
-                      <p className="mt-1 text-sm uppercase tracking-[0.16em] text-slate-400">
+                      <p
+                        className={`mt-1 text-sm uppercase tracking-[0.16em] ${mutedClass}`}
+                      >
                         {section.subtitle}
                       </p>
                     </div>
@@ -260,34 +367,40 @@ const App = () => {
             })}
           </div>
 
-          <article className="panel p-7 sm:p-8">
+          <article className={`${panelClass} p-7 sm:p-8`}>
             <div className="flex items-center gap-3">
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cyan-300/15 text-base font-semibold text-cyan-100">
+              <span
+                className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-base font-semibold ${accentNumberClass}`}
+              >
                 {activeSection.number}
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-200">
+                <p
+                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}
+                >
                   Selected Section
                 </p>
-                <h3 className="mt-1 text-2xl font-semibold text-white sm:text-3xl">
+                <h3 className={`mt-1 text-2xl font-semibold sm:text-3xl ${titleClass}`}>
                   {activeSection.title}
                 </h3>
               </div>
             </div>
 
-            <p className="mt-6 text-lg leading-8 text-slate-300">
+            <p className={`mt-6 text-lg leading-8 ${copyClass}`}>
               {activeSection.intro}
             </p>
 
             <div className="mt-8 grid gap-8 lg:grid-cols-2">
               <div>
-                <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
+                <h4
+                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
+                >
                   Teach
                 </h4>
-                <ul className="mt-4 space-y-3 text-base leading-7 text-slate-200">
+                <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
                   {activeSection.teach.map((item) => (
                     <li key={item} className="flex gap-3">
-                      <span className="mt-2 h-2 w-2 rounded-full bg-cyan-300" />
+                      <span className={`mt-2 h-2 w-2 rounded-full ${listDotClass}`} />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -295,13 +408,15 @@ const App = () => {
               </div>
 
               <div>
-                <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
+                <h4
+                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
+                >
                   Roller Coaster Connection
                 </h4>
-                <ul className="mt-4 space-y-3 text-base leading-7 text-slate-200">
+                <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
                   {activeSection.coaster.map((item) => (
                     <li key={item} className="flex gap-3">
-                      <span className="mt-2 h-2 w-2 rounded-full bg-amber-300" />
+                      <span className={`mt-2 h-2 w-2 rounded-full ${warmDotClass}`} />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -310,11 +425,13 @@ const App = () => {
             </div>
 
             {activeSection.highlights ? (
-              <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-                <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
+              <div className={`mt-8 rounded-3xl border p-5 ${subtlePanelClass}`}>
+                <h4
+                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
+                >
                   Key Coaster Examples
                 </h4>
-                <ul className="mt-4 space-y-3 text-base leading-7 text-slate-200">
+                <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
                   {activeSection.highlights.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -323,7 +440,13 @@ const App = () => {
             ) : null}
 
             {activeSection.note ? (
-              <div className="mt-8 rounded-3xl border border-cyan-300/20 bg-cyan-300/10 p-5 text-base leading-7 text-cyan-50">
+              <div
+                className={`mt-8 rounded-3xl border p-5 text-base leading-7 ${
+                  isDark
+                    ? "border-cyan-300/20 bg-cyan-300/10 text-cyan-50"
+                    : "border-sky-200 bg-sky-50 text-sky-900"
+                }`}
+              >
                 {activeSection.note}
               </div>
             ) : null}
