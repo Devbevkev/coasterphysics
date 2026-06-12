@@ -390,34 +390,50 @@ const motionLesson = {
             "C. Accelerating only if its speed increases",
             "D. Moving with zero velocity",
           ],
-          answer: "Answer: B",
+          correctChoice: 1,
+          correctExplanation:
+            "Correct. Even at constant speed, the coaster's velocity is changing because its direction changes, so it is accelerating.",
+          incorrectExplanation:
+            "Not quite. Circular motion still changes velocity direction, which means the coaster is accelerating inward.",
         },
         {
           question:
             "A coaster's velocity changes from 12 m/s to 30 m/s in 3 s. Its acceleration is:",
           choices: [
-            "A. 4 m/s^2",
-            "B. 6 m/s^2",
-            "C. 10 m/s^2",
-            "D. 18 m/s^2",
+            "A. 4 m/s²",
+            "B. 6 m/s²",
+            "C. 10 m/s²",
+            "D. 18 m/s²",
           ],
-          answer: "Answer: B",
+          correctChoice: 1,
+          correctExplanation:
+            "Correct. The acceleration is Δv / Δt = (30 - 12) / 3 = 18 / 3 = 6 m/s².",
+          incorrectExplanation:
+            "Not quite. Subtract the starting velocity from the ending velocity, then divide by time: (30 - 12) / 3 = 6 m/s².",
         },
         {
           question: "Speed is different from velocity because velocity includes:",
           choices: ["A. Mass", "B. Time", "C. Direction", "D. Force"],
-          answer: "Answer: C",
+          correctChoice: 2,
+          correctExplanation:
+            "Correct. Velocity includes both how fast something moves and the direction it moves in.",
+          incorrectExplanation:
+            "Not quite. Speed only tells how fast, while velocity includes direction too.",
         },
         {
           question:
             "A coaster moving at 15 m/s around a curve of radius 45 m has centripetal acceleration:",
           choices: [
-            "A. 3 m/s^2",
-            "B. 5 m/s^2",
-            "C. 10 m/s^2",
-            "D. 20 m/s^2",
+            "A. 3 m/s²",
+            "B. 5 m/s²",
+            "C. 10 m/s²",
+            "D. 20 m/s²",
           ],
-          answer: "Answer: B",
+          correctChoice: 1,
+          correctExplanation:
+            "Correct. Using a_c = v² / r gives 15² / 45 = 225 / 45 = 5 m/s².",
+          incorrectExplanation:
+            "Not quite. Use a_c = v² / r. That becomes 15² / 45 = 225 / 45 = 5 m/s².",
         },
       ],
     },
@@ -446,6 +462,9 @@ const MotionLessonView = ({
   const [practiceIndex, setPracticeIndex] = useState(0);
   const [selectedPracticeChoice, setSelectedPracticeChoice] = useState(null);
   const [practiceChecked, setPracticeChecked] = useState(false);
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [selectedQuizChoice, setSelectedQuizChoice] = useState(null);
+  const [quizChecked, setQuizChecked] = useState(false);
 
   const currentPracticeProblem = step.problems?.[practiceIndex] ?? null;
   const practiceIsCorrect =
@@ -455,6 +474,11 @@ const MotionLessonView = ({
     step.id === "practice" &&
     practiceIndex === step.problems.length - 1 &&
     practiceChecked;
+  const currentQuizQuestion = step.quiz?.[quizIndex] ?? null;
+  const quizIsCorrect =
+    currentQuizQuestion && selectedQuizChoice === currentQuizQuestion.correctChoice;
+  const quizComplete =
+    step.id === "quiz" && quizIndex === step.quiz.length - 1 && quizChecked;
 
   useEffect(() => {
     if (step.id !== "practice") {
@@ -467,9 +491,24 @@ const MotionLessonView = ({
   }, [step.id]);
 
   useEffect(() => {
+    if (step.id !== "quiz") {
+      return;
+    }
+
+    setQuizIndex(0);
+    setSelectedQuizChoice(null);
+    setQuizChecked(false);
+  }, [step.id]);
+
+  useEffect(() => {
     setSelectedPracticeChoice(null);
     setPracticeChecked(false);
   }, [practiceIndex]);
+
+  useEffect(() => {
+    setSelectedQuizChoice(null);
+    setQuizChecked(false);
+  }, [quizIndex]);
 
   const handlePracticeAdvance = () => {
     if (!currentPracticeProblem) {
@@ -483,6 +522,26 @@ const MotionLessonView = ({
 
     if (practiceIndex < step.problems.length - 1) {
       setPracticeIndex((current) => current + 1);
+      return;
+    }
+
+    setStepIndex((current) =>
+      Math.min(current + 1, motionLesson.steps.length - 1),
+    );
+  };
+
+  const handleQuizAdvance = () => {
+    if (!currentQuizQuestion) {
+      return;
+    }
+
+    if (!quizChecked) {
+      setQuizChecked(true);
+      return;
+    }
+
+    if (quizIndex < step.quiz.length - 1) {
+      setQuizIndex((current) => current + 1);
       return;
     }
 
@@ -511,10 +570,16 @@ const MotionLessonView = ({
         </div>
       </div>
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-        <aside className={`${panelClass} p-5`}>
-          <div className="flex items-start justify-between gap-4">
-            <div>
+      <div
+        className={`mt-8 grid gap-4 ${
+          tocOpen
+            ? "lg:grid-cols-[22rem_minmax(0,1fr)]"
+            : "lg:grid-cols-[4.75rem_minmax(0,1fr)]"
+        }`}
+      >
+        <aside className={`${panelClass} p-4 sm:p-5`}>
+          <div className={`flex ${tocOpen ? "items-start justify-between gap-4" : "flex-col items-center gap-4"}`}>
+            <div className={tocOpen ? "" : "hidden"}>
               <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
                 {motionLesson.title}
               </p>
@@ -572,8 +637,31 @@ const MotionLessonView = ({
               })}
             </div>
           ) : (
-            <div className={`mt-6 rounded-2xl border px-4 py-3 text-sm ${subtlePanelClass} ${copyClass}`}>
-              Lesson outline hidden. Expand to jump between steps.
+            <div className="mt-2 flex flex-col items-center gap-3">
+              {motionLesson.steps.map((item, index) => {
+                const active = index === stepIndex;
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setStepIndex(index)}
+                    className={`inline-flex h-10 w-10 items-center justify-center rounded-full border text-xs font-semibold transition ${
+                      active
+                        ? isDark
+                          ? "border-cyan-300/40 bg-cyan-300/10 text-cyan-100"
+                          : "border-sky-300 bg-sky-50 text-sky-700"
+                        : isDark
+                          ? "border-white/10 bg-white/[0.03] text-slate-200 hover:bg-white/[0.07]"
+                          : "border-slate-300/70 bg-slate-50/70 text-slate-700 hover:bg-white"
+                    }`}
+                    aria-label={`Go to ${item.title}`}
+                    title={item.title}
+                  >
+                    {index + 1}
+                  </button>
+                );
+              })}
             </div>
           )}
         </aside>
@@ -625,7 +713,7 @@ const MotionLessonView = ({
                     {item.label}
                   </p>
                   <div
-                    className={`mt-4 overflow-x-auto font-display text-2xl font-semibold tracking-tight sm:text-3xl ${titleClass}`}
+                    className={`mt-4 overflow-x-auto pb-2 font-display text-2xl font-semibold leading-[1.35] tracking-tight sm:text-3xl ${titleClass}`}
                   >
                     {item.expression}
                   </div>
@@ -741,21 +829,95 @@ const MotionLessonView = ({
           ) : null}
 
           {step.quiz ? (
-            <div className="mt-6 grid gap-4">
-              {step.quiz.map((item, index) => (
-                <div key={item.question} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
-                  <p className={`text-lg font-semibold ${titleClass}`}>
-                    Question {index + 1}
+            <div className={`mt-6 rounded-3xl border p-6 ${subtlePanelClass}`}>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                    Section Quiz
                   </p>
-                  <p className={`mt-3 text-base leading-7 ${copyClass}`}>{item.question}</p>
-                  <ul className={`mt-4 space-y-2 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                    {item.choices.map((choice) => (
-                      <li key={choice}>{choice}</li>
-                    ))}
-                  </ul>
-                  <p className={`mt-4 font-semibold ${accentLabelClass}`}>{item.answer}</p>
+                  <h4 className={`mt-2 text-xl font-semibold ${titleClass}`}>
+                    Question {quizIndex + 1} of {step.quiz.length}
+                  </h4>
                 </div>
-              ))}
+                <div className={`text-sm font-semibold ${mutedClass}`}>
+                  Answer each one before moving on
+                </div>
+              </div>
+
+              <p className={`mt-6 text-base leading-7 ${copyClass}`}>
+                {currentQuizQuestion.question}
+              </p>
+
+              <div className="mt-6 grid gap-3">
+                {currentQuizQuestion.choices.map((choice, index) => {
+                  const selected = selectedQuizChoice === index;
+
+                  return (
+                    <button
+                      key={choice}
+                      type="button"
+                      onClick={() => {
+                        if (!quizChecked) {
+                          setSelectedQuizChoice(index);
+                        }
+                      }}
+                      className={`rounded-2xl border px-4 py-4 text-left transition ${
+                        selected
+                          ? isDark
+                            ? "border-cyan-300/40 bg-cyan-300/10"
+                            : "border-sky-300 bg-sky-50"
+                          : isDark
+                            ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
+                            : "border-slate-300/70 bg-white/70 hover:bg-white"
+                      } ${quizChecked ? "cursor-default" : ""}`}
+                    >
+                      <span className={`${isDark ? "text-slate-100" : "text-slate-800"}`}>
+                        {choice}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {quizChecked ? (
+                <div
+                  className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
+                    quizIsCorrect
+                      ? isDark
+                        ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-50"
+                        : "border-emerald-200 bg-emerald-50 text-emerald-900"
+                      : isDark
+                        ? "border-amber-300/20 bg-amber-300/10 text-amber-50"
+                        : "border-amber-200 bg-amber-50 text-amber-900"
+                  }`}
+                >
+                  <p className="font-semibold">{quizIsCorrect ? "Correct" : "Not quite"}</p>
+                  <p className="mt-2">
+                    {quizIsCorrect
+                      ? currentQuizQuestion.correctExplanation
+                      : currentQuizQuestion.incorrectExplanation}
+                  </p>
+                </div>
+              ) : null}
+
+              <div className="mt-6 flex flex-wrap gap-4">
+                <button
+                  type="button"
+                  onClick={handleQuizAdvance}
+                  disabled={selectedQuizChoice === null}
+                  className={`inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition ${
+                    selectedQuizChoice === null
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:bg-cyan-200"
+                  }`}
+                >
+                  {!quizChecked
+                    ? "Check Answer"
+                    : quizIndex < step.quiz.length - 1
+                      ? "Next Question"
+                      : "Finish Quiz"}
+                </button>
+              </div>
             </div>
           ) : null}
 
@@ -783,9 +945,15 @@ const MotionLessonView = ({
                   Math.min(current + 1, motionLesson.steps.length - 1),
                 )
               }
-              disabled={isLastStep || (step.id === "practice" && !practiceComplete)}
+              disabled={
+                isLastStep ||
+                (step.id === "practice" && !practiceComplete) ||
+                (step.id === "quiz" && !quizComplete)
+              }
               className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-slate-950 transition ${
-                isLastStep || (step.id === "practice" && !practiceComplete)
+                isLastStep ||
+                (step.id === "practice" && !practiceComplete) ||
+                (step.id === "quiz" && !quizComplete)
                   ? "cursor-not-allowed opacity-50"
                   : "hover:bg-cyan-200"
               } bg-cyan-300`}
