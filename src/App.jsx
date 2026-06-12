@@ -177,10 +177,441 @@ const sections = [
   },
 ];
 
+const motionLesson = {
+  title: "Section 1: Motion on the Track",
+  subtitle: "Position, Velocity, and Acceleration",
+  goal:
+    "Students learn how to describe the motion of a roller coaster using position, displacement, velocity, speed, and acceleration.",
+  steps: [
+    {
+      id: "goal",
+      label: "Goal",
+      title: "What This Lesson Teaches",
+      body: [
+        "Roller coasters are a perfect way to learn the language of motion because the ride is always changing how fast it moves and which way it points.",
+        "In this lesson, students learn how to describe that motion clearly using the core kinematics ideas that show up all through physics.",
+      ],
+      bullets: [
+        "Position",
+        "Displacement",
+        "Distance traveled",
+        "Speed",
+        "Velocity",
+        "Acceleration",
+        "Average vs. instantaneous velocity",
+        "Average vs. instantaneous acceleration",
+        "Motion graphs",
+        "Tangential acceleration",
+        "Radial acceleration",
+        "Why changing direction means acceleration even if speed is constant",
+      ],
+    },
+    {
+      id: "explanation",
+      label: "Explain",
+      title: "How Motion Changes on a Roller Coaster",
+      body: [
+        "A roller coaster is constantly changing its motion. It speeds up on drops, slows down on hills, and changes direction on turns and loops.",
+        "Position tells us where the coaster is on the track. Displacement tells us the change in position from start to finish. Distance is the total path traveled along the track, while displacement only depends on the starting and ending points.",
+        "Speed is how fast something moves, while velocity includes both speed and direction.",
+      ],
+      callout:
+        "A coaster moving at 20 m/s east and a coaster moving at 20 m/s west have the same speed but different velocities.",
+    },
+    {
+      id: "acceleration",
+      label: "Acceleration",
+      title: "Acceleration Means Any Change in Velocity",
+      body: [
+        "Acceleration is the rate of change of velocity. That can mean speeding up, slowing down, or changing direction.",
+        "This matters a lot on roller coasters because a coaster turning at constant speed is still accelerating.",
+        "Tangential acceleration changes speed. Radial acceleration changes direction.",
+      ],
+      equations: [
+        "Average acceleration: a_avg = Delta v / Delta t",
+        "Centripetal acceleration: a_c = v^2 / r",
+      ],
+    },
+    {
+      id: "equations",
+      label: "Equations",
+      title: "Important Equations",
+      equations: [
+        "Average velocity: v_avg = Delta x / Delta t",
+        "Average acceleration: a_avg = Delta v / Delta t",
+        "For constant acceleration: v = v0 + at",
+        "x = x0 + v0t + (1/2)at^2",
+        "v^2 = v0^2 + 2aDelta x",
+        "For curved motion: a_c = v^2 / r",
+      ],
+      body: [
+        "These equations let students connect the coaster's motion to measurable changes in position, time, speed, and curvature.",
+      ],
+    },
+    {
+      id: "examples",
+      label: "Examples",
+      title: "Roller Coaster Examples",
+      cards: [
+        {
+          title: "Example 1: First Drop",
+          text: "A coaster starts from rest and accelerates down a hill. Its speed increases, so it has tangential acceleration.",
+        },
+        {
+          title: "Example 2: Turn at Constant Speed",
+          text: "A coaster moves through a horizontal turn at a constant 18 m/s. Even though its speed stays the same, its velocity changes direction, so it accelerates inward.",
+        },
+        {
+          title: "Example 3: Going Over a Hill",
+          text: "As the coaster climbs, it slows down. Its acceleration points partly backward along the track.",
+        },
+      ],
+    },
+    {
+      id: "interactive",
+      label: "Interactive",
+      title: "Interactive Website Ideas",
+      body: [
+        "A strong visualization for this unit is an animated coaster moving along a track with multiple overlays students can turn on and off.",
+      ],
+      bullets: [
+        "Position vector",
+        "Velocity vector",
+        "Acceleration vector",
+        "Speedometer",
+        "Graph of position vs. time",
+        "Graph of velocity vs. time",
+        "Graph of acceleration vs. time",
+      ],
+      callout:
+        "Students should be able to see that velocity is tangent to the track and acceleration does not always point in the direction of motion.",
+    },
+    {
+      id: "practice",
+      label: "Practice",
+      title: "Practice Problems",
+      problems: [
+        {
+          prompt:
+            "A coaster moves from position x = 10 m to x = 70 m in 4 s. What is its average velocity?",
+          answer: [
+            "v_avg = Delta x / Delta t",
+            "v_avg = (70 - 10) / 4",
+            "v_avg = 15 m/s",
+          ],
+        },
+        {
+          prompt:
+            "A coaster speeds up from 8 m/s to 28 m/s in 5 s. What is its average acceleration?",
+          answer: [
+            "a_avg = Delta v / Delta t",
+            "a_avg = (28 - 8) / 5",
+            "a_avg = 4 m/s^2",
+          ],
+        },
+        {
+          prompt:
+            "A coaster moves at a constant speed of 20 m/s around a curve of radius 50 m. What is its centripetal acceleration?",
+          answer: [
+            "a_c = v^2 / r",
+            "a_c = 20^2 / 50",
+            "a_c = 400 / 50",
+            "a_c = 8 m/s^2",
+          ],
+        },
+        {
+          prompt:
+            "A coaster starts from rest and accelerates at 3 m/s^2 for 6 s. How far does it travel?",
+          answer: [
+            "x = v0t + (1/2)at^2",
+            "x = 0 + (1/2)(3)(6^2)",
+            "x = 54 m",
+          ],
+        },
+      ],
+    },
+    {
+      id: "quiz",
+      label: "Quiz",
+      title: "Section 1 Quiz",
+      quiz: [
+        {
+          question: "A coaster moving in a circle at constant speed is:",
+          choices: [
+            "A. Not accelerating",
+            "B. Accelerating because its direction changes",
+            "C. Accelerating only if its speed increases",
+            "D. Moving with zero velocity",
+          ],
+          answer: "Answer: B",
+        },
+        {
+          question:
+            "A coaster's velocity changes from 12 m/s to 30 m/s in 3 s. Its acceleration is:",
+          choices: [
+            "A. 4 m/s^2",
+            "B. 6 m/s^2",
+            "C. 10 m/s^2",
+            "D. 18 m/s^2",
+          ],
+          answer: "Answer: B",
+        },
+        {
+          question: "Speed is different from velocity because velocity includes:",
+          choices: ["A. Mass", "B. Time", "C. Direction", "D. Force"],
+          answer: "Answer: C",
+        },
+        {
+          question:
+            "A coaster moving at 15 m/s around a curve of radius 45 m has centripetal acceleration:",
+          choices: [
+            "A. 3 m/s^2",
+            "B. 5 m/s^2",
+            "C. 10 m/s^2",
+            "D. 20 m/s^2",
+          ],
+          answer: "Answer: B",
+        },
+      ],
+    },
+  ],
+};
+
+const MotionLessonView = ({
+  isDark,
+  panelClass,
+  subtlePanelClass,
+  titleClass,
+  copyClass,
+  mutedClass,
+  accentLabelClass,
+  accentNumberClass,
+  listDotClass,
+  warmDotClass,
+  stepIndex,
+  setStepIndex,
+  onBack,
+}) => {
+  const step = motionLesson.steps[stepIndex];
+  const isFirstStep = stepIndex === 0;
+  const isLastStep = stepIndex === motionLesson.steps.length - 1;
+
+  return (
+    <section className="py-8 sm:py-10">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <button
+          type="button"
+          onClick={onBack}
+          className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
+            isDark
+              ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+              : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+          }`}
+        >
+          Back to Sections
+        </button>
+
+        <div className={`text-sm font-semibold ${mutedClass}`}>
+          Step {stepIndex + 1} of {motionLesson.steps.length}
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+        <aside className={`${panelClass} p-5`}>
+          <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+            {motionLesson.title}
+          </p>
+          <h2 className={`mt-4 font-display text-3xl font-semibold ${titleClass}`}>
+            {motionLesson.subtitle}
+          </h2>
+          <p className={`mt-4 text-base leading-7 ${copyClass}`}>{motionLesson.goal}</p>
+
+          <div className="mt-8 grid gap-3">
+            {motionLesson.steps.map((item, index) => {
+              const active = index === stepIndex;
+
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setStepIndex(index)}
+                  className={`rounded-2xl border px-4 py-3 text-left transition ${
+                    active
+                      ? isDark
+                        ? "border-cyan-300/40 bg-cyan-300/10"
+                        : "border-sky-300 bg-sky-50"
+                      : isDark
+                        ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
+                        : "border-slate-300/70 bg-slate-50/70 hover:bg-white"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold ${accentNumberClass}`}
+                    >
+                      {index + 1}
+                    </span>
+                    <div>
+                      <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
+                      <p className={`text-sm ${mutedClass}`}>{item.title}</p>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+
+        <article className={`${panelClass} p-7 sm:p-8`}>
+          <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+            {step.label}
+          </p>
+          <h3 className={`mt-4 font-display text-3xl font-semibold ${titleClass}`}>
+            {step.title}
+          </h3>
+
+          {step.body ? (
+            <div className={`mt-6 space-y-4 text-lg leading-8 ${copyClass}`}>
+              {step.body.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          ) : null}
+
+          {step.callout ? (
+            <div
+              className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
+                isDark
+                  ? "border-cyan-300/20 bg-cyan-300/10 text-cyan-50"
+                  : "border-sky-200 bg-sky-50 text-sky-900"
+              }`}
+            >
+              {step.callout}
+            </div>
+          ) : null}
+
+          {step.bullets ? (
+            <ul className={`mt-6 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+              {step.bullets.map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className={`mt-2 h-2 w-2 rounded-full ${listDotClass}`} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          {step.equations ? (
+            <div className={`mt-6 rounded-3xl border p-5 ${subtlePanelClass}`}>
+              <h4 className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
+                Equations
+              </h4>
+              <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                {step.equations.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
+          {step.cards ? (
+            <div className="mt-6 grid gap-4">
+              {step.cards.map((card) => (
+                <div key={card.title} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                  <h4 className={`text-lg font-semibold ${titleClass}`}>{card.title}</h4>
+                  <p className={`mt-3 text-base leading-7 ${copyClass}`}>{card.text}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {step.problems ? (
+            <div className="mt-6 grid gap-4">
+              {step.problems.map((problem, index) => (
+                <div key={problem.prompt} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                  <p className={`text-lg font-semibold ${titleClass}`}>Problem {index + 1}</p>
+                  <p className={`mt-3 text-base leading-7 ${copyClass}`}>{problem.prompt}</p>
+                  <div className="mt-4">
+                    <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                      Answer
+                    </p>
+                    <ul className={`mt-3 space-y-2 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                      {problem.answer.map((line) => (
+                        <li key={line} className="flex gap-3">
+                          <span className={`mt-2 h-2 w-2 rounded-full ${warmDotClass}`} />
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {step.quiz ? (
+            <div className="mt-6 grid gap-4">
+              {step.quiz.map((item, index) => (
+                <div key={item.question} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                  <p className={`text-lg font-semibold ${titleClass}`}>
+                    Question {index + 1}
+                  </p>
+                  <p className={`mt-3 text-base leading-7 ${copyClass}`}>{item.question}</p>
+                  <ul className={`mt-4 space-y-2 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                    {item.choices.map((choice) => (
+                      <li key={choice}>{choice}</li>
+                    ))}
+                  </ul>
+                  <p className={`mt-4 font-semibold ${accentLabelClass}`}>{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          <div className="mt-8 flex flex-wrap gap-4">
+            <button
+              type="button"
+              onClick={() => setStepIndex((current) => Math.max(current - 1, 0))}
+              disabled={isFirstStep}
+              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                isFirstStep
+                  ? "cursor-not-allowed opacity-50"
+                  : ""
+              } ${
+                isDark
+                  ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                  : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+              }`}
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setStepIndex((current) =>
+                  Math.min(current + 1, motionLesson.steps.length - 1),
+                )
+              }
+              disabled={isLastStep}
+              className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-slate-950 transition ${
+                isLastStep ? "cursor-not-allowed opacity-50" : "hover:bg-cyan-200"
+              } bg-cyan-300`}
+            >
+              Next
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+};
+
 const App = () => {
   const [activeSection, setActiveSection] = useState(sections[0]);
   const [theme, setTheme] = useState("dark");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [view, setView] = useState("overview");
+  const [motionStepIndex, setMotionStepIndex] = useState(0);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("coasterphysics-theme");
@@ -193,6 +624,10 @@ const App = () => {
     document.documentElement.dataset.theme = theme;
     window.localStorage.setItem("coasterphysics-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [view]);
 
   const isDark = theme === "dark";
   const panelClass = isDark
@@ -210,6 +645,11 @@ const App = () => {
     : "bg-sky-100 text-sky-700";
   const listDotClass = isDark ? "bg-cyan-300" : "bg-sky-500";
   const warmDotClass = isDark ? "bg-amber-300" : "bg-amber-500";
+
+  const openMotionLesson = () => {
+    setMotionStepIndex(0);
+    setView("motion-lesson");
+  };
 
   return (
     <main className="section-shell py-10 sm:py-12 lg:py-16">
@@ -232,15 +672,11 @@ const App = () => {
 
           {settingsOpen ? (
             <div
-              className={`absolute right-0 top-[calc(100%+0.75rem)] z-20 w-72 rounded-3xl border p-4 ${
-                panelClass
-              }`}
+              className={`absolute right-0 top-[calc(100%+0.75rem)] z-20 w-72 rounded-3xl border p-4 ${panelClass}`}
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className={`text-sm font-semibold ${titleClass}`}>
-                    Appearance
-                  </p>
+                  <p className={`text-sm font-semibold ${titleClass}`}>Appearance</p>
                   <p className={`mt-1 text-sm leading-6 ${copyClass}`}>
                     Switch between dark and light mode.
                   </p>
@@ -267,192 +703,223 @@ const App = () => {
               </div>
 
               <div
-                className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${
-                  subtlePanelClass
-                } ${copyClass}`}
+                className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${subtlePanelClass} ${copyClass}`}
               >
-                Current mode: <span className={titleClass}>{isDark ? "Dark" : "Light"}</span>
+                Current mode:{" "}
+                <span className={titleClass}>{isDark ? "Dark" : "Light"}</span>
               </div>
             </div>
           ) : null}
         </div>
       </div>
 
-      <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,52rem)_1fr]">
-        <div className="max-w-4xl">
-          <h1
-            className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[6.5rem] lg:leading-[0.94] ${titleClass}`}
-          >
-            Learn Physics
-            <br />
-            Through Roller
-            <br />
-            Coasters
-          </h1>
+      {view === "motion-lesson" ? (
+        <MotionLessonView
+          isDark={isDark}
+          panelClass={panelClass}
+          subtlePanelClass={subtlePanelClass}
+          titleClass={titleClass}
+          copyClass={copyClass}
+          mutedClass={mutedClass}
+          accentLabelClass={accentLabelClass}
+          accentNumberClass={accentNumberClass}
+          listDotClass={listDotClass}
+          warmDotClass={warmDotClass}
+          stepIndex={motionStepIndex}
+          setStepIndex={setMotionStepIndex}
+          onBack={() => setView("overview")}
+        />
+      ) : (
+        <>
+          <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,52rem)_1fr]">
+            <div className="max-w-4xl">
+              <h1
+                className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[6.5rem] lg:leading-[0.94] ${titleClass}`}
+              >
+                Learn Physics
+                <br />
+                Through Roller
+                <br />
+                Coasters
+              </h1>
 
-          <p className={`mt-8 max-w-4xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
-            Coaster Physics turns drops, loops, launches, brakes, and airtime
-            into simple lessons about energy, forces, motion, and why every
-            track element feels the way it does.
-          </p>
+              <p className={`mt-8 max-w-4xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
+                Coaster Physics turns drops, loops, launches, brakes, and airtime
+                into simple lessons about energy, forces, motion, and why every
+                track element feels the way it does.
+              </p>
 
-          <div className="mt-10">
-            <a
-              href="#topics"
-              className="inline-flex min-w-[18rem] items-center justify-center rounded-full bg-cyan-300 px-8 py-5 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
-            >
-              Start Learning
-            </a>
-          </div>
-        </div>
-
-        <div className="hidden lg:block" />
-      </section>
-
-      <section id="topics" className="py-10 sm:py-14">
-        <div className="max-w-6xl">
-          <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-            Learning Path
-          </p>
-          <h2
-            className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
-          >
-            Select a Roller Coaster Physics Section
-          </h2>
-          <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
-            Start with motion, then work through forces, energy, curves, and
-            g-forces like a full coaster ride from lift hill to brake run.
-          </p>
-        </div>
-
-        <div className="mt-10 grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
-          <div className="grid gap-4">
-            {sections.map((section) => {
-              const isActive = section.id === activeSection.id;
-
-              return (
-                <button
-                  key={section.id}
-                  type="button"
-                  onClick={() => setActiveSection(section)}
-                  className={`${panelClass} p-5 text-left transition ${
-                    isActive
-                      ? isDark
-                        ? "border-cyan-300/40 bg-cyan-300/10"
-                        : "border-sky-300 bg-sky-50"
-                      : isDark
-                        ? "hover:border-white/15 hover:bg-white/[0.07]"
-                        : "hover:border-slate-400 hover:bg-white"
-                  }`}
+              <div className="mt-10">
+                <a
+                  href="#topics"
+                  className="inline-flex min-w-[18rem] items-center justify-center rounded-full bg-cyan-300 px-8 py-5 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
                 >
-                  <div className="flex items-start gap-4">
-                    <span
-                      className={`mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
+                  Start Learning
+                </a>
+              </div>
+            </div>
+
+            <div className="hidden lg:block" />
+          </section>
+
+          <section id="topics" className="py-10 sm:py-14">
+            <div className="max-w-6xl">
+              <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+                Learning Path
+              </p>
+              <h2
+                className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+              >
+                Select a Roller Coaster Physics Section
+              </h2>
+              <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
+                Start with motion, then work through forces, energy, curves, and
+                g-forces like a full coaster ride from lift hill to brake run.
+              </p>
+            </div>
+
+            <div className="mt-10 grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
+              <div className="grid gap-4">
+                {sections.map((section) => {
+                  const isActive = section.id === activeSection.id;
+
+                  return (
+                    <button
+                      key={section.id}
+                      type="button"
+                      onClick={() => setActiveSection(section)}
+                      className={`${panelClass} p-5 text-left transition ${
+                        isActive
+                          ? isDark
+                            ? "border-cyan-300/40 bg-cyan-300/10"
+                            : "border-sky-300 bg-sky-50"
+                          : isDark
+                            ? "hover:border-white/15 hover:bg-white/[0.07]"
+                            : "hover:border-slate-400 hover:bg-white"
+                      }`}
                     >
-                      {section.number}
-                    </span>
-                    <div>
-                      <h3 className={`text-xl font-semibold ${titleClass}`}>
-                        {section.title}
-                      </h3>
-                      <p
-                        className={`mt-1 text-sm uppercase tracking-[0.16em] ${mutedClass}`}
-                      >
-                        {section.subtitle}
-                      </p>
-                    </div>
+                      <div className="flex items-start gap-4">
+                        <span
+                          className={`mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
+                        >
+                          {section.number}
+                        </span>
+                        <div>
+                          <h3 className={`text-xl font-semibold ${titleClass}`}>
+                            {section.title}
+                          </h3>
+                          <p
+                            className={`mt-1 text-sm uppercase tracking-[0.16em] ${mutedClass}`}
+                          >
+                            {section.subtitle}
+                          </p>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <article className={`${panelClass} p-7 sm:p-8`}>
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-base font-semibold ${accentNumberClass}`}
+                  >
+                    {activeSection.number}
+                  </span>
+                  <div>
+                    <p
+                      className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}
+                    >
+                      Selected Section
+                    </p>
+                    <h3 className={`mt-1 text-2xl font-semibold sm:text-3xl ${titleClass}`}>
+                      {activeSection.title}
+                    </h3>
                   </div>
-                </button>
-              );
-            })}
-          </div>
+                </div>
 
-          <article className={`${panelClass} p-7 sm:p-8`}>
-            <div className="flex items-center gap-3">
-              <span
-                className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-base font-semibold ${accentNumberClass}`}
-              >
-                {activeSection.number}
-              </span>
-              <div>
-                <p
-                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}
-                >
-                  Selected Section
+                <p className={`mt-6 text-lg leading-8 ${copyClass}`}>
+                  {activeSection.intro}
                 </p>
-                <h3 className={`mt-1 text-2xl font-semibold sm:text-3xl ${titleClass}`}>
-                  {activeSection.title}
-                </h3>
-              </div>
+
+                {activeSection.id === "motion" ? (
+                  <div className="mt-6">
+                    <button
+                      type="button"
+                      onClick={openMotionLesson}
+                      className="inline-flex min-w-[16rem] items-center justify-center rounded-full bg-cyan-300 px-6 py-3.5 text-sm font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
+                    >
+                      Start Begin
+                    </button>
+                  </div>
+                ) : null}
+
+                <div className="mt-8 grid gap-8 lg:grid-cols-2">
+                  <div>
+                    <h4
+                      className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
+                    >
+                      Teach
+                    </h4>
+                    <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                      {activeSection.teach.map((item) => (
+                        <li key={item} className="flex gap-3">
+                          <span className={`mt-2 h-2 w-2 rounded-full ${listDotClass}`} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4
+                      className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
+                    >
+                      Roller Coaster Connection
+                    </h4>
+                    <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                      {activeSection.coaster.map((item) => (
+                        <li key={item} className="flex gap-3">
+                          <span className={`mt-2 h-2 w-2 rounded-full ${warmDotClass}`} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {activeSection.highlights ? (
+                  <div className={`mt-8 rounded-3xl border p-5 ${subtlePanelClass}`}>
+                    <h4
+                      className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
+                    >
+                      Key Coaster Examples
+                    </h4>
+                    <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+                      {activeSection.highlights.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {activeSection.note ? (
+                  <div
+                    className={`mt-8 rounded-3xl border p-5 text-base leading-7 ${
+                      isDark
+                        ? "border-cyan-300/20 bg-cyan-300/10 text-cyan-50"
+                        : "border-sky-200 bg-sky-50 text-sky-900"
+                    }`}
+                  >
+                    {activeSection.note}
+                  </div>
+                ) : null}
+              </article>
             </div>
-
-            <p className={`mt-6 text-lg leading-8 ${copyClass}`}>
-              {activeSection.intro}
-            </p>
-
-            <div className="mt-8 grid gap-8 lg:grid-cols-2">
-              <div>
-                <h4
-                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
-                >
-                  Teach
-                </h4>
-                <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                  {activeSection.teach.map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <span className={`mt-2 h-2 w-2 rounded-full ${listDotClass}`} />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h4
-                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
-                >
-                  Roller Coaster Connection
-                </h4>
-                <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                  {activeSection.coaster.map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <span className={`mt-2 h-2 w-2 rounded-full ${warmDotClass}`} />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {activeSection.highlights ? (
-              <div className={`mt-8 rounded-3xl border p-5 ${subtlePanelClass}`}>
-                <h4
-                  className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
-                >
-                  Key Coaster Examples
-                </h4>
-                <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                  {activeSection.highlights.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-
-            {activeSection.note ? (
-              <div
-                className={`mt-8 rounded-3xl border p-5 text-base leading-7 ${
-                  isDark
-                    ? "border-cyan-300/20 bg-cyan-300/10 text-cyan-50"
-                    : "border-sky-200 bg-sky-50 text-sky-900"
-                }`}
-              >
-                {activeSection.note}
-              </div>
-            ) : null}
-          </article>
-        </div>
-      </section>
+          </section>
+        </>
+      )}
     </main>
   );
 };
