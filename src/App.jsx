@@ -1092,22 +1092,16 @@ const App = () => {
         />
       ) : (
         <>
-          <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,52rem)_1fr]">
-            <div className="max-w-4xl">
+          <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
+            <div className="max-w-3xl">
               <h1
-                className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[6.5rem] lg:leading-[0.94] ${titleClass}`}
+                className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[5.8rem] lg:leading-[0.96] ${titleClass}`}
               >
-                Learn Physics
-                <br />
-                Through Roller
-                <br />
-                Coasters
+                coasterphysics
               </h1>
 
-              <p className={`mt-8 max-w-4xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
-                Coaster Physics turns drops, loops, launches, brakes, and airtime
-                into simple lessons about energy, forces, motion, and why every
-                track element feels the way it does.
+              <p className={`mt-8 max-w-2xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
+                learn physics through roller coasters.
               </p>
 
               <div className="mt-10">
@@ -1120,7 +1114,32 @@ const App = () => {
               </div>
             </div>
 
-            <div className="hidden lg:block" />
+            <div className="relative mx-auto w-full max-w-xl">
+              <div
+                className={`absolute inset-0 rounded-[2.5rem] blur-3xl ${
+                  isDark ? "bg-cyan-300/10" : "bg-sky-200/50"
+                }`}
+              />
+              <div
+                className={`relative overflow-hidden rounded-[2.5rem] border p-4 sm:p-6 ${
+                  isDark
+                    ? "border-white/10 bg-white/[0.02]"
+                    : "border-slate-200/80 bg-white/55"
+                }`}
+              >
+                <div className="relative isolate">
+                  <img
+                    src="/roller-coaster-hero.png"
+                    alt="Roller coaster silhouette cresting a hill"
+                    className={`h-auto w-full object-contain ${
+                      isDark
+                        ? "invert contrast-125 brightness-125 mix-blend-screen opacity-95"
+                        : "mix-blend-multiply opacity-90"
+                    }`}
+                  />
+                </div>
+              </div>
+            </div>
           </section>
 
           <section id="topics" className="py-10 sm:py-14">
