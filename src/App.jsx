@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const sections = [
   {
@@ -291,6 +291,79 @@ const motionLesson = {
       body: [
         "These equations let students connect the coaster's motion to measurable changes in position, time, speed, and curvature.",
       ],
+    },
+    {
+      id: "variables",
+      label: "Variables",
+      title: "What Each Variable Means",
+      body: [
+        "Before students use the equations confidently, they should know what each symbol stands for and what kind of quantity it represents.",
+        "This keeps the formulas from feeling like random letters and helps students connect the math to the ride itself.",
+      ],
+      variables: [
+        {
+          symbol: "x",
+          meaning: "position",
+          note: "Where the coaster is along the track.",
+        },
+        {
+          symbol: "Δx",
+          meaning: "displacement",
+          note: "The change in position from start to finish.",
+        },
+        {
+          symbol: "t",
+          meaning: "time",
+          note: "How long the motion takes.",
+        },
+        {
+          symbol: "Δt",
+          meaning: "change in time",
+          note: "The time interval being measured.",
+        },
+        {
+          symbol: "v",
+          meaning: "velocity",
+          note: "How fast the coaster moves and in what direction.",
+        },
+        {
+          symbol: "vavg",
+          meaning: "average velocity",
+          note: "The total displacement divided by total time.",
+        },
+        {
+          symbol: "v₀",
+          meaning: "initial velocity",
+          note: "The coaster's starting velocity before a motion segment begins.",
+        },
+        {
+          symbol: "Δv",
+          meaning: "change in velocity",
+          note: "How much the velocity changes over time.",
+        },
+        {
+          symbol: "a",
+          meaning: "acceleration",
+          note: "How quickly velocity changes.",
+        },
+        {
+          symbol: "aavg",
+          meaning: "average acceleration",
+          note: "The total change in velocity divided by total time.",
+        },
+        {
+          symbol: "ac",
+          meaning: "centripetal acceleration",
+          note: "The inward acceleration that changes the coaster's direction on a curve.",
+        },
+        {
+          symbol: "r",
+          meaning: "radius of curvature",
+          note: "How tight the turn or curve is.",
+        },
+      ],
+      callout:
+        "A good habit is to pause before solving and label every symbol in the equation with its physical meaning.",
     },
     {
       id: "examples",
@@ -591,13 +664,14 @@ const MotionLessonView = ({
             <button
               type="button"
               onClick={() => setTocOpen((open) => !open)}
-              className={`inline-flex items-center rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition ${
+              className={`inline-flex h-10 w-10 items-center justify-center rounded-full border text-lg font-semibold transition ${
                 isDark
                   ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
                   : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
               }`}
+              aria-label={tocOpen ? "Collapse lesson outline" : "Expand lesson outline"}
             >
-              {tocOpen ? "Collapse" : "Expand"}
+              {tocOpen ? "-" : "+"}
             </button>
           </div>
 
@@ -713,9 +787,51 @@ const MotionLessonView = ({
                     {item.label}
                   </p>
                   <div
-                    className={`mt-4 overflow-x-auto pb-2 font-display text-2xl font-semibold leading-[1.35] tracking-tight sm:text-3xl ${titleClass}`}
+                    className={`mt-4 overflow-x-auto pb-3 font-serif text-[1.8rem] font-normal leading-[1.5] tracking-normal sm:text-[2.15rem] ${titleClass}`}
                   >
                     {item.expression}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {step.variables ? (
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {step.variables.map((item) => (
+                <div key={item.symbol} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                  <div className="flex items-start gap-4">
+                    <div
+                      className={`min-w-[5.5rem] rounded-2xl border px-3 py-3 text-center font-serif text-2xl font-normal leading-none ${
+                        isDark
+                          ? "border-white/10 bg-white/[0.04] text-white"
+                          : "border-slate-300/70 bg-white/80 text-slate-900"
+                      }`}
+                    >
+                      {item.symbol === "vavg" ? (
+                        <>
+                          v<sub>avg</sub>
+                        </>
+                      ) : item.symbol === "aavg" ? (
+                        <>
+                          a<sub>avg</sub>
+                        </>
+                      ) : item.symbol === "ac" ? (
+                        <>
+                          a<sub>c</sub>
+                        </>
+                      ) : (
+                        item.symbol
+                      )}
+                    </div>
+                    <div>
+                      <p className={`text-lg font-semibold capitalize ${titleClass}`}>
+                        {item.meaning}
+                      </p>
+                      <p className={`mt-2 text-base leading-7 ${copyClass}`}>
+                        {item.note}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -973,6 +1089,7 @@ const App = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [view, setView] = useState("overview");
   const [motionStepIndex, setMotionStepIndex] = useState(0);
+  const settingsRef = useRef(null);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("coasterphysics-theme");
@@ -989,6 +1106,26 @@ const App = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [view]);
+
+  useEffect(() => {
+    if (!settingsOpen) {
+      return;
+    }
+
+    const handlePointerDown = (event) => {
+      if (!settingsRef.current?.contains(event.target)) {
+        setSettingsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+    };
+  }, [settingsOpen]);
 
   const isDark = theme === "dark";
   const panelClass = isDark
@@ -1015,7 +1152,7 @@ const App = () => {
   return (
     <main className="section-shell py-10 sm:py-12 lg:py-16">
       <div className="flex justify-end">
-        <div className="relative">
+        <div ref={settingsRef} className="relative">
           <button
             type="button"
             onClick={() => setSettingsOpen((open) => !open)}
@@ -1026,9 +1163,7 @@ const App = () => {
             }`}
           >
             Settings
-            <span className={`text-xs ${mutedClass}`}>
-              {settingsOpen ? "Close" : "Open"}
-            </span>
+            <span className={`text-xs ${mutedClass}`}>{settingsOpen ? "-" : "+"}</span>
           </button>
 
           {settingsOpen ? (
@@ -1101,7 +1236,11 @@ const App = () => {
               </h1>
 
               <p className={`mt-8 max-w-2xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
-                learn physics through roller coasters.
+                Coasterphysics grew out of my obsession with roller coasters and
+                the questions they kept sparking. This project turns that
+                curiosity into a mission: use rides, drops, loops, and airtime
+                to make physics feel visual, personal, and exciting for other
+                students too.
               </p>
 
               <div className="mt-10">
@@ -1114,31 +1253,17 @@ const App = () => {
               </div>
             </div>
 
-            <div className="relative mx-auto w-full max-w-xl">
+            <div className="relative mx-auto flex w-full max-w-xl items-end justify-center lg:min-h-[40rem]">
               <div
-                className={`absolute inset-0 rounded-[2.5rem] blur-3xl ${
-                  isDark ? "bg-cyan-300/10" : "bg-sky-200/50"
+                className={`absolute inset-x-[14%] inset-y-[18%] rounded-full blur-[90px] ${
+                  isDark ? "bg-white/28" : "bg-slate-300/35"
                 }`}
               />
-              <div
-                className={`relative overflow-hidden rounded-[2.5rem] border p-4 sm:p-6 ${
-                  isDark
-                    ? "border-white/10 bg-white/[0.02]"
-                    : "border-slate-200/80 bg-white/55"
-                }`}
-              >
-                <div className="relative isolate">
-                  <img
-                    src="/roller-coaster-hero.png"
-                    alt="Roller coaster silhouette cresting a hill"
-                    className={`h-auto w-full object-contain ${
-                      isDark
-                        ? "invert contrast-125 brightness-125 mix-blend-screen opacity-95"
-                        : "mix-blend-multiply opacity-90"
-                    }`}
-                  />
-                </div>
-              </div>
+              <img
+                src="/roller-coaster-hero.png"
+                alt="Roller coaster silhouette cresting a hill"
+                className="relative h-[24rem] w-auto max-w-full object-contain sm:h-[30rem] lg:h-[40rem]"
+              />
             </div>
           </section>
 
