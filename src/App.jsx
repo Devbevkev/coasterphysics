@@ -236,6 +236,16 @@ const motionLesson = {
       ],
       callout:
         "A coaster moving at 20 m/s east and a coaster moving at 20 m/s west have the same speed but different velocities.",
+      practice: {
+        prompt:
+          "A coaster moves from position x = 10 m to x = 70 m in 4 s. What is its average velocity?",
+        choices: ["10 m/s", "15 m/s", "20 m/s", "60 m/s"],
+        correctChoice: 1,
+        correctExplanation:
+          "Correct. Average velocity is Δx / Δt = (70 - 10) / 4 = 15 m/s.",
+        incorrectExplanation:
+          "Not quite. Use average velocity = displacement divided by time: (70 - 10) / 4 = 15 m/s.",
+      },
     },
     {
       id: "acceleration",
@@ -264,6 +274,16 @@ const motionLesson = {
           ),
         },
       ],
+      practice: {
+        prompt:
+          "A coaster speeds up from 8 m/s to 28 m/s in 5 s. What is its average acceleration?",
+        choices: ["2 m/s²", "4 m/s²", "5 m/s²", "7 m/s²"],
+        correctChoice: 1,
+        correctExplanation:
+          "Correct. Average acceleration is Δv / Δt = (28 - 8) / 5 = 4 m/s².",
+        incorrectExplanation:
+          "Not quite. The change in velocity is 20 m/s, and 20 / 5 gives 4 m/s².",
+      },
     },
     {
       id: "equations",
@@ -323,6 +343,16 @@ const motionLesson = {
       body: [
         "These equations let students connect the coaster's motion to measurable changes in position, time, speed, and curvature.",
       ],
+      practice: {
+        prompt:
+          "A coaster starts from rest and accelerates at 3 m/s² for 6 s. How far does it travel?",
+        choices: ["27 m", "36 m", "54 m", "108 m"],
+        correctChoice: 2,
+        correctExplanation:
+          "Correct. Using x = v₀t + ½at² gives x = 0 + ½(3)(6²) = 54 m.",
+        incorrectExplanation:
+          "Not quite. Start from x = v₀t + ½at². Since v₀ = 0, the distance is ½(3)(36) = 54 m.",
+      },
     },
     {
       id: "variables",
@@ -396,6 +426,16 @@ const motionLesson = {
       ],
       callout:
         "A good habit is to pause before solving and label every symbol in the equation with its physical meaning.",
+      practice: {
+        prompt:
+          "In the equation a_c = v²/r, which variable tells you how tight the coaster's turn is?",
+        choices: ["v", "a_c", "r", "Δt"],
+        correctChoice: 2,
+        correctExplanation:
+          "Correct. The radius r tells you how tight the turn is. Smaller radius means a tighter curve.",
+        incorrectExplanation:
+          "Not quite. The variable r is the radius of curvature, which describes how tight the turn is.",
+      },
     },
     {
       id: "examples",
@@ -415,6 +455,16 @@ const motionLesson = {
           text: "As the coaster climbs, it slows down. Its acceleration points partly backward along the track.",
         },
       ],
+      practice: {
+        prompt:
+          "A coaster moves at a constant speed of 20 m/s around a curve of radius 50 m. What is its centripetal acceleration?",
+        choices: ["4 m/s²", "8 m/s²", "20 m/s²", "50 m/s²"],
+        correctChoice: 1,
+        correctExplanation:
+          "Correct. Centripetal acceleration is a_c = v² / r = 20² / 50 = 400 / 50 = 8 m/s².",
+        incorrectExplanation:
+          "Not quite. Square the speed first, then divide by the radius: 20² / 50 = 8 m/s².",
+      },
     },
     {
       id: "interactive",
@@ -434,53 +484,21 @@ const motionLesson = {
       ],
       callout:
         "Students should be able to see that velocity is tangent to the track and acceleration does not always point in the direction of motion.",
-    },
-    {
-      id: "practice",
-      label: "Practice",
-      title: "Practice Problems",
-      problems: [
-        {
-          prompt:
-            "A coaster moves from position x = 10 m to x = 70 m in 4 s. What is its average velocity?",
-          choices: ["10 m/s", "15 m/s", "20 m/s", "60 m/s"],
-          correctChoice: 1,
-          correctExplanation:
-            "Correct. Average velocity is Δx / Δt = (70 - 10) / 4 = 15 m/s.",
-          incorrectExplanation:
-            "Not quite. Use average velocity = displacement divided by time: (70 - 10) / 4 = 15 m/s.",
-        },
-        {
-          prompt:
-            "A coaster speeds up from 8 m/s to 28 m/s in 5 s. What is its average acceleration?",
-          choices: ["2 m/s²", "4 m/s²", "5 m/s²", "7 m/s²"],
-          correctChoice: 1,
-          correctExplanation:
-            "Correct. Average acceleration is Δv / Δt = (28 - 8) / 5 = 4 m/s².",
-          incorrectExplanation:
-            "Not quite. The change in velocity is 20 m/s, and 20 / 5 gives 4 m/s².",
-        },
-        {
-          prompt:
-            "A coaster moves at a constant speed of 20 m/s around a curve of radius 50 m. What is its centripetal acceleration?",
-          choices: ["4 m/s²", "8 m/s²", "20 m/s²", "50 m/s²"],
-          correctChoice: 1,
-          correctExplanation:
-            "Correct. Centripetal acceleration is ac = v² / r = 20² / 50 = 400 / 50 = 8 m/s².",
-          incorrectExplanation:
-            "Not quite. Square the speed first, then divide by the radius: 20² / 50 = 8 m/s².",
-        },
-        {
-          prompt:
-            "A coaster starts from rest and accelerates at 3 m/s² for 6 s. How far does it travel?",
-          choices: ["27 m", "36 m", "54 m", "108 m"],
-          correctChoice: 2,
-          correctExplanation:
-            "Correct. Using x = v₀t + ½at² gives x = 0 + ½(3)(6²) = 54 m.",
-          incorrectExplanation:
-            "Not quite. Start from x = v₀t + ½at². Since v₀ = 0, the distance is ½(3)(36) = 54 m.",
-        },
-      ],
+      practice: {
+        prompt:
+          "If a coaster moves through a turn at constant speed, which overlay would best show that it is still accelerating?",
+        choices: [
+          "A position label only",
+          "A speedometer only",
+          "An acceleration vector pointing inward",
+          "A distance counter only",
+        ],
+        correctChoice: 2,
+        correctExplanation:
+          "Correct. The inward acceleration vector shows that the coaster is accelerating even when its speed stays constant.",
+        incorrectExplanation:
+          "Not quite. The acceleration vector is the clearest sign, because turning changes velocity direction even at constant speed.",
+      },
     },
     {
       id: "quiz",
@@ -577,6 +595,13 @@ const forcesLesson = {
       ],
       callout:
         "A free-body diagram should only show the real forces acting on the coaster, not the direction it happens to be moving.",
+      practice: {
+        prompt: "A 500 kg coaster has an acceleration of 2 m/s². What net force is required?",
+        choices: ["250 N", "500 N", "1000 N", "2500 N"],
+        correctChoice: 2,
+        correctExplanation: "Correct. Using ΣF = ma gives 500 × 2 = 1000 N.",
+        incorrectExplanation: "Not quite. Multiply mass by acceleration: 500 × 2 = 1000 N.",
+      },
     },
     {
       id: "equations",
@@ -611,6 +636,13 @@ const forcesLesson = {
       body: [
         "These equations help students translate the shape of the track into a net force and then into acceleration.",
       ],
+      practice: {
+        prompt: "What is the weight of a 600 kg coaster car on Earth?",
+        choices: ["588 N", "980 N", "5880 N", "6000 N"],
+        correctChoice: 2,
+        correctExplanation: "Correct. Weight is mg = 600 × 9.8 = 5880 N.",
+        incorrectExplanation: "Not quite. Use Fg = mg with g = 9.8 m/s², so 600 × 9.8 = 5880 N.",
+      },
     },
     {
       id: "variables",
@@ -627,6 +659,13 @@ const forcesLesson = {
         { symbol: "Fparallel", display: <>F<sub>∥</sub></>, meaning: "parallel force component", note: "The part of gravity acting along the track." },
         { symbol: "Fperp", display: <>F<sub>⊥</sub></>, meaning: "perpendicular force component", note: "The part of gravity pressing into the track." },
       ],
+      practice: {
+        prompt: "A coaster is on a 30° slope. If its mass is 1000 kg, what is the gravity component along the track?",
+        choices: ["2450 N", "4900 N", "9800 N", "16970 N"],
+        correctChoice: 1,
+        correctExplanation: "Correct. F∥ = mg sinθ = 1000 × 9.8 × 0.5 = 4900 N.",
+        incorrectExplanation: "Not quite. Use the parallel component: mg sin30° = 1000 × 9.8 × 0.5 = 4900 N.",
+      },
     },
     {
       id: "examples",
@@ -646,41 +685,13 @@ const forcesLesson = {
           text: "At the end of the ride, friction and magnetic brakes create forces opposite the motion so the train can stop safely.",
         },
       ],
-    },
-    {
-      id: "practice",
-      label: "Practice",
-      title: "Practice Problems",
-      problems: [
-        {
-          prompt: "A 500 kg coaster has an acceleration of 2 m/s². What net force is required?",
-          choices: ["250 N", "500 N", "1000 N", "2500 N"],
-          correctChoice: 2,
-          correctExplanation: "Correct. Using ΣF = ma gives 500 × 2 = 1000 N.",
-          incorrectExplanation: "Not quite. Multiply mass by acceleration: 500 × 2 = 1000 N.",
-        },
-        {
-          prompt: "What is the weight of a 600 kg coaster car on Earth?",
-          choices: ["588 N", "980 N", "5880 N", "6000 N"],
-          correctChoice: 2,
-          correctExplanation: "Correct. Weight is mg = 600 × 9.8 = 5880 N.",
-          incorrectExplanation: "Not quite. Use Fg = mg with g = 9.8 m/s², so 600 × 9.8 = 5880 N.",
-        },
-        {
-          prompt: "A coaster is on a 30° slope. If its mass is 1000 kg, what is the gravity component along the track?",
-          choices: ["2450 N", "4900 N", "9800 N", "16970 N"],
-          correctChoice: 1,
-          correctExplanation: "Correct. F∥ = mg sinθ = 1000 × 9.8 × 0.5 = 4900 N.",
-          incorrectExplanation: "Not quite. Use the parallel component: mg sin30° = 1000 × 9.8 × 0.5 = 4900 N.",
-        },
-        {
-          prompt: "If the net force on a coaster is zero, what happens to its motion?",
-          choices: ["It must stop", "It must speed up", "Its velocity stays constant", "It turns automatically"],
-          correctChoice: 2,
-          correctExplanation: "Correct. Zero net force means zero acceleration, so the velocity stays constant.",
-          incorrectExplanation: "Not quite. If ΣF = 0, then a = 0, which means the velocity stays constant.",
-        },
-      ],
+      practice: {
+        prompt: "If the net force on a coaster is zero, what happens to its motion?",
+        choices: ["It must stop", "It must speed up", "Its velocity stays constant", "It turns automatically"],
+        correctChoice: 2,
+        correctExplanation: "Correct. Zero net force means zero acceleration, so the velocity stays constant.",
+        incorrectExplanation: "Not quite. If ΣF = 0, then a = 0, which means the velocity stays constant.",
+      },
     },
     {
       id: "quiz",
@@ -767,6 +778,13 @@ const energyLesson = {
       ],
       callout:
         "The first hill is usually the tallest because the coaster cannot regain all of the energy it loses later in the ride.",
+      practice: {
+        prompt: "A 500 kg coaster is 20 m above the ground. What is its gravitational potential energy?",
+        choices: ["9800 J", "49000 J", "98000 J", "196000 J"],
+        correctChoice: 2,
+        correctExplanation: "Correct. Ug = mgh = 500 × 9.8 × 20 = 98000 J.",
+        incorrectExplanation: "Not quite. Multiply mass, gravity, and height: 500 × 9.8 × 20 = 98000 J.",
+      },
     },
     {
       id: "equations",
@@ -801,6 +819,13 @@ const energyLesson = {
       body: [
         "These equations show how a coaster's height, mass, and speed fit together in one energy story.",
       ],
+      practice: {
+        prompt: "A 400 kg coaster car moves at 10 m/s. What is its kinetic energy?",
+        choices: ["2000 J", "10000 J", "20000 J", "40000 J"],
+        correctChoice: 2,
+        correctExplanation: "Correct. K = ½mv² = ½ × 400 × 10² = 20000 J.",
+        incorrectExplanation: "Not quite. Use K = ½mv². That gives 0.5 × 400 × 100 = 20000 J.",
+      },
     },
     {
       id: "variables",
@@ -816,6 +841,13 @@ const energyLesson = {
         { symbol: "h", meaning: "height", note: "Vertical height above a chosen reference point." },
         { symbol: "v", meaning: "speed", note: "How fast the coaster is moving." },
       ],
+      practice: {
+        prompt: "If a coaster drops from rest and all potential energy becomes kinetic energy, what speed would it have after falling 25 m?",
+        choices: ["15.7 m/s", "22.1 m/s", "35.0 m/s", "49.0 m/s"],
+        correctChoice: 1,
+        correctExplanation: "Correct. Using v = √(2gh) gives √(2 × 9.8 × 25) ≈ 22.1 m/s.",
+        incorrectExplanation: "Not quite. Set mgh = ½mv² and solve for v. For 25 m, the speed is about 22.1 m/s.",
+      },
     },
     {
       id: "examples",
@@ -835,41 +867,13 @@ const energyLesson = {
           text: "Friction and drag take away mechanical energy, which is why the coaster cannot usually climb back to its original height.",
         },
       ],
-    },
-    {
-      id: "practice",
-      label: "Practice",
-      title: "Practice Problems",
-      problems: [
-        {
-          prompt: "A 500 kg coaster is 20 m above the ground. What is its gravitational potential energy?",
-          choices: ["9800 J", "49000 J", "98000 J", "196000 J"],
-          correctChoice: 2,
-          correctExplanation: "Correct. Ug = mgh = 500 × 9.8 × 20 = 98000 J.",
-          incorrectExplanation: "Not quite. Multiply mass, gravity, and height: 500 × 9.8 × 20 = 98000 J.",
-        },
-        {
-          prompt: "A 400 kg coaster car moves at 10 m/s. What is its kinetic energy?",
-          choices: ["2000 J", "10000 J", "20000 J", "40000 J"],
-          correctChoice: 2,
-          correctExplanation: "Correct. K = ½mv² = ½ × 400 × 10² = 20000 J.",
-          incorrectExplanation: "Not quite. Use K = ½mv². That gives 0.5 × 400 × 100 = 20000 J.",
-        },
-        {
-          prompt: "If a coaster drops from rest and all potential energy becomes kinetic energy, what speed would it have after falling 25 m?",
-          choices: ["15.7 m/s", "22.1 m/s", "35.0 m/s", "49.0 m/s"],
-          correctChoice: 1,
-          correctExplanation: "Correct. Using v = √(2gh) gives √(2 × 9.8 × 25) ≈ 22.1 m/s.",
-          incorrectExplanation: "Not quite. Set mgh = ½mv² and solve for v. For 25 m, the speed is about 22.1 m/s.",
-        },
-        {
-          prompt: "A coaster loses 15000 J of mechanical energy to friction. What happens to its later hills?",
-          choices: ["They become taller", "They stay the same height", "They must be lower", "They disappear completely"],
-          correctChoice: 2,
-          correctExplanation: "Correct. Losing mechanical energy means the coaster cannot climb as high later in the ride.",
-          incorrectExplanation: "Not quite. When friction removes energy, the coaster has less energy available to climb later hills, so they must be lower.",
-        },
-      ],
+      practice: {
+        prompt: "A coaster loses 15000 J of mechanical energy to friction. What happens to its later hills?",
+        choices: ["They become taller", "They stay the same height", "They must be lower", "They disappear completely"],
+        correctChoice: 2,
+        correctExplanation: "Correct. Losing mechanical energy means the coaster cannot climb as high later in the ride.",
+        incorrectExplanation: "Not quite. When friction removes energy, the coaster has less energy available to climb later hills, so they must be lower.",
+      },
     },
     {
       id: "quiz",
@@ -941,6 +945,13 @@ const workLesson = {
       ],
       callout:
         "Power tells us how quickly work is done, which is why a fast launch needs much more power than a slow lift hill.",
+      practice: {
+        prompt: "A 500 N force pulls a coaster 20 m in the same direction. How much work is done?",
+        choices: ["1000 J", "5000 J", "10000 J", "20000 J"],
+        correctChoice: 2,
+        correctExplanation: "Correct. W = Fd = 500 × 20 = 10000 J.",
+        incorrectExplanation: "Not quite. Since the force is in the direction of motion, use W = Fd = 500 × 20 = 10000 J.",
+      },
     },
     {
       id: "equations",
@@ -967,6 +978,13 @@ const workLesson = {
       body: [
         "These relationships connect applied forces, time, and changes in motion energy.",
       ],
+      practice: {
+        prompt: "A chain lift does 12000 J of work in 6 s. What is its average power?",
+        choices: ["500 W", "1200 W", "2000 W", "72000 W"],
+        correctChoice: 2,
+        correctExplanation: "Correct. P = W/Δt = 12000 / 6 = 2000 W.",
+        incorrectExplanation: "Not quite. Divide the work by time: 12000 / 6 = 2000 W.",
+      },
     },
     {
       id: "variables",
@@ -982,6 +1000,13 @@ const workLesson = {
         { symbol: "Wnet", display: <>W<sub>net</sub></>, meaning: "net work", note: "The combined work done by all forces." },
         { symbol: "ΔK", meaning: "change in kinetic energy", note: "How much the motion energy changes." },
       ],
+      practice: {
+        prompt: "A friction force of 200 N acts opposite the motion for 30 m. What work does friction do?",
+        choices: ["6000 J", "-6000 J", "170 N", "-170 J"],
+        correctChoice: 1,
+        correctExplanation: "Correct. Opposite-direction work is negative, so W = -200 × 30 = -6000 J.",
+        incorrectExplanation: "Not quite. Friction removes energy, so the work is negative: -200 × 30 = -6000 J.",
+      },
     },
     {
       id: "examples",
@@ -1001,41 +1026,13 @@ const workLesson = {
           text: "Brakes do negative work by removing kinetic energy from the train until it stops.",
         },
       ],
-    },
-    {
-      id: "practice",
-      label: "Practice",
-      title: "Practice Problems",
-      problems: [
-        {
-          prompt: "A 500 N force pulls a coaster 20 m in the same direction. How much work is done?",
-          choices: ["1000 J", "5000 J", "10000 J", "20000 J"],
-          correctChoice: 2,
-          correctExplanation: "Correct. W = Fd = 500 × 20 = 10000 J.",
-          incorrectExplanation: "Not quite. Since the force is in the direction of motion, use W = Fd = 500 × 20 = 10000 J.",
-        },
-        {
-          prompt: "A chain lift does 12000 J of work in 6 s. What is its average power?",
-          choices: ["500 W", "1200 W", "2000 W", "72000 W"],
-          correctChoice: 2,
-          correctExplanation: "Correct. P = W/Δt = 12000 / 6 = 2000 W.",
-          incorrectExplanation: "Not quite. Divide the work by time: 12000 / 6 = 2000 W.",
-        },
-        {
-          prompt: "A friction force of 200 N acts opposite the motion for 30 m. What work does friction do?",
-          choices: ["6000 J", "-6000 J", "170 N", "-170 J"],
-          correctChoice: 1,
-          correctExplanation: "Correct. Opposite-direction work is negative, so W = -200 × 30 = -6000 J.",
-          incorrectExplanation: "Not quite. Friction removes energy, so the work is negative: -200 × 30 = -6000 J.",
-        },
-        {
-          prompt: "A launch system gives the coaster 90000 J of work in 3 s. What is the power?",
-          choices: ["3000 W", "30000 W", "90000 W", "270000 W"],
-          correctChoice: 1,
-          correctExplanation: "Correct. P = 90000 / 3 = 30000 W.",
-          incorrectExplanation: "Not quite. Divide work by time: 90000 / 3 = 30000 W.",
-        },
-      ],
+      practice: {
+        prompt: "A launch system gives the coaster 90000 J of work in 3 s. What is the power?",
+        choices: ["3000 W", "30000 W", "90000 W", "270000 W"],
+        correctChoice: 1,
+        correctExplanation: "Correct. P = 90000 / 3 = 30000 W.",
+        incorrectExplanation: "Not quite. Divide work by time: 90000 / 3 = 30000 W.",
+      },
     },
     {
       id: "quiz",
@@ -1112,6 +1109,13 @@ const curvedMotionLesson = {
       ],
       callout:
         "At the bottom of a dip, the inward direction points upward. At the top of a hill, the inward direction points downward.",
+      practice: {
+        prompt: "A coaster moves at 18 m/s around a curve of radius 36 m. What is its centripetal acceleration?",
+        choices: ["4.5 m/s²", "9 m/s²", "18 m/s²", "36 m/s²"],
+        correctChoice: 1,
+        correctExplanation: "Correct. a_c = v²/r = 18²/36 = 324/36 = 9 m/s².",
+        incorrectExplanation: "Not quite. Square the speed and divide by the radius: 18² / 36 = 9 m/s².",
+      },
     },
     {
       id: "equations",
@@ -1154,6 +1158,13 @@ const curvedMotionLesson = {
           ),
         },
       ],
+      practice: {
+        prompt: "A 500 kg coaster moves at 20 m/s through the bottom of a dip with radius 40 m. What normal force does the track exert?",
+        choices: ["4900 N", "7500 N", "9900 N", "14900 N"],
+        correctChoice: 2,
+        correctExplanation: "Correct. At the bottom, N - mg = mv²/r, so N = 4900 + 5000 = 9900 N.",
+        incorrectExplanation: "Not quite. Compute mv²/r = 5000 N, then add weight because the normal force must also support the train: 4900 + 5000 = 9900 N.",
+      },
     },
     {
       id: "variables",
@@ -1168,6 +1179,13 @@ const curvedMotionLesson = {
         { symbol: "m", meaning: "mass", note: "The mass of the coaster." },
         { symbol: "g", meaning: "gravity", note: "The gravitational field strength near Earth." },
       ],
+      practice: {
+        prompt: "A 400 kg coaster moves at 16 m/s over the top of a hill with radius 32 m. What is the normal force?",
+        choices: ["720 N", "3920 N", "6400 N", "7120 N"],
+        correctChoice: 0,
+        correctExplanation: "Correct. At the top, mg - N = mv²/r, so N = 3920 - 3200 = 720 N.",
+        incorrectExplanation: "Not quite. First compute weight 3920 N and inward requirement 3200 N. Then solve mg - N = 3200, so N = 720 N.",
+      },
     },
     {
       id: "examples",
@@ -1187,41 +1205,13 @@ const curvedMotionLesson = {
           text: "In a loop, the inward direction keeps changing, and the force balance changes all the way around the track.",
         },
       ],
-    },
-    {
-      id: "practice",
-      label: "Practice",
-      title: "Practice Problems",
-      problems: [
-        {
-          prompt: "A coaster moves at 18 m/s around a curve of radius 36 m. What is its centripetal acceleration?",
-          choices: ["4.5 m/s²", "9 m/s²", "18 m/s²", "36 m/s²"],
-          correctChoice: 1,
-          correctExplanation: "Correct. a_c = v²/r = 18²/36 = 324/36 = 9 m/s².",
-          incorrectExplanation: "Not quite. Square the speed and divide by the radius: 18² / 36 = 9 m/s².",
-        },
-        {
-          prompt: "A 500 kg coaster moves at 20 m/s through the bottom of a dip with radius 40 m. What normal force does the track exert?",
-          choices: ["4900 N", "7500 N", "9900 N", "14900 N"],
-          correctChoice: 2,
-          correctExplanation: "Correct. At the bottom, N - mg = mv²/r, so N = 4900 + 5000 = 9900 N.",
-          incorrectExplanation: "Not quite. Compute mv²/r = 5000 N, then add weight because the normal force must also support the train: 4900 + 5000 = 9900 N.",
-        },
-        {
-          prompt: "A 400 kg coaster moves at 16 m/s over the top of a hill with radius 32 m. What is the normal force?",
-          choices: ["720 N", "3920 N", "6400 N", "7120 N"],
-          correctChoice: 0,
-          correctExplanation: "Correct. At the top, mg - N = mv²/r, so N = 3920 - 3200 = 720 N.",
-          incorrectExplanation: "Not quite. First compute weight 3920 N and inward requirement 3200 N. Then solve mg - N = 3200, so N = 720 N.",
-        },
-        {
-          prompt: "What is the minimum speed needed at the top of a loop of radius 10 m if the normal force is zero there?",
-          choices: ["7.0 m/s", "9.9 m/s", "14.0 m/s", "31.3 m/s"],
-          correctChoice: 1,
-          correctExplanation: "Correct. If N = 0 at the top, then mg = mv²/r, so v = √(rg) = √(10 × 9.8) ≈ 9.9 m/s.",
-          incorrectExplanation: "Not quite. Set the normal force to zero at the top, then solve v = √(rg). For r = 10 m, that is about 9.9 m/s.",
-        },
-      ],
+      practice: {
+        prompt: "What is the minimum speed needed at the top of a loop of radius 10 m if the normal force is zero there?",
+        choices: ["7.0 m/s", "9.9 m/s", "14.0 m/s", "31.3 m/s"],
+        correctChoice: 1,
+        correctExplanation: "Correct. If N = 0 at the top, then mg = mv²/r, so v = √(rg) = √(10 × 9.8) ≈ 9.9 m/s.",
+        incorrectExplanation: "Not quite. Set the normal force to zero at the top, then solve v = √(rg). For r = 10 m, that is about 9.9 m/s.",
+      },
     },
     {
       id: "quiz",
@@ -1298,6 +1288,13 @@ const gForcesLesson = {
       ],
       callout:
         "G-force is often described as the normal force divided by ordinary weight, so 2 g means the seat is pushing with twice the rider's normal weight.",
+      practice: {
+        prompt: "A 60 kg rider experiences a normal force of 1200 N at the bottom of a drop. What g-force is this?",
+        choices: ["1.0 g", "1.5 g", "2.0 g", "3.4 g"],
+        correctChoice: 2,
+        correctExplanation: "Correct. g-force = N/(mg) = 1200/(60 × 9.8) ≈ 2.04, or about 2.0 g.",
+        incorrectExplanation: "Not quite. Divide the normal force by ordinary weight: 1200 / 588 ≈ 2.0 g.",
+      },
     },
     {
       id: "equations",
@@ -1321,6 +1318,13 @@ const gForcesLesson = {
           expression: <>N = 0</>,
         },
       ],
+      practice: {
+        prompt: "If the normal force on a rider is zero at the top of a hill, the rider feels:",
+        choices: ["Heavy", "Normal weight", "Weightless", "Pulled downward twice as hard"],
+        correctChoice: 2,
+        correctExplanation: "Correct. N = 0 means the rider feels weightless.",
+        incorrectExplanation: "Not quite. Apparent weight equals the normal force, so N = 0 means weightlessness.",
+      },
     },
     {
       id: "variables",
@@ -1332,6 +1336,13 @@ const gForcesLesson = {
         { symbol: "m", meaning: "mass", note: "The rider's or train's mass." },
         { symbol: "g", meaning: "gravitational field strength", note: "The usual downward pull of gravity near Earth." },
       ],
+      practice: {
+        prompt: "A 50 kg rider experiences a normal force of 245 N at the top of a hill. About how many g's is that?",
+        choices: ["0.5 g", "1.0 g", "2.0 g", "4.9 g"],
+        correctChoice: 0,
+        correctExplanation: "Correct. The rider's weight is 490 N, so 245/490 = 0.5 g.",
+        incorrectExplanation: "Not quite. Compare the normal force to ordinary weight: 245 / 490 = 0.5 g.",
+      },
     },
     {
       id: "examples",
@@ -1351,41 +1362,13 @@ const gForcesLesson = {
           text: "If the normal force reaches zero, the rider feels weightless for that moment.",
         },
       ],
-    },
-    {
-      id: "practice",
-      label: "Practice",
-      title: "Practice Problems",
-      problems: [
-        {
-          prompt: "A 60 kg rider experiences a normal force of 1200 N at the bottom of a drop. What g-force is this?",
-          choices: ["1.0 g", "1.5 g", "2.0 g", "3.4 g"],
-          correctChoice: 2,
-          correctExplanation: "Correct. g-force = N/(mg) = 1200/(60 × 9.8) ≈ 2.04, or about 2.0 g.",
-          incorrectExplanation: "Not quite. Divide the normal force by ordinary weight: 1200 / 588 ≈ 2.0 g.",
-        },
-        {
-          prompt: "If the normal force on a rider is zero at the top of a hill, the rider feels:",
-          choices: ["Heavy", "Normal weight", "Weightless", "Pulled downward twice as hard"],
-          correctChoice: 2,
-          correctExplanation: "Correct. N = 0 means the rider feels weightless.",
-          incorrectExplanation: "Not quite. Apparent weight equals the normal force, so N = 0 means weightlessness.",
-        },
-        {
-          prompt: "A 50 kg rider experiences a normal force of 245 N at the top of a hill. About how many g's is that?",
-          choices: ["0.5 g", "1.0 g", "2.0 g", "4.9 g"],
-          correctChoice: 0,
-          correctExplanation: "Correct. The rider's weight is 490 N, so 245/490 = 0.5 g.",
-          incorrectExplanation: "Not quite. Compare the normal force to ordinary weight: 245 / 490 = 0.5 g.",
-        },
-        {
-          prompt: "What kind of force mostly determines how heavy or light a rider feels on a coaster?",
-          choices: ["Gravity only", "Normal force", "Momentum only", "Time only"],
-          correctChoice: 1,
-          correctExplanation: "Correct. The rider's felt weight is set by the normal force.",
-          incorrectExplanation: "Not quite. The feeling of heaviness or lightness comes from the normal force from the seat or restraint.",
-        },
-      ],
+      practice: {
+        prompt: "What kind of force mostly determines how heavy or light a rider feels on a coaster?",
+        choices: ["Gravity only", "Normal force", "Momentum only", "Time only"],
+        correctChoice: 1,
+        correctExplanation: "Correct. The rider's felt weight is set by the normal force.",
+        incorrectExplanation: "Not quite. The feeling of heaviness or lightness comes from the normal force from the seat or restraint.",
+      },
     },
     {
       id: "quiz",
@@ -1467,6 +1450,13 @@ const momentumLesson = {
       ],
       callout:
         "Impulse is the force-times-time idea that explains why a longer stop feels softer even when the coaster begins with the same speed.",
+      practice: {
+        prompt: "A 500 kg coaster moves at 12 m/s. What is its momentum?",
+        choices: ["600 N·s", "6000 kg·m/s", "12000 kg·m/s", "24000 kg·m/s"],
+        correctChoice: 1,
+        correctExplanation: "Correct. p = mv = 500 × 12 = 6000 kg·m/s.",
+        incorrectExplanation: "Not quite. Multiply mass by velocity: 500 × 12 = 6000 kg·m/s.",
+      },
     },
     {
       id: "equations",
@@ -1490,6 +1480,13 @@ const momentumLesson = {
           ),
         },
       ],
+      practice: {
+        prompt: "If that coaster stops in 4 s, what is the magnitude of the average braking force?",
+        choices: ["375 N", "750 N", "1500 N", "6000 N"],
+        correctChoice: 2,
+        correctExplanation: "Correct. F_avg = Δp/Δt = 6000/4 = 1500 N.",
+        incorrectExplanation: "Not quite. Divide the momentum change by time: 6000 / 4 = 1500 N.",
+      },
     },
     {
       id: "variables",
@@ -1504,6 +1501,13 @@ const momentumLesson = {
         { symbol: "Favg", display: <>F<sub>avg</sub></>, meaning: "average force", note: "The average braking force during the stop." },
         { symbol: "Δt", meaning: "stopping time", note: "How long the momentum change takes." },
       ],
+      practice: {
+        prompt: "If the same coaster stops in 2 s instead of 4 s, what happens to the average braking force?",
+        choices: ["It is cut in half", "It stays the same", "It doubles", "It becomes zero"],
+        correctChoice: 2,
+        correctExplanation: "Correct. The same Δp in half the time means twice the average force.",
+        incorrectExplanation: "Not quite. When the stopping time is shorter but the momentum change is the same, the average force gets larger.",
+      },
     },
     {
       id: "examples",
@@ -1523,41 +1527,13 @@ const momentumLesson = {
           text: "A short stopping time creates a larger average force, which is why emergency braking feels harsher.",
         },
       ],
-    },
-    {
-      id: "practice",
-      label: "Practice",
-      title: "Practice Problems",
-      problems: [
-        {
-          prompt: "A 500 kg coaster moves at 12 m/s. What is its momentum?",
-          choices: ["600 N·s", "6000 kg·m/s", "12000 kg·m/s", "24000 kg·m/s"],
-          correctChoice: 1,
-          correctExplanation: "Correct. p = mv = 500 × 12 = 6000 kg·m/s.",
-          incorrectExplanation: "Not quite. Multiply mass by velocity: 500 × 12 = 6000 kg·m/s.",
-        },
-        {
-          prompt: "If that coaster stops in 4 s, what is the magnitude of the average braking force?",
-          choices: ["375 N", "750 N", "1500 N", "6000 N"],
-          correctChoice: 2,
-          correctExplanation: "Correct. F_avg = Δp/Δt = 6000/4 = 1500 N.",
-          incorrectExplanation: "Not quite. Divide the momentum change by time: 6000 / 4 = 1500 N.",
-        },
-        {
-          prompt: "If the same coaster stops in 2 s instead of 4 s, what happens to the average braking force?",
-          choices: ["It is cut in half", "It stays the same", "It doubles", "It becomes zero"],
-          correctChoice: 2,
-          correctExplanation: "Correct. The same Δp in half the time means twice the average force.",
-          incorrectExplanation: "Not quite. When the stopping time is shorter but the momentum change is the same, the average force gets larger.",
-        },
-        {
-          prompt: "A brake system applies an average force of 2000 N for 3 s. What impulse does it deliver?",
-          choices: ["600 J", "2000 N·s", "6000 N·s", "9000 N·s"],
-          correctChoice: 2,
-          correctExplanation: "Correct. Impulse is force times time: 2000 × 3 = 6000 N·s.",
-          incorrectExplanation: "Not quite. Multiply force by time: 2000 × 3 = 6000 N·s.",
-        },
-      ],
+      practice: {
+        prompt: "A brake system applies an average force of 2000 N for 3 s. What impulse does it deliver?",
+        choices: ["600 J", "2000 N·s", "6000 N·s", "9000 N·s"],
+        correctChoice: 2,
+        correctExplanation: "Correct. Impulse is force times time: 2000 × 3 = 6000 N·s.",
+        incorrectExplanation: "Not quite. Multiply force by time: 2000 × 3 = 6000 N·s.",
+      },
     },
     {
       id: "quiz",
@@ -1634,6 +1610,13 @@ const rotationLesson = {
       ],
       callout:
         "Rotation shows up even when the train seems to be moving forward in a straight line, because the wheels and axles are constantly turning.",
+      practice: {
+        prompt: "What torque is produced by a 50 N force applied 2 m from a pivot at 90°?",
+        choices: ["25 N·m", "50 N·m", "100 N·m", "200 N·m"],
+        correctChoice: 2,
+        correctExplanation: "Correct. τ = rF sinθ = 2 × 50 × 1 = 100 N·m.",
+        incorrectExplanation: "Not quite. At 90°, sinθ = 1, so τ = 2 × 50 = 100 N·m.",
+      },
     },
     {
       id: "equations",
@@ -1661,6 +1644,13 @@ const rotationLesson = {
           ),
         },
       ],
+      practice: {
+        prompt: "If a wheel rotates through 12 rad in 3 s, what is its angular velocity?",
+        choices: ["2 rad/s", "4 rad/s", "6 rad/s", "36 rad/s"],
+        correctChoice: 1,
+        correctExplanation: "Correct. ω = Δθ/Δt = 12/3 = 4 rad/s.",
+        incorrectExplanation: "Not quite. Divide angle by time: 12 / 3 = 4 rad/s.",
+      },
     },
     {
       id: "variables",
@@ -1676,6 +1666,13 @@ const rotationLesson = {
         { symbol: "I", meaning: "rotational inertia", note: "How hard it is to change an object's rotational motion." },
         { symbol: "Krot", display: <>K<sub>rot</sub></>, meaning: "rotational kinetic energy", note: "Energy stored in spinning motion." },
       ],
+      practice: {
+        prompt: "A rotating component has I = 10 kg·m² and ω = 6 rad/s. What is its rotational kinetic energy?",
+        choices: ["90 J", "180 J", "360 J", "720 J"],
+        correctChoice: 1,
+        correctExplanation: "Correct. Krot = ½Iω² = 0.5 × 10 × 36 = 180 J.",
+        incorrectExplanation: "Not quite. Square the angular velocity first, then multiply: 0.5 × 10 × 36 = 180 J.",
+      },
     },
     {
       id: "examples",
@@ -1695,41 +1692,13 @@ const rotationLesson = {
           text: "The train's center of mass matters for stability, especially when a long train enters or leaves a hill or turn.",
         },
       ],
-    },
-    {
-      id: "practice",
-      label: "Practice",
-      title: "Practice Problems",
-      problems: [
-        {
-          prompt: "What torque is produced by a 50 N force applied 2 m from a pivot at 90°?",
-          choices: ["25 N·m", "50 N·m", "100 N·m", "200 N·m"],
-          correctChoice: 2,
-          correctExplanation: "Correct. τ = rF sinθ = 2 × 50 × 1 = 100 N·m.",
-          incorrectExplanation: "Not quite. At 90°, sinθ = 1, so τ = 2 × 50 = 100 N·m.",
-        },
-        {
-          prompt: "If a wheel rotates through 12 rad in 3 s, what is its angular velocity?",
-          choices: ["2 rad/s", "4 rad/s", "6 rad/s", "36 rad/s"],
-          correctChoice: 1,
-          correctExplanation: "Correct. ω = Δθ/Δt = 12/3 = 4 rad/s.",
-          incorrectExplanation: "Not quite. Divide angle by time: 12 / 3 = 4 rad/s.",
-        },
-        {
-          prompt: "A rotating component has I = 10 kg·m² and ω = 6 rad/s. What is its rotational kinetic energy?",
-          choices: ["90 J", "180 J", "360 J", "720 J"],
-          correctChoice: 1,
-          correctExplanation: "Correct. Krot = ½Iω² = 0.5 × 10 × 36 = 180 J.",
-          incorrectExplanation: "Not quite. Square the angular velocity first, then multiply: 0.5 × 10 × 36 = 180 J.",
-        },
-        {
-          prompt: "If rotational inertia increases, what happens to how easily an object can change its rotation?",
-          choices: ["It changes more easily", "It becomes harder to change", "Nothing changes", "It stops having torque"],
-          correctChoice: 1,
-          correctExplanation: "Correct. Larger rotational inertia means more resistance to changes in rotational motion.",
-          incorrectExplanation: "Not quite. A larger rotational inertia means it is harder to speed up, slow down, or redirect rotation.",
-        },
-      ],
+      practice: {
+        prompt: "If rotational inertia increases, what happens to how easily an object can change its rotation?",
+        choices: ["It changes more easily", "It becomes harder to change", "Nothing changes", "It stops having torque"],
+        correctChoice: 1,
+        correctExplanation: "Correct. Larger rotational inertia means more resistance to changes in rotational motion.",
+        incorrectExplanation: "Not quite. A larger rotational inertia means it is harder to speed up, slow down, or redirect rotation.",
+      },
     },
     {
       id: "quiz",
@@ -1815,21 +1784,16 @@ const LessonView = ({
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === lesson.steps.length - 1;
   const [tocOpen, setTocOpen] = useState(true);
-  const [practiceIndex, setPracticeIndex] = useState(0);
   const [selectedPracticeChoice, setSelectedPracticeChoice] = useState(null);
   const [practiceChecked, setPracticeChecked] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
   const [selectedQuizChoice, setSelectedQuizChoice] = useState(null);
   const [quizChecked, setQuizChecked] = useState(false);
 
-  const currentPracticeProblem = step.problems?.[practiceIndex] ?? null;
+  const currentPracticeProblem = step.practice ?? null;
   const practiceIsCorrect =
     currentPracticeProblem &&
     selectedPracticeChoice === currentPracticeProblem.correctChoice;
-  const practiceComplete =
-    step.id === "practice" &&
-    practiceIndex === step.problems.length - 1 &&
-    practiceChecked;
   const currentQuizQuestion = step.quiz?.[quizIndex] ?? null;
   const quizIsCorrect =
     currentQuizQuestion && selectedQuizChoice === currentQuizQuestion.correctChoice;
@@ -1837,11 +1801,6 @@ const LessonView = ({
     step.id === "quiz" && quizIndex === step.quiz.length - 1 && quizChecked;
 
   useEffect(() => {
-    if (step.id !== "practice") {
-      return;
-    }
-
-    setPracticeIndex(0);
     setSelectedPracticeChoice(null);
     setPracticeChecked(false);
   }, [step.id]);
@@ -1857,33 +1816,16 @@ const LessonView = ({
   }, [step.id]);
 
   useEffect(() => {
-    setSelectedPracticeChoice(null);
-    setPracticeChecked(false);
-  }, [practiceIndex]);
-
-  useEffect(() => {
     setSelectedQuizChoice(null);
     setQuizChecked(false);
   }, [quizIndex]);
 
-  const handlePracticeAdvance = () => {
+  const handlePracticeCheck = () => {
     if (!currentPracticeProblem) {
       return;
     }
 
-    if (!practiceChecked) {
-      setPracticeChecked(true);
-      return;
-    }
-
-    if (practiceIndex < step.problems.length - 1) {
-      setPracticeIndex((current) => current + 1);
-      return;
-    }
-
-    setStepIndex((current) =>
-      Math.min(current + 1, lesson.steps.length - 1),
-    );
+    setPracticeChecked(true);
   };
 
   const handleQuizAdvance = () => {
@@ -2157,19 +2099,19 @@ const LessonView = ({
             </div>
           ) : null}
 
-          {step.problems ? (
+          {step.practice ? (
             <div className={`mt-6 rounded-3xl border p-6 ${subtlePanelClass}`}>
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-                    Practice Quiz
+                    Practice Problem
                   </p>
                   <h4 className={`mt-2 text-xl font-semibold ${titleClass}`}>
-                    Question {practiceIndex + 1} of {step.problems.length}
+                    Check Your Understanding
                   </h4>
                 </div>
                 <div className={`text-sm font-semibold ${mutedClass}`}>
-                  Answer each one before moving on
+                  Answer it to unlock the next step
                 </div>
               </div>
 
@@ -2234,7 +2176,7 @@ const LessonView = ({
               <div className="mt-6 flex flex-wrap gap-4">
                 <button
                   type="button"
-                  onClick={handlePracticeAdvance}
+                  onClick={handlePracticeCheck}
                   disabled={selectedPracticeChoice === null}
                   className={`inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition ${
                     selectedPracticeChoice === null
@@ -2242,11 +2184,7 @@ const LessonView = ({
                       : "hover:bg-cyan-200"
                   }`}
                 >
-                  {!practiceChecked
-                    ? "Check Answer"
-                    : practiceIndex < step.problems.length - 1
-                      ? "Next Question"
-                      : "Finish Practice"}
+                  {practiceChecked ? "Answer Checked" : "Check Answer"}
                 </button>
               </div>
             </div>
@@ -2371,12 +2309,12 @@ const LessonView = ({
               }
               disabled={
                 isLastStep ||
-                (step.id === "practice" && !practiceComplete) ||
+                (step.practice && !practiceChecked) ||
                 (step.id === "quiz" && !quizComplete)
               }
               className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-slate-950 transition ${
                 isLastStep ||
-                (step.id === "practice" && !practiceComplete) ||
+                (step.practice && !practiceChecked) ||
                 (step.id === "quiz" && !quizComplete)
                   ? "cursor-not-allowed opacity-50"
                   : "hover:bg-cyan-200"
