@@ -1931,16 +1931,16 @@ const LessonView = ({
         style={{
           "--lesson-columns": tocOpen
             ? "22rem minmax(0,1fr)"
-            : "4.75rem minmax(0,1fr)",
+            : "5.25rem minmax(0,1fr)",
         }}
       >
         <aside className={`${panelClass} p-4 sm:p-5`}>
           <div className={`flex ${tocOpen ? "items-start justify-between gap-4" : "flex-col items-center gap-4"}`}>
             <div
-              className={`overflow-hidden transition-all duration-300 ease-out ${
+              className={`transition-all duration-300 ease-out ${
                 tocOpen
-                  ? "max-h-48 opacity-100"
-                  : "max-h-0 opacity-0 pointer-events-none"
+                  ? "max-h-[20rem] overflow-visible opacity-100"
+                  : "max-h-0 overflow-hidden opacity-0 pointer-events-none"
               }`}
             >
               <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
@@ -1966,10 +1966,10 @@ const LessonView = ({
           </div>
 
           <div
-            className={`overflow-hidden transition-all duration-300 ease-out ${
+            className={`transition-all duration-300 ease-out ${
               tocOpen
-                ? "mt-8 max-h-[40rem] opacity-100"
-                : "mt-0 max-h-0 opacity-0 pointer-events-none"
+                ? "mt-8 max-h-[40rem] overflow-visible opacity-100"
+                : "mt-0 max-h-0 overflow-hidden opacity-0 pointer-events-none"
             }`}
           >
             <div className="grid gap-3">
@@ -2009,13 +2009,13 @@ const LessonView = ({
           </div>
 
           <div
-            className={`overflow-hidden transition-all duration-300 ease-out ${
+            className={`transition-all duration-300 ease-out ${
               tocOpen
-                ? "max-h-0 opacity-0 pointer-events-none"
-                : "mt-2 max-h-[40rem] opacity-100"
+                ? "max-h-0 overflow-hidden opacity-0 pointer-events-none"
+                : "mt-2 max-h-[40rem] overflow-visible opacity-100"
             }`}
           >
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col items-center gap-3 py-0.5">
               {lesson.steps.map((item, index) => {
                 const active = index === stepIndex;
 
