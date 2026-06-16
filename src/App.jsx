@@ -664,7 +664,7 @@ const MotionLessonView = ({
             <button
               type="button"
               onClick={() => setTocOpen((open) => !open)}
-              className={`inline-flex h-10 w-10 items-center justify-center rounded-full border text-lg font-semibold transition ${
+              className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-lg font-semibold leading-none transition ${
                 isDark
                   ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
                   : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"

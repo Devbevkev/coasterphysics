@@ -33,10 +33,7 @@
     @apply m-0 min-h-screen antialiased;
     color: var(--page-text);
     background: var(--page-bg);
-    background-attachment: fixed;
-    transition:
-      background 180ms ease,
-      color 180ms ease;
+    background-repeat: no-repeat;
   }
 
   a {
