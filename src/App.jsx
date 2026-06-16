@@ -1184,15 +1184,17 @@ const App = () => {
                       currentTheme === "dark" ? "light" : "dark",
                     )
                   }
-                  className={`relative inline-flex h-8 w-16 items-center rounded-full transition ${
-                    isDark ? "bg-cyan-300/80" : "bg-slate-300"
+                  className={`relative inline-flex h-8 w-16 shrink-0 items-center rounded-full p-1 transition ${
+                    isDark
+                      ? "bg-cyan-300/80"
+                      : "border border-slate-300/80 bg-slate-300/80"
                   }`}
                   aria-label="Toggle light mode and dark mode"
                   aria-pressed={!isDark}
                 >
                   <span
-                    className={`inline-block h-6 w-6 rounded-full bg-white shadow-sm transition ${
-                      isDark ? "translate-x-1" : "translate-x-9"
+                    className={`inline-block h-6 w-6 rounded-full bg-white shadow-sm transition-transform ${
+                      isDark ? "translate-x-0" : "translate-x-8"
                     }`}
                   />
                 </button>
@@ -1283,144 +1285,61 @@ const App = () => {
               </p>
             </div>
 
-            <div className="mt-10 grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
-              <div className="grid gap-4">
-                {sections.map((section) => {
-                  const isActive = section.id === activeSection.id;
+            <div className="mt-10 grid gap-4">
+              {sections.map((section) => {
+                const isActive = section.id === activeSection.id;
 
-                  return (
-                    <button
-                      key={section.id}
-                      type="button"
-                      onClick={() => setActiveSection(section)}
-                      className={`${panelClass} p-5 text-left transition ${
-                        isActive
-                          ? isDark
-                            ? "border-cyan-300/40 bg-cyan-300/10"
-                            : "border-sky-300 bg-sky-50"
-                          : isDark
-                            ? "hover:border-white/15 hover:bg-white/[0.07]"
-                            : "hover:border-slate-400 hover:bg-white"
-                      }`}
-                    >
-                      <div className="flex items-start gap-4">
-                        <span
-                          className={`mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
-                        >
-                          {section.number}
-                        </span>
-                        <div>
-                          <h3 className={`text-xl font-semibold ${titleClass}`}>
-                            {section.title}
-                          </h3>
-                          <p
-                            className={`mt-1 text-sm uppercase tracking-[0.16em] ${mutedClass}`}
-                          >
-                            {section.subtitle}
-                          </p>
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <article className={`${panelClass} p-7 sm:p-8`}>
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-base font-semibold ${accentNumberClass}`}
-                  >
-                    {activeSection.number}
-                  </span>
-                  <div>
-                    <p
-                      className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}
-                    >
-                      Selected Section
-                    </p>
-                    <h3 className={`mt-1 text-2xl font-semibold sm:text-3xl ${titleClass}`}>
-                      {activeSection.title}
-                    </h3>
-                  </div>
-                </div>
-
-                <p className={`mt-6 text-lg leading-8 ${copyClass}`}>
-                  {activeSection.intro}
-                </p>
-
-                {activeSection.id === "motion" ? (
-                  <div className="mt-6">
-                    <button
-                      type="button"
-                      onClick={openMotionLesson}
-                      className="inline-flex min-w-[16rem] items-center justify-center rounded-full bg-cyan-300 px-6 py-3.5 text-sm font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
-                    >
-                      Start Begin
-                    </button>
-                  </div>
-                ) : null}
-
-                <div className="mt-8 grid gap-8 lg:grid-cols-2">
-                  <div>
-                    <h4
-                      className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
-                    >
-                      Teach
-                    </h4>
-                    <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                      {activeSection.teach.map((item) => (
-                        <li key={item} className="flex gap-3">
-                          <span className={`mt-2 h-2 w-2 rounded-full ${listDotClass}`} />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4
-                      className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
-                    >
-                      Roller Coaster Connection
-                    </h4>
-                    <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                      {activeSection.coaster.map((item) => (
-                        <li key={item} className="flex gap-3">
-                          <span className={`mt-2 h-2 w-2 rounded-full ${warmDotClass}`} />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {activeSection.highlights ? (
-                  <div className={`mt-8 rounded-3xl border p-5 ${subtlePanelClass}`}>
-                    <h4
-                      className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}
-                    >
-                      Key Coaster Examples
-                    </h4>
-                    <ul className={`mt-4 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
-                      {activeSection.highlights.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-
-                {activeSection.note ? (
-                  <div
-                    className={`mt-8 rounded-3xl border p-5 text-base leading-7 ${
-                      isDark
-                        ? "border-cyan-300/20 bg-cyan-300/10 text-cyan-50"
-                        : "border-sky-200 bg-sky-50 text-sky-900"
+                return (
+                  <button
+                    key={section.id}
+                    type="button"
+                    onClick={() => {
+                      setActiveSection(section);
+                      if (section.id === "motion") {
+                        openMotionLesson();
+                      }
+                    }}
+                    className={`${panelClass} flex items-center justify-between gap-4 p-5 text-left transition ${
+                      isActive
+                        ? isDark
+                          ? "border-cyan-300/40 bg-cyan-300/10"
+                          : "border-sky-300 bg-sky-50"
+                        : isDark
+                          ? "hover:border-white/15 hover:bg-white/[0.07]"
+                          : "hover:border-slate-400 hover:bg-white"
                     }`}
                   >
-                    {activeSection.note}
-                  </div>
-                ) : null}
-              </article>
+                    <div className="flex items-start gap-4">
+                      <span
+                        className={`mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
+                      >
+                        {section.number}
+                      </span>
+                      <div>
+                        <h3 className={`text-xl font-semibold ${titleClass}`}>
+                          {section.title}
+                        </h3>
+                        <p
+                          className={`mt-1 text-sm uppercase tracking-[0.16em] ${mutedClass}`}
+                        >
+                          {section.subtitle}
+                        </p>
+                      </div>
+                    </div>
+
+                    <span
+                      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-xl transition ${
+                        isDark
+                          ? "border-white/10 bg-white/[0.04] text-slate-200"
+                          : "border-slate-300/70 bg-white/70 text-slate-700"
+                      }`}
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </section>
         </>
