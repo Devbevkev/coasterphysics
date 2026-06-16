@@ -1927,15 +1927,22 @@ const LessonView = ({
       </div>
 
       <div
-        className={`mt-8 grid gap-4 ${
-          tocOpen
-            ? "lg:grid-cols-[22rem_minmax(0,1fr)]"
-            : "lg:grid-cols-[4.75rem_minmax(0,1fr)]"
-        }`}
+        className="mt-8 grid gap-4 lg:[grid-template-columns:var(--lesson-columns)] lg:[transition:grid-template-columns_280ms_ease]"
+        style={{
+          "--lesson-columns": tocOpen
+            ? "22rem minmax(0,1fr)"
+            : "4.75rem minmax(0,1fr)",
+        }}
       >
         <aside className={`${panelClass} p-4 sm:p-5`}>
           <div className={`flex ${tocOpen ? "items-start justify-between gap-4" : "flex-col items-center gap-4"}`}>
-            <div className={tocOpen ? "" : "hidden"}>
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-out ${
+                tocOpen
+                  ? "max-h-48 opacity-100"
+                  : "max-h-0 opacity-0 pointer-events-none"
+              }`}
+            >
               <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
                 {lesson.title}
               </p>
@@ -1958,8 +1965,14 @@ const LessonView = ({
             </button>
           </div>
 
-          {tocOpen ? (
-            <div className="mt-8 grid gap-3">
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-out ${
+              tocOpen
+                ? "mt-8 max-h-[40rem] opacity-100"
+                : "mt-0 max-h-0 opacity-0 pointer-events-none"
+            }`}
+          >
+            <div className="grid gap-3">
               {lesson.steps.map((item, index) => {
                 const active = index === stepIndex;
 
@@ -1993,8 +2006,16 @@ const LessonView = ({
                 );
               })}
             </div>
-          ) : (
-            <div className="mt-2 flex flex-col items-center gap-3">
+          </div>
+
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-out ${
+              tocOpen
+                ? "max-h-0 opacity-0 pointer-events-none"
+                : "mt-2 max-h-[40rem] opacity-100"
+            }`}
+          >
+            <div className="flex flex-col items-center gap-3">
               {lesson.steps.map((item, index) => {
                 const active = index === stepIndex;
 
@@ -2020,7 +2041,7 @@ const LessonView = ({
                 );
               })}
             </div>
-          )}
+          </div>
         </aside>
 
         <article className={`${panelClass} p-7 sm:p-8`}>
@@ -2562,7 +2583,7 @@ const App = () => {
             </div>
           </section>
 
-          <section id="topics" className="py-10 sm:py-14">
+          <section id="topics" className="pt-16 pb-10 sm:pt-20 sm:pb-14">
             <div className="max-w-6xl">
               <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
                 Learning Path
