@@ -1,203 +1,2436 @@
-import {
-  courseBigIdeas,
-  courseDescription,
-  courseTitle,
-  lessonPlans,
-} from "./data/siteData";
+import { useEffect, useRef, useState } from "react";
 
-const sectionTitles = [
-  ["lessonGoal", "Lesson goal"],
-  ["whyItMatters", "Why this matters for roller coasters"],
-  ["prerequisites", "Prerequisite ideas students should know"],
-  ["keyConcepts", "Key concepts"],
-  ["keyEquations", "Key equations"],
-  ["teachingSequence", "Detailed teaching sequence"],
-  ["rollerCoasterApplication", "Roller coaster application"],
-  ["workedExample", "Worked example"],
-  ["commonMistakes", "Common mistakes"],
-  ["conceptualCheckpoints", "Conceptual checkpoint questions"],
-  ["practiceProblems", "Practice problems"],
-  ["nextLessonConnection", "How this lesson connects to the next lesson"],
+const Fraction = ({ numerator, denominator }) => {
+  return (
+    <span className="inline-flex flex-col items-center align-middle leading-none">
+      <span className="px-1">{numerator}</span>
+      <span className="mt-1 w-full border-t border-current" />
+      <span className="px-1 pt-1">{denominator}</span>
+    </span>
+  );
+};
+
+const Initial = ({ symbol }) => {
+  return (
+    <>
+      {symbol}
+      <sub>0</sub>
+    </>
+  );
+};
+
+const equation = (label, expression) => ({ label, expression });
+
+const card = (title, text) => ({ title, text });
+
+const practiceQuestion = (
+  prompt,
+  choices,
+  correctChoice,
+  correctExplanation,
+  incorrectExplanation,
+) => ({
+  prompt,
+  choices,
+  correctChoice,
+  correctExplanation,
+  incorrectExplanation,
+});
+
+const quizQuestion = (
+  question,
+  choices,
+  correctChoice,
+  correctExplanation,
+  incorrectExplanation,
+) => ({
+  question,
+  choices,
+  correctChoice,
+  correctExplanation,
+  incorrectExplanation,
+});
+
+const createStep = (id, label, title, config = {}) => ({
+  id,
+  label,
+  title,
+  ...config,
+});
+
+const createLesson = (title, subtitle, goal, steps) => ({
+  title,
+  subtitle,
+  goal,
+  steps,
+});
+
+const sections = [
+  {
+    id: "kinematics",
+    number: "1",
+    title: "Kinematics",
+    subtitle: "Describing Motion on the Track",
+  },
+  {
+    id: "forces",
+    number: "2",
+    title: "Forces and Newton's Laws",
+    subtitle: "Explaining Why Motion Changes",
+  },
+  {
+    id: "energy",
+    number: "3",
+    title: "Energy",
+    subtitle: "Height, Speed, and Conversion",
+  },
+  {
+    id: "circular-motion",
+    number: "4",
+    title: "Circular Motion",
+    subtitle: "Loops, Hills, and Inward Force",
+  },
+  {
+    id: "work",
+    number: "5",
+    title: "Work, Friction, and Power",
+    subtitle: "Where Coaster Energy Goes",
+  },
+  {
+    id: "momentum",
+    number: "6",
+    title: "Momentum and Impulse",
+    subtitle: "Launches, Brakes, and Short Interactions",
+  },
+  {
+    id: "rotation",
+    number: "7",
+    title: "Rotation and Torque",
+    subtitle: "Wheels, Axles, and Rolling Motion",
+  },
+  {
+    id: "design-safety",
+    number: "8",
+    title: "Real-World Coaster Design and Safety",
+    subtitle: "Putting Mechanics Together",
+  },
 ];
 
-const SectionHeading = ({ children }) => (
-  <h3 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
-    {children}
-  </h3>
+const kinematicsLesson = createLesson(
+  "Lesson 1: Kinematics",
+  "Describing Motion Before Explaining It",
+  "Students learn how to describe roller coaster motion with position, displacement, velocity, speed, acceleration, and graphs before later lessons explain what causes that motion.",
+  [
+    createStep("goal", "Big Idea", "Kinematics Is the Language of Motion", {
+      body: [
+        "Before a physicist asks why a coaster speeds up, slows down, or changes direction, the first job is to describe exactly what the train is doing. Kinematics is the branch of mechanics that gives us that descriptive language.",
+        "A roller coaster may feel like one continuous ride, but it becomes easier to analyze when we break it into smaller segments: a straight drop, a curved valley, a hill crest, a launch track, or a braking zone. Each segment can be described using motion variables, and that description becomes the foundation for every later lesson.",
+      ],
+      bullets: [
+        "Track the coaster's position and how far it has moved from a starting point.",
+        "Separate total path length from displacement so the geometry of the ride stays clear.",
+        "Treat velocity and acceleration as quantities that include direction, not just size.",
+        "Use graphs as a second language for motion instead of treating them as a separate topic.",
+      ],
+    }),
+    createStep(
+      "core-concepts",
+      "Core Concepts",
+      "Position, Velocity, and Acceleration",
+      {
+        body: [
+          "Position tells where the coaster is. Distance is the total path length traveled. Displacement is the change in position from start to finish. On a winding ride, distance and displacement can be dramatically different, because the train may travel a long track length while ending only a short distance from where it began.",
+          "Speed tells how fast the coaster moves, while velocity tells both speed and direction. That distinction matters immediately on a roller coaster because the train often moves through turns, hills, and loops where direction changes constantly.",
+          "Acceleration is the rate at which velocity changes. A coaster can accelerate by speeding up, slowing down, or changing direction. That last case is easy to miss, but it is exactly what happens when a coaster moves through a curve at constant speed.",
+        ],
+        bullets: [
+          "Scalars have magnitude only: speed and distance are scalars.",
+          "Vectors have magnitude and direction: velocity, displacement, and acceleration are vectors.",
+          "A flat velocity-time graph means constant velocity, not zero motion.",
+          "A coaster can have constant speed and still accelerate if the direction changes.",
+        ],
+        callout:
+          "If a coaster moves at 18 m/s through a turnaround, the speed can stay 18 m/s while the velocity keeps changing because the train keeps pointing in a new direction.",
+      },
+    ),
+    createStep("equations", "Equations", "Key Equations", {
+      body: [
+        "These constant-acceleration equations are useful when a coaster section can be approximated as straight and the acceleration is roughly constant over the interval. They are not universal formulas for every part of the ride.",
+        "Kinematics also depends on graph relationships. Students should not memorize slope and area as isolated facts; they should connect them directly to what the coaster is physically doing.",
+      ],
+      equations: [
+        equation(
+          "Velocity update",
+          <>
+            v = <Initial symbol="v" /> + at
+          </>,
+        ),
+        equation(
+          "Position with constant acceleration",
+          <>
+            x = <Initial symbol="x" /> + <Initial symbol="v" />
+            t + ½at²
+          </>,
+        ),
+        equation(
+          "Velocity-position relation",
+          <>
+            v² = <Initial symbol="v" />² + 2aΔx
+          </>,
+        ),
+        equation(
+          "Average-velocity displacement",
+          <>
+            Δx = ½(<Initial symbol="v" /> + v)t
+          </>,
+        ),
+      ],
+      bullets: [
+        "Slope of position-time graph = velocity.",
+        "Slope of velocity-time graph = acceleration.",
+        "Area under velocity-time graph = displacement.",
+        "Area under acceleration-time graph = change in velocity.",
+      ],
+      callout:
+        "The moment a section of track becomes strongly curved or the forces start changing significantly, these constant-acceleration equations stop being the right model.",
+    }),
+    createStep(
+      "coaster-explanation",
+      "Explain",
+      "How These Ideas Show Up on a Coaster",
+      {
+        body: [
+          "Imagine a coaster car at the top of a straight first drop. If it starts from rest and the track is approximately straight over a short interval, we can model the motion with constant acceleration. The train's velocity points down the track, and the magnitude of that velocity grows as time passes.",
+          "Now compare that to a turn or a hill crest. Even if the numerical speed is nearly constant, the train's direction is changing, so the velocity vector is changing. That means the coaster is accelerating even when a rider's speedometer reading barely changes.",
+          "Real coaster motion is rarely perfectly constant acceleration for long. The track slope changes, the curvature changes, friction acts, and air resistance grows with speed. That is why kinematics is a starting point rather than the whole story: it tells us what the motion looks like before later lessons explain why it happens.",
+        ],
+        bullets: [
+          "On a position-time graph, a steeper slope means a greater velocity.",
+          "On a velocity-time graph, a positive slope means positive acceleration.",
+          "A horizontal velocity-time line means the train keeps moving with constant velocity.",
+          "The area under a velocity-time graph tells how far the coaster has displaced from its starting point.",
+        ],
+      },
+    ),
+    createStep("worked-example", "Worked Example", "Straight-Drop Kinematics", {
+      body: [
+        "Use a short straight track segment so the constant-acceleration model makes sense. This is the right level of simplification for an introductory coaster problem.",
+      ],
+      cards: [
+        card(
+          "Given",
+          "A coaster starts from rest and accelerates down a straight section of track at 3.2 m/s² for 4.0 s. Use v0 = 0 m/s, a = 3.2 m/s², and t = 4.0 s.",
+        ),
+        card(
+          "Final velocity",
+          "Use v = v0 + at. Substituting gives v = 0 + (3.2)(4.0) = 12.8 m/s. The train leaves the interval moving 12.8 m/s along the track.",
+        ),
+        card(
+          "Displacement",
+          "Use x = x0 + v0t + 1/2at^2. If x0 = 0, then x = 0 + 0 + 1/2(3.2)(4.0)^2 = 1.6(16) = 25.6 m.",
+        ),
+      ],
+      callout:
+        "Final answer: the coaster reaches 12.8 m/s and travels 25.6 m during the 4.0 s interval.",
+    }),
+    createStep(
+      "common-mistakes",
+      "Common Mistakes",
+      "Where Students Usually Get Tripped Up",
+      {
+        body: [
+          "Kinematics mistakes are often not algebra mistakes at first. They are meaning mistakes: using the wrong quantity, forgetting direction, or applying an equation in a situation where the assumptions are not valid.",
+        ],
+        bullets: [
+          "Thinking speed and velocity are the same quantity.",
+          "Thinking acceleration only means getting faster.",
+          "Forgetting that direction matters for velocity.",
+          "Using constant-acceleration equations on a section where acceleration is changing significantly.",
+          "Confusing slope and area when reading motion graphs.",
+          "Thinking a flat velocity graph means the object is stopped when it only means the velocity is constant.",
+        ],
+      },
+    ),
+    createStep(
+      "practice",
+      "Practice",
+      "Multiple Choice Practice",
+      {
+        body: [
+          "Answer this first question before moving on. The goal is to check whether you are treating acceleration as a change in velocity rather than only as a change in speed.",
+        ],
+        practice: practiceQuestion(
+          "A coaster moves around a circular turn at a constant speed of 18 m/s. Which statement is true?",
+          [
+            "A. The coaster has no acceleration because its speed is constant.",
+            "B. The coaster has acceleration because its direction is changing.",
+            "C. The coaster has no velocity because its direction is changing.",
+            "D. The coaster's acceleration must be zero because its velocity is constant.",
+          ],
+          1,
+          "Correct. Even though the speed stays constant, the velocity changes because the direction changes, so the coaster is accelerating.",
+          "Not quite. Constant speed does not guarantee zero acceleration. If the direction changes, the velocity changes and the coaster accelerates.",
+        ),
+      },
+    ),
+    createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
+      body: [
+        "These additional questions reinforce graph reasoning and the constant-acceleration equations. Each answer explanation is meant to model the kind of reasoning you should write out when solving problems on your own.",
+      ],
+      quiz: [
+        quizQuestion(
+          "A velocity-time graph for a coaster is a straight line with positive slope. What does this mean?",
+          [
+            "A. The coaster is moving at constant velocity.",
+            "B. The coaster is moving backward.",
+            "C. The coaster has constant positive acceleration.",
+            "D. The coaster has zero displacement.",
+          ],
+          2,
+          "Correct. The slope of a velocity-time graph is acceleration, so a straight line with positive slope represents constant positive acceleration.",
+          "Not quite. Focus on what slope means on a velocity-time graph. A positive constant slope means constant positive acceleration.",
+        ),
+        quizQuestion(
+          "A coaster starts from rest and accelerates at 2.5 m/s² for 6.0 s. What is its final velocity?",
+          [
+            "A. 6.0 m/s",
+            "B. 8.5 m/s",
+            "C. 15 m/s",
+            "D. 30 m/s",
+          ],
+          2,
+          "Correct. Use v = v0 + at. Since v0 = 0, the final velocity is (2.5)(6.0) = 15 m/s.",
+          "Not quite. Start with v = v0 + at. Because the coaster starts from rest, v0 = 0, so v = (2.5)(6.0) = 15 m/s.",
+        ),
+      ],
+    }),
+    createStep(
+      "next-lesson",
+      "Next Lesson",
+      "Connection to the Next Lesson",
+      {
+        body: [
+          "Kinematics tells us what the motion looks like. It can tell us that a coaster speeds up, slows down, or changes direction, but it does not explain the cause of those changes.",
+          "The next lesson adds forces and Newton's laws so we can move from description to explanation.",
+        ],
+      },
+    ),
+  ],
 );
 
-const BulletList = ({ items, className = "" }) => (
-  <ul className={`space-y-3 text-sm leading-7 text-slate-200 sm:text-base ${className}`}>
-    {items.map((item) => (
-      <li key={item} className="flex gap-3">
-        <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-cyan-300" />
-        <span>{item}</span>
-      </li>
-    ))}
-  </ul>
+const forcesLesson = createLesson(
+  "Lesson 2: Forces and Newton's Laws",
+  "Explaining Why Motion Changes",
+  "Students learn how forces cause changes in roller coaster motion and how Newton's laws connect force, mass, and acceleration.",
+  [
+    createStep("goal", "Big Idea", "Forces Explain Motion Changes", {
+      body: [
+        "Once kinematics tells us what a coaster is doing, the next question is why the motion changes. If the train speeds up, slows down, or turns, there must be a net force responsible for that acceleration.",
+        "Newton's laws turn coaster sensations into precise mechanics. They explain why riders feel thrown forward in a brake run, why a train accelerates down a slope, and why the seat pushes differently at the bottom and top of a hill.",
+      ],
+      bullets: [
+        "Use Newton's First Law to connect inertia to rider experience.",
+        "Use Newton's Second Law to connect net force to acceleration.",
+        "Use Newton's Third Law to separate interaction pairs on different objects.",
+        "Model sloped track sections with force components instead of guessing directions.",
+      ],
+    }),
+    createStep(
+      "core-concepts",
+      "Core Concepts",
+      "Inertia, Net Force, and Free-Body Diagrams",
+      {
+        body: [
+          "Newton's First Law says an object keeps its state of motion unless acted on by a net external force. This is inertia. Riders feel inertia during launches, drops, turns, and braking because their bodies resist changes in motion.",
+          "Newton's Second Law says Fnet = ma. The important word is net. A coaster can experience gravity, normal force, friction, air resistance, and a chain or launch force all at once, but acceleration depends on the vector sum of those forces.",
+          "Newton's Third Law says forces come in equal and opposite pairs acting on different objects. If the seat pushes up on a rider, the rider pushes down on the seat with equal magnitude. Those two forces do not cancel because they act on different bodies.",
+        ],
+        bullets: [
+          "A free-body diagram should show only the real forces on the chosen object.",
+          "Motion direction is not a force and should not be drawn as one.",
+          "Weight is the gravitational force on an object, not the same thing as mass.",
+          "The normal force is not automatically equal to mg.",
+        ],
+        callout:
+          "Students often draw the third-law partner force on the same free-body diagram. That is one of the fastest ways to lose the physical meaning of Newton's laws.",
+      },
+    ),
+    createStep("equations", "Equations", "Key Equations", {
+      body: [
+        "These equations let us translate a track shape into a net force and then into acceleration. On an incline, splitting gravity into components is the key step that makes the rest of the analysis straightforward.",
+      ],
+      equations: [
+        equation("Newton's Second Law", <>F<sub>net</sub> = ma</>),
+        equation("Weight", <>F<sub>g</sub> = mg</>),
+        equation("Parallel gravity component", <>mg sinθ</>),
+        equation("Perpendicular gravity component", <>mg cosθ</>),
+      ],
+      bullets: [
+        "The parallel component changes motion along the track.",
+        "The perpendicular component helps determine the normal force.",
+        "You should solve for the net force before solving for acceleration.",
+      ],
+      callout:
+        "On a sloped track, writing the full weight mg as the force along the track is almost always the wrong first step.",
+    }),
+    createStep(
+      "coaster-explanation",
+      "Explain",
+      "Forces on Lift Hills, Drops, and Valleys",
+      {
+        body: [
+          "On a lift hill, a chain or launch system applies a force that moves the coaster upward. On a drop, gravity pulls downward and the component of gravity along the track causes the train to accelerate.",
+          "On a slope, the parallel component mg sinθ pulls the coaster down the track while the perpendicular component mg cosθ presses the train into the track. That is why incline problems become much cleaner once you align your axes with the slope.",
+          "The normal force matters especially because it connects the math to what riders feel. At the bottom of a valley, the track pushes strongly upward to bend the rider's motion. At the top of a hill, the normal force may be smaller, so riders feel lighter even though their true weight has not changed.",
+        ],
+        bullets: [
+          "Main forces on a coaster: gravity, normal force, friction, air resistance, and chain or launch force.",
+          "A larger normal force feels heavier to a rider.",
+          "A smaller normal force feels lighter to a rider.",
+        ],
+      },
+    ),
+    createStep("worked-example", "Worked Example", "A Frictionless Slope", {
+      body: [
+        "This is the cleanest way to practice force components. The track removes the need to think about two-dimensional motion in free space, but it still requires careful vector reasoning.",
+      ],
+      cards: [
+        card(
+          "Given",
+          "A 500 kg coaster car is on a frictionless 30° slope. Find the component of gravity down the slope and the resulting acceleration.",
+        ),
+        card(
+          "Gravity component along the slope",
+          "Use Fparallel = mg sinθ. Substituting gives Fparallel = (500)(9.8)(sin30°) = (500)(9.8)(0.5) = 2450 N.",
+        ),
+        card(
+          "Acceleration",
+          "Because the track is frictionless, the downhill net force is 2450 N. Use Fnet = ma: 2450 = 500a, so a = 4.9 m/s².",
+        ),
+      ],
+      callout:
+        "Final answer: the component of gravity down the slope is 2450 N and the acceleration is 4.9 m/s² down the track.",
+    }),
+    createStep(
+      "common-mistakes",
+      "Common Mistakes",
+      "Force Errors That Break the Model",
+      {
+        body: [
+          "Most force mistakes come from misidentifying what actually acts on the coaster. If the free-body diagram is wrong, the algebra can look clean and still produce nonsense.",
+        ],
+        bullets: [
+          "Thinking an object needs a force to keep moving at constant velocity.",
+          "Forgetting that acceleration comes from net force, not from any one force alone.",
+          "Confusing mass and weight.",
+          "Assuming the normal force always equals mg.",
+          "Drawing Newton's Third Law force pairs on the same object.",
+          "Forgetting to split gravity into components on a slope.",
+        ],
+      },
+    ),
+    createStep("practice", "Practice", "Multiple Choice Practice", {
+      body: [
+        "This first question checks whether you can identify which part of gravity actually accelerates a coaster along an incline.",
+      ],
+      practice: practiceQuestion(
+        "A coaster car moves down a frictionless incline. Which force component causes it to accelerate down the track?",
+        [
+          "A. mg cosθ",
+          "B. mg sinθ",
+          "C. The normal force",
+          "D. The full weight mg only",
+        ],
+        1,
+        "Correct. The component of gravity parallel to the track, mg sinθ, is what accelerates the coaster along the slope.",
+        "Not quite. On an incline, the component parallel to the track is mg sinθ, and that is the part of gravity that changes the coaster's motion along the slope.",
+      ),
+    }),
+    createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
+      body: [
+        "These questions focus on apparent weight and Newton's Second Law. Use them to practice turning a physical description into a force statement before you calculate.",
+      ],
+      quiz: [
+        quizQuestion(
+          "Why do riders feel heavier at the bottom of a dip?",
+          [
+            "A. Their actual weight increases.",
+            "B. Their mass increases.",
+            "C. The normal force from the seat increases.",
+            "D. Gravity becomes stronger.",
+          ],
+          2,
+          "Correct. Riders feel heavier because the seat pushes on them harder, which means the normal force is larger at the bottom of the dip.",
+          "Not quite. The rider's mass and true gravitational weight do not suddenly change. The seat's normal force increases, and that larger support force feels heavier.",
+        ),
+        quizQuestion(
+          "A coaster car has a net force of 4000 N acting on it and a mass of 800 kg. What is its acceleration?",
+          [
+            "A. 0.2 m/s²",
+            "B. 5.0 m/s²",
+            "C. 3200 m/s²",
+            "D. 4800 m/s²",
+          ],
+          1,
+          "Correct. Use Fnet = ma, so a = Fnet/m = 4000/800 = 5.0 m/s².",
+          "Not quite. Apply Newton's Second Law directly: a = Fnet/m = 4000/800 = 5.0 m/s².",
+        ),
+      ],
+    }),
+    createStep(
+      "next-lesson",
+      "Next Lesson",
+      "Connection to the Next Lesson",
+      {
+        body: [
+          "Forces are powerful because they explain acceleration directly, but many coaster problems become easier if we step back and track how height and speed exchange energy.",
+          "The next lesson uses energy to predict coaster speed without solving the force at every point on the track.",
+        ],
+      },
+    ),
+  ],
 );
 
-const KeyConcepts = ({ concepts }) => (
-  <div className="grid gap-4 md:grid-cols-2">
-    {concepts.map((concept) => (
-      <div key={concept.term} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-        <h4 className="text-base font-semibold text-white">{concept.term}</h4>
-        <p className="mt-2 text-sm leading-7 text-slate-200">{concept.explanation}</p>
-      </div>
-    ))}
-  </div>
+const energyLesson = createLesson(
+  "Lesson 3: Energy",
+  "Height, Speed, and Conversion",
+  "Students learn how gravitational potential energy and kinetic energy explain coaster speed, height, and the repeating flow of motion around the track.",
+  [
+    createStep("goal", "Big Idea", "Energy Makes the Whole Ride Coherent", {
+      body: [
+        "Energy is one of the clearest ways to understand a roller coaster because the ride constantly trades height for speed and speed for height. Instead of following every force moment by moment, we can compare the energy at one point on the track to the energy at another.",
+        "This is why roller coasters are such a strong introduction to energy methods in mechanics. The first hill acts like an energy budget, and the rest of the ride shows that budget being transformed, redistributed, and gradually reduced by losses.",
+      ],
+      bullets: [
+        "Use height to reason about stored gravitational potential energy.",
+        "Use speed to reason about kinetic energy.",
+        "Treat mechanical energy as the sum of potential and kinetic energy.",
+        "Recognize when energy is conserved and when real losses matter.",
+      ],
+    }),
+    createStep(
+      "core-concepts",
+      "Core Concepts",
+      "Potential Energy, Kinetic Energy, and Conservation",
+      {
+        body: [
+          "Gravitational potential energy depends on how high the coaster is above a chosen reference level. Kinetic energy depends on speed, and it depends on speed squared, which means a modest increase in speed can represent a large increase in kinetic energy.",
+          "Mechanical energy is the sum of kinetic and gravitational potential energy. If friction and air resistance are ignored, that mechanical energy stays constant. In that ideal model, the train does not need a different equation at every point on the track. It only needs a comparison between the start and the finish.",
+          "One of the most important coaster results is that mass cancels out in many ideal energy problems. That is why a heavier coaster car does not automatically go faster than a lighter one if both start from the same height and friction is ignored.",
+        ],
+        bullets: [
+          "At the top of the first hill, the coaster has mostly gravitational potential energy.",
+          "At the bottom of the first drop, the coaster has mostly kinetic energy.",
+          "Only changes in height matter, so the zero level for height is a choice, not a law.",
+          "Later hills are usually lower because real coasters lose mechanical energy.",
+        ],
+        callout:
+          "Students often think bigger mass means bigger speed. In ideal energy problems, the mass factor appears on both sides and cancels.",
+      },
+    ),
+    createStep("equations", "Equations", "Key Equations", {
+      body: [
+        "These equations let us treat the coaster as an energy story rather than a point-by-point force story. They are especially useful when the train moves along a complex path but the start and finish points are clear.",
+      ],
+      equations: [
+        equation("Gravitational potential energy", <>U<sub>g</sub> = mgh</>),
+        equation("Kinetic energy", <>K = ½mv²</>),
+        equation(
+          "Mechanical energy",
+          <>
+            E<sub>mech</sub> = K + U<sub>g</sub>
+          </>,
+        ),
+        equation(
+          "Conservation of mechanical energy",
+          <>
+            K<sub>i</sub> + U<sub>gi</sub> = K<sub>f</sub> + U<sub>gf</sub>
+          </>,
+        ),
+        equation("Drop-speed relation", <>v = sqrt(2gh)</>),
+      ],
+      bullets: [
+        "The drop-speed relation comes from setting mgh = 1/2mv² for a drop from rest.",
+        "Reference height can be chosen wherever it makes the algebra easiest.",
+        "If friction is present, mechanical energy is no longer constant by itself.",
+      ],
+    }),
+    createStep(
+      "coaster-explanation",
+      "Explain",
+      "How a Coaster Trades Height for Speed",
+      {
+        body: [
+          "At the top of the lift hill, the coaster has been given a large amount of gravitational potential energy. As the train descends, that stored energy changes into kinetic energy, which is why the first big drop produces the ride's fastest motion on many coasters.",
+          "At the bottom of the drop, the train may be moving very quickly but it no longer has as much height available to convert. When it climbs the next hill, kinetic energy changes back into gravitational potential energy, so the speed falls as the height rises.",
+          "This repeating exchange explains the rhythm of a coaster. It also explains why the first hill is usually the tallest on a traditional coaster. Without an additional launch or lift, the ride cannot give itself back the mechanical energy it has already lost.",
+        ],
+        bullets: [
+          "Energy methods can compare two points even if the track shape between them is complicated.",
+          "Energy bar charts help students track K, Ug, and total mechanical energy visually.",
+          "Real coasters lose energy to friction, air resistance, sound, and heat.",
+        ],
+      },
+    ),
+    createStep("worked-example", "Worked Example", "Two Classic Energy Problems", {
+      body: [
+        "These two examples show why energy is such a powerful coaster tool. One uses a full drop from rest, and the other compares two high points on the track.",
+      ],
+      cards: [
+        card(
+          "Example 1: speed at the bottom",
+          "A coaster starts from rest at a height of 40 m. Ignoring friction, set mgh = 1/2mv². Mass cancels, so v = sqrt(2gh) = sqrt((2)(9.8)(40)) ≈ 28.0 m/s.",
+        ),
+        card(
+          "Example 2: speed at a later hill",
+          "A coaster starts from rest at 50 m and later reaches a hill of height 20 m. Use mghinitial = 1/2mv² + mghfinal. That gives (9.8)(50) = 1/2v² + (9.8)(20), so 1/2v² = 294 and v ≈ 24.2 m/s.",
+        ),
+        card(
+          "What these examples teach",
+          "The bottom-speed result depends on the height change, not on the mass. The later-hill result shows how energy lets you compare two points directly without solving the force at every instant in between.",
+        ),
+      ],
+      callout:
+        "Final answers: a 40 m drop gives a speed of about 28.0 m/s at the bottom, and the coaster reaches the 20 m hill at about 24.2 m/s if friction is ignored.",
+    }),
+    createStep(
+      "common-mistakes",
+      "Common Mistakes",
+      "Where Energy Reasoning Breaks Down",
+      {
+        body: [
+          "Energy problems usually look shorter than force problems, so students often rush them. The most common errors come from using the wrong height change or forgetting which terms belong at each point.",
+        ],
+        bullets: [
+          "Using total height instead of change in height.",
+          "Forgetting that speed is squared in kinetic energy.",
+          "Thinking mass determines final speed in ideal energy problems.",
+          "Mixing up conservation of energy with Newton's Second Law.",
+          "Ignoring energy losses when the problem clearly describes a real coaster section.",
+        ],
+      },
+    ),
+    createStep("practice", "Practice", "Multiple Choice Practice", {
+      body: [
+        "This question checks the mass-cancellation idea because that is one of the most important conceptual results in coaster energy analysis.",
+      ],
+      practice: practiceQuestion(
+        "Two coaster cars with different masses start from the same height and roll down the same frictionless track. Which statement is true at the bottom?",
+        [
+          "A. The heavier car must be faster because it has more weight.",
+          "B. The lighter car must be faster because it has less inertia.",
+          "C. They have the same speed if friction is ignored.",
+          "D. Their speeds cannot be compared without knowing the radius of the track.",
+        ],
+        2,
+        "Correct. In an ideal energy problem, mass cancels from both sides of the energy equation, so the final speed depends on the height change, not on the mass.",
+        "Not quite. In ideal energy analysis, the mass factor cancels. If both cars start from the same height on a frictionless track, they reach the bottom with the same speed.",
+      ),
+    }),
+    createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
+      body: [
+        "These follow-up questions reinforce both calculation and interpretation. One asks for a bottom speed, and the other checks whether you understand why later hills are lower.",
+      ],
+      quiz: [
+        quizQuestion(
+          "A coaster starts from rest at a height of 40 m. Ignoring friction, what is its speed at the bottom?",
+          [
+            "A. 14.0 m/s",
+            "B. 19.8 m/s",
+            "C. 28.0 m/s",
+            "D. 39.6 m/s",
+          ],
+          2,
+          "Correct. Use v = sqrt(2gh) = sqrt((2)(9.8)(40)) ≈ 28.0 m/s.",
+          "Not quite. Set mgh = 1/2mv² and solve for v. For h = 40 m, the speed is about 28.0 m/s.",
+        ),
+        quizQuestion(
+          "Why are later hills on a traditional coaster usually lower than the first hill?",
+          [
+            "A. Gravity gets weaker as the ride continues.",
+            "B. The train loses mechanical energy to friction and air resistance.",
+            "C. The mass of the train decreases during the ride.",
+            "D. The normal force removes all of the train's speed.",
+          ],
+          1,
+          "Correct. Real coasters lose mechanical energy to friction, drag, sound, and thermal effects, so later hills must generally be lower.",
+          "Not quite. The key idea is mechanical-energy loss. Friction and air resistance remove some of the energy that was available after the first hill.",
+        ),
+      ],
+    }),
+    createStep(
+      "next-lesson",
+      "Next Lesson",
+      "Connection to the Next Lesson",
+      {
+        body: [
+          "Energy predicts speed very efficiently, but it does not automatically tell us the force a rider feels on a curved track. For that, we need circular motion.",
+          "The next lesson uses the speeds found from energy analysis and turns them into inward acceleration and radial force conditions for hills, dips, and loops.",
+        ],
+      },
+    ),
+  ],
 );
 
-const TeachingSequence = ({ steps }) => (
-  <div className="space-y-4">
-    {steps.map((step) => (
-      <div key={step.title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-        <h4 className="text-base font-semibold text-white">{step.title}</h4>
-        <p className="mt-2 text-sm leading-7 text-slate-200">{step.detail}</p>
-      </div>
-    ))}
-  </div>
+const circularMotionLesson = createLesson(
+  "Lesson 4: Circular Motion",
+  "Loops, Hills, and Inward Force",
+  "Students learn how curved motion creates inward acceleration and how that acceleration changes the forces riders feel in hills, valleys, turns, and loops.",
+  [
+    createStep("goal", "Big Idea", "Curves Create a New Kind of Question", {
+      body: [
+        "A coaster rarely moves in a straight line for long. Hills, valleys, loops, and turns all require the train's direction to change, and that means the train must have an inward acceleration toward the center of curvature.",
+        "Circular-motion ideas are where coaster physics starts to feel especially distinctive. This is the lesson that explains why riders feel heavy at the bottom of a dip, light at the top of a hill, and secure inside a loop even while upside down.",
+      ],
+      bullets: [
+        "Changing direction is acceleration even when speed stays constant.",
+        "The inward net force creates the inward acceleration.",
+        "Gravity and the normal force can either work together or oppose each other depending on location.",
+        "Apparent weight changes because the normal force changes.",
+      ],
+    }),
+    createStep(
+      "core-concepts",
+      "Core Concepts",
+      "Centripetal Acceleration and Net Inward Force",
+      {
+        body: [
+          "Centripetal acceleration points inward, toward the center of curvature. Its job is to change the direction of the velocity vector so the train follows the track instead of continuing in a straight line.",
+          "Centripetal force is not a separate physical force like gravity or friction. It is the name we give to the net inward force that results from the real forces acting on the train or rider.",
+          "Location matters. At the bottom of a valley, inward is upward. At the top of a hill, inward is downward. At the top of a loop, inward is also downward. Students who identify inward direction first usually avoid most sign mistakes.",
+        ],
+        bullets: [
+          "At the bottom of a dip, riders feel heavier because the normal force is large.",
+          "At the top of a hill, riders feel lighter because the normal force is smaller.",
+          "At the top of a loop, gravity helps provide the inward force.",
+          "The tighter the radius or the larger the speed, the larger the inward acceleration.",
+        ],
+        callout:
+          "One of the most common errors in circular motion is saying the force points outward because the rider feels pushed outward. The real acceleration and net force point inward.",
+      },
+    ),
+    createStep("equations", "Equations", "Key Equations", {
+      body: [
+        "These equations should always be paired with a diagram and a clearly chosen inward direction. The algebra is short, but only if the physical setup is right first.",
+      ],
+      equations: [
+        equation(
+          "Centripetal acceleration",
+          <>
+            a<sub>c</sub> = <Fraction numerator="v²" denominator="r" />
+          </>,
+        ),
+        equation(
+          "Net inward force",
+          <>
+            F<sub>net,inward</sub> = m
+            <Fraction numerator="v²" denominator="r" />
+          </>,
+        ),
+        equation(
+          "Bottom of a dip",
+          <>
+            N - mg = m
+            <Fraction numerator="v²" denominator="r" />
+          </>,
+        ),
+        equation(
+          "Top of a hill",
+          <>
+            mg - N = m
+            <Fraction numerator="v²" denominator="r" />
+          </>,
+        ),
+        equation(
+          "Top of a loop, minimum-speed idea",
+          <>v = sqrt(gr)</>,
+        ),
+      ],
+      bullets: [
+        "At the top of a loop, the limiting case occurs when N = 0.",
+        "You cannot use mg = mv²/r in every circular-motion problem. It only fits a very specific case.",
+      ],
+    }),
+    createStep(
+      "coaster-explanation",
+      "Explain",
+      "Why Riders Feel Heavy in Valleys and Light on Crests",
+      {
+        body: [
+          "At the bottom of a valley, the track must bend the rider's motion upward. Gravity still points downward, so the seat must push upward with enough force not only to support the rider's weight but also to provide the extra upward net force needed for the turn. That is why the normal force is large there.",
+          "At the top of a hill, gravity already points toward the center of curvature, so the seat does not need to push as hard. The normal force becomes smaller, and riders feel light. If the normal force falls all the way to zero, the rider experiences weightlessness relative to the seat.",
+          "Loops use the same logic. At the top of the loop, gravity helps provide the inward force. That is why the coaster can keep riders in contact with the track as long as the speed is high enough and the loop is designed with a safe radius profile.",
+        ],
+        bullets: [
+          "Real loops are not perfect circles because changing radius helps control g-forces.",
+          "Banked turns reduce reliance on sideways friction by redirecting the normal force.",
+          "Energy and circular motion often work together: energy finds the speed, then circular motion finds the force.",
+        ],
+      },
+    ),
+    createStep("worked-example", "Worked Example", "A Rider in a Circular Dip", {
+      body: [
+        "This problem connects the abstract radial-force equation to the very concrete sensation of feeling heavy in a valley.",
+      ],
+      cards: [
+        card(
+          "Given",
+          "A coaster travels through the bottom of a circular dip of radius 25 m at 20 m/s. Find the normal force on a 60 kg rider.",
+        ),
+        card(
+          "Set up the radial equation",
+          "At the bottom of the dip, inward is upward, so N - mg = mv²/r. The rider's weight is mg = (60)(9.8) = 588 N.",
+        ),
+        card(
+          "Solve",
+          "The required inward force is mv²/r = (60)(20²)/25 = 960 N. Therefore N = 588 + 960 = 1548 N.",
+        ),
+      ],
+      callout:
+        "Final answer: the seat pushes on the rider with a normal force of 1548 N, which is much larger than the rider's true weight.",
+    }),
+    createStep(
+      "common-mistakes",
+      "Common Mistakes",
+      "How Circular-Motion Problems Go Wrong",
+      {
+        body: [
+          "Circular-motion equations are short enough that students can get an answer quickly even when the setup is wrong. That makes conceptual discipline especially important here.",
+        ],
+        bullets: [
+          "Thinking centripetal force points outward.",
+          "Treating centripetal force as a separate force instead of a net force.",
+          "Using mg = mv²/r in every curved-motion problem regardless of location.",
+          "Forgetting that the inward direction changes from place to place on the track.",
+          "Confusing actual weight with apparent weight.",
+        ],
+      },
+    ),
+    createStep("practice", "Practice", "Multiple Choice Practice", {
+      body: [
+        "This question checks whether you can connect the algebra to rider sensation rather than treating the equations as symbols only.",
+      ],
+      practice: practiceQuestion(
+        "Why do riders usually feel lighter at the top of a hill?",
+        [
+          "A. Their mass decreases at the top.",
+          "B. Gravity disappears briefly at the crest.",
+          "C. The normal force from the seat is smaller there.",
+          "D. The centripetal force points outward at the top.",
+        ],
+        2,
+        "Correct. At the top of a hill, gravity helps provide the inward acceleration, so the seat's normal force can be smaller and riders feel lighter.",
+        "Not quite. The rider feels lighter because the seat pushes less strongly on the rider, which means the normal force is smaller at the crest.",
+      ),
+    }),
+    createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
+      body: [
+        "These two questions target the most important conceptual checkpoints: the minimum-speed condition for a loop and the direction of the inward acceleration.",
+      ],
+      quiz: [
+        quizQuestion(
+          "At the top of a loop, what condition gives the minimum speed needed to maintain contact?",
+          [
+            "A. N = mg",
+            "B. N = 0",
+            "C. v = 0",
+            "D. r = 0",
+          ],
+          1,
+          "Correct. The minimum-speed case occurs when the normal force just drops to zero. Gravity alone then provides the needed inward force.",
+          "Not quite. The limiting case is when the track no longer needs to push on the train at the top, so the normal force becomes zero.",
+        ),
+        quizQuestion(
+          "A coaster moves through a curve at constant speed. Which direction does its acceleration point?",
+          [
+            "A. In the direction of motion",
+            "B. Opposite the motion",
+            "C. Toward the center of curvature",
+            "D. Straight upward only",
+          ],
+          2,
+          "Correct. The acceleration is centripetal, so it points inward toward the center of curvature.",
+          "Not quite. In curved motion at constant speed, the acceleration changes the direction of velocity, so it points toward the center of curvature.",
+        ),
+      ],
+    }),
+    createStep(
+      "next-lesson",
+      "Next Lesson",
+      "Connection to the Next Lesson",
+      {
+        body: [
+          "Circular motion explains curved-track forces, but it still assumes we can talk about the coaster's energy budget clearly. Real coasters do not keep all of their mechanical energy.",
+          "The next lesson studies work, friction, and power so we can explain where energy goes and how launches, lifts, and brakes transfer it.",
+        ],
+      },
+    ),
+  ],
 );
 
-const WorkedExample = ({ example }) => (
-  <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] p-6">
-    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-200">
-      Prompt
-    </p>
-    <p className="mt-3 text-sm leading-7 text-slate-100 sm:text-base">
-      {example.prompt}
-    </p>
-    <div className="mt-5">
-      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-200">
-        Solution path
-      </p>
-      <ol className="mt-3 space-y-3 text-sm leading-7 text-slate-100 sm:text-base">
-        {example.steps.map((step) => (
-          <li key={step} className="flex gap-3">
-            <span className="font-semibold text-cyan-200">•</span>
-            <span>{step}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-    <p className="mt-5 text-sm leading-7 text-slate-100 sm:text-base">
-      <span className="font-semibold text-white">Result:</span> {example.result}
-    </p>
-  </div>
+const workLesson = createLesson(
+  "Lesson 5: Work, Friction, and Power",
+  "Where Coaster Energy Goes",
+  "Students learn how work transfers energy, why friction and air resistance reduce mechanical energy, and how power describes the rate at which a coaster system adds or removes energy.",
+  [
+    createStep("goal", "Big Idea", "Real Coasters Need Energy Transfers", {
+      body: [
+        "If energy is so powerful for analyzing coasters, why does a train not simply keep returning to the same height forever? The answer is that mechanical energy is not isolated from the rest of the world. Forces can add energy, remove energy, and convert it into other forms.",
+        "Work, friction, and power give us the language for those transfers. They explain how a lift hill adds energy, why later hills are lower, and how a braking section can stop a fast-moving train safely instead of violently.",
+      ],
+      bullets: [
+        "Work measures energy transfer by a force acting through a displacement.",
+        "Friction and drag usually do negative work on the coaster's mechanical energy.",
+        "Power measures how quickly energy is transferred.",
+        "Brakes are controlled negative-work devices, not just 'things that stop motion.'",
+      ],
+    }),
+    createStep(
+      "core-concepts",
+      "Core Concepts",
+      "Positive Work, Negative Work, and Power",
+      {
+        body: [
+          "Work is defined by both force and displacement. A force can do positive work, negative work, or zero work depending on how it points relative to the motion. That is why gravity can add kinetic energy on a drop but remove it on an uphill segment.",
+          "The work-energy theorem says net work changes kinetic energy. A related idea is that nonconservative work changes mechanical energy. Friction and air resistance are the central nonconservative forces in coaster analysis because they convert organized mechanical energy into thermal energy, sound, and vibration.",
+          "Power is the rate of doing work. A chain lift may add a large amount of energy gradually, while a launch system may add a similar amount of energy in just a few seconds. The faster process requires more power.",
+        ],
+        bullets: [
+          "Positive work adds mechanical energy to the coaster.",
+          "Negative work removes mechanical energy from the coaster model.",
+          "Zero work can occur when a force is perpendicular to the motion.",
+          "Total energy is still conserved even when mechanical energy is not.",
+        ],
+        callout:
+          "Friction does not destroy energy. It changes the form of the energy so that less of it remains available as useful coaster motion.",
+      },
+    ),
+    createStep("equations", "Equations", "Key Equations", {
+      body: [
+        "These equations connect force, distance, time, and energy transfer. They are especially useful for lifts, launches, drag losses, and braking zones.",
+      ],
+      equations: [
+        equation("Work by a constant force", <>W = Fd cosθ</>),
+        equation(
+          "Work-energy theorem",
+          <>
+            W<sub>net</sub> = ΔK
+          </>,
+        ),
+        equation(
+          "Nonconservative work",
+          <>
+            W<sub>nc</sub> = ΔE<sub>mech</sub>
+          </>,
+        ),
+        equation(
+          "Average power",
+          <>
+            P = <Fraction numerator="W" denominator="t" />
+          </>,
+        ),
+        equation("Power from force and speed", <>P = Fv</>),
+      ],
+      bullets: [
+        "If the force points opposite the displacement, the work is negative.",
+        "A launch can do large work in little time, which means large power.",
+        "A brake run removes kinetic energy by doing negative work over a controlled distance.",
+      ],
+    }),
+    createStep(
+      "coaster-explanation",
+      "Explain",
+      "Launches, Lifts, Losses, and Brakes",
+      {
+        body: [
+          "A chain lift does positive work on the train by pulling it upward and increasing its gravitational potential energy. A launch system does positive work more directly by increasing the train's kinetic energy over a short distance and time.",
+          "During the ride, friction at the wheels and bearings plus air resistance do negative work on the coaster's mechanical energy. That is why a real train gradually loses some of its ability to climb back to its original height.",
+          "At the end of the ride, brakes deliberately remove energy. A good braking zone is not just strong. It is controlled. Engineers want enough negative work to stop the train while keeping the force change tolerable for riders and hardware.",
+        ],
+        bullets: [
+          "Gravity does positive work on a drop and negative work on an uphill segment.",
+          "Friction and drag become more significant as speed increases.",
+          "Power tells how quickly an energy transfer happens, not just how much energy changes.",
+        ],
+      },
+    ),
+    createStep("worked-example", "Worked Example", "Friction Losses and Lift Power", {
+      body: [
+        "A good coaster engineer should be able to interpret an energy loss physically and compute the power needed by a machine that adds energy back into the system.",
+      ],
+      cards: [
+        card(
+          "Example 1: friction loss",
+          "Suppose a coaster loses 20,000 J of mechanical energy due to friction over one section of track. That energy does not vanish. It becomes thermal energy in the wheels, track, and air, plus some sound and vibration.",
+        ),
+        card(
+          "Example 2: chain-lift power",
+          "A chain lift does 300,000 J of work in 25 s. Use P = W/t. Substituting gives P = 300,000/25 = 12,000 W.",
+        ),
+        card(
+          "Interpretation",
+          "The numerical power value tells how quickly the motor must supply energy. A faster lift or launch for the same amount of work would require a larger power output.",
+        ),
+      ],
+      callout:
+        "Final answers: the 20,000 J of lost mechanical energy becomes other forms such as heat and sound, and the lift's average power output is 12,000 W.",
+    }),
+    createStep(
+      "common-mistakes",
+      "Common Mistakes",
+      "Common Misreadings of Work and Power",
+      {
+        body: [
+          "Students often mix up the size of a force with the amount of work, or the amount of energy with the rate at which it is transferred. This lesson requires keeping those ideas separate.",
+        ],
+        bullets: [
+          "Thinking friction destroys energy instead of converting it.",
+          "Confusing work with force.",
+          "Forgetting the cosine factor in W = Fd cosθ.",
+          "Confusing energy and power.",
+          "Assuming mechanical energy is always conserved in real coaster motion.",
+        ],
+      },
+    ),
+    createStep("practice", "Practice", "Multiple Choice Practice", {
+      body: [
+        "This question targets one of the most important conceptual distinctions in the lesson: total energy is conserved, but mechanical energy may not be.",
+      ],
+      practice: practiceQuestion(
+        "Why does friction make later hills lower even though total energy is still conserved?",
+        [
+          "A. Friction destroys some of the universe's energy.",
+          "B. Friction converts mechanical energy into thermal energy and sound.",
+          "C. Friction removes the coaster's mass.",
+          "D. Friction makes gravity weaker.",
+        ],
+        1,
+        "Correct. Friction changes mechanical energy into other forms such as heat and sound, so the coaster has less mechanical energy available to climb later hills.",
+        "Not quite. Total energy is still conserved. The important point is that friction converts mechanical energy into forms that are not useful for climbing the next hill.",
+      ),
+    }),
+    createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
+      body: [
+        "These questions check whether you can calculate work and power after interpreting the physical setup correctly.",
+      ],
+      quiz: [
+        quizQuestion(
+          "A 500 N force pulls a coaster 20 m in the same direction as its motion. How much work is done?",
+          [
+            "A. 1000 J",
+            "B. 5000 J",
+            "C. 10,000 J",
+            "D. 20,000 J",
+          ],
+          2,
+          "Correct. Because the force is in the direction of motion, W = Fd cos0° = (500)(20) = 10,000 J.",
+          "Not quite. Since the force and displacement point in the same direction, cosθ = 1, so W = (500)(20) = 10,000 J.",
+        ),
+        quizQuestion(
+          "A chain lift does 120,000 J of work in 10 s. What is its average power?",
+          [
+            "A. 1200 W",
+            "B. 12,000 W",
+            "C. 120,000 W",
+            "D. 1,200,000 W",
+          ],
+          1,
+          "Correct. Use P = W/t = 120,000/10 = 12,000 W.",
+          "Not quite. Power is work divided by time, so 120,000 J over 10 s gives 12,000 W.",
+        ),
+      ],
+    }),
+    createStep(
+      "next-lesson",
+      "Next Lesson",
+      "Connection to the Next Lesson",
+      {
+        body: [
+          "Work and power describe energy transfer over distance and time, but some coaster events are best described as very short interactions instead of long motion segments.",
+          "The next lesson studies momentum and impulse, which are especially useful for launches, braking, and sudden changes over short time intervals.",
+        ],
+      },
+    ),
+  ],
 );
 
-const LessonPlan = ({ lesson }) => (
-  <article
-    id={lesson.id}
-    className="panel scroll-mt-24 p-6 sm:p-8 lg:p-10"
-  >
-    <div className="flex flex-col gap-4 border-b border-white/10 pb-6">
-      <div className="flex flex-wrap items-center gap-3">
-        <span className="chip">Lesson {lesson.number}</span>
-        <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-amber-100">
-          AP Physics C
-        </span>
-      </div>
-      <div>
-        <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-          {lesson.title}
-        </h2>
-      </div>
-    </div>
-
-    <div className="mt-8 space-y-8">
-      {sectionTitles.map(([field, label]) => {
-        const value = lesson[field];
-
-        return (
-          <section key={field} className="space-y-4">
-            <SectionHeading>{label}</SectionHeading>
-            {field === "lessonGoal" && (
-              <p className="text-sm leading-7 text-slate-200 sm:text-base">{value}</p>
-            )}
-            {field === "whyItMatters" && (
-              <p className="text-sm leading-7 text-slate-200 sm:text-base">{value}</p>
-            )}
-            {field === "prerequisites" && <BulletList items={value} />}
-            {field === "keyConcepts" && <KeyConcepts concepts={value} />}
-            {field === "keyEquations" && (
-              <div className="grid gap-3 md:grid-cols-2">
-                {value.map((equation) => (
-                  <div
-                    key={equation}
-                    className="rounded-2xl border border-white/10 bg-slate-950/30 px-5 py-4 font-mono text-sm text-cyan-100 sm:text-base"
-                  >
-                    {equation}
-                  </div>
-                ))}
-              </div>
-            )}
-            {field === "teachingSequence" && <TeachingSequence steps={value} />}
-            {field === "rollerCoasterApplication" && (
-              <p className="text-sm leading-7 text-slate-200 sm:text-base">{value}</p>
-            )}
-            {field === "workedExample" && <WorkedExample example={value} />}
-            {field === "commonMistakes" && <BulletList items={value} />}
-            {field === "conceptualCheckpoints" && <BulletList items={value} />}
-            {field === "practiceProblems" && <BulletList items={value} />}
-            {field === "nextLessonConnection" && (
-              <p className="text-sm leading-7 text-slate-200 sm:text-base">{value}</p>
-            )}
-          </section>
-        );
-      })}
-    </div>
-  </article>
+const momentumLesson = createLesson(
+  "Lesson 6: Momentum and Impulse",
+  "Launches, Brakes, and Short Interactions",
+  "Students learn how momentum and impulse describe short, intense coaster interactions such as launches, braking, and rapid safety-critical changes in motion.",
+  [
+    createStep("goal", "Big Idea", "Short Time Intervals Need a Different Lens", {
+      body: [
+        "Energy is powerful for analyzing large sections of a coaster, but some ride events are best understood through the change in momentum over a short time. Launches, emergency stops, and braking zones are the clearest examples.",
+        "Momentum and impulse give us a way to connect force, time, and motion change directly. They are especially valuable in safety reasoning because they explain why a longer stopping time can dramatically reduce the average force on riders.",
+      ],
+      bullets: [
+        "Momentum combines mass and velocity into one motion quantity.",
+        "Impulse measures the effect of a force acting over a time interval.",
+        "The same momentum change can happen through a large force over short time or a smaller force over long time.",
+        "Longer stopping times usually mean smaller average forces on riders.",
+      ],
+    }),
+    createStep(
+      "core-concepts",
+      "Core Concepts",
+      "Momentum, Impulse, and Safety",
+      {
+        body: [
+          "Momentum is defined as mass times velocity, so it is a vector. That means direction matters. A heavy train moving slowly can have as much momentum as a lighter train moving quickly, and a braking problem must account for the sign of the velocity change rather than just its magnitude.",
+          "Impulse is the change in momentum. It can also be written as force times time for an average-force model. This is the key link between motion change and rider safety: if the same change in momentum happens over a longer time, the average force can be smaller.",
+          "Conservation of momentum is important in some systems, but ordinary coaster motion along a track is not the best place to emphasize it because the track and brakes can apply substantial external forces. The most useful coaster applications are launches, braking, and connected-car interactions.",
+        ],
+        bullets: [
+          "Momentum is a vector, so direction matters.",
+          "Impulse can increase momentum, decrease momentum, or reverse it.",
+          "Brakes work by applying an impulse opposite the train's motion.",
+          "Smoother restraints and brake profiles reduce sudden force spikes on riders.",
+        ],
+        callout:
+          "Students often treat impulse as if it were just force with a new name. It is not. Impulse measures the total effect of force acting over time.",
+      },
+    ),
+    createStep("equations", "Equations", "Key Equations", {
+      body: [
+        "These equations make short-time problems manageable. They are especially effective when a launch or brake run produces a clear before-and-after change in velocity.",
+      ],
+      equations: [
+        equation("Momentum", <>p = mv</>),
+        equation("Impulse as momentum change", <>J = Δp</>),
+        equation("Impulse from force and time", <>J = FΔt</>),
+      ],
+      bullets: [
+        "Use direction carefully. A negative momentum change means the final momentum points opposite the initial direction.",
+        "If the stopping time increases while the momentum change stays the same, the average force decreases.",
+      ],
+    }),
+    createStep(
+      "coaster-explanation",
+      "Explain",
+      "Why Launches and Brakes Belong Here",
+      {
+        body: [
+          "A launch system applies a force over a short interval to increase the train's momentum rapidly. The same idea works in reverse for brakes, which apply a force over time to reduce the train's momentum to zero before the station.",
+          "From a rider-safety perspective, the time interval is as important as the speed change. A harsh stop and a smooth stop can produce the same total momentum change, but the harsh stop does it in much less time and therefore requires a larger average force.",
+          "Momentum also helps us reason about coaster trains as connected systems. Internal forces between cars can be large even when the overall train is treated as one system from the outside.",
+        ],
+        bullets: [
+          "Launches increase momentum.",
+          "Brakes decrease momentum.",
+          "Longer stopping times reduce average force for the same change in momentum.",
+        ],
+      },
+    ),
+    createStep("worked-example", "Worked Example", "Average Braking Force", {
+      body: [
+        "This example is a direct safety application. The ride is not just slowing down; the braking system must change the train's momentum in a controlled way.",
+      ],
+      cards: [
+        card(
+          "Given",
+          "A 700 kg coaster car moving at 18 m/s is brought to rest in 6.0 s. Find the average braking force.",
+        ),
+        card(
+          "Change in momentum",
+          "Use Δp = m(vf - vi). That gives Δp = 700(0 - 18) = -12,600 kg·m/s.",
+        ),
+        card(
+          "Average force",
+          "Use J = FΔt, so Favg = Δp/Δt = -12,600/6.0 = -2100 N. The negative sign shows the force points opposite the train's initial motion.",
+        ),
+      ],
+      callout:
+        "Final answer: the average braking force has magnitude 2100 N and points opposite the motion.",
+    }),
+    createStep(
+      "common-mistakes",
+      "Common Mistakes",
+      "Errors in Short-Time Reasoning",
+      {
+        body: [
+          "Momentum problems often look simple, but they become misleading very quickly if direction is ignored or if impulse is mistaken for force by itself.",
+        ],
+        bullets: [
+          "Treating momentum as a scalar instead of a vector.",
+          "Forgetting that impulse equals change in momentum, not just final momentum.",
+          "Confusing impulse with force.",
+          "Ignoring direction when the coaster stops or reverses.",
+          "Assuming momentum is automatically conserved even when strong external forces act.",
+        ],
+      },
+    ),
+    createStep("practice", "Practice", "Multiple Choice Practice", {
+      body: [
+        "This first question checks the main safety insight of the lesson: why engineers care so much about stopping time and not just stopping distance.",
+      ],
+      practice: practiceQuestion(
+        "Why does increasing stopping time reduce the average force on riders during braking?",
+        [
+          "A. Because the train loses less momentum overall.",
+          "B. Because the same momentum change is spread over a longer time.",
+          "C. Because gravity disappears during braking.",
+          "D. Because the rider's mass becomes smaller.",
+        ],
+        1,
+        "Correct. For a fixed momentum change, a longer time interval means a smaller average force because Favg = Δp/Δt.",
+        "Not quite. The key idea is that the same change in momentum spread over more time requires a smaller average force.",
+      ),
+    }),
+    createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
+      body: [
+        "These questions give one numerical braking problem and one launch-impulse problem, because both are standard coaster applications of momentum.",
+      ],
+      quiz: [
+        quizQuestion(
+          "A 700 kg coaster car moving at 18 m/s is brought to rest in 6.0 s. What is the magnitude of the average braking force?",
+          [
+            "A. 300 N",
+            "B. 1200 N",
+            "C. 2100 N",
+            "D. 12,600 N",
+          ],
+          2,
+          "Correct. The momentum change is 12,600 kg·m/s in magnitude, and dividing by 6.0 s gives 2100 N.",
+          "Not quite. Use Δp = mΔv = 700(18) = 12,600 kg·m/s in magnitude, then divide by 6.0 s to get 2100 N.",
+        ),
+        quizQuestion(
+          "A launch system accelerates a 600 kg car from rest to 25 m/s. What impulse does the launch deliver?",
+          [
+            "A. 24 N·s",
+            "B. 600 N·s",
+            "C. 15,000 N·s",
+            "D. 25,000 N·s",
+          ],
+          2,
+          "Correct. Impulse equals change in momentum: J = mΔv = 600(25) = 15,000 N·s.",
+          "Not quite. Because the car starts from rest, the impulse is J = m(vf - vi) = 600(25) = 15,000 N·s.",
+        ),
+      ],
+    }),
+    createStep(
+      "next-lesson",
+      "Next Lesson",
+      "Connection to the Next Lesson",
+      {
+        body: [
+          "So far we have mostly treated the coaster car as a translating object. Real coasters also have rotating parts that store energy and respond to torque.",
+          "The next lesson extends the mechanics story to wheels, axles, and rolling motion through rotation and torque.",
+        ],
+      },
+    ),
+  ],
 );
 
-function App() {
+const rotationLesson = createLesson(
+  "Lesson 7: Rotation and Torque",
+  "Wheels, Axles, and Rolling Motion",
+  "Students learn how rotational motion, torque, rotational inertia, and rolling energy apply to coaster wheels, axles, and real engineering decisions.",
+  [
+    createStep("goal", "Big Idea", "Coasters Translate and Rotate at the Same Time", {
+      body: [
+        "A coaster train does not move like a single featureless block. Its wheels spin, axles experience torques, and some of the ride's energy goes into rotational motion instead of pure translation.",
+        "This lesson expands the mechanics picture from 'where is the train going?' to 'how are the moving parts turning?' That shift matters for efficiency, wear, stability, and realistic engineering decisions.",
+      ],
+      bullets: [
+        "Connect linear motion to angular motion through the wheel radius.",
+        "Use torque as the rotational analog of force.",
+        "Recognize that mass distribution matters through rotational inertia.",
+        "Account for rotational kinetic energy in rolling systems.",
+      ],
+    }),
+    createStep(
+      "core-concepts",
+      "Core Concepts",
+      "Angular Motion, Torque, and Rotational Inertia",
+      {
+        body: [
+          "Angular position, angular velocity, and angular acceleration describe rotational motion the way position, velocity, and acceleration describe translational motion. For a wheel rolling without slipping, those two descriptions are connected rather than separate.",
+          "Torque measures the rotational effect of a force. A force applied farther from an axle generally produces a larger turning effect than the same force applied near the center. This is why lever arm matters as much as force magnitude.",
+          "Rotational inertia is the resistance to changes in rotational motion. It depends on how the mass is distributed. Mass concentrated farther from the axis makes an object harder to spin up or slow down, which is why wheel design matters physically and not just aesthetically.",
+        ],
+        bullets: [
+          "Rolling without slipping links linear speed and angular speed.",
+          "Torque depends on force, lever arm, and angle.",
+          "Rotational inertia depends on mass distribution, not only total mass.",
+          "Rolling objects can have both translational and rotational kinetic energy.",
+        ],
+        callout:
+          "Students often treat rotational inertia like ordinary mass. It plays a similar role, but it depends on where the mass is relative to the axis, not just how much mass there is.",
+      },
+    ),
+    createStep("equations", "Equations", "Key Equations", {
+      body: [
+        "These equations connect wheel motion, turning effect, and energy storage in rotating parts. They matter most when the coaster's forward motion is being transferred into spinning motion at the wheels.",
+      ],
+      equations: [
+        equation("Linear and angular speed", <>v = rω</>),
+        equation("Linear and angular acceleration", <>a = rα</>),
+        equation("Torque", <>τ = rF sinθ</>),
+        equation("Rotational kinetic energy", <>K<sub>rot</sub> = ½Iω²</>),
+        equation(
+          "Total kinetic energy for rolling motion",
+          <>
+            K<sub>total</sub> = ½mv² + ½Iω²
+          </>,
+        ),
+      ],
+      bullets: [
+        "If the wheel rolls without slipping, v = rω is the key bridge between translation and rotation.",
+        "The same force can create very different torques depending on where it is applied.",
+      ],
+    }),
+    createStep(
+      "coaster-explanation",
+      "Explain",
+      "Why Wheels and Axles Matter on Real Rides",
+      {
+        body: [
+          "As the train moves forward, each wheel rotates. That means part of the ride's energy is stored in wheel spin rather than only in the translation of the train's center of mass. In many classroom problems this effect is small enough to ignore, but in engineering it is real.",
+          "Torque matters because forces from the track and axle can twist components, and the wheel geometry determines how forward motion and rotation stay linked. Bearings, wheel materials, and alignment all matter because they influence both energy loss and mechanical stress.",
+          "This is also where students see that the simplified 'particle model' of earlier lessons has limits. The full train is a system of translating and rotating parts, and realistic design decisions have to respect both.",
+        ],
+        bullets: [
+          "Wheel design affects efficiency because rotational kinetic energy is part of the total energy budget.",
+          "Poor bearings increase unwanted friction and energy loss.",
+          "Mass farther from the axle makes a wheel harder to spin up and slow down.",
+        ],
+      },
+    ),
+    createStep("worked-example", "Worked Example", "Wheel Speed from Angular Speed", {
+      body: [
+        "This short calculation is the cleanest way to connect angular motion to a physical point on a coaster wheel.",
+      ],
+      cards: [
+        card(
+          "Given",
+          "A coaster wheel has radius 0.20 m and rotates with angular speed 50 rad/s. Find the linear speed of the wheel edge.",
+        ),
+        card(
+          "Choose the right relation",
+          "For rolling geometry, use v = rω. That directly converts angular speed into linear speed at the rim.",
+        ),
+        card(
+          "Solve",
+          "Substitute r = 0.20 m and ω = 50 rad/s. Then v = (0.20)(50) = 10 m/s.",
+        ),
+      ],
+      callout:
+        "Final answer: the wheel edge moves at 10 m/s.",
+    }),
+    createStep(
+      "common-mistakes",
+      "Common Mistakes",
+      "What Students Mix Up in Rotation",
+      {
+        body: [
+          "Rotation introduces new symbols, but the deeper difficulty is conceptual. Students often know the formula and still miss what is actually harder to rotate or why a larger lever arm matters.",
+        ],
+        bullets: [
+          "Confusing torque with force.",
+          "Forgetting torque depends on lever arm and angle.",
+          "Mixing up linear velocity and angular velocity.",
+          "Ignoring rotational kinetic energy in rolling systems.",
+          "Assuming all wheels respond the same way regardless of rotational inertia.",
+        ],
+      },
+    ),
+    createStep("practice", "Practice", "Multiple Choice Practice", {
+      body: [
+        "This first question checks the most fundamental translation-rotation connection before moving on to torque and inertia.",
+      ],
+      practice: practiceQuestion(
+        "A wheel of radius 0.20 m rotates at 50 rad/s. What is the linear speed at the rim?",
+        [
+          "A. 2.5 m/s",
+          "B. 10 m/s",
+          "C. 25 m/s",
+          "D. 250 m/s",
+        ],
+        1,
+        "Correct. Use v = rω = (0.20)(50) = 10 m/s.",
+        "Not quite. Multiply radius by angular speed: v = rω = (0.20)(50) = 10 m/s.",
+      ),
+    }),
+    createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
+      body: [
+        "These questions target the two most important conceptual extensions beyond v = rω: torque and rotational inertia.",
+      ],
+      quiz: [
+        quizQuestion(
+          "Why does applying the same force farther from the axle create a larger torque?",
+          [
+            "A. Because the mass automatically increases.",
+            "B. Because the lever arm is larger.",
+            "C. Because gravity is stronger at the rim.",
+            "D. Because angular velocity must already be zero.",
+          ],
+          1,
+          "Correct. Torque depends on the lever arm, so the same force produces a larger turning effect when applied farther from the axis.",
+          "Not quite. The key factor is the larger lever arm, which increases the turning effect of the force.",
+        ),
+        quizQuestion(
+          "Why is an object with more mass farther from the axis harder to spin?",
+          [
+            "A. Because its rotational inertia is larger.",
+            "B. Because its weight disappears.",
+            "C. Because torque becomes impossible.",
+            "D. Because linear velocity becomes zero.",
+          ],
+          0,
+          "Correct. Rotational inertia increases when mass is distributed farther from the axis, so changes in rotational motion become harder to produce.",
+          "Not quite. The mass distribution raises the rotational inertia, which is the rotational analog of resistance to acceleration.",
+        ),
+      ],
+    }),
+    createStep(
+      "next-lesson",
+      "Next Lesson",
+      "Connection to the Next Lesson",
+      {
+        body: [
+          "By this point the course has built motion, forces, energy, curved motion, losses, impulse, and rotation as separate tools. Real coaster engineering uses them together.",
+          "The final lesson synthesizes those ideas into full-track design and safety reasoning.",
+        ],
+      },
+    ),
+  ],
+);
+
+const designSafetyLesson = createLesson(
+  "Lesson 8: Real-World Coaster Design and Safety",
+  "Putting Mechanics Together",
+  "Students synthesize the entire mechanics sequence into a realistic view of coaster engineering, where speed, force, comfort, and safety all have to work at the same time.",
+  [
+    createStep("goal", "Big Idea", "A Real Coaster Is Applied Mechanics", {
+      body: [
+        "A roller coaster is not just a collection of separate textbook problems. It is a tightly connected engineering system in which motion, forces, energy, circular motion, work, impulse, and rotation all have to agree with one another.",
+        "The final lesson asks students to think like designers. The question is no longer only 'can I solve for the speed?' It becomes 'is this layout physically plausible, exciting, comfortable, and safe?'",
+      ],
+      bullets: [
+        "Use mechanics to judge whether a layout is physically consistent.",
+        "Balance thrill with rider comfort and safety limits.",
+        "Plan where energy is added, converted, lost, and removed.",
+        "Treat safety systems as part of the physics story rather than as an afterthought.",
+      ],
+    }),
+    createStep(
+      "core-concepts",
+      "Core Concepts",
+      "Design Constraints and Safety Thinking",
+      {
+        body: [
+          "Real coaster design is constrained by maximum height, maximum speed, track length, rider comfort, g-force limits, available land, materials, and cost. A design can be mathematically interesting and still be a poor coaster if it ignores these realities.",
+          "G-forces matter in several ways. Positive g-forces can make riders feel very heavy, negative g-forces can create airtime, and lateral forces can become uncomfortable or unsafe if turns are not designed carefully. That is why smooth transitions, proper banking, and changing-radius elements matter so much.",
+          "Safety also depends on systems beyond the track shape itself. Restraints, block zones, sensors, control systems, and emergency brakes are all examples of layered design thinking. Excitement and control have to coexist.",
+        ],
+        bullets: [
+          "A safe coaster needs enough speed to complete elements but not so much that forces exceed acceptable limits.",
+          "Clothoid loops are safer than simple circular loops because the radius changes with position.",
+          "Longer braking distances usually reduce stopping force.",
+          "Good design manages both the size of forces and how quickly those forces change.",
+        ],
+        callout:
+          "The most common beginner design mistake is assuming that 'faster' automatically means 'better.' In real ride design, faster without control can quickly become uncomfortable or unsafe.",
+      },
+    ),
+    createStep("equations", "Equations", "Key Equations", {
+      body: [
+        "A real design lesson does not introduce many new equations. Instead, it combines the earlier equations and asks which one governs each part of the track.",
+      ],
+      equations: [
+        equation(
+          "Energy comparison",
+          <>
+            K<sub>i</sub> + U<sub>gi</sub> = K<sub>f</sub> + U<sub>gf</sub>
+          </>,
+        ),
+        equation("Newton's Second Law", <>F<sub>net</sub> = ma</>),
+        equation(
+          "Curved-motion force condition",
+          <>
+            F<sub>net,inward</sub> = m
+            <Fraction numerator="v²" denominator="r" />
+          </>,
+        ),
+        equation(
+          "Mechanical-energy loss",
+          <>
+            W<sub>nc</sub> = ΔE<sub>mech</sub>
+          </>,
+        ),
+        equation("Impulse", <>J = Δp</>),
+        equation(
+          "Rolling kinetic energy",
+          <>
+            K<sub>total</sub> = ½mv² + ½Iω²
+          </>,
+        ),
+      ],
+      bullets: [
+        "A full ride uses different equations in different places, but the physics still has to agree from start to finish.",
+        "Design work often means choosing the right model at the right location, not using one formula everywhere.",
+      ],
+    }),
+    createStep(
+      "coaster-explanation",
+      "Explain",
+      "How Engineers Read a Full Layout",
+      {
+        body: [
+          "The first hill sets the initial energy budget. The first drop often creates the maximum speed, which means it also strongly influences later g-forces in valleys, loops, and turns. If the early energy budget is misjudged, the rest of the ride will be inconsistent.",
+          "Curved elements must be designed so the required inward acceleration does not create unacceptable normal forces on riders. That is why engineers care deeply about radius, transition smoothness, and the precise sequence of hills, valleys, and banking.",
+          "Brake runs and block zones are just as important as the thrill elements. A ride is only successful if it can remove energy as deliberately as it adds and redistributes it. In that sense, safety design is not separate from mechanics. It is mechanics applied responsibly.",
+        ],
+        bullets: [
+          "Identify where energy is highest, where speed is highest, and where riders feel the largest normal force.",
+          "Check whether later hills are consistent with losses from friction and drag.",
+          "Use banking and smooth transitions to reduce unwanted lateral and jerking forces.",
+        ],
+      },
+    ),
+    createStep("worked-example", "Worked Example", "Analyzing a Simplified Coaster Layout", {
+      body: [
+        "This final example is intentionally more synthetic than earlier problems. The goal is to show how several mechanics ideas interact along one ride.",
+      ],
+      cards: [
+        card(
+          "Layout",
+          "Consider a simplified coaster with a 45 m first hill, a 25 m second hill, one loop, and a braking section before the station.",
+        ),
+        card(
+          "Energy and speed",
+          "At the top of the first hill, the coaster has its maximum gravitational potential energy. Near the bottom of the first drop, it likely has its greatest speed. By the time it reaches the 25 m second hill, some energy has been converted back into height and some has been lost to friction and drag.",
+        ),
+        card(
+          "Forces and safety",
+          "The loop requires enough speed that the inward force condition can be satisfied at every point, especially at the top. The braking section must remove the remaining kinetic energy over a sufficiently long interval that rider forces stay controlled.",
+        ),
+      ],
+      callout:
+        "A physically good layout is one where the first hill provides enough energy for later elements after losses, the curved sections keep g-forces within acceptable limits, and the brake run removes energy safely before the station.",
+    }),
+    createStep(
+      "common-mistakes",
+      "Common Mistakes",
+      "Design Errors That Ignore the Physics",
+      {
+        body: [
+          "The easiest way to make an unrealistic coaster is to forget that every exciting feature has to be paid for by energy and constrained by force limits.",
+        ],
+        bullets: [
+          "Designing later hills too tall without accounting for energy loss.",
+          "Ignoring g-forces in loops, dips, and tight turns.",
+          "Assuming faster is always better.",
+          "Forgetting rider comfort and smooth transitions.",
+          "Treating idealized classroom physics as if it were identical to real engineering practice.",
+        ],
+      },
+    ),
+    createStep("practice", "Practice", "Multiple Choice Practice", {
+      body: [
+        "This first question checks whether you are treating energy loss realistically instead of drawing a ride that would stall or require impossible behavior later on.",
+      ],
+      practice: practiceQuestion(
+        "Why is it usually a design mistake to make a later hill taller than the first hill on a traditional non-launched coaster?",
+        [
+          "A. The second hill receives less sunlight.",
+          "B. The train has already lost some mechanical energy to friction and drag.",
+          "C. The normal force disappears after the first drop.",
+          "D. The mass of the train must be smaller on later hills.",
+        ],
+        1,
+        "Correct. After the first drop, the train has already lost some mechanical energy, so a later hill that is too tall may be physically unreachable.",
+        "Not quite. The key problem is the energy budget. Friction and drag reduce the mechanical energy available after the first hill.",
+      ),
+    }),
+    createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
+      body: [
+        "These final questions focus on common design judgments: how banking improves comfort and how braking time changes rider force.",
+      ],
+      quiz: [
+        quizQuestion(
+          "Why are banked turns important on a real coaster?",
+          [
+            "A. They remove the need for gravity entirely.",
+            "B. They help redirect the normal force and reduce uncomfortable lateral force.",
+            "C. They make the train's mass smaller in the turn.",
+            "D. They guarantee the speed is constant.",
+          ],
+          1,
+          "Correct. Banking lets the normal force help provide the needed inward acceleration, which reduces reliance on sideways friction and improves rider comfort.",
+          "Not quite. The point of banking is to redirect the support force so that the turn feels smoother and safer.",
+        ),
+        quizQuestion(
+          "If a braking section increases the stopping time for the same arriving train speed, what happens to the average force on riders?",
+          [
+            "A. It increases.",
+            "B. It stays exactly the same.",
+            "C. It decreases.",
+            "D. It becomes impossible to determine.",
+          ],
+          2,
+          "Correct. For the same momentum change, a longer stopping time means a smaller average force.",
+          "Not quite. Use the impulse idea: the same change in momentum spread over more time reduces the average force.",
+        ),
+      ],
+    }),
+    createStep(
+      "next-lesson",
+      "Next Lesson",
+      "Connection to the Next Lesson",
+      {
+        body: [
+          "This final lesson closes the sequence by showing that roller coasters are not a collection of disconnected formulas. They are a full mechanics system.",
+          "When students can move fluidly between motion, forces, energy, circular motion, work, momentum, rotation, and safety reasoning, they are thinking about coasters the way an engineer or physicist does.",
+        ],
+      },
+    ),
+  ],
+);
+
+const lessonMap = {
+  kinematics: kinematicsLesson,
+  forces: forcesLesson,
+  energy: energyLesson,
+  "circular-motion": circularMotionLesson,
+  work: workLesson,
+  momentum: momentumLesson,
+  rotation: rotationLesson,
+  "design-safety": designSafetyLesson,
+};
+
+const LessonView = ({
+  lesson,
+  isDark,
+  panelClass,
+  subtlePanelClass,
+  titleClass,
+  copyClass,
+  mutedClass,
+  accentLabelClass,
+  accentNumberClass,
+  listDotClass,
+  warmDotClass,
+  stepIndex,
+  setStepIndex,
+  onBack,
+}) => {
+  const step = lesson.steps[stepIndex];
+  const isFirstStep = stepIndex === 0;
+  const isLastStep = stepIndex === lesson.steps.length - 1;
+  const [tocOpen, setTocOpen] = useState(true);
+  const [selectedPracticeChoice, setSelectedPracticeChoice] = useState(null);
+  const [practiceChecked, setPracticeChecked] = useState(false);
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [selectedQuizChoice, setSelectedQuizChoice] = useState(null);
+  const [quizChecked, setQuizChecked] = useState(false);
+
+  const currentPracticeProblem = step.practice ?? null;
+  const practiceIsCorrect =
+    currentPracticeProblem &&
+    selectedPracticeChoice === currentPracticeProblem.correctChoice;
+  const currentQuizQuestion = step.quiz?.[quizIndex] ?? null;
+  const quizIsCorrect =
+    currentQuizQuestion && selectedQuizChoice === currentQuizQuestion.correctChoice;
+  const quizComplete =
+    step.id === "quiz" && quizIndex === step.quiz.length - 1 && quizChecked;
+
+  useEffect(() => {
+    setSelectedPracticeChoice(null);
+    setPracticeChecked(false);
+  }, [step.id]);
+
+  useEffect(() => {
+    if (step.id !== "quiz") {
+      return;
+    }
+
+    setQuizIndex(0);
+    setSelectedQuizChoice(null);
+    setQuizChecked(false);
+  }, [step.id]);
+
+  useEffect(() => {
+    setSelectedQuizChoice(null);
+    setQuizChecked(false);
+  }, [quizIndex]);
+
+  const handlePracticeCheck = () => {
+    if (!currentPracticeProblem) {
+      return;
+    }
+
+    setPracticeChecked(true);
+  };
+
+  const handleQuizAdvance = () => {
+    if (!currentQuizQuestion) {
+      return;
+    }
+
+    if (!quizChecked) {
+      setQuizChecked(true);
+      return;
+    }
+
+    if (quizIndex < step.quiz.length - 1) {
+      setQuizIndex((current) => current + 1);
+      return;
+    }
+
+    setStepIndex((current) =>
+      Math.min(current + 1, lesson.steps.length - 1),
+    );
+  };
+
   return (
-    <div className="pb-16">
-      <header className="section-shell pt-10 sm:pt-14">
-        <div className="panel overflow-hidden p-6 sm:p-8 lg:p-10">
-          <div className="grid gap-8 lg:grid-cols-[1.3fr_0.9fr]">
-            <div>
-              <span className="chip">Complete lesson sequence</span>
-              <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-                {courseTitle}
+    <section className="py-8 sm:py-10">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <button
+          type="button"
+          onClick={onBack}
+          className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
+            isDark
+              ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+              : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+          }`}
+        >
+          Back to Sections
+        </button>
+
+        <div className={`text-sm font-semibold ${mutedClass}`}>
+          Step {stepIndex + 1} of {lesson.steps.length}
+        </div>
+      </div>
+
+      <div
+        className="mt-8 grid gap-4 lg:[grid-template-columns:var(--lesson-columns)] lg:[transition:grid-template-columns_280ms_ease]"
+        style={{
+          "--lesson-columns": tocOpen
+            ? "22rem minmax(0,1fr)"
+            : "5.25rem minmax(0,1fr)",
+        }}
+      >
+        <aside className={`${panelClass} p-4 sm:p-5`}>
+          <div className={`flex ${tocOpen ? "items-start justify-between gap-4" : "flex-col items-center gap-4"}`}>
+            <div
+              className={`transition-all duration-300 ease-out ${
+                tocOpen
+                  ? "max-h-[20rem] overflow-visible opacity-100"
+                  : "max-h-0 overflow-hidden opacity-0 pointer-events-none"
+              }`}
+            >
+              <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+                {lesson.title}
+              </p>
+              <h2 className={`mt-4 font-display text-3xl font-semibold ${titleClass}`}>
+                {lesson.subtitle}
+              </h2>
+              <p className={`mt-4 text-base leading-7 ${copyClass}`}>{lesson.goal}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setTocOpen((open) => !open)}
+              className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-lg font-semibold leading-none transition ${
+                isDark
+                  ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                  : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+              }`}
+              aria-label={tocOpen ? "Collapse lesson outline" : "Expand lesson outline"}
+            >
+              {tocOpen ? "-" : "+"}
+            </button>
+          </div>
+
+          <div
+            className={`transition-all duration-300 ease-out ${
+              tocOpen
+                ? "mt-8 max-h-[40rem] overflow-visible opacity-100"
+                : "mt-0 max-h-0 overflow-hidden opacity-0 pointer-events-none"
+            }`}
+          >
+            <div className="grid gap-3">
+              {lesson.steps.map((item, index) => {
+                const active = index === stepIndex;
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setStepIndex(index)}
+                    className={`rounded-2xl border px-4 py-3 text-left transition ${
+                      active
+                        ? isDark
+                          ? "border-cyan-300/40 bg-cyan-300/10"
+                          : "border-sky-300 bg-sky-50"
+                        : isDark
+                          ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
+                          : "border-slate-300/70 bg-slate-50/70 hover:bg-white"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold ${accentNumberClass}`}
+                      >
+                        {index + 1}
+                      </span>
+                      <div>
+                        <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
+                        <p className={`text-sm ${mutedClass}`}>{item.title}</p>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div
+            className={`transition-all duration-300 ease-out ${
+              tocOpen
+                ? "max-h-0 overflow-hidden opacity-0 pointer-events-none"
+                : "mt-2 max-h-[40rem] overflow-visible opacity-100"
+            }`}
+          >
+            <div className="flex flex-col items-center gap-3 py-0.5">
+              {lesson.steps.map((item, index) => {
+                const active = index === stepIndex;
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setStepIndex(index)}
+                    className={`inline-flex h-10 w-10 items-center justify-center rounded-full border text-xs font-semibold transition ${
+                      active
+                        ? isDark
+                          ? "border-cyan-300/40 bg-cyan-300/10 text-cyan-100"
+                          : "border-sky-300 bg-sky-50 text-sky-700"
+                        : isDark
+                          ? "border-white/10 bg-white/[0.03] text-slate-200 hover:bg-white/[0.07]"
+                          : "border-slate-300/70 bg-slate-50/70 text-slate-700 hover:bg-white"
+                    }`}
+                    aria-label={`Go to ${item.title}`}
+                    title={item.title}
+                  >
+                    {index + 1}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </aside>
+
+        <article className={`${panelClass} p-7 sm:p-8`}>
+          <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+            {step.label}
+          </p>
+          <h3 className={`mt-4 font-display text-3xl font-semibold ${titleClass}`}>
+            {step.title}
+          </h3>
+
+          {step.body ? (
+            <div className={`mt-6 space-y-4 text-lg leading-8 ${copyClass}`}>
+              {step.body.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          ) : null}
+
+          {step.callout ? (
+            <div
+              className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
+                isDark
+                  ? "border-cyan-300/20 bg-cyan-300/10 text-cyan-50"
+                  : "border-sky-200 bg-sky-50 text-sky-900"
+              }`}
+            >
+              {step.callout}
+            </div>
+          ) : null}
+
+          {step.bullets ? (
+            <ul className={`mt-6 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
+              {step.bullets.map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className={`mt-2 h-2 w-2 rounded-full ${listDotClass}`} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
+          {step.equations ? (
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {step.equations.map((item) => (
+                <div key={item.label} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
+                    {item.label}
+                  </p>
+                  <div
+                    className={`mt-4 overflow-x-auto pb-3 font-serif text-[1.8rem] font-normal leading-[1.5] tracking-normal sm:text-[2.15rem] ${titleClass}`}
+                  >
+                    {item.expression}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {step.variables ? (
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {step.variables.map((item) => (
+                <div key={item.symbol} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                  <div className="flex items-start gap-4">
+                    <div
+                      className={`min-w-[5.5rem] rounded-2xl border px-3 py-3 text-center font-serif text-2xl font-normal leading-none ${
+                        isDark
+                          ? "border-white/10 bg-white/[0.04] text-white"
+                          : "border-slate-300/70 bg-white/80 text-slate-900"
+                      }`}
+                    >
+                      {item.symbol === "vavg" ? (
+                        <>
+                          v<sub>avg</sub>
+                        </>
+                      ) : item.symbol === "aavg" ? (
+                        <>
+                          a<sub>avg</sub>
+                        </>
+                      ) : item.symbol === "ac" ? (
+                        <>
+                          a<sub>c</sub>
+                        </>
+                      ) : item.symbol === "v0" ? (
+                        <Initial symbol="v" />
+                      ) : item.display ? (
+                        item.display
+                      ) : (
+                        item.symbol
+                      )}
+                    </div>
+                    <div>
+                      <p className={`text-lg font-semibold capitalize ${titleClass}`}>
+                        {item.meaning}
+                      </p>
+                      <p className={`mt-2 text-base leading-7 ${copyClass}`}>
+                        {item.note}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {step.cards ? (
+            <div className="mt-6 grid gap-4">
+              {step.cards.map((stepCard) => (
+                <div key={stepCard.title} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                  <h4 className={`text-lg font-semibold ${titleClass}`}>{stepCard.title}</h4>
+                  <p className={`mt-3 text-base leading-7 ${copyClass}`}>{stepCard.text}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {step.practice ? (
+            <div className={`mt-6 rounded-3xl border p-6 ${subtlePanelClass}`}>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                    Practice Problem
+                  </p>
+                  <h4 className={`mt-2 text-xl font-semibold ${titleClass}`}>
+                    Check Your Understanding
+                  </h4>
+                </div>
+                <div className={`text-sm font-semibold ${mutedClass}`}>
+                  Answer it to unlock the next step
+                </div>
+              </div>
+
+              <p className={`mt-6 text-base leading-7 ${copyClass}`}>
+                {currentPracticeProblem.prompt}
+              </p>
+
+              <div className="mt-6 grid gap-3">
+                {currentPracticeProblem.choices.map((choice, index) => {
+                  const selected = selectedPracticeChoice === index;
+
+                  return (
+                    <button
+                      key={choice}
+                      type="button"
+                      onClick={() => {
+                        if (!practiceChecked) {
+                          setSelectedPracticeChoice(index);
+                        }
+                      }}
+                      className={`rounded-2xl border px-4 py-4 text-left transition ${
+                        selected
+                          ? isDark
+                            ? "border-cyan-300/40 bg-cyan-300/10"
+                            : "border-sky-300 bg-sky-50"
+                          : isDark
+                            ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
+                            : "border-slate-300/70 bg-white/70 hover:bg-white"
+                      } ${practiceChecked ? "cursor-default" : ""}`}
+                    >
+                      <span className={`${isDark ? "text-slate-100" : "text-slate-800"}`}>
+                        {choice}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {practiceChecked ? (
+                <div
+                  className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
+                    practiceIsCorrect
+                      ? isDark
+                        ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-50"
+                        : "border-emerald-200 bg-emerald-50 text-emerald-900"
+                      : isDark
+                        ? "border-amber-300/20 bg-amber-300/10 text-amber-50"
+                        : "border-amber-200 bg-amber-50 text-amber-900"
+                  }`}
+                >
+                  <p className="font-semibold">
+                    {practiceIsCorrect ? "Correct" : "Not quite"}
+                  </p>
+                  <p className="mt-2">
+                    {practiceIsCorrect
+                      ? currentPracticeProblem.correctExplanation
+                      : currentPracticeProblem.incorrectExplanation}
+                  </p>
+                </div>
+              ) : null}
+
+              <div className="mt-6 flex flex-wrap gap-4">
+                <button
+                  type="button"
+                  onClick={handlePracticeCheck}
+                  disabled={selectedPracticeChoice === null}
+                  className={`inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition ${
+                    selectedPracticeChoice === null
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:bg-cyan-200"
+                  }`}
+                >
+                  {practiceChecked ? "Answer Checked" : "Check Answer"}
+                </button>
+              </div>
+            </div>
+          ) : null}
+
+          {step.quiz ? (
+            <div className={`mt-6 rounded-3xl border p-6 ${subtlePanelClass}`}>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                    Section Quiz
+                  </p>
+                  <h4 className={`mt-2 text-xl font-semibold ${titleClass}`}>
+                    Question {quizIndex + 1} of {step.quiz.length}
+                  </h4>
+                </div>
+                <div className={`text-sm font-semibold ${mutedClass}`}>
+                  Answer each one before moving on
+                </div>
+              </div>
+
+              <p className={`mt-6 text-base leading-7 ${copyClass}`}>
+                {currentQuizQuestion.question}
+              </p>
+
+              <div className="mt-6 grid gap-3">
+                {currentQuizQuestion.choices.map((choice, index) => {
+                  const selected = selectedQuizChoice === index;
+
+                  return (
+                    <button
+                      key={choice}
+                      type="button"
+                      onClick={() => {
+                        if (!quizChecked) {
+                          setSelectedQuizChoice(index);
+                        }
+                      }}
+                      className={`rounded-2xl border px-4 py-4 text-left transition ${
+                        selected
+                          ? isDark
+                            ? "border-cyan-300/40 bg-cyan-300/10"
+                            : "border-sky-300 bg-sky-50"
+                          : isDark
+                            ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
+                            : "border-slate-300/70 bg-white/70 hover:bg-white"
+                      } ${quizChecked ? "cursor-default" : ""}`}
+                    >
+                      <span className={`${isDark ? "text-slate-100" : "text-slate-800"}`}>
+                        {choice}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {quizChecked ? (
+                <div
+                  className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
+                    quizIsCorrect
+                      ? isDark
+                        ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-50"
+                        : "border-emerald-200 bg-emerald-50 text-emerald-900"
+                      : isDark
+                        ? "border-amber-300/20 bg-amber-300/10 text-amber-50"
+                        : "border-amber-200 bg-amber-50 text-amber-900"
+                  }`}
+                >
+                  <p className="font-semibold">{quizIsCorrect ? "Correct" : "Not quite"}</p>
+                  <p className="mt-2">
+                    {quizIsCorrect
+                      ? currentQuizQuestion.correctExplanation
+                      : currentQuizQuestion.incorrectExplanation}
+                  </p>
+                </div>
+              ) : null}
+
+              <div className="mt-6 flex flex-wrap gap-4">
+                <button
+                  type="button"
+                  onClick={handleQuizAdvance}
+                  disabled={selectedQuizChoice === null}
+                  className={`inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition ${
+                    selectedQuizChoice === null
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:bg-cyan-200"
+                  }`}
+                >
+                  {!quizChecked
+                    ? "Check Answer"
+                    : quizIndex < step.quiz.length - 1
+                      ? "Next Question"
+                      : "Finish Quiz"}
+                </button>
+              </div>
+            </div>
+          ) : null}
+
+          <div className="mt-8 flex flex-wrap gap-4">
+            <button
+              type="button"
+              onClick={() => setStepIndex((current) => Math.max(current - 1, 0))}
+              disabled={isFirstStep}
+              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                isFirstStep
+                  ? "cursor-not-allowed opacity-50"
+                  : ""
+              } ${
+                isDark
+                  ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                  : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+              }`}
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setStepIndex((current) =>
+                  Math.min(current + 1, lesson.steps.length - 1),
+                )
+              }
+              disabled={
+                isLastStep ||
+                (step.practice && !practiceChecked) ||
+                (step.id === "quiz" && !quizComplete)
+              }
+              className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-slate-950 transition ${
+                isLastStep ||
+                (step.practice && !practiceChecked) ||
+                (step.id === "quiz" && !quizComplete)
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:bg-cyan-200"
+              } bg-cyan-300`}
+            >
+              Next
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+};
+
+const App = () => {
+  const [activeSection, setActiveSection] = useState(sections[0]);
+  const [theme, setTheme] = useState("dark");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [view, setView] = useState("overview");
+  const [activeLessonId, setActiveLessonId] = useState("kinematics");
+  const [lessonStepIndex, setLessonStepIndex] = useState(0);
+  const settingsRef = useRef(null);
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("coasterphysics-theme");
+    if (savedTheme === "light" || savedTheme === "dark") {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("coasterphysics-theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [view]);
+
+  useEffect(() => {
+    if (!settingsOpen) {
+      return;
+    }
+
+    const handlePointerDown = (event) => {
+      if (!settingsRef.current?.contains(event.target)) {
+        setSettingsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+    };
+  }, [settingsOpen]);
+
+  const isDark = theme === "dark";
+  const panelClass = isDark
+    ? "panel border-white/10 bg-white/5"
+    : "panel border-slate-300/70 bg-white/80 shadow-[0_24px_60px_rgba(148,163,184,0.16)]";
+  const subtlePanelClass = isDark
+    ? "border-white/10 bg-white/[0.04]"
+    : "border-slate-300/70 bg-slate-50/90";
+  const titleClass = isDark ? "text-white" : "text-slate-950";
+  const copyClass = isDark ? "text-slate-300" : "text-slate-600";
+  const mutedClass = isDark ? "text-slate-400" : "text-slate-500";
+  const accentLabelClass = isDark ? "text-cyan-200" : "text-sky-700";
+  const accentNumberClass = isDark
+    ? "bg-cyan-300/15 text-cyan-100"
+    : "bg-sky-100 text-sky-700";
+  const listDotClass = isDark ? "bg-cyan-300" : "bg-sky-500";
+  const warmDotClass = isDark ? "bg-amber-300" : "bg-amber-500";
+
+  const currentLesson = lessonMap[activeLessonId];
+
+  const openLesson = (section) => {
+    setActiveSection(section);
+    setActiveLessonId(section.id);
+    setLessonStepIndex(0);
+    setView("lesson");
+  };
+
+  return (
+    <main className="section-shell py-10 sm:py-12 lg:py-16">
+      <div className="flex justify-end">
+        <div ref={settingsRef} className="relative">
+          <button
+            type="button"
+            onClick={() => setSettingsOpen((open) => !open)}
+            className={`inline-flex items-center gap-3 rounded-full border px-4 py-2.5 text-sm font-semibold transition ${
+              isDark
+                ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+            }`}
+          >
+            Settings
+            <span className={`text-xs ${mutedClass}`}>{settingsOpen ? "-" : "+"}</span>
+          </button>
+
+          {settingsOpen ? (
+            <div
+              className={`absolute right-0 top-[calc(100%+0.75rem)] z-20 w-72 rounded-3xl border p-4 ${panelClass}`}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className={`text-sm font-semibold ${titleClass}`}>Appearance</p>
+                  <p className={`mt-1 text-sm leading-6 ${copyClass}`}>
+                    Switch between dark and light mode.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setTheme((currentTheme) =>
+                      currentTheme === "dark" ? "light" : "dark",
+                    )
+                  }
+                  className={`relative inline-flex h-8 w-16 shrink-0 items-center rounded-full p-1 transition ${
+                    isDark
+                      ? "bg-cyan-300/80"
+                      : "border border-slate-300/80 bg-slate-300/80"
+                  }`}
+                  aria-label="Toggle light mode and dark mode"
+                  aria-pressed={!isDark}
+                >
+                  <span
+                    className={`inline-block h-6 w-6 rounded-full bg-white shadow-sm transition-transform ${
+                      isDark ? "translate-x-0" : "translate-x-8"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              <div
+                className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${subtlePanelClass} ${copyClass}`}
+              >
+                Current mode:{" "}
+                <span className={titleClass}>{isDark ? "Dark" : "Light"}</span>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      {view === "lesson" ? (
+        <LessonView
+          lesson={currentLesson}
+          isDark={isDark}
+          panelClass={panelClass}
+          subtlePanelClass={subtlePanelClass}
+          titleClass={titleClass}
+          copyClass={copyClass}
+          mutedClass={mutedClass}
+          accentLabelClass={accentLabelClass}
+          accentNumberClass={accentNumberClass}
+          listDotClass={listDotClass}
+          warmDotClass={warmDotClass}
+          stepIndex={lessonStepIndex}
+          setStepIndex={setLessonStepIndex}
+          onBack={() => setView("overview")}
+        />
+      ) : (
+        <>
+          <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
+            <div className="max-w-3xl">
+              <h1
+                className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[5.8rem] lg:leading-[0.96] ${titleClass}`}
+              >
+                coasterphysics
               </h1>
-              <p className="mt-5 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg">
-                {courseDescription}
+
+              <p className={`mt-8 max-w-2xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
+                Coasterphysics grew out of a fascination with roller coasters
+                and the physics questions they naturally raise. This version of
+                the project turns that curiosity into a full AP Physics C:
+                Mechanics lesson sequence built around real coaster motion.
+              </p>
+
+              <div className="mt-10">
+                <a
+                  href="#topics"
+                  className="inline-flex min-w-[18rem] items-center justify-center rounded-full bg-cyan-300 px-8 py-5 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
+                >
+                  Start Learning
+                </a>
+              </div>
+            </div>
+
+            <div className="relative mx-auto flex w-full max-w-xl items-end justify-center lg:min-h-[40rem]">
+              <div
+                className={`absolute inset-x-[14%] inset-y-[18%] rounded-full blur-[90px] ${
+                  isDark ? "bg-white/28" : "bg-slate-300/35"
+                }`}
+              />
+              <img
+                src="/roller-coaster-hero.png"
+                alt="Roller coaster silhouette cresting a hill"
+                className="relative h-[24rem] w-auto max-w-full object-contain sm:h-[30rem] lg:h-[40rem]"
+              />
+            </div>
+          </section>
+
+          <section id="topics" className="pt-16 pb-10 sm:pt-20 sm:pb-14">
+            <div className="max-w-6xl">
+              <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+                Learning Path
+              </p>
+              <h2
+                className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+              >
+                Select a Roller Coaster Physics Section
+              </h2>
+              <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
+                Start with kinematics, then build through forces, energy,
+                circular motion, losses, momentum, rotation, and full coaster
+                design reasoning.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-              <h2 className="text-lg font-semibold text-white">Course logic</h2>
-              <BulletList items={courseBigIdeas} className="mt-4" />
+            <div className="mt-10 grid gap-4">
+              {sections.map((section) => {
+                const isActive = section.id === activeSection.id;
+
+                return (
+                  <button
+                    key={section.id}
+                    type="button"
+                    onClick={() => {
+                      openLesson(section);
+                    }}
+                    className={`${panelClass} flex items-center justify-between gap-4 p-5 text-left transition ${
+                      isActive
+                        ? isDark
+                          ? "border-cyan-300/40 bg-cyan-300/10"
+                          : "border-sky-300 bg-sky-50"
+                        : isDark
+                          ? "hover:border-white/15 hover:bg-white/[0.07]"
+                          : "hover:border-slate-400 hover:bg-white"
+                    }`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <span
+                        className={`mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
+                      >
+                        {section.number}
+                      </span>
+                      <div>
+                        <h3 className={`text-xl font-semibold ${titleClass}`}>
+                          {section.title}
+                        </h3>
+                        <p
+                          className={`mt-1 text-sm uppercase tracking-[0.16em] ${mutedClass}`}
+                        >
+                          {section.subtitle}
+                        </p>
+                      </div>
+                    </div>
+
+                    <span
+                      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-xl transition ${
+                        isDark
+                          ? "border-white/10 bg-white/[0.04] text-slate-200"
+                          : "border-slate-300/70 bg-white/70 text-slate-700"
+                      }`}
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </button>
+                );
+              })}
             </div>
-          </div>
-
-          <div className="mt-8 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            {lessonPlans.map((lesson) => (
-              <a
-                key={lesson.id}
-                href={`#${lesson.id}`}
-                className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-4 transition hover:border-cyan-300/40 hover:bg-cyan-300/[0.08]"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200">
-                  Lesson {lesson.number}
-                </p>
-                <p className="mt-2 text-base font-semibold text-white">
-                  {lesson.title}
-                </p>
-              </a>
-            ))}
-          </div>
-        </div>
-      </header>
-
-      <main className="section-shell mt-10 space-y-8">
-        {lessonPlans.map((lesson) => (
-          <LessonPlan key={lesson.id} lesson={lesson} />
-        ))}
-      </main>
-    </div>
+          </section>
+        </>
+      )}
+    </main>
   );
-}
+};
 
 export default App;
