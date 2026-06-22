@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import SimulatorPanel from "./components/SimulatorPanel";
 
 const Fraction = ({ numerator, denominator }) => {
   return (
@@ -1705,14 +1706,14 @@ const LessonView = ({
       </div>
 
       <div
-        className="mt-8 grid gap-4 lg:[grid-template-columns:var(--lesson-columns)] lg:[transition:grid-template-columns_280ms_ease]"
+        className="mt-8 grid items-start gap-4 lg:[grid-template-columns:var(--lesson-columns)] lg:[transition:grid-template-columns_280ms_ease]"
         style={{
           "--lesson-columns": tocOpen
             ? "22rem minmax(0,1fr)"
             : "5.25rem minmax(0,1fr)",
         }}
       >
-        <aside className={`${panelClass} p-4 sm:p-5`}>
+        <aside className={`${panelClass} overflow-hidden lg:sticky lg:top-8 lg:max-h-[calc(100vh-4rem)] p-4 sm:p-5`}>
           <div className={`flex ${tocOpen ? "items-start justify-between gap-4" : "flex-col items-center gap-4"}`}>
             <div
               className={`transition-all duration-300 ease-out ${
@@ -1746,7 +1747,7 @@ const LessonView = ({
           <div
             className={`transition-all duration-300 ease-out ${
               tocOpen
-                ? "mt-8 max-h-[40rem] overflow-visible opacity-100"
+                ? "mt-8 max-h-[min(40rem,calc(100vh-16rem))] overflow-y-auto pr-1 opacity-100"
                 : "mt-0 max-h-0 overflow-hidden opacity-0 pointer-events-none"
             }`}
           >
@@ -1775,9 +1776,9 @@ const LessonView = ({
                       >
                         {index + 1}
                       </span>
-                      <div>
-                        <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
-                        <p className={`text-sm ${mutedClass}`}>{item.title}</p>
+                      <div className="min-w-0">
+                        <p className={`text-sm font-semibold break-words ${titleClass}`}>{item.label}</p>
+                        <p className={`text-sm break-words ${mutedClass}`}>{item.title}</p>
                       </div>
                     </div>
                   </button>
@@ -1790,7 +1791,7 @@ const LessonView = ({
             className={`transition-all duration-300 ease-out ${
               tocOpen
                 ? "max-h-0 overflow-hidden opacity-0 pointer-events-none"
-                : "mt-2 max-h-[40rem] overflow-visible opacity-100"
+                : "mt-2 max-h-[min(40rem,calc(100vh-10rem))] overflow-y-auto opacity-100"
             }`}
           >
             <div className="flex flex-col items-center gap-3 py-0.5">
@@ -2425,6 +2426,36 @@ const App = () => {
                   </button>
                 );
               })}
+            </div>
+          </section>
+
+          <section className="pb-10 sm:pb-14">
+            <div className="max-w-6xl">
+              <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+                Interactive Lab
+              </p>
+              <h2
+                className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+              >
+                Explore a Drop in Real Time
+              </h2>
+              <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
+                Change the drop height and the level-out length to see how the
+                coaster profile, maximum speed, and peak g-force respond
+                together.
+              </p>
+            </div>
+
+            <div className="mt-10">
+              <SimulatorPanel
+                isDark={isDark}
+                panelClass={panelClass}
+                subtlePanelClass={subtlePanelClass}
+                titleClass={titleClass}
+                copyClass={copyClass}
+                mutedClass={mutedClass}
+                accentLabelClass={accentLabelClass}
+              />
             </div>
           </section>
         </>
