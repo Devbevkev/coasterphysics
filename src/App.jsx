@@ -1972,6 +1972,7 @@ const LessonView = ({
   const [tocOpen, setTocOpen] = useState(true);
   const [selectedPracticeChoice, setSelectedPracticeChoice] = useState(null);
   const [practiceChecked, setPracticeChecked] = useState(false);
+  const [practiceUnlocked, setPracticeUnlocked] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
   const [selectedQuizChoice, setSelectedQuizChoice] = useState(null);
   const [quizChecked, setQuizChecked] = useState(false);
@@ -1989,6 +1990,7 @@ const LessonView = ({
   useEffect(() => {
     setSelectedPracticeChoice(null);
     setPracticeChecked(false);
+    setPracticeUnlocked(false);
   }, [step.id]);
 
   useEffect(() => {
@@ -2012,6 +2014,7 @@ const LessonView = ({
     }
 
     setPracticeChecked(true);
+    setPracticeUnlocked(true);
   };
 
   const handleQuizAdvance = () => {
@@ -2062,7 +2065,7 @@ const LessonView = ({
             : "5.25rem minmax(0,1fr)",
         }}
       >
-        <aside className={`${panelClass} overflow-hidden lg:sticky lg:top-8 lg:max-h-[calc(100vh-4rem)] p-4 sm:p-5`}>
+        <aside className={`${panelClass} lg:sticky lg:top-8 lg:self-start p-4 sm:p-5`}>
           <div className={`flex ${tocOpen ? "items-start justify-between gap-4" : "flex-col items-center gap-4"}`}>
             <div
               className={`transition-all duration-300 ease-out ${
@@ -2071,10 +2074,7 @@ const LessonView = ({
                   : "max-h-0 overflow-hidden opacity-0 pointer-events-none"
               }`}
             >
-              <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-                {lesson.title}
-              </p>
-              <h2 className={`mt-4 font-display text-3xl font-semibold ${titleClass}`}>
+              <h2 className={`font-display text-3xl font-semibold ${titleClass}`}>
                 {lesson.subtitle}
               </h2>
               <p className={`mt-4 text-base leading-7 ${copyClass}`}>{lesson.goal}</p>
@@ -2096,7 +2096,7 @@ const LessonView = ({
           <div
             className={`transition-all duration-300 ease-out ${
               tocOpen
-                ? "mt-8 max-h-[min(40rem,calc(100vh-16rem))] overflow-y-auto pr-1 opacity-100"
+                ? "mt-8 opacity-100"
                 : "mt-0 max-h-0 overflow-hidden opacity-0 pointer-events-none"
             }`}
           >
@@ -2127,6 +2127,7 @@ const LessonView = ({
                       </span>
                       <div className="min-w-0">
                         <p className={`text-sm font-semibold break-words ${titleClass}`}>{item.label}</p>
+                        <p className={`text-sm break-words ${mutedClass}`}>{item.title}</p>
                       </div>
                     </div>
                   </button>
@@ -2139,7 +2140,7 @@ const LessonView = ({
             className={`transition-all duration-300 ease-out ${
               tocOpen
                 ? "max-h-0 overflow-hidden opacity-0 pointer-events-none"
-                : "mt-2 max-h-[min(40rem,calc(100vh-10rem))] overflow-y-auto opacity-100"
+                : "mt-2 opacity-100"
             }`}
           >
             <div className="flex flex-col items-center gap-3 py-0.5">
@@ -2313,8 +2314,9 @@ const LessonView = ({
                       key={choice}
                       type="button"
                       onClick={() => {
-                        if (!practiceChecked) {
-                          setSelectedPracticeChoice(index);
+                        setSelectedPracticeChoice(index);
+                        if (practiceChecked && selectedPracticeChoice !== index) {
+                          setPracticeChecked(false);
                         }
                       }}
                       className={`rounded-2xl border px-4 py-4 text-left transition ${
@@ -2404,8 +2406,9 @@ const LessonView = ({
                       key={choice}
                       type="button"
                       onClick={() => {
-                        if (!quizChecked) {
-                          setSelectedQuizChoice(index);
+                        setSelectedQuizChoice(index);
+                        if (quizChecked && selectedQuizChoice !== index) {
+                          setQuizChecked(false);
                         }
                       }}
                       className={`rounded-2xl border px-4 py-4 text-left transition ${
@@ -2494,12 +2497,12 @@ const LessonView = ({
               }
               disabled={
                 isLastStep ||
-                (step.practice && !practiceChecked) ||
+                (step.practice && !practiceUnlocked) ||
                 (step.id === "quiz" && !quizComplete)
               }
               className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-slate-950 transition ${
                 isLastStep ||
-                (step.practice && !practiceChecked) ||
+                (step.practice && !practiceUnlocked) ||
                 (step.id === "quiz" && !quizComplete)
                   ? "cursor-not-allowed opacity-50"
                   : "hover:bg-cyan-200"
