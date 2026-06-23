@@ -246,6 +246,18 @@ const kinematicsLesson = createLesson(
       ],
       callout:
         "The moment a section of track becomes strongly curved or the forces start changing significantly, these constant-acceleration equations stop being the right model.",
+      practice: practiceQuestion(
+        "A coaster starts from rest and accelerates at 4.0 m/s² for 3.0 s on a straight section of track. What is its final velocity?",
+        [
+          "A. 7.0 m/s",
+          "B. 12 m/s",
+          "C. 16 m/s",
+          "D. 24 m/s",
+        ],
+        1,
+        "Correct. Use v = v0 + at. Since the coaster starts from rest, v0 = 0, so v = (4.0)(3.0) = 12 m/s.",
+        "Not quite. Use v = v0 + at. Because the coaster starts from rest, v0 = 0, so the final velocity is (4.0)(3.0) = 12 m/s.",
+      ),
     }),
     createStep(
       "coaster-explanation",
@@ -283,31 +295,9 @@ const kinematicsLesson = createLesson(
         ],
       },
     ),
-    createStep(
-      "practice",
-      "Practice",
-      "Multiple Choice Practice",
-      {
-        body: [
-          "Answer this first question before moving on. The goal is to check whether you are treating acceleration as a change in velocity rather than only as a change in speed.",
-        ],
-        practice: practiceQuestion(
-          "A coaster moves around a circular turn at a constant speed of 18 m/s. Which statement is true?",
-          [
-            "A. The coaster has no acceleration because its speed is constant.",
-            "B. The coaster has acceleration because its direction is changing.",
-            "C. The coaster has no velocity because its direction is changing.",
-            "D. The coaster's acceleration must be zero because its velocity is constant.",
-          ],
-          1,
-          "Correct. Even though the speed stays constant, the velocity changes because the direction changes, so the coaster is accelerating.",
-          "Not quite. Constant speed does not guarantee zero acceleration. If the direction changes, the velocity changes and the coaster accelerates.",
-        ),
-      },
-    ),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These additional questions reinforce graph reasoning and the constant-acceleration equations. Each answer explanation is meant to model the kind of reasoning you should write out when solving problems on your own.",
+        "These five questions start with one graph-reading check and then shift into direct equation use. Each answer explanation is meant to model the kind of reasoning you should write out when solving problems on your own.",
       ],
       quiz: [
         quizQuestion(
@@ -333,6 +323,42 @@ const kinematicsLesson = createLesson(
           2,
           "Correct. Use v = v0 + at. Since v0 = 0, the final velocity is (2.5)(6.0) = 15 m/s.",
           "Not quite. Start with v = v0 + at. Because the coaster starts from rest, v0 = 0, so v = (2.5)(6.0) = 15 m/s.",
+        ),
+        quizQuestion(
+          "A coaster starts from rest and accelerates at 2.0 m/s² for 4.0 s. How far does it travel during that time?",
+          [
+            "A. 8.0 m",
+            "B. 16 m",
+            "C. 32 m",
+            "D. 64 m",
+          ],
+          1,
+          "Correct. Use x = x0 + v0t + one-half at². Here x0 = 0 and v0 = 0, so the displacement is one-half times 2.0 times 4.0² = 16 m.",
+          "Not quite. Use x = x0 + v0t + one-half at². Because the coaster starts from rest, the displacement is one-half times 2.0 times 4.0² = 16 m.",
+        ),
+        quizQuestion(
+          "A coaster speeds up from 6.0 m/s to 14 m/s over a displacement of 40 m. What is its acceleration?",
+          [
+            "A. 1.0 m/s²",
+            "B. 2.0 m/s²",
+            "C. 4.0 m/s²",
+            "D. 6.0 m/s²",
+          ],
+          1,
+          "Correct. Use v² = v0² + 2aΔx. Substituting gives 14² = 6.0² + 2a(40), so 196 = 36 + 80a and a = 2.0 m/s².",
+          "Not quite. Start with v² = v0² + 2aΔx. Using 14 m/s, 6.0 m/s, and 40 m gives 196 = 36 + 80a, so a = 2.0 m/s².",
+        ),
+        quizQuestion(
+          "A coaster speeds up from 8.0 m/s to 12 m/s in 5.0 s with constant acceleration. What is its displacement during that interval?",
+          [
+            "A. 20 m",
+            "B. 40 m",
+            "C. 50 m",
+            "D. 60 m",
+          ],
+          2,
+          "Correct. Use Δx = one-half (v0 + v)t. The average velocity is 10 m/s, so the displacement is (10)(5.0) = 50 m.",
+          "Not quite. Use Δx = one-half (v0 + v)t. The average of 8.0 m/s and 12 m/s is 10 m/s, so over 5.0 s the displacement is 50 m.",
         ),
       ],
     }),
