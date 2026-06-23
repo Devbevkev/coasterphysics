@@ -63,7 +63,7 @@ const createLesson = (title, subtitle, goal, steps) => ({
   title,
   subtitle,
   goal,
-  steps,
+  steps: steps.filter((step) => step.id !== "next-lesson"),
 });
 
 const sections = [
@@ -152,6 +152,18 @@ const kinematicsLesson = createLesson(
         ],
         callout:
           "If a coaster moves at 18 m/s through a turnaround, the speed can stay 18 m/s while the velocity keeps changing because the train keeps pointing in a new direction.",
+        practice: practiceQuestion(
+          "A roller coaster moves around a circular turn at a constant speed of 18 m/s. The turn has a radius of 36 m. What is the coaster's acceleration?",
+          [
+            "A. 0 m/s²",
+            "B. 0.5 m/s²",
+            "C. 9 m/s²",
+            "D. 648 m/s²",
+          ],
+          2,
+          "Correct. Even though the coaster's speed is constant, its direction is changing, so it is accelerating. For circular motion, a_c = v²/r = 18²/36 = 324/36 = 9 m/s².",
+          "Not quite. In circular motion, the acceleration is a_c = v²/r. Using 18 m/s and 36 m gives a_c = 18²/36 = 9 m/s².",
+        ),
       },
     ),
     createStep("equations", "Equations", "Key Equations", {
@@ -170,7 +182,8 @@ const kinematicsLesson = createLesson(
           "Position with constant acceleration",
           <>
             x = <Initial symbol="x" /> + <Initial symbol="v" />
-            t + ½at²
+            t + <Fraction numerator="1" denominator="2" />
+            at²
           </>,
         ),
         equation(
@@ -182,9 +195,48 @@ const kinematicsLesson = createLesson(
         equation(
           "Average-velocity displacement",
           <>
-            Δx = ½(<Initial symbol="v" /> + v)t
+            Δx = <Fraction numerator="1" denominator="2" />
+            (<Initial symbol="v" /> + v)t
           </>,
         ),
+      ],
+      variables: [
+        {
+          symbol: "v",
+          meaning: "final velocity",
+          note: "The velocity at the end of the motion interval.",
+        },
+        {
+          symbol: "v0",
+          meaning: "initial velocity",
+          note: "The velocity at the beginning of the motion interval.",
+        },
+        {
+          symbol: "x",
+          meaning: "final position",
+          note: "The position at the end of the segment being analyzed.",
+        },
+        {
+          symbol: "x0",
+          display: <Initial symbol="x" />,
+          meaning: "initial position",
+          note: "The starting position before the motion segment begins.",
+        },
+        {
+          symbol: "Δx",
+          meaning: "displacement",
+          note: "The change in position from start to finish.",
+        },
+        {
+          symbol: "a",
+          meaning: "acceleration",
+          note: "The rate at which velocity changes during the interval.",
+        },
+        {
+          symbol: "t",
+          meaning: "time",
+          note: "The elapsed time for the motion interval.",
+        },
       ],
       bullets: [
         "Slope of position-time graph = velocity.",
@@ -213,27 +265,6 @@ const kinematicsLesson = createLesson(
         ],
       },
     ),
-    createStep("worked-example", "Worked Example", "Straight-Drop Kinematics", {
-      body: [
-        "Use a short straight track segment so the constant-acceleration model makes sense. This is the right level of simplification for an introductory coaster problem.",
-      ],
-      cards: [
-        card(
-          "Given",
-          "A coaster starts from rest and accelerates down a straight section of track at 3.2 m/s² for 4.0 s. Use v0 = 0 m/s, a = 3.2 m/s², and t = 4.0 s.",
-        ),
-        card(
-          "Final velocity",
-          "Use v = v0 + at. Substituting gives v = 0 + (3.2)(4.0) = 12.8 m/s. The train leaves the interval moving 12.8 m/s along the track.",
-        ),
-        card(
-          "Displacement",
-          "Use x = x0 + v0t + 1/2at^2. If x0 = 0, then x = 0 + 0 + 1/2(3.2)(4.0)^2 = 1.6(16) = 25.6 m.",
-        ),
-      ],
-      callout:
-        "Final answer: the coaster reaches 12.8 m/s and travels 25.6 m during the 4.0 s interval.",
-    }),
     createStep(
       "common-mistakes",
       "Common Mistakes",
@@ -366,6 +397,48 @@ const forcesLesson = createLesson(
         equation("Parallel gravity component", <>mg sinθ</>),
         equation("Perpendicular gravity component", <>mg cosθ</>),
       ],
+      variables: [
+        {
+          symbol: "Fnet",
+          display: (
+            <>
+              F<sub>net</sub>
+            </>
+          ),
+          meaning: "net force",
+          note: "The vector sum of all forces acting on the coaster or rider.",
+        },
+        {
+          symbol: "Fg",
+          display: (
+            <>
+              F<sub>g</sub>
+            </>
+          ),
+          meaning: "weight",
+          note: "The gravitational force acting downward on the object.",
+        },
+        {
+          symbol: "m",
+          meaning: "mass",
+          note: "The amount of matter in the coaster car or rider.",
+        },
+        {
+          symbol: "a",
+          meaning: "acceleration",
+          note: "How quickly the coaster's velocity changes.",
+        },
+        {
+          symbol: "g",
+          meaning: "gravitational field strength",
+          note: "Near Earth, g is approximately 9.8 m/s².",
+        },
+        {
+          symbol: "θ",
+          meaning: "track angle",
+          note: "The angle the slope makes relative to the horizontal.",
+        },
+      ],
       bullets: [
         "The parallel component changes motion along the track.",
         "The perpendicular component helps determine the normal force.",
@@ -391,27 +464,6 @@ const forcesLesson = createLesson(
         ],
       },
     ),
-    createStep("worked-example", "Worked Example", "A Frictionless Slope", {
-      body: [
-        "This is the cleanest way to practice force components. The track removes the need to think about two-dimensional motion in free space, but it still requires careful vector reasoning.",
-      ],
-      cards: [
-        card(
-          "Given",
-          "A 500 kg coaster car is on a frictionless 30° slope. Find the component of gravity down the slope and the resulting acceleration.",
-        ),
-        card(
-          "Gravity component along the slope",
-          "Use Fparallel = mg sinθ. Substituting gives Fparallel = (500)(9.8)(sin30°) = (500)(9.8)(0.5) = 2450 N.",
-        ),
-        card(
-          "Acceleration",
-          "Because the track is frictionless, the downhill net force is 2450 N. Use Fnet = ma: 2450 = 500a, so a = 4.9 m/s².",
-        ),
-      ],
-      callout:
-        "Final answer: the component of gravity down the slope is 2450 N and the acceleration is 4.9 m/s² down the track.",
-    }),
     createStep(
       "common-mistakes",
       "Common Mistakes",
@@ -535,7 +587,13 @@ const energyLesson = createLesson(
       ],
       equations: [
         equation("Gravitational potential energy", <>U<sub>g</sub> = mgh</>),
-        equation("Kinetic energy", <>K = ½mv²</>),
+        equation(
+          "Kinetic energy",
+          <>
+            K = <Fraction numerator="1" denominator="2" />
+            mv²
+          </>,
+        ),
         equation(
           "Mechanical energy",
           <>
@@ -550,8 +608,60 @@ const energyLesson = createLesson(
         ),
         equation("Drop-speed relation", <>v = sqrt(2gh)</>),
       ],
+      variables: [
+        {
+          symbol: "Ug",
+          display: (
+            <>
+              U<sub>g</sub>
+            </>
+          ),
+          meaning: "gravitational potential energy",
+          note: "Stored energy due to height in the gravitational field.",
+        },
+        {
+          symbol: "K",
+          meaning: "kinetic energy",
+          note: "Energy associated with motion.",
+        },
+        {
+          symbol: "Emech",
+          display: (
+            <>
+              E<sub>mech</sub>
+            </>
+          ),
+          meaning: "mechanical energy",
+          note: "The total of kinetic energy and gravitational potential energy.",
+        },
+        {
+          symbol: "m",
+          meaning: "mass",
+          note: "The amount of matter in the coaster car or rider.",
+        },
+        {
+          symbol: "g",
+          meaning: "gravitational field strength",
+          note: "Near Earth, g is approximately 9.8 m/s².",
+        },
+        {
+          symbol: "h",
+          meaning: "height",
+          note: "Vertical position measured relative to a chosen reference level.",
+        },
+        {
+          symbol: "v",
+          meaning: "speed",
+          note: "The magnitude of the coaster's velocity at a given point.",
+        },
+        {
+          symbol: "i/f",
+          meaning: "initial and final labels",
+          note: "Subscript i means initial, and subscript f means final.",
+        },
+      ],
       bullets: [
-        "The drop-speed relation comes from setting mgh = 1/2mv² for a drop from rest.",
+        "The drop-speed relation comes from setting gravitational potential energy equal to kinetic energy for a drop from rest.",
         "Reference height can be chosen wherever it makes the algebra easiest.",
         "If friction is present, mechanical energy is no longer constant by itself.",
       ],
@@ -573,27 +683,6 @@ const energyLesson = createLesson(
         ],
       },
     ),
-    createStep("worked-example", "Worked Example", "Two Classic Energy Problems", {
-      body: [
-        "These two examples show why energy is such a powerful coaster tool. One uses a full drop from rest, and the other compares two high points on the track.",
-      ],
-      cards: [
-        card(
-          "Example 1: speed at the bottom",
-          "A coaster starts from rest at a height of 40 m. Ignoring friction, set mgh = 1/2mv². Mass cancels, so v = sqrt(2gh) = sqrt((2)(9.8)(40)) ≈ 28.0 m/s.",
-        ),
-        card(
-          "Example 2: speed at a later hill",
-          "A coaster starts from rest at 50 m and later reaches a hill of height 20 m. Use mghinitial = 1/2mv² + mghfinal. That gives (9.8)(50) = 1/2v² + (9.8)(20), so 1/2v² = 294 and v ≈ 24.2 m/s.",
-        ),
-        card(
-          "What these examples teach",
-          "The bottom-speed result depends on the height change, not on the mass. The later-hill result shows how energy lets you compare two points directly without solving the force at every instant in between.",
-        ),
-      ],
-      callout:
-        "Final answers: a 40 m drop gives a speed of about 28.0 m/s at the bottom, and the coaster reaches the 20 m hill at about 24.2 m/s if friction is ignored.",
-    }),
     createStep(
       "common-mistakes",
       "Common Mistakes",
@@ -643,7 +732,7 @@ const energyLesson = createLesson(
           ],
           2,
           "Correct. Use v = sqrt(2gh) = sqrt((2)(9.8)(40)) ≈ 28.0 m/s.",
-          "Not quite. Set mgh = 1/2mv² and solve for v. For h = 40 m, the speed is about 28.0 m/s.",
+          "Not quite. Set gravitational potential energy equal to kinetic energy and solve for v. For h = 40 m, the speed is about 28.0 m/s.",
         ),
         quizQuestion(
           "Why are later hills on a traditional coaster usually lower than the first hill?",
@@ -747,6 +836,48 @@ const circularMotionLesson = createLesson(
           <>v = sqrt(gr)</>,
         ),
       ],
+      variables: [
+        {
+          symbol: "ac",
+          meaning: "centripetal acceleration",
+          note: "The inward acceleration required to keep the coaster moving in a curve.",
+        },
+        {
+          symbol: "v",
+          meaning: "speed",
+          note: "How fast the coaster is moving along the track.",
+        },
+        {
+          symbol: "r",
+          meaning: "radius of curvature",
+          note: "How tight the hill, dip, turn, or loop is.",
+        },
+        {
+          symbol: "Fnet,inward",
+          display: (
+            <>
+              F<sub>net,inward</sub>
+            </>
+          ),
+          meaning: "net inward force",
+          note: "The total force directed toward the center of curvature.",
+        },
+        {
+          symbol: "N",
+          meaning: "normal force",
+          note: "The support force from the seat or track on the rider or car.",
+        },
+        {
+          symbol: "m",
+          meaning: "mass",
+          note: "The mass of the coaster car or rider being analyzed.",
+        },
+        {
+          symbol: "g",
+          meaning: "gravitational field strength",
+          note: "Near Earth, g is approximately 9.8 m/s².",
+        },
+      ],
       bullets: [
         "At the top of a loop, the limiting case occurs when N = 0.",
         "You cannot use mg = mv²/r in every circular-motion problem. It only fits a very specific case.",
@@ -769,27 +900,6 @@ const circularMotionLesson = createLesson(
         ],
       },
     ),
-    createStep("worked-example", "Worked Example", "A Rider in a Circular Dip", {
-      body: [
-        "This problem connects the abstract radial-force equation to the very concrete sensation of feeling heavy in a valley.",
-      ],
-      cards: [
-        card(
-          "Given",
-          "A coaster travels through the bottom of a circular dip of radius 25 m at 20 m/s. Find the normal force on a 60 kg rider.",
-        ),
-        card(
-          "Set up the radial equation",
-          "At the bottom of the dip, inward is upward, so N - mg = mv²/r. The rider's weight is mg = (60)(9.8) = 588 N.",
-        ),
-        card(
-          "Solve",
-          "The required inward force is mv²/r = (60)(20²)/25 = 960 N. Therefore N = 588 + 960 = 1548 N.",
-        ),
-      ],
-      callout:
-        "Final answer: the seat pushes on the rider with a normal force of 1548 N, which is much larger than the rider's true weight.",
-    }),
     createStep(
       "common-mistakes",
       "Common Mistakes",
@@ -932,6 +1042,78 @@ const workLesson = createLesson(
         ),
         equation("Power from force and speed", <>P = Fv</>),
       ],
+      variables: [
+        {
+          symbol: "W",
+          meaning: "work",
+          note: "The energy transferred by a force acting through a displacement.",
+        },
+        {
+          symbol: "F",
+          meaning: "force",
+          note: "The force doing the work or producing the power transfer.",
+        },
+        {
+          symbol: "d",
+          meaning: "displacement",
+          note: "The distance over which the force acts.",
+        },
+        {
+          symbol: "θ",
+          meaning: "angle",
+          note: "The angle between the force direction and the displacement direction.",
+        },
+        {
+          symbol: "Wnet",
+          display: (
+            <>
+              W<sub>net</sub>
+            </>
+          ),
+          meaning: "net work",
+          note: "The total work done by all forces combined.",
+        },
+        {
+          symbol: "ΔK",
+          meaning: "change in kinetic energy",
+          note: "The difference between final and initial kinetic energy.",
+        },
+        {
+          symbol: "Wnc",
+          display: (
+            <>
+              W<sub>nc</sub>
+            </>
+          ),
+          meaning: "nonconservative work",
+          note: "Work done by forces such as friction, drag, brakes, or launches.",
+        },
+        {
+          symbol: "Emech",
+          display: (
+            <>
+              E<sub>mech</sub>
+            </>
+          ),
+          meaning: "mechanical energy",
+          note: "The energy stored in kinetic and potential forms in the coaster model.",
+        },
+        {
+          symbol: "P",
+          meaning: "power",
+          note: "The rate at which work is done or energy is transferred.",
+        },
+        {
+          symbol: "t",
+          meaning: "time",
+          note: "The time interval over which work is done.",
+        },
+        {
+          symbol: "v",
+          meaning: "speed",
+          note: "The speed of the object when using P = Fv.",
+        },
+      ],
       bullets: [
         "If the force points opposite the displacement, the work is negative.",
         "A launch can do large work in little time, which means large power.",
@@ -955,27 +1137,6 @@ const workLesson = createLesson(
         ],
       },
     ),
-    createStep("worked-example", "Worked Example", "Friction Losses and Lift Power", {
-      body: [
-        "A good coaster engineer should be able to interpret an energy loss physically and compute the power needed by a machine that adds energy back into the system.",
-      ],
-      cards: [
-        card(
-          "Example 1: friction loss",
-          "Suppose a coaster loses 20,000 J of mechanical energy due to friction over one section of track. That energy does not vanish. It becomes thermal energy in the wheels, track, and air, plus some sound and vibration.",
-        ),
-        card(
-          "Example 2: chain-lift power",
-          "A chain lift does 300,000 J of work in 25 s. Use P = W/t. Substituting gives P = 300,000/25 = 12,000 W.",
-        ),
-        card(
-          "Interpretation",
-          "The numerical power value tells how quickly the motor must supply energy. A faster lift or launch for the same amount of work would require a larger power output.",
-        ),
-      ],
-      callout:
-        "Final answers: the 20,000 J of lost mechanical energy becomes other forms such as heat and sound, and the lift's average power output is 12,000 W.",
-    }),
     createStep(
       "common-mistakes",
       "Common Mistakes",
@@ -1101,6 +1262,43 @@ const momentumLesson = createLesson(
         equation("Impulse as momentum change", <>J = Δp</>),
         equation("Impulse from force and time", <>J = FΔt</>),
       ],
+      variables: [
+        {
+          symbol: "p",
+          meaning: "momentum",
+          note: "The product of mass and velocity.",
+        },
+        {
+          symbol: "m",
+          meaning: "mass",
+          note: "The amount of matter in the coaster car or train.",
+        },
+        {
+          symbol: "v",
+          meaning: "velocity",
+          note: "The coaster's speed with direction included.",
+        },
+        {
+          symbol: "J",
+          meaning: "impulse",
+          note: "The total effect of force acting over a time interval.",
+        },
+        {
+          symbol: "Δp",
+          meaning: "change in momentum",
+          note: "The difference between final and initial momentum.",
+        },
+        {
+          symbol: "F",
+          meaning: "average force",
+          note: "The average force applied during the interaction.",
+        },
+        {
+          symbol: "Δt",
+          meaning: "time interval",
+          note: "The duration over which the force acts.",
+        },
+      ],
       bullets: [
         "Use direction carefully. A negative momentum change means the final momentum points opposite the initial direction.",
         "If the stopping time increases while the momentum change stays the same, the average force decreases.",
@@ -1123,27 +1321,6 @@ const momentumLesson = createLesson(
         ],
       },
     ),
-    createStep("worked-example", "Worked Example", "Average Braking Force", {
-      body: [
-        "This example is a direct safety application. The ride is not just slowing down; the braking system must change the train's momentum in a controlled way.",
-      ],
-      cards: [
-        card(
-          "Given",
-          "A 700 kg coaster car moving at 18 m/s is brought to rest in 6.0 s. Find the average braking force.",
-        ),
-        card(
-          "Change in momentum",
-          "Use Δp = m(vf - vi). That gives Δp = 700(0 - 18) = -12,600 kg·m/s.",
-        ),
-        card(
-          "Average force",
-          "Use J = FΔt, so Favg = Δp/Δt = -12,600/6.0 = -2100 N. The negative sign shows the force points opposite the train's initial motion.",
-        ),
-      ],
-      callout:
-        "Final answer: the average braking force has magnitude 2100 N and points opposite the motion.",
-    }),
     createStep(
       "common-mistakes",
       "Common Mistakes",
@@ -1268,13 +1445,93 @@ const rotationLesson = createLesson(
         equation("Linear and angular speed", <>v = rω</>),
         equation("Linear and angular acceleration", <>a = rα</>),
         equation("Torque", <>τ = rF sinθ</>),
-        equation("Rotational kinetic energy", <>K<sub>rot</sub> = ½Iω²</>),
+        equation(
+          "Rotational kinetic energy",
+          <>
+            K<sub>rot</sub> = <Fraction numerator="1" denominator="2" />
+            Iω²
+          </>,
+        ),
         equation(
           "Total kinetic energy for rolling motion",
           <>
-            K<sub>total</sub> = ½mv² + ½Iω²
+            K<sub>total</sub> = <Fraction numerator="1" denominator="2" />
+            mv² + <Fraction numerator="1" denominator="2" />
+            Iω²
           </>,
         ),
+      ],
+      variables: [
+        {
+          symbol: "v",
+          meaning: "linear speed",
+          note: "The forward speed of the coaster or wheel rim.",
+        },
+        {
+          symbol: "r",
+          meaning: "radius",
+          note: "The distance from the rotation axis to the point of interest.",
+        },
+        {
+          symbol: "ω",
+          meaning: "angular speed",
+          note: "How fast the object rotates.",
+        },
+        {
+          symbol: "a",
+          meaning: "linear acceleration",
+          note: "The rate of change of linear velocity.",
+        },
+        {
+          symbol: "α",
+          meaning: "angular acceleration",
+          note: "The rate of change of angular velocity.",
+        },
+        {
+          symbol: "τ",
+          meaning: "torque",
+          note: "The turning effect of a force about an axis.",
+        },
+        {
+          symbol: "F",
+          meaning: "force",
+          note: "The force producing the torque.",
+        },
+        {
+          symbol: "θ",
+          meaning: "angle",
+          note: "The angle between the lever arm and the force direction.",
+        },
+        {
+          symbol: "I",
+          meaning: "rotational inertia",
+          note: "The rotational resistance to changes in motion.",
+        },
+        {
+          symbol: "Krot",
+          display: (
+            <>
+              K<sub>rot</sub>
+            </>
+          ),
+          meaning: "rotational kinetic energy",
+          note: "Energy stored in spinning motion.",
+        },
+        {
+          symbol: "Ktotal",
+          display: (
+            <>
+              K<sub>total</sub>
+            </>
+          ),
+          meaning: "total kinetic energy",
+          note: "The combined translational and rotational kinetic energy.",
+        },
+        {
+          symbol: "m",
+          meaning: "mass",
+          note: "The mass of the moving object.",
+        },
       ],
       bullets: [
         "If the wheel rolls without slipping, v = rω is the key bridge between translation and rotation.",
@@ -1298,27 +1555,6 @@ const rotationLesson = createLesson(
         ],
       },
     ),
-    createStep("worked-example", "Worked Example", "Wheel Speed from Angular Speed", {
-      body: [
-        "This short calculation is the cleanest way to connect angular motion to a physical point on a coaster wheel.",
-      ],
-      cards: [
-        card(
-          "Given",
-          "A coaster wheel has radius 0.20 m and rotates with angular speed 50 rad/s. Find the linear speed of the wheel edge.",
-        ),
-        card(
-          "Choose the right relation",
-          "For rolling geometry, use v = rω. That directly converts angular speed into linear speed at the rim.",
-        ),
-        card(
-          "Solve",
-          "Substitute r = 0.20 m and ω = 50 rad/s. Then v = (0.20)(50) = 10 m/s.",
-        ),
-      ],
-      callout:
-        "Final answer: the wheel edge moves at 10 m/s.",
-    }),
     createStep(
       "common-mistakes",
       "Common Mistakes",
@@ -1464,9 +1700,143 @@ const designSafetyLesson = createLesson(
         equation(
           "Rolling kinetic energy",
           <>
-            K<sub>total</sub> = ½mv² + ½Iω²
+            K<sub>total</sub> = <Fraction numerator="1" denominator="2" />
+            mv² + <Fraction numerator="1" denominator="2" />
+            Iω²
           </>,
         ),
+      ],
+      variables: [
+        {
+          symbol: "Ki",
+          display: (
+            <>
+              K<sub>i</sub>
+            </>
+          ),
+          meaning: "initial kinetic energy",
+          note: "The kinetic energy before the motion segment or event.",
+        },
+        {
+          symbol: "Ugi",
+          display: (
+            <>
+              U<sub>gi</sub>
+            </>
+          ),
+          meaning: "initial gravitational potential energy",
+          note: "The gravitational potential energy at the starting point.",
+        },
+        {
+          symbol: "Kf",
+          display: (
+            <>
+              K<sub>f</sub>
+            </>
+          ),
+          meaning: "final kinetic energy",
+          note: "The kinetic energy after the motion segment or event.",
+        },
+        {
+          symbol: "Ugf",
+          display: (
+            <>
+              U<sub>gf</sub>
+            </>
+          ),
+          meaning: "final gravitational potential energy",
+          note: "The gravitational potential energy at the ending point.",
+        },
+        {
+          symbol: "Fnet",
+          display: (
+            <>
+              F<sub>net</sub>
+            </>
+          ),
+          meaning: "net force",
+          note: "The vector sum of all forces acting on the coaster or rider.",
+        },
+        {
+          symbol: "a",
+          meaning: "acceleration",
+          note: "The rate at which velocity changes.",
+        },
+        {
+          symbol: "Fnet,inward",
+          display: (
+            <>
+              F<sub>net,inward</sub>
+            </>
+          ),
+          meaning: "net inward force",
+          note: "The force required to keep the coaster following a curved path.",
+        },
+        {
+          symbol: "m",
+          meaning: "mass",
+          note: "The mass of the coaster car, train, or rider being analyzed.",
+        },
+        {
+          symbol: "v",
+          meaning: "speed",
+          note: "The magnitude of the coaster's velocity.",
+        },
+        {
+          symbol: "r",
+          meaning: "radius of curvature",
+          note: "How tight the hill, dip, loop, or turn is.",
+        },
+        {
+          symbol: "Wnc",
+          display: (
+            <>
+              W<sub>nc</sub>
+            </>
+          ),
+          meaning: "nonconservative work",
+          note: "Work done by friction, drag, brakes, or other nonconservative forces.",
+        },
+        {
+          symbol: "Emech",
+          display: (
+            <>
+              E<sub>mech</sub>
+            </>
+          ),
+          meaning: "mechanical energy",
+          note: "The total kinetic-plus-potential energy in the idealized coaster model.",
+        },
+        {
+          symbol: "J",
+          meaning: "impulse",
+          note: "The total effect of force acting over time during a short interaction.",
+        },
+        {
+          symbol: "Δp",
+          meaning: "change in momentum",
+          note: "The difference between final and initial momentum.",
+        },
+        {
+          symbol: "Ktotal",
+          display: (
+            <>
+              K<sub>total</sub>
+            </>
+          ),
+          meaning: "total kinetic energy",
+          note: "The combined translational and rotational kinetic energy.",
+        },
+        {
+          symbol: "I",
+          meaning: "rotational inertia",
+          note: "The rotational resistance to changes in spinning motion.",
+        },
+        {
+          symbol: "ω",
+          meaning: "angular speed",
+          note: "How quickly a rotating part spins.",
+        },
       ],
       bullets: [
         "A full ride uses different equations in different places, but the physics still has to agree from start to finish.",
@@ -1490,27 +1860,6 @@ const designSafetyLesson = createLesson(
         ],
       },
     ),
-    createStep("worked-example", "Worked Example", "Analyzing a Simplified Coaster Layout", {
-      body: [
-        "This final example is intentionally more synthetic than earlier problems. The goal is to show how several mechanics ideas interact along one ride.",
-      ],
-      cards: [
-        card(
-          "Layout",
-          "Consider a simplified coaster with a 45 m first hill, a 25 m second hill, one loop, and a braking section before the station.",
-        ),
-        card(
-          "Energy and speed",
-          "At the top of the first hill, the coaster has its maximum gravitational potential energy. Near the bottom of the first drop, it likely has its greatest speed. By the time it reaches the 25 m second hill, some energy has been converted back into height and some has been lost to friction and drag.",
-        ),
-        card(
-          "Forces and safety",
-          "The loop requires enough speed that the inward force condition can be satisfied at every point, especially at the top. The braking section must remove the remaining kinetic energy over a sufficiently long interval that rider forces stay controlled.",
-        ),
-      ],
-      callout:
-        "A physically good layout is one where the first hill provides enough energy for later elements after losses, the curved sections keep g-forces within acceptable limits, and the brake run removes energy safely before the station.",
-    }),
     createStep(
       "common-mistakes",
       "Common Mistakes",
@@ -1778,7 +2127,6 @@ const LessonView = ({
                       </span>
                       <div className="min-w-0">
                         <p className={`text-sm font-semibold break-words ${titleClass}`}>{item.label}</p>
-                        <p className={`text-sm break-words ${mutedClass}`}>{item.title}</p>
                       </div>
                     </div>
                   </button>
@@ -1995,8 +2343,8 @@ const LessonView = ({
                         ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-50"
                         : "border-emerald-200 bg-emerald-50 text-emerald-900"
                       : isDark
-                        ? "border-amber-300/20 bg-amber-300/10 text-amber-50"
-                        : "border-amber-200 bg-amber-50 text-amber-900"
+                        ? "border-rose-300/20 bg-rose-300/10 text-rose-50"
+                        : "border-rose-200 bg-rose-50 text-rose-900"
                   }`}
                 >
                   <p className="font-semibold">
@@ -2086,8 +2434,8 @@ const LessonView = ({
                         ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-50"
                         : "border-emerald-200 bg-emerald-50 text-emerald-900"
                       : isDark
-                        ? "border-amber-300/20 bg-amber-300/10 text-amber-50"
-                        : "border-amber-200 bg-amber-50 text-amber-900"
+                        ? "border-rose-300/20 bg-rose-300/10 text-rose-50"
+                        : "border-rose-200 bg-rose-50 text-rose-900"
                   }`}
                 >
                   <p className="font-semibold">{quizIsCorrect ? "Correct" : "Not quite"}</p>
