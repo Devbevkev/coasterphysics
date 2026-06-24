@@ -209,21 +209,25 @@ const SimulatorPanel = ({
               label="Max speed"
               value={`${model.maxSpeed.toFixed(1)} m/s`}
               accent="cyan"
+              isDark={isDark}
             />
             <MetricCard
               label="Peak g-force"
               value={`${model.peakGForce.toFixed(2)} g`}
               accent="rose"
+              isDark={isDark}
             />
             <MetricCard
               label="Transition radius"
               value={`${model.transitionRadius.toFixed(1)} m`}
               accent="amber"
+              isDark={isDark}
             />
             <MetricCard
               label="Ride feel"
               value={model.intensity}
               accent="emerald"
+              isDark={isDark}
             />
           </div>
 
@@ -359,7 +363,6 @@ const SimulatorPanel = ({
 
               <g transform={`translate(${track.carX}, ${track.carY - 12})`}>
                 <rect x="-14" y="-10" width="28" height="12" rx="6" fill="#f8fafc" />
-                <rect x="-10" y="-18" width="20" height="10" rx="5" fill="#22d3ee" />
                 <circle cx="-8" cy="4" r="4" fill={isDark ? "#cbd5e1" : "#64748b"} />
                 <circle cx="8" cy="4" r="4" fill={isDark ? "#cbd5e1" : "#64748b"} />
               </g>
@@ -371,20 +374,62 @@ const SimulatorPanel = ({
   );
 };
 
-const MetricCard = ({ label, value, accent }) => {
+const MetricCard = ({ label, value, accent, isDark }) => {
   const accents = {
-    cyan: "from-cyan-400/20 to-cyan-400/5 text-cyan-100",
-    amber: "from-amber-300/20 to-amber-300/5 text-amber-100",
-    rose: "from-rose-400/20 to-rose-400/5 text-rose-100",
-    emerald: "from-emerald-300/20 to-emerald-300/5 text-emerald-100",
+    cyan: isDark
+      ? {
+          card: "border-cyan-300/10 from-cyan-400/20 to-cyan-400/5",
+          label: "text-cyan-100/80",
+          value: "text-white",
+        }
+      : {
+          card: "border-cyan-200 bg-gradient-to-br from-cyan-100 via-white to-sky-50 shadow-[0_14px_32px_rgba(14,165,233,0.10)]",
+          label: "text-cyan-700",
+          value: "text-slate-900",
+        },
+    amber: isDark
+      ? {
+          card: "border-amber-300/10 from-amber-300/20 to-amber-300/5",
+          label: "text-amber-100/80",
+          value: "text-white",
+        }
+      : {
+          card: "border-amber-200 bg-gradient-to-br from-amber-100 via-white to-yellow-50 shadow-[0_14px_32px_rgba(245,158,11,0.10)]",
+          label: "text-amber-700",
+          value: "text-slate-900",
+        },
+    rose: isDark
+      ? {
+          card: "border-rose-300/10 from-rose-400/20 to-rose-400/5",
+          label: "text-rose-100/80",
+          value: "text-white",
+        }
+      : {
+          card: "border-rose-200 bg-gradient-to-br from-rose-100 via-white to-pink-50 shadow-[0_14px_32px_rgba(244,63,94,0.10)]",
+          label: "text-rose-700",
+          value: "text-slate-900",
+        },
+    emerald: isDark
+      ? {
+          card: "border-emerald-300/10 from-emerald-300/20 to-emerald-300/5",
+          label: "text-emerald-100/80",
+          value: "text-white",
+        }
+      : {
+          card: "border-emerald-200 bg-gradient-to-br from-emerald-100 via-white to-teal-50 shadow-[0_14px_32px_rgba(16,185,129,0.10)]",
+          label: "text-emerald-700",
+          value: "text-slate-900",
+        },
   };
+
+  const accentStyles = accents[accent];
 
   return (
     <div
-      className={`rounded-[1.5rem] border border-white/10 bg-gradient-to-br p-5 ${accents[accent]}`}
+      className={`rounded-[1.5rem] border p-5 ${accentStyles.card}`}
     >
-      <p className="text-xs uppercase tracking-[0.18em] text-slate-300">{label}</p>
-      <p className="mt-3 text-2xl font-semibold text-white">{value}</p>
+      <p className={`text-xs uppercase tracking-[0.18em] ${accentStyles.label}`}>{label}</p>
+      <p className={`mt-3 text-2xl font-semibold ${accentStyles.value}`}>{value}</p>
     </div>
   );
 };

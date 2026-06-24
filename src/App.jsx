@@ -71,7 +71,7 @@ const createLesson = (title, subtitle, goal, steps) => {
     goal,
     chapterName,
     steps: steps
-      .filter((step) => step.id !== "next-lesson")
+      .filter((step) => step.id !== "next-lesson" && step.id !== "practice")
       .map((step) =>
         step.id === "quiz"
           ? {
@@ -429,6 +429,18 @@ const forcesLesson = createLesson(
         ],
         callout:
           "Students often draw the third-law partner force on the same free-body diagram. That is one of the fastest ways to lose the physical meaning of Newton's laws.",
+        practice: practiceQuestion(
+          "A rider sits in a coaster seat. The seat pushes upward on the rider. What is the Newton's Third Law partner to that force?",
+          [
+            "A. The rider's weight pulling downward on Earth.",
+            "B. The rider pushing downward on the seat.",
+            "C. The coaster's acceleration upward.",
+            "D. The normal force from the track on the car.",
+          ],
+          1,
+          "Correct. Newton's Third Law pairs act on different objects. If the seat pushes up on the rider, the rider pushes down on the seat with equal magnitude.",
+          "Not quite. The Third Law partner must act on a different object. The seat pushes up on the rider, and the rider pushes down on the seat.",
+        ),
       },
     ),
     createStep("equations", "Equations", "Key Equations", {
@@ -490,6 +502,18 @@ const forcesLesson = createLesson(
       ],
       callout:
         "On a sloped track, writing the full weight mg as the force along the track is almost always the wrong first step.",
+      practice: practiceQuestion(
+        "A coaster car has a net force of 1800 N acting on it along the track and a mass of 600 kg. What is its acceleration?",
+        [
+          "A. 0.33 m/s²",
+          "B. 3.0 m/s²",
+          "C. 600 m/s²",
+          "D. 2400 m/s²",
+        ],
+        1,
+        "Correct. Use Fnet = ma, so a = Fnet/m = 1800/600 = 3.0 m/s².",
+        "Not quite. Apply Newton's Second Law directly: a = Fnet/m = 1800/600 = 3.0 m/s².",
+      ),
     }),
     createStep(
       "coaster-explanation",
@@ -545,7 +569,7 @@ const forcesLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These questions focus on apparent weight and Newton's Second Law. Use them to practice turning a physical description into a force statement before you calculate.",
+        "These five questions focus on apparent weight, force components, and Newton's Second Law. Use them to practice turning a physical description into a force statement before you calculate.",
       ],
       quiz: [
         quizQuestion(
@@ -571,6 +595,42 @@ const forcesLesson = createLesson(
           1,
           "Correct. Use Fnet = ma, so a = Fnet/m = 4000/800 = 5.0 m/s².",
           "Not quite. Apply Newton's Second Law directly: a = Fnet/m = 4000/800 = 5.0 m/s².",
+        ),
+        quizQuestion(
+          "A 500 kg coaster car moves down a frictionless 30° incline. What is the component of gravity parallel to the track?",
+          [
+            "A. 245 N",
+            "B. 980 N",
+            "C. 2450 N",
+            "D. 4900 N",
+          ],
+          2,
+          "Correct. The parallel component is mg sinθ = (500)(9.8) sin 30° = (500)(9.8)(0.5) = 2450 N.",
+          "Not quite. On an incline, the force along the track is mg sinθ. With m = 500 kg and θ = 30°, the result is 2450 N.",
+        ),
+        quizQuestion(
+          "If the net force on a coaster car is zero, which motion is possible?",
+          [
+            "A. Moving in a straight line at constant velocity",
+            "B. Speeding up in the forward direction",
+            "C. Turning through a curve",
+            "D. Rising acceleration with zero velocity",
+          ],
+          0,
+          "Correct. Zero net force means zero acceleration, so the coaster can move with constant velocity in a straight line.",
+          "Not quite. If the net force is zero, then the acceleration is zero. That allows constant velocity motion in a straight line.",
+        ),
+        quizQuestion(
+          "A frictionless coaster car is released from rest on a 30° incline. What is its acceleration down the track?",
+          [
+            "A. 4.9 m/s²",
+            "B. 9.8 m/s²",
+            "C. 15 m/s²",
+            "D. 30 m/s²",
+          ],
+          0,
+          "Correct. On a frictionless incline, a = g sinθ = (9.8) sin 30° = 4.9 m/s².",
+          "Not quite. Use the component of gravity along the track. On a frictionless 30° incline, a = g sin 30° = 4.9 m/s².",
         ),
       ],
     }),
@@ -623,6 +683,18 @@ const energyLesson = createLesson(
         ],
         callout:
           "Students often think bigger mass means bigger speed. In ideal energy problems, the mass factor appears on both sides and cancels.",
+        practice: practiceQuestion(
+          "A coaster rolls from the top of a hill to the bottom of a frictionless drop. Which statement is true?",
+          [
+            "A. Gravitational potential energy increases while kinetic energy decreases.",
+            "B. Mechanical energy stays constant while gravitational potential energy changes into kinetic energy.",
+            "C. Mechanical energy decreases to zero at the bottom.",
+            "D. The coaster must slow down because potential energy is lost.",
+          ],
+          1,
+          "Correct. If friction is ignored, the coaster's mechanical energy stays constant while gravitational potential energy is converted into kinetic energy.",
+          "Not quite. In a frictionless drop, mechanical energy is conserved. The coaster loses gravitational potential energy and gains kinetic energy.",
+        ),
       },
     ),
     createStep("equations", "Equations", "Key Equations", {
@@ -709,6 +781,18 @@ const energyLesson = createLesson(
         "Reference height can be chosen wherever it makes the algebra easiest.",
         "If friction is present, mechanical energy is no longer constant by itself.",
       ],
+      practice: practiceQuestion(
+        "A coaster drops 20 m from rest with friction ignored. What is its speed at the bottom?",
+        [
+          "A. 9.9 m/s",
+          "B. 14.0 m/s",
+          "C. 19.8 m/s",
+          "D. 28.0 m/s",
+        ],
+        2,
+        "Correct. Use v = sqrt(2gh) = sqrt((2)(9.8)(20)) ≈ 19.8 m/s.",
+        "Not quite. Set the lost gravitational potential energy equal to the gained kinetic energy, or use v = sqrt(2gh). For h = 20 m, the speed is about 19.8 m/s.",
+      ),
     }),
     createStep(
       "coaster-explanation",
@@ -763,7 +847,7 @@ const energyLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These follow-up questions reinforce both calculation and interpretation. One asks for a bottom speed, and the other checks whether you understand why later hills are lower.",
+        "These five questions reinforce both calculation and interpretation, from bottom speed to energy conservation and later-hill design.",
       ],
       quiz: [
         quizQuestion(
@@ -789,6 +873,42 @@ const energyLesson = createLesson(
           1,
           "Correct. Real coasters lose mechanical energy to friction, drag, sound, and thermal effects, so later hills must generally be lower.",
           "Not quite. The key idea is mechanical-energy loss. Friction and air resistance remove some of the energy that was available after the first hill.",
+        ),
+        quizQuestion(
+          "Ignoring friction, a coaster reaches the bottom of a drop at 14 m/s. How high can it climb before momentarily stopping?",
+          [
+            "A. 5.0 m",
+            "B. 10.0 m",
+            "C. 14.0 m",
+            "D. 19.6 m",
+          ],
+          1,
+          "Correct. Set kinetic energy equal to gravitational potential energy: one-half mv² = mgh, so h = v²/(2g) = 14²/(2 x 9.8) = 10.0 m.",
+          "Not quite. Use one-half mv² = mgh. With v = 14 m/s, the coaster can rise to 10.0 m before stopping.",
+        ),
+        quizQuestion(
+          "A coaster has 250,000 J of mechanical energy at one point. If its gravitational potential energy there is 90,000 J, what is its kinetic energy?",
+          [
+            "A. 90,000 J",
+            "B. 160,000 J",
+            "C. 250,000 J",
+            "D. 340,000 J",
+          ],
+          1,
+          "Correct. Mechanical energy is the sum of kinetic and potential energy, so K = 250,000 - 90,000 = 160,000 J.",
+          "Not quite. Use Emech = K + Ug. If the total is 250,000 J and the potential energy is 90,000 J, the kinetic energy is 160,000 J.",
+        ),
+        quizQuestion(
+          "If a coaster's speed doubles, how does its kinetic energy change?",
+          [
+            "A. It doubles.",
+            "B. It triples.",
+            "C. It quadruples.",
+            "D. It stays the same.",
+          ],
+          2,
+          "Correct. Kinetic energy depends on v², so doubling the speed multiplies the kinetic energy by 4.",
+          "Not quite. Because kinetic energy is proportional to v², doubling speed makes the kinetic energy four times as large.",
         ),
       ],
     }),
@@ -841,6 +961,18 @@ const circularMotionLesson = createLesson(
         ],
         callout:
           "One of the most common errors in circular motion is saying the force points outward because the rider feels pushed outward. The real acceleration and net force point inward.",
+        practice: practiceQuestion(
+          "A coaster is at the bottom of a dip. Which direction is inward for the circular-motion analysis?",
+          [
+            "A. Downward",
+            "B. Upward",
+            "C. Forward along the track",
+            "D. Outward away from the center",
+          ],
+          1,
+          "Correct. At the bottom of a dip, the center of curvature is above the coaster, so the inward direction is upward.",
+          "Not quite. First identify where the center of curvature is. At the bottom of a dip, it is above the coaster, so inward is upward.",
+        ),
       },
     ),
     createStep("equations", "Equations", "Key Equations", {
@@ -926,6 +1058,18 @@ const circularMotionLesson = createLesson(
         "At the top of a loop, the limiting case occurs when N = 0.",
         "You cannot use mg = mv²/r in every circular-motion problem. It only fits a very specific case.",
       ],
+      practice: practiceQuestion(
+        "A coaster moves at 15 m/s through a curve with radius 30 m. What is its centripetal acceleration?",
+        [
+          "A. 0.50 m/s²",
+          "B. 7.5 m/s²",
+          "C. 15 m/s²",
+          "D. 30 m/s²",
+        ],
+        1,
+        "Correct. Use a_c = v²/r = 15²/30 = 225/30 = 7.5 m/s².",
+        "Not quite. Apply a_c = v²/r. With v = 15 m/s and r = 30 m, the centripetal acceleration is 7.5 m/s².",
+      ),
     }),
     createStep(
       "coaster-explanation",
@@ -980,7 +1124,7 @@ const circularMotionLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These two questions target the most important conceptual checkpoints: the minimum-speed condition for a loop and the direction of the inward acceleration.",
+        "These five questions target the minimum-speed condition, inward direction, and the force calculations riders feel in hills and dips.",
       ],
       quiz: [
         quizQuestion(
@@ -1006,6 +1150,42 @@ const circularMotionLesson = createLesson(
           2,
           "Correct. The acceleration is centripetal, so it points inward toward the center of curvature.",
           "Not quite. In curved motion at constant speed, the acceleration changes the direction of velocity, so it points toward the center of curvature.",
+        ),
+        quizQuestion(
+          "A coaster moves at 20 m/s through a curve of radius 40 m. What is its centripetal acceleration?",
+          [
+            "A. 5.0 m/s²",
+            "B. 10.0 m/s²",
+            "C. 20.0 m/s²",
+            "D. 40.0 m/s²",
+          ],
+          1,
+          "Correct. Use a_c = v²/r = 20²/40 = 400/40 = 10.0 m/s².",
+          "Not quite. Apply a_c = v²/r. With v = 20 m/s and r = 40 m, the centripetal acceleration is 10.0 m/s².",
+        ),
+        quizQuestion(
+          "A 50 kg rider passes through the bottom of a dip at 20 m/s on a 40 m radius curve. What normal force does the seat exert?",
+          [
+            "A. 490 N",
+            "B. 750 N",
+            "C. 990 N",
+            "D. 1490 N",
+          ],
+          2,
+          "Correct. At the bottom of a dip, N - mg = mv²/r. So N = mg + mv²/r = 490 + 500 = 990 N.",
+          "Not quite. At the bottom of the dip, the seat must support weight and provide extra upward force: N = mg + mv²/r = 990 N.",
+        ),
+        quizQuestion(
+          "A 50 kg rider passes over the top of a hill at 12 m/s on a 30 m radius curve. What normal force does the seat exert?",
+          [
+            "A. 250 N",
+            "B. 490 N",
+            "C. 730 N",
+            "D. 970 N",
+          ],
+          0,
+          "Correct. At the top of a hill, mg - N = mv²/r. So N = mg - mv²/r = 490 - 240 = 250 N.",
+          "Not quite. At the top of the hill, gravity helps provide the inward force, so use mg - N = mv²/r. That gives N = 250 N.",
         ),
       ],
     }),
@@ -1058,6 +1238,18 @@ const workLesson = createLesson(
         ],
         callout:
           "Friction does not destroy energy. It changes the form of the energy so that less of it remains available as useful coaster motion.",
+        practice: practiceQuestion(
+          "A coaster moves horizontally while the track's normal force acts straight upward. How much work does the normal force do at that instant?",
+          [
+            "A. Positive work",
+            "B. Negative work",
+            "C. Zero work",
+            "D. Maximum possible work",
+          ],
+          2,
+          "Correct. Work depends on the angle between force and displacement. When the force is perpendicular to the motion, the work is zero.",
+          "Not quite. The normal force is perpendicular to the coaster's motion here, so W = Fd cos 90°, which gives zero work.",
+        ),
       },
     ),
     createStep("equations", "Equations", "Key Equations", {
@@ -1163,6 +1355,18 @@ const workLesson = createLesson(
         "A launch can do large work in little time, which means large power.",
         "A brake run removes kinetic energy by doing negative work over a controlled distance.",
       ],
+      practice: practiceQuestion(
+        "A braking system does -24,000 J of work on a coaster over 8.0 s. What is its average power?",
+        [
+          "A. -300 W",
+          "B. -3000 W",
+          "C. 3000 W",
+          "D. 192,000 W",
+        ],
+        1,
+        "Correct. Use P = W/t = -24,000/8.0 = -3000 W. The negative sign shows the brakes are removing energy.",
+        "Not quite. Average power is work divided by time. Here P = -24,000/8.0 = -3000 W, and the negative sign matters because energy is being removed.",
+      ),
     }),
     createStep(
       "coaster-explanation",
@@ -1217,7 +1421,7 @@ const workLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These questions check whether you can calculate work and power after interpreting the physical setup correctly.",
+        "These five questions check whether you can interpret the physical setup and then calculate work, energy change, and power.",
       ],
       quiz: [
         quizQuestion(
@@ -1243,6 +1447,42 @@ const workLesson = createLesson(
           1,
           "Correct. Use P = W/t = 120,000/10 = 12,000 W.",
           "Not quite. Power is work divided by time, so 120,000 J over 10 s gives 12,000 W.",
+        ),
+        quizQuestion(
+          "A 400 N friction force acts opposite a coaster's motion over 25 m. How much work does friction do?",
+          [
+            "A. -10,000 J",
+            "B. -1600 J",
+            "C. 10,000 J",
+            "D. 1600 J",
+          ],
+          0,
+          "Correct. Because the force points opposite the motion, W = Fd cos 180° = (400)(25)(-1) = -10,000 J.",
+          "Not quite. Friction does negative work when it opposes the motion. Here the result is -10,000 J.",
+        ),
+        quizQuestion(
+          "A brake run does -50,000 J of net work on a coaster car that initially has 140,000 J of kinetic energy. How much kinetic energy remains?",
+          [
+            "A. 50,000 J",
+            "B. 90,000 J",
+            "C. 140,000 J",
+            "D. 190,000 J",
+          ],
+          1,
+          "Correct. The work-energy theorem gives Wnet = ΔK, so the final kinetic energy is 140,000 J - 50,000 J = 90,000 J.",
+          "Not quite. Net work changes kinetic energy. A negative 50,000 J change means the car's kinetic energy drops from 140,000 J to 90,000 J.",
+        ),
+        quizQuestion(
+          "A launch system pushes with a force of 3000 N while the coaster is moving at 20 m/s. What power is being delivered at that instant?",
+          [
+            "A. 600 W",
+            "B. 6000 W",
+            "C. 60,000 W",
+            "D. 600,000 W",
+          ],
+          2,
+          "Correct. Use P = Fv = (3000)(20) = 60,000 W.",
+          "Not quite. Instantaneous power from force and speed is P = Fv. Here that gives 60,000 W.",
         ),
       ],
     }),
@@ -1295,6 +1535,18 @@ const momentumLesson = createLesson(
         ],
         callout:
           "Students often treat impulse as if it were just force with a new name. It is not. Impulse measures the total effect of force acting over time.",
+        practice: practiceQuestion(
+          "A coaster car moving east is brought to rest by the brakes. What is the direction of the car's change in momentum?",
+          [
+            "A. East",
+            "B. West",
+            "C. Upward",
+            "D. Zero, because the car ends at rest",
+          ],
+          1,
+          "Correct. The initial momentum points east and the final momentum is zero, so Δp = pf - pi points west.",
+          "Not quite. Change in momentum means final minus initial. If the car starts moving east and ends at rest, the change in momentum points west.",
+        ),
       },
     ),
     createStep("equations", "Equations", "Key Equations", {
@@ -1347,6 +1599,18 @@ const momentumLesson = createLesson(
         "Use direction carefully. A negative momentum change means the final momentum points opposite the initial direction.",
         "If the stopping time increases while the momentum change stays the same, the average force decreases.",
       ],
+      practice: practiceQuestion(
+        "A 500 kg coaster car speeds up from 4.0 m/s to 14 m/s in a launch section. What impulse does the launch deliver?",
+        [
+          "A. 900 N·s",
+          "B. 5000 N·s",
+          "C. 7000 N·s",
+          "D. 9000 N·s",
+        ],
+        1,
+        "Correct. Use J = Δp = m(vf - vi) = 500(14 - 4) = 5000 N·s.",
+        "Not quite. Impulse equals change in momentum. Here J = 500(14 - 4) = 5000 N·s.",
+      ),
     }),
     createStep(
       "coaster-explanation",
@@ -1401,7 +1665,7 @@ const momentumLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These questions give one numerical braking problem and one launch-impulse problem, because both are standard coaster applications of momentum.",
+        "These five questions cover braking, launches, direction, and the force-time tradeoff that matters for rider safety.",
       ],
       quiz: [
         quizQuestion(
@@ -1427,6 +1691,42 @@ const momentumLesson = createLesson(
           2,
           "Correct. Impulse equals change in momentum: J = mΔv = 600(25) = 15,000 N·s.",
           "Not quite. Because the car starts from rest, the impulse is J = m(vf - vi) = 600(25) = 15,000 N·s.",
+        ),
+        quizQuestion(
+          "A 500 kg coaster car moves east at 12 m/s. What is its momentum?",
+          [
+            "A. 6000 kg·m/s east",
+            "B. 6000 kg·m/s west",
+            "C. 41.7 kg·m/s east",
+            "D. 12 kg·m/s east",
+          ],
+          0,
+          "Correct. Momentum is p = mv = (500)(12) = 6000 kg·m/s, and it points east because the car is moving east.",
+          "Not quite. Momentum equals mass times velocity. Here p = (500)(12) = 6000 kg·m/s east.",
+        ),
+        quizQuestion(
+          "If the same momentum change happens over twice as much time, what happens to the average force?",
+          [
+            "A. It doubles.",
+            "B. It is cut in half.",
+            "C. It stays the same.",
+            "D. It becomes zero.",
+          ],
+          1,
+          "Correct. Since Favg = Δp/Δt, doubling the time while keeping the same momentum change cuts the average force in half.",
+          "Not quite. Average force depends on how quickly the momentum changes. For the same Δp, twice the time means half the average force.",
+        ),
+        quizQuestion(
+          "A 800 kg coaster car slows from 10 m/s east to 5 m/s east. What is the magnitude of the impulse during braking?",
+          [
+            "A. 4000 N·s",
+            "B. 8000 N·s",
+            "C. 12,000 N·s",
+            "D. 15,000 N·s",
+          ],
+          0,
+          "Correct. The change in momentum has magnitude m times the change in speed: 800 times 5 = 4000 N·s.",
+          "Not quite. Use impulse equals change in momentum. The car loses 5 m/s of speed, so the impulse magnitude is (800)(5) = 4000 N·s.",
         ),
       ],
     }),
@@ -1479,6 +1779,18 @@ const rotationLesson = createLesson(
         ],
         callout:
           "Students often treat rotational inertia like ordinary mass. It plays a similar role, but it depends on where the mass is relative to the axis, not just how much mass there is.",
+        practice: practiceQuestion(
+          "Two coaster wheels rotate at the same angular speed. Which wheel has the greater linear speed at its rim?",
+          [
+            "A. The smaller-radius wheel",
+            "B. Both have the same linear speed",
+            "C. The larger-radius wheel",
+            "D. The heavier wheel",
+          ],
+          2,
+          "Correct. For rolling motion, v = rω. If angular speed is the same, the wheel with the larger radius has the larger linear speed at the rim.",
+          "Not quite. Use the rolling connection v = rω. With the same angular speed, a larger radius gives a larger linear speed.",
+        ),
       },
     ),
     createStep("equations", "Equations", "Key Equations", {
@@ -1581,6 +1893,18 @@ const rotationLesson = createLesson(
         "If the wheel rolls without slipping, v = rω is the key bridge between translation and rotation.",
         "The same force can create very different torques depending on where it is applied.",
       ],
+      practice: practiceQuestion(
+        "A 40 N force is applied perpendicularly 0.25 m from a wheel's axle. What torque is produced?",
+        [
+          "A. 1.6 N·m",
+          "B. 10 N·m",
+          "C. 40 N·m",
+          "D. 160 N·m",
+        ],
+        1,
+        "Correct. Use τ = rF sinθ. With a perpendicular force, sin 90° = 1, so τ = (0.25)(40) = 10 N·m.",
+        "Not quite. Use τ = rF sinθ. Because the force is perpendicular, the torque is (0.25)(40) = 10 N·m.",
+      ),
     }),
     createStep(
       "coaster-explanation",
@@ -1635,7 +1959,7 @@ const rotationLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These questions target the two most important conceptual extensions beyond v = rω: torque and rotational inertia.",
+        "These five questions target the most important extensions beyond v = rω: torque, rotational inertia, and rolling-speed calculations.",
       ],
       quiz: [
         quizQuestion(
@@ -1661,6 +1985,42 @@ const rotationLesson = createLesson(
           0,
           "Correct. Rotational inertia increases when mass is distributed farther from the axis, so changes in rotational motion become harder to produce.",
           "Not quite. The mass distribution raises the rotational inertia, which is the rotational analog of resistance to acceleration.",
+        ),
+        quizQuestion(
+          "A wheel of radius 0.30 m rotates at 40 rad/s. What is the linear speed at the rim?",
+          [
+            "A. 3.0 m/s",
+            "B. 12 m/s",
+            "C. 40 m/s",
+            "D. 120 m/s",
+          ],
+          1,
+          "Correct. Use v = rω = (0.30)(40) = 12 m/s.",
+          "Not quite. Multiply radius by angular speed. With r = 0.30 m and ω = 40 rad/s, the rim speed is 12 m/s.",
+        ),
+        quizQuestion(
+          "A 50 N force is applied perpendicular to a lever arm 0.20 m from an axle. What torque is produced?",
+          [
+            "A. 2.5 N·m",
+            "B. 5.0 N·m",
+            "C. 10 N·m",
+            "D. 50 N·m",
+          ],
+          2,
+          "Correct. For a perpendicular force, τ = rF = (0.20)(50) = 10 N·m.",
+          "Not quite. Use τ = rF sinθ. Because the force is perpendicular, sin 90° = 1, so the torque is 10 N·m.",
+        ),
+        quizQuestion(
+          "Why does a rolling wheel have more total kinetic energy than just one-half mv²?",
+          [
+            "A. Because gravity adds extra kinetic energy automatically",
+            "B. Because some of the energy is stored in rotational motion",
+            "C. Because torque and force are the same quantity",
+            "D. Because rolling removes translational kinetic energy entirely",
+          ],
+          1,
+          "Correct. A rolling object can store energy in both translation and rotation, so the total kinetic energy includes a rotational term as well as one-half mv².",
+          "Not quite. Rolling motion includes spinning, so the total kinetic energy must include rotational kinetic energy in addition to translational kinetic energy.",
         ),
       ],
     }),
@@ -1713,6 +2073,18 @@ const designSafetyLesson = createLesson(
         ],
         callout:
           "The most common beginner design mistake is assuming that 'faster' automatically means 'better.' In real ride design, faster without control can quickly become uncomfortable or unsafe.",
+        practice: practiceQuestion(
+          "Why do engineers prefer smooth transitions between track elements instead of abrupt shape changes?",
+          [
+            "A. They make gravity stronger during the ride.",
+            "B. They reduce rapid changes in rider force and improve comfort.",
+            "C. They remove the need for brakes.",
+            "D. They guarantee the coaster never loses energy.",
+          ],
+          1,
+          "Correct. Smooth transitions help control how quickly the forces on riders change, which improves both comfort and safety.",
+          "Not quite. The key reason is rider force management. Smooth transitions reduce sudden changes in acceleration and force.",
+        ),
       },
     ),
     createStep("equations", "Equations", "Key Equations", {
@@ -1886,6 +2258,18 @@ const designSafetyLesson = createLesson(
         "A full ride uses different equations in different places, but the physics still has to agree from start to finish.",
         "Design work often means choosing the right model at the right location, not using one formula everywhere.",
       ],
+      practice: practiceQuestion(
+        "A coaster enters a brake run with 90,000 J of kinetic energy and comes to rest at the same height. How much nonconservative work must the brakes do?",
+        [
+          "A. -90,000 J",
+          "B. 0 J",
+          "C. 90,000 J",
+          "D. 180,000 J",
+        ],
+        0,
+        "Correct. Since the coaster stops at the same height, its mechanical energy decreases by 90,000 J, so the brakes must do -90,000 J of nonconservative work.",
+        "Not quite. At the same height, the lost kinetic energy must be removed by the brakes. That means W_nc = ΔE_mech = -90,000 J.",
+      ),
     }),
     createStep(
       "coaster-explanation",
@@ -1940,7 +2324,7 @@ const designSafetyLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These final questions focus on common design judgments: how banking improves comfort and how braking time changes rider force.",
+        "These five questions focus on design judgments about banking, force limits, energy budgeting, and rider comfort.",
       ],
       quiz: [
         quizQuestion(
@@ -1966,6 +2350,42 @@ const designSafetyLesson = createLesson(
           2,
           "Correct. For the same momentum change, a longer stopping time means a smaller average force.",
           "Not quite. Use the impulse idea: the same change in momentum spread over more time reduces the average force.",
+        ),
+        quizQuestion(
+          "Why are clothoid loops safer than simple circular loops?",
+          [
+            "A. Their changing radius helps control g-forces through the loop.",
+            "B. They remove the need for centripetal acceleration.",
+            "C. They make the train mass smaller at the top.",
+            "D. They prevent gravity from acting inside the loop.",
+          ],
+          0,
+          "Correct. A clothoid loop changes radius from place to place, which helps manage the forces riders feel instead of keeping the same tight curvature everywhere.",
+          "Not quite. The key safety advantage is the changing radius, which helps control g-forces around the loop.",
+        ),
+        quizQuestion(
+          "If friction and drag losses increase on a coaster design, what is the safest response for later non-launched hills?",
+          [
+            "A. Make the later hills taller",
+            "B. Keep the same hill heights and ignore the losses",
+            "C. Lower later hills or add more energy earlier in the ride",
+            "D. Remove all banking from the turns",
+          ],
+          2,
+          "Correct. If more mechanical energy is lost, later elements must demand less energy or the ride must receive more energy earlier.",
+          "Not quite. A coaster with larger losses needs a safer energy budget, which usually means lower later hills or additional energy input earlier.",
+        ),
+        quizQuestion(
+          "A high-speed turn with too small a radius most directly risks what?",
+          [
+            "A. Lower kinetic energy than expected",
+            "B. Excessive g-forces on riders",
+            "C. Zero normal force everywhere on the train",
+            "D. Perfect mechanical-energy conservation",
+          ],
+          1,
+          "Correct. A small radius at high speed requires a large inward acceleration, which can create excessive forces on riders.",
+          "Not quite. Tight turns at high speed require large centripetal acceleration, which is why they can create unsafe or uncomfortable g-forces.",
         ),
       ],
     }),
@@ -2232,18 +2652,6 @@ const LessonView = ({
               {step.body.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
-            </div>
-          ) : null}
-
-          {step.callout ? (
-            <div
-              className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
-                isDark
-                  ? "border-cyan-300/20 bg-cyan-300/10 text-cyan-50"
-                  : "border-sky-200 bg-sky-50 text-sky-900"
-              }`}
-            >
-              {step.callout}
             </div>
           ) : null}
 
@@ -2731,12 +3139,22 @@ const App = () => {
                 Mechanics lesson sequence built around real coaster motion.
               </p>
 
-              <div className="mt-10">
+              <div className="mt-10 flex flex-col items-start gap-3">
                 <a
                   href="#topics"
                   className="inline-flex min-w-[18rem] items-center justify-center rounded-full bg-cyan-300 px-8 py-5 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
                 >
                   Start Learning
+                </a>
+                <a
+                  href="#simulation"
+                  className={`inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
+                    isDark
+                      ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
+                      : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
+                  }`}
+                >
+                  Simulation Button
                 </a>
               </div>
             </div>
@@ -2827,7 +3245,7 @@ const App = () => {
             </div>
           </section>
 
-          <section className="pb-10 sm:pb-14">
+          <section id="simulation" className="pb-10 sm:pb-14">
             <div className="max-w-6xl">
               <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
                 Interactive Lab
