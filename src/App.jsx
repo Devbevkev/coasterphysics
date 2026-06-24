@@ -2429,12 +2429,15 @@ const LessonView = ({
   stepIndex,
   setStepIndex,
   onBack,
+  hasNextLesson,
+  onNextLesson,
 }) => {
   const step = lesson.steps[stepIndex];
   const lessonHeading = lesson.chapterName ?? getChapterName(lesson.title);
   const isQuizStep = step.id === "quiz";
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === lesson.steps.length - 1;
+  const isTerminalQuizStep = isQuizStep && isLastStep;
   const [tocOpen, setTocOpen] = useState(true);
   const [selectedPracticeChoice, setSelectedPracticeChoice] = useState(null);
   const [practiceChecked, setPracticeChecked] = useState(false);
@@ -2452,6 +2455,16 @@ const LessonView = ({
     currentQuizQuestion && selectedQuizChoice === currentQuizQuestion.correctChoice;
   const quizComplete =
     step.id === "quiz" && quizIndex === step.quiz.length - 1 && quizChecked;
+  const nextButtonDisabled = isTerminalQuizStep
+    ? !quizComplete
+    : (step.practice && !practiceUnlocked) ||
+      (step.id === "quiz" && !quizComplete) ||
+      isLastStep;
+  const nextButtonLabel = isTerminalQuizStep
+    ? hasNextLesson
+      ? "Next Unit"
+      : "Finish Course"
+    : "Next";
 
   useEffect(() => {
     setSelectedPracticeChoice(null);
@@ -2945,25 +2958,24 @@ const LessonView = ({
             </button>
             <button
               type="button"
-              onClick={() =>
+              onClick={() => {
+                if (isTerminalQuizStep) {
+                  onNextLesson();
+                  return;
+                }
+
                 setStepIndex((current) =>
                   Math.min(current + 1, lesson.steps.length - 1),
-                )
-              }
-              disabled={
-                isLastStep ||
-                (step.practice && !practiceUnlocked) ||
-                (step.id === "quiz" && !quizComplete)
-              }
+                );
+              }}
+              disabled={nextButtonDisabled}
               className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-slate-950 transition ${
-                isLastStep ||
-                (step.practice && !practiceUnlocked) ||
-                (step.id === "quiz" && !quizComplete)
+                nextButtonDisabled
                   ? "cursor-not-allowed opacity-50"
                   : "hover:bg-cyan-200"
               } bg-cyan-300`}
             >
-              Next
+              {nextButtonLabel}
             </button>
           </div>
         </article>
@@ -3035,12 +3047,23 @@ const App = () => {
   const warmDotClass = isDark ? "bg-amber-300" : "bg-amber-500";
 
   const currentLesson = lessonMap[activeLessonId];
+  const activeSectionIndex = sections.findIndex((section) => section.id === activeLessonId);
+  const nextSection = activeSectionIndex >= 0 ? sections[activeSectionIndex + 1] ?? null : null;
 
   const openLesson = (section) => {
     setActiveSection(section);
     setActiveLessonId(section.id);
     setLessonStepIndex(0);
     setView("lesson");
+  };
+
+  const goToNextLesson = () => {
+    if (nextSection) {
+      openLesson(nextSection);
+      return;
+    }
+
+    setView("overview");
   };
 
   return (
@@ -3121,6 +3144,8 @@ const App = () => {
           stepIndex={lessonStepIndex}
           setStepIndex={setLessonStepIndex}
           onBack={() => setView("overview")}
+          hasNextLesson={Boolean(nextSection)}
+          onNextLesson={goToNextLesson}
         />
       ) : (
         <>
