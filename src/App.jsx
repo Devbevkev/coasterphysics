@@ -59,12 +59,30 @@ const createStep = (id, label, title, config = {}) => ({
   ...config,
 });
 
-const createLesson = (title, subtitle, goal, steps) => ({
-  title,
-  subtitle,
-  goal,
-  steps: steps.filter((step) => step.id !== "next-lesson"),
-});
+const getChapterName = (lessonTitle) =>
+  lessonTitle.replace(/^Lesson\s+\d+:\s*/, "");
+
+const createLesson = (title, subtitle, goal, steps) => {
+  const chapterName = getChapterName(title);
+
+  return {
+    title,
+    subtitle,
+    goal,
+    chapterName,
+    steps: steps
+      .filter((step) => step.id !== "next-lesson")
+      .map((step) =>
+        step.id === "quiz"
+          ? {
+              ...step,
+              label: "Quiz",
+              title: `${chapterName}: Quiz`,
+            }
+          : step,
+      ),
+  };
+};
 
 const sections = [
   {
@@ -1993,6 +2011,8 @@ const LessonView = ({
   onBack,
 }) => {
   const step = lesson.steps[stepIndex];
+  const lessonHeading = lesson.chapterName ?? getChapterName(lesson.title);
+  const isQuizStep = step.id === "quiz";
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === lesson.steps.length - 1;
   const [tocOpen, setTocOpen] = useState(true);
@@ -2101,9 +2121,8 @@ const LessonView = ({
               }`}
             >
               <h2 className={`font-display text-3xl font-semibold ${titleClass}`}>
-                {lesson.subtitle}
+                {lessonHeading}
               </h2>
-              <p className={`mt-4 text-base leading-7 ${copyClass}`}>{lesson.goal}</p>
             </div>
             <button
               type="button"
@@ -2199,10 +2218,12 @@ const LessonView = ({
         </aside>
 
         <article className={`${panelClass} p-7 sm:p-8`}>
-          <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-            {step.label}
-          </p>
-          <h3 className={`mt-4 font-display text-3xl font-semibold ${titleClass}`}>
+          {!isQuizStep ? (
+            <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+              {step.label}
+            </p>
+          ) : null}
+          <h3 className={`${isQuizStep ? "" : "mt-4"} font-display text-3xl font-semibold ${titleClass}`}>
             {step.title}
           </h3>
 
