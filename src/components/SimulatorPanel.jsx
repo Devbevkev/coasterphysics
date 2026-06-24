@@ -181,17 +181,6 @@ const SimulatorPanel = ({
           ))}
         </div>
 
-        <div className={`mt-8 rounded-[1.6rem] border p-5 ${subtlePanelClass}`}>
-          <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-            Model assumption
-          </p>
-          <p className={`mt-3 text-sm leading-7 ${copyClass}`}>
-            The simulator treats the drop as an ideal energy conversion for max
-            speed and approximates the level-out as a smooth parabolic
-            transition. Longer level-out lengths create larger transition
-            radii, which reduces peak g-force at the bottom.
-          </p>
-        </div>
       </div>
 
       <div className={`${panelClass} relative overflow-hidden p-6 sm:p-8`}>
