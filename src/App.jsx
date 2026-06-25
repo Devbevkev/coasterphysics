@@ -24,6 +24,131 @@ const equation = (label, expression) => ({ label, expression });
 
 const card = (title, text) => ({ title, text });
 
+const figure = (title, render, description) => ({
+  title,
+  render,
+  description,
+});
+
+const FlatTrackCartDiagram = ({ isDark }) => {
+  const lineColor = isDark ? "#94a3b8" : "#64748b";
+  const panelFill = isDark ? "#0f172a" : "#f8fafc";
+  const cartFill = isDark ? "#22d3ee" : "#38bdf8";
+  const wheelFill = isDark ? "#cbd5e1" : "#475569";
+  const accentFill = isDark ? "#f8fafc" : "#ffffff";
+
+  return (
+    <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Roller coaster cart on a flat track">
+      <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
+      <line x1="40" y1="128" x2="280" y2="128" stroke={lineColor} strokeWidth="6" strokeLinecap="round" />
+      <rect x="110" y="86" width="100" height="28" rx="12" fill={cartFill} />
+      <rect x="125" y="72" width="70" height="18" rx="9" fill={accentFill} opacity="0.95" />
+      <circle cx="132" cy="128" r="12" fill={wheelFill} />
+      <circle cx="188" cy="128" r="12" fill={wheelFill} />
+      <circle cx="132" cy="128" r="4" fill={accentFill} />
+      <circle cx="188" cy="128" r="4" fill={accentFill} />
+    </svg>
+  );
+};
+
+const FlatTrackFreeBodyDiagram = ({ isDark }) => {
+  const panelFill = isDark ? "#0f172a" : "#f8fafc";
+  const bodyFill = isDark ? "#f8fafc" : "#0f172a";
+  const forceColor = isDark ? "#22d3ee" : "#0284c7";
+  const textColor = isDark ? "#e2e8f0" : "#334155";
+
+  return (
+    <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Free-body diagram of a coaster cart on a flat track">
+      <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
+      <circle cx="160" cy="90" r="11" fill={bodyFill} />
+
+      <line x1="160" y1="90" x2="160" y2="40" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="160,28 150,46 170,46" fill={forceColor} />
+      <text x="178" y="46" fill={textColor} fontSize="18" fontWeight="600">
+        N
+      </text>
+
+      <line x1="160" y1="90" x2="160" y2="140" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="160,152 150,134 170,134" fill={forceColor} />
+      <text x="178" y="146" fill={textColor} fontSize="18" fontWeight="600">
+        mg
+      </text>
+    </svg>
+  );
+};
+
+const SlopeCartDiagram = ({ isDark }) => {
+  const panelFill = isDark ? "#0f172a" : "#f8fafc";
+  const trackColor = isDark ? "#94a3b8" : "#64748b";
+  const cartFill = isDark ? "#22d3ee" : "#38bdf8";
+  const wheelFill = isDark ? "#cbd5e1" : "#475569";
+  const accentFill = isDark ? "#f8fafc" : "#ffffff";
+  const textColor = isDark ? "#e2e8f0" : "#334155";
+
+  return (
+    <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Roller coaster cart on a sloped track">
+      <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
+      <line x1="54" y1="130" x2="272" y2="72" stroke={trackColor} strokeWidth="6" strokeLinecap="round" />
+
+      <g transform="translate(152 96) rotate(-15)">
+        <rect x="-46" y="-16" width="92" height="28" rx="12" fill={cartFill} />
+        <rect x="-28" y="-30" width="56" height="16" rx="8" fill={accentFill} opacity="0.95" />
+        <circle cx="-24" cy="18" r="10" fill={wheelFill} />
+        <circle cx="24" cy="18" r="10" fill={wheelFill} />
+        <circle cx="-24" cy="18" r="3.5" fill={accentFill} />
+        <circle cx="24" cy="18" r="3.5" fill={accentFill} />
+      </g>
+
+      <path d="M72 132 A32 32 0 0 1 96 104" fill="none" stroke={trackColor} strokeWidth="2.5" />
+      <text x="100" y="116" fill={textColor} fontSize="16" fontWeight="600">
+        θ
+      </text>
+    </svg>
+  );
+};
+
+const SlopeComponentsDiagram = ({ isDark }) => {
+  const panelFill = isDark ? "#0f172a" : "#f8fafc";
+  const bodyFill = isDark ? "#f8fafc" : "#0f172a";
+  const forceColor = isDark ? "#22d3ee" : "#0284c7";
+  const componentColor = isDark ? "#fbbf24" : "#d97706";
+  const guideColor = isDark ? "#94a3b8" : "#64748b";
+  const textColor = isDark ? "#e2e8f0" : "#334155";
+
+  return (
+    <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Slope force analysis with gravity components">
+      <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
+      <line x1="68" y1="128" x2="266" y2="76" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+
+      <circle cx="162" cy="96" r="10" fill={bodyFill} />
+
+      <line x1="162" y1="96" x2="148" y2="42" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="145,30 140,49 159,44" fill={forceColor} />
+      <text x="118" y="42" fill={textColor} fontSize="17" fontWeight="600">
+        N
+      </text>
+
+      <line x1="162" y1="96" x2="162" y2="148" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="162,160 152,142 172,142" fill={forceColor} />
+      <text x="178" y="150" fill={textColor} fontSize="17" fontWeight="600">
+        mg
+      </text>
+
+      <line x1="162" y1="96" x2="114" y2="109" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
+      <polygon points="103,112 120,100 123,119" fill={componentColor} />
+      <text x="72" y="124" fill={textColor} fontSize="15" fontWeight="600">
+        mg sinθ
+      </text>
+
+      <line x1="162" y1="96" x2="176" y2="148" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
+      <polygon points="179,160 167,144 186,140" fill={componentColor} />
+      <text x="188" y="136" fill={textColor} fontSize="15" fontWeight="600">
+        mg cosθ
+      </text>
+    </svg>
+  );
+};
+
 const practiceQuestion = (
   prompt,
   choices,
@@ -429,6 +554,18 @@ const forcesLesson = createLesson(
         ],
         callout:
           "Students often draw the third-law partner force on the same free-body diagram. That is one of the fastest ways to lose the physical meaning of Newton's laws.",
+        figures: [
+          figure(
+            "Coaster Cart on a Flat Track",
+            (isDark) => <FlatTrackCartDiagram isDark={isDark} />,
+            "Start with the physical situation before stripping the diagram down to only the forces.",
+          ),
+          figure(
+            "Free-Body Diagram",
+            (isDark) => <FlatTrackFreeBodyDiagram isDark={isDark} />,
+            "For a cart resting on a flat track, the free-body diagram keeps only the upward normal force and the downward weight.",
+          ),
+        ],
         practice: practiceQuestion(
           "A rider sits in a coaster seat. The seat pushes upward on the rider. What is the Newton's Third Law partner to that force?",
           [
@@ -523,12 +660,26 @@ const forcesLesson = createLesson(
         body: [
           "On a lift hill, a chain or launch system applies a force that moves the coaster upward. On a drop, gravity pulls downward and the component of gravity along the track causes the train to accelerate.",
           "On a slope, the parallel component mg sinθ pulls the coaster down the track while the perpendicular component mg cosθ presses the train into the track. That is why incline problems become much cleaner once you align your axes with the slope.",
+          "When you draw the actual free-body diagram, keep only the real forces like weight and normal force. Break weight into components afterward as a math step instead of mixing both versions onto the same diagram.",
           "The normal force matters especially because it connects the math to what riders feel. At the bottom of a valley, the track pushes strongly upward to bend the rider's motion. At the top of a hill, the normal force may be smaller, so riders feel lighter even though their true weight has not changed.",
         ],
         bullets: [
           "Main forces on a coaster: gravity, normal force, friction, air resistance, and chain or launch force.",
           "A larger normal force feels heavier to a rider.",
           "A smaller normal force feels lighter to a rider.",
+          "On a true free-body diagram, draw the real forces first. Resolve them into components afterward instead of drawing both the full force and its components as separate applied forces.",
+        ],
+        figures: [
+          figure(
+            "Coaster Cart on a Slope",
+            (isDark) => <SlopeCartDiagram isDark={isDark} />,
+            "Start with the cart on an incline so the track angle is clear before you decide how to break gravity into components.",
+          ),
+          figure(
+            "Slope Force Analysis with Components",
+            (isDark) => <SlopeComponentsDiagram isDark={isDark} />,
+            "The component arrows help with the math, but on an actual free-body diagram you draw only the real forces such as N and mg, then resolve them separately.",
+          ),
         ],
       },
     ),
@@ -2680,65 +2831,72 @@ const LessonView = ({
           ) : null}
 
           {step.equations ? (
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {step.equations.map((item) => (
-                <div key={item.label} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
-                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
-                    {item.label}
-                  </p>
-                  <div
-                    className={`mt-4 overflow-x-auto pb-3 font-serif text-[1.8rem] font-normal leading-[1.5] tracking-normal sm:text-[2.15rem] ${titleClass}`}
-                  >
-                    {item.expression}
+            <div className="mt-6">
+              <div className="grid gap-4 sm:grid-cols-2">
+                {step.equations.map((item) => (
+                  <div key={item.label} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                    <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
+                      {item.label}
+                    </p>
+                    <div
+                      className={`mt-4 overflow-x-auto pb-3 font-serif text-[1.8rem] font-normal leading-[1.5] tracking-normal sm:text-[2.15rem] ${titleClass}`}
+                    >
+                      {item.expression}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           ) : null}
 
           {step.variables ? (
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {step.variables.map((item) => (
-                <div key={item.symbol} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
-                  <div className="flex items-start gap-4">
-                    <div
-                      className={`min-w-[5.5rem] rounded-2xl border px-3 py-3 text-center font-serif text-2xl font-normal leading-none ${
-                        isDark
-                          ? "border-white/10 bg-white/[0.04] text-white"
-                          : "border-slate-300/70 bg-white/80 text-slate-900"
-                      }`}
-                    >
-                      {item.symbol === "vavg" ? (
-                        <>
-                          v<sub>avg</sub>
-                        </>
-                      ) : item.symbol === "aavg" ? (
-                        <>
-                          a<sub>avg</sub>
-                        </>
-                      ) : item.symbol === "ac" ? (
-                        <>
-                          a<sub>c</sub>
-                        </>
-                      ) : item.symbol === "v0" ? (
-                        <Initial symbol="v" />
-                      ) : item.display ? (
-                        item.display
-                      ) : (
-                        item.symbol
-                      )}
-                    </div>
-                    <div>
-                      <p className={`text-lg font-semibold capitalize ${titleClass}`}>
-                        {item.meaning}
-                      </p>
-                      <p className={`mt-2 text-base leading-7 ${copyClass}`}>
-                        {item.note}
-                      </p>
+            <div className={`mt-10 border-t pt-8 ${isDark ? "border-white/10" : "border-slate-300/70"}`}>
+              <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                Variable Explanations
+              </p>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                {step.variables.map((item) => (
+                  <div key={item.symbol} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={`min-w-[5.5rem] rounded-2xl border px-3 py-3 text-center font-serif text-2xl font-normal leading-none ${
+                          isDark
+                            ? "border-white/10 bg-white/[0.04] text-white"
+                            : "border-slate-300/70 bg-white/80 text-slate-900"
+                        }`}
+                      >
+                        {item.symbol === "vavg" ? (
+                          <>
+                            v<sub>avg</sub>
+                          </>
+                        ) : item.symbol === "aavg" ? (
+                          <>
+                            a<sub>avg</sub>
+                          </>
+                        ) : item.symbol === "ac" ? (
+                          <>
+                            a<sub>c</sub>
+                          </>
+                        ) : item.symbol === "v0" ? (
+                          <Initial symbol="v" />
+                        ) : item.display ? (
+                          item.display
+                        ) : (
+                          item.symbol
+                        )}
+                      </div>
+                      <div>
+                        <p className={`text-lg font-semibold capitalize ${titleClass}`}>
+                          {item.meaning}
+                        </p>
+                        <p className={`mt-2 text-base leading-7 ${copyClass}`}>
+                          {item.note}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           ) : null}
 
@@ -2750,6 +2908,22 @@ const LessonView = ({
                   <p className={`mt-3 text-base leading-7 ${copyClass}`}>{stepCard.text}</p>
                 </div>
               ))}
+            </div>
+          ) : null}
+
+          {step.figures ? (
+            <div className="mt-6">
+              <div className="grid gap-4 lg:grid-cols-2">
+                {step.figures.map((item) => (
+                  <div key={item.title} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                    <h4 className={`text-lg font-semibold ${titleClass}`}>{item.title}</h4>
+                    {item.description ? (
+                      <p className={`mt-2 text-sm leading-6 ${copyClass}`}>{item.description}</p>
+                    ) : null}
+                    <div className="mt-4">{item.render(isDark)}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           ) : null}
 
