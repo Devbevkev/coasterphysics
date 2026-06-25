@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 
-const GRAVITY = 9.8;
+const GRAVITY = 9.81;
+
+const getIdealMaxSpeed = (height) => Math.sqrt(2 * GRAVITY * Math.max(height, 0));
 
 const controls = [
   {
@@ -37,7 +39,7 @@ const SimulatorPanel = ({
 
   const model = useMemo(() => {
     const { height, levelOutLength } = settings;
-    const maxSpeed = Math.sqrt(2 * GRAVITY * height);
+    const maxSpeed = getIdealMaxSpeed(height);
     const transitionRadius = (levelOutLength ** 2) / (2 * height);
     const peakGForce = 1 + maxSpeed ** 2 / (transitionRadius * GRAVITY);
     const entryAngle = (Math.atan((2 * height) / levelOutLength) * 180) / Math.PI;
@@ -131,9 +133,9 @@ const SimulatorPanel = ({
 
         <p className={`mb-8 text-base leading-7 ${copyClass}`}>
           Adjust the drop height and the level-out length. The track redraws in
-          real time, the maximum speed updates from the height change, and the
-          peak g-force updates from how sharply the train levels out at the
-          bottom.
+          real time. In this ideal-drop model, max speed follows v = sqrt(2gh),
+          so it changes with vertical drop height, while the level-out length
+          changes the transition radius and peak g-force at the bottom.
         </p>
 
         <div className="space-y-7">
