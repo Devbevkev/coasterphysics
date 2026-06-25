@@ -3270,7 +3270,7 @@ const App = () => {
             </div>
           </section>
 
-          <section id="simulation" className="pb-10 sm:pb-14">
+          <section id="simulation" className="pt-8 pb-10 sm:pt-10 sm:pb-14">
             <div className="max-w-6xl">
               <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
                 Interactive Lab

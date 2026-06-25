@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 
 const GRAVITY = 9.81;
+const METERS_PER_SECOND_TO_MPH = 2.23694;
 
 const getIdealMaxSpeed = (height) => Math.sqrt(2 * GRAVITY * Math.max(height, 0));
 
@@ -23,6 +24,16 @@ const controls = [
   },
 ];
 
+const controlsByKey = Object.fromEntries(
+  controls.map((control) => [control.key, control]),
+);
+
+const clampControlValue = (key, value) => {
+  const control = controlsByKey[key];
+
+  return Math.min(control.max, Math.max(control.min, value));
+};
+
 const SimulatorPanel = ({
   isDark,
   panelClass,
@@ -37,9 +48,17 @@ const SimulatorPanel = ({
     levelOutLength: 88,
   });
 
+  const updateSetting = (key, nextValue) => {
+    setSettings((current) => ({
+      ...current,
+      [key]: clampControlValue(key, nextValue),
+    }));
+  };
+
   const model = useMemo(() => {
     const { height, levelOutLength } = settings;
     const maxSpeed = getIdealMaxSpeed(height);
+    const maxSpeedMph = maxSpeed * METERS_PER_SECOND_TO_MPH;
     const transitionRadius = (levelOutLength ** 2) / (2 * height);
     const peakGForce = 1 + maxSpeed ** 2 / (transitionRadius * GRAVITY);
     const entryAngle = (Math.atan((2 * height) / levelOutLength) * 180) / Math.PI;
@@ -50,6 +69,7 @@ const SimulatorPanel = ({
 
     return {
       maxSpeed,
+      maxSpeedMph,
       transitionRadius,
       peakGForce,
       entryAngle,
@@ -132,10 +152,7 @@ const SimulatorPanel = ({
         </div>
 
         <p className={`mb-8 text-base leading-7 ${copyClass}`}>
-          Adjust the drop height and the level-out length. The track redraws in
-          real time. In this ideal-drop model, max speed follows v = sqrt(2gh),
-          so it changes with vertical drop height, while the level-out length
-          changes the transition radius and peak g-force at the bottom.
+          Adjust the drop height and the level-out length.
         </p>
 
         <div className="space-y-7">
@@ -143,15 +160,34 @@ const SimulatorPanel = ({
             <label key={control.key} className="block">
               <div className="mb-3 flex items-center justify-between gap-4 text-sm">
                 <span className={titleClass}>{control.label}</span>
-                <span
-                  className={`rounded-full px-3 py-1 ${
-                    isDark
-                      ? "bg-white/5 text-slate-300"
-                      : "bg-slate-100 text-slate-700"
-                  }`}
-                >
-                  {settings[control.key]} {control.unit}
-                </span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    min={control.min}
+                    max={control.max}
+                    step={control.step}
+                    value={settings[control.key]}
+                    onChange={(event) => {
+                      const nextValue = event.target.valueAsNumber;
+
+                      if (Number.isNaN(nextValue)) {
+                        return;
+                      }
+
+                      updateSetting(control.key, nextValue);
+                    }}
+                    className={`w-24 rounded-full border px-3 py-1 text-right font-semibold outline-none transition ${
+                      isDark
+                        ? "border-white/10 bg-white/5 text-slate-100 focus:border-cyan-300/40"
+                        : "border-slate-300 bg-white text-slate-900 focus:border-sky-400"
+                    }`}
+                    aria-label={`${control.label} input`}
+                  />
+                  <span className={`text-xs font-semibold uppercase tracking-[0.12em] ${mutedClass}`}>
+                    {control.unit}
+                  </span>
+                </div>
               </div>
               <input
                 type="range"
@@ -160,10 +196,7 @@ const SimulatorPanel = ({
                 step={control.step}
                 value={settings[control.key]}
                 onChange={(event) =>
-                  setSettings((current) => ({
-                    ...current,
-                    [control.key]: Number(event.target.value),
-                  }))
+                  updateSetting(control.key, Number(event.target.value))
                 }
                 className={`h-2 w-full cursor-pointer appearance-none rounded-full ${
                   isDark
@@ -188,17 +221,14 @@ const SimulatorPanel = ({
       <div className={`${panelClass} relative overflow-hidden p-6 sm:p-8`}>
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-transparent to-amber-300/10" />
         <div className="relative">
-          <p className={`text-sm uppercase tracking-[0.18em] ${mutedClass}`}>
-            Live Outputs
-          </p>
-          <h3 className={`mt-2 text-2xl font-semibold ${titleClass}`}>
+          <h3 className={`text-2xl font-semibold ${titleClass}`}>
             Changing Track Profile
           </h3>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <MetricCard
               label="Max speed"
-              value={`${model.maxSpeed.toFixed(1)} m/s`}
+              value={`${model.maxSpeedMph.toFixed(1)} mph`}
               accent="cyan"
               isDark={isDark}
             />
