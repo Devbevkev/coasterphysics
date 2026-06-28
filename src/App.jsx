@@ -113,6 +113,22 @@ const figure = (title, render, description) => ({
   description,
 });
 
+const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "" }) => {
+  return (
+    <div
+      className={`overflow-hidden rounded-[1.75rem] border p-2 shadow-[0_20px_48px_rgba(15,23,42,0.14)] ${
+        isDark ? "border-white/10 bg-white/[0.06]" : "border-slate-200/80 bg-white/85"
+      } ${className}`}
+    >
+      <img
+        src={src}
+        alt={alt}
+        className={`h-full w-full rounded-[1.2rem] object-cover ${imageClassName}`}
+      />
+    </div>
+  );
+};
+
 const FlatTrackCartDiagram = ({ isDark }) => {
   const lineColor = isDark ? "#94a3b8" : "#64748b";
   const panelFill = isDark ? "#0f172a" : "#f8fafc";
@@ -1439,19 +1455,19 @@ const circularMotionLesson = createLesson(
             "If N = mg, the rider feels 1 g. If N is half of mg, the rider feels 0.5 g. If N is twice mg, the rider feels 2 g.",
           ),
         ],
-        figures: [
-          figure(
-            "Crest Example",
-            () => (
-              <img
-                src="/circular-gforce-example.png"
-                alt="Roller coaster crest showing a place where riders can feel light."
-                className="w-full rounded-[1.35rem] border border-slate-300/70 object-cover"
-              />
-            ),
+        cardStyle: "plain",
+        realWorldExample: {
+          eyebrow: "Ride Feel",
+          title: "Crest Example",
+          imageSrc: "/circular-gforce-example.png",
+          imageAlt: "Roller coaster crest showing a place where riders can feel light.",
+          paragraphs: [
             "Near the top of a crest, the normal force can drop below the rider's usual weight. That makes the felt g-force less than 1 g, which is why riders often describe the moment as light or floaty.",
-          ),
-        ],
+            "At the bottom of a tight valley or dip, the opposite can happen. If the seat pushes with five times the rider's weight, then N = 5mg, so the felt g-force is 5 g.",
+            "That does not mean gravity became five times stronger. It means the seat or restraint is pushing on the rider with a force five times as large as the rider's ordinary weight so the rider can curve through the bottom of the track.",
+            "So if a rider usually weighs 600 N, then 5 g means the seat force is about 3000 N. Riders experience that as feeling extremely heavy for a brief moment at the bottom of the element.",
+          ],
+        },
       },
     ),
     createStep(
@@ -3103,20 +3119,26 @@ const LessonView = ({
                 </div>
 
                 <div>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {step.realWorldExample.stats.map((item) => (
-                      <div key={item.label} className={`rounded-3xl border p-4 ${subtlePanelClass}`}>
-                        <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
-                          {item.label}
-                        </p>
-                        <p className={`mt-2 text-xl font-semibold ${titleClass}`}>
-                          {item.value}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+                  {step.realWorldExample.stats?.length ? (
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      {step.realWorldExample.stats.map((item) => (
+                        <div key={item.label} className={`rounded-3xl border p-4 ${subtlePanelClass}`}>
+                          <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
+                            {item.label}
+                          </p>
+                          <p className={`mt-2 text-xl font-semibold ${titleClass}`}>
+                            {item.value}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
 
-                  <div className={`mt-5 space-y-4 text-base leading-7 ${copyClass}`}>
+                  <div
+                    className={`space-y-4 text-base leading-7 ${copyClass} ${
+                      step.realWorldExample.stats?.length ? "mt-5" : ""
+                    }`}
+                  >
                     {step.realWorldExample.paragraphs.map((paragraph) => (
                       <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
                     ))}
@@ -3208,9 +3230,16 @@ const LessonView = ({
           ) : null}
 
           {step.cards ? (
-            <div className="mt-6 grid gap-4">
+            <div className={`mt-6 grid gap-4 ${step.cardStyle === "plain" ? "gap-6" : ""}`}>
               {step.cards.map((stepCard) => (
-                <div key={stepCard.title} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
+                <div
+                  key={stepCard.title}
+                  className={
+                    step.cardStyle === "plain"
+                      ? ""
+                      : `rounded-3xl border p-5 ${subtlePanelClass}`
+                  }
+                >
                   <h4 className={`text-lg font-semibold ${titleClass}`}>{stepCard.title}</h4>
                   <FormattedPhysicsText
                     as="p"
@@ -3491,12 +3520,10 @@ const App = () => {
   const [activeSection, setActiveSection] = useState(sections[0]);
   const [theme, setTheme] = useState("dark");
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [view, setView] = useState("overview");
+  const [view, setView] = useState("home");
   const [activeLessonId, setActiveLessonId] = useState("kinematics");
   const [lessonStepIndex, setLessonStepIndex] = useState(0);
   const settingsRef = useRef(null);
-  const topicsRef = useRef(null);
-  const overviewScrollTargetRef = useRef(null);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("coasterphysics-theme");
@@ -3511,17 +3538,6 @@ const App = () => {
   }, [theme]);
 
   useEffect(() => {
-    if (view === "lesson") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
-    if (overviewScrollTargetRef.current === "topics") {
-      topicsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      overviewScrollTargetRef.current = null;
-      return;
-    }
-
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [view]);
 
@@ -3579,12 +3595,11 @@ const App = () => {
       return;
     }
 
-    setView("overview");
+    setView("topics");
   };
 
   const returnToSections = () => {
-    overviewScrollTargetRef.current = "topics";
-    setView("overview");
+    setView("topics");
   };
 
   return (
@@ -3668,67 +3683,141 @@ const App = () => {
           hasNextLesson={Boolean(nextSection)}
           onNextLesson={goToNextLesson}
         />
-      ) : (
-        <>
-          <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
-            <div className="max-w-3xl">
-              <h1
-                className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[5.8rem] lg:leading-[0.96] ${titleClass}`}
+      ) : view === "home" ? (
+        <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
+          <div className="max-w-3xl">
+            <h1
+              className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[5.8rem] lg:leading-[0.96] ${titleClass}`}
+            >
+              coasterphysics
+            </h1>
+
+            <p className={`mt-8 max-w-2xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
+              Coasterphysics brings physics to life through the motion,
+              design, and thrill of roller coasters. Our mission is to make
+              complex physics concepts clear, engaging, and accessible
+              through interactive lessons, real-world examples, and
+              coaster-inspired problem solving.
+            </p>
+
+            <div className="mt-10 flex flex-col items-start gap-3">
+              <button
+                type="button"
+                onClick={() => setView("topics")}
+                className="inline-flex min-w-[18rem] items-center justify-center rounded-full bg-cyan-300 px-8 py-5 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
               >
-                coasterphysics
-              </h1>
-
-              <p className={`mt-8 max-w-2xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
-                Coasterphysics brings physics to life through the motion,
-                design, and thrill of roller coasters. Our mission is to make
-                complex physics concepts clear, engaging, and accessible
-                through interactive lessons, real-world examples, and
-                coaster-inspired problem solving.
-              </p>
-
-              <div className="mt-10 flex flex-col items-start gap-3">
-                <a
-                  href="#topics"
-                  className="inline-flex min-w-[18rem] items-center justify-center rounded-full bg-cyan-300 px-8 py-5 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
-                >
-                  Start Learning
-                </a>
-                <a
-                  href="#simulation"
-                  className={`inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
-                    isDark
-                      ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
-                      : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
-                  }`}
-                >
-                  Simulation
-                </a>
-              </div>
-            </div>
-
-            <div className="relative mx-auto flex w-full max-w-2xl items-center justify-center lg:min-h-[40rem]">
-              <div
-                className={`absolute inset-x-[8%] inset-y-[18%] rounded-full blur-[90px] ${
-                  isDark ? "bg-white/28" : "bg-slate-300/35"
-                }`}
-              />
-              <div
-                className={`relative w-full overflow-hidden rounded-[2rem] border p-3 shadow-[0_24px_60px_rgba(15,23,42,0.16)] ${
+                Start Learning
+              </button>
+              <button
+                type="button"
+                onClick={() => setView("simulation")}
+                className={`inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
                   isDark
-                    ? "border-white/10 bg-white/[0.06]"
-                    : "border-slate-200/80 bg-white/80"
+                    ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
+                    : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
                 }`}
               >
-                <img
-                  src="/hero-coaster-frame.png"
-                  alt="Roller coaster train descending a blue track curve"
-                  className="aspect-video w-full rounded-[1.35rem] object-cover"
-                />
-              </div>
+                Simulation
+              </button>
             </div>
-          </section>
+          </div>
 
-          <section id="topics" ref={topicsRef} className="pt-16 pb-10 sm:pt-20 sm:pb-14">
+          <div className="relative mx-auto w-full max-w-3xl lg:min-h-[42rem]">
+            <div
+              className={`absolute inset-x-[8%] inset-y-[10%] rounded-full blur-[100px] ${
+                isDark ? "bg-white/28" : "bg-slate-300/35"
+              }`}
+            />
+
+            <div className="relative grid grid-cols-2 gap-4 sm:gap-5 lg:hidden">
+              <HeroCollagePhoto
+                src="/hero-coaster-frame.png"
+                alt="Roller coaster train descending a blue track curve"
+                isDark={isDark}
+                className="col-span-2"
+                imageClassName="aspect-video"
+              />
+              <HeroCollagePhoto
+                src="/hero-collage-1.png"
+                alt="Wooden roller coaster train cresting a hill"
+                isDark={isDark}
+                imageClassName="aspect-[5/4]"
+              />
+              <HeroCollagePhoto
+                src="/hero-collage-2.png"
+                alt="Red roller coaster train moving through a yellow track element"
+                isDark={isDark}
+                imageClassName="aspect-[5/4]"
+              />
+              <HeroCollagePhoto
+                src="/hero-collage-3.png"
+                alt="Roller coaster train moving through an orange and blue track valley"
+                isDark={isDark}
+                className="col-span-2"
+                imageClassName="aspect-[16/10]"
+              />
+            </div>
+
+            <div className="relative hidden h-[42rem] lg:block">
+              <HeroCollagePhoto
+                src="/hero-collage-1.png"
+                alt="Wooden roller coaster train cresting a hill"
+                isDark={isDark}
+                className="absolute left-0 top-[11.5rem] z-10 w-[39%] rotate-[-6deg]"
+                imageClassName="aspect-[5/4]"
+              />
+              <HeroCollagePhoto
+                src="/hero-coaster-frame.png"
+                alt="Roller coaster train descending a blue track curve"
+                isDark={isDark}
+                className="absolute right-0 top-[3rem] z-20 w-[63%] rotate-[2deg]"
+                imageClassName="aspect-video"
+              />
+              <HeroCollagePhoto
+                src="/hero-collage-3.png"
+                alt="Roller coaster train moving through an orange and blue track valley"
+                isDark={isDark}
+                className="absolute left-[13%] bottom-[1.25rem] z-0 w-[46%] rotate-[4deg]"
+                imageClassName="aspect-[16/10]"
+              />
+              <HeroCollagePhoto
+                src="/hero-collage-2.png"
+                alt="Red roller coaster train moving through a yellow track element"
+                isDark={isDark}
+                className="absolute right-[2%] bottom-[0.5rem] z-10 w-[41%] rotate-[-5deg]"
+                imageClassName="aspect-[5/4]"
+              />
+            </div>
+          </div>
+        </section>
+      ) : view === "topics" ? (
+        <section className="pb-10 pt-12 sm:pb-14 sm:pt-14">
+          <div className="mb-8 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setView("home")}
+              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                isDark
+                  ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                  : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+              }`}
+            >
+              Back Home
+            </button>
+            <button
+              type="button"
+              onClick={() => setView("simulation")}
+              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                isDark
+                  ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
+                  : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
+              }`}
+            >
+              Simulation
+            </button>
+          </div>
+
+          <section id="topics" className="pt-2">
             <div className="max-w-6xl">
               <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
                 Learning Path
@@ -3799,8 +3888,35 @@ const App = () => {
               })}
             </div>
           </section>
+        </section>
+      ) : view === "simulation" ? (
+        <section className="pb-10 pt-12 sm:pb-14 sm:pt-14">
+          <div className="mb-8 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setView("home")}
+              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                isDark
+                  ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                  : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+              }`}
+            >
+              Back Home
+            </button>
+            <button
+              type="button"
+              onClick={() => setView("topics")}
+              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                isDark
+                  ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
+                  : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
+              }`}
+            >
+              Learning Sections
+            </button>
+          </div>
 
-          <section id="simulation" className="pt-8 pb-10 sm:pt-10 sm:pb-14">
+          <section id="simulation" className="pt-2">
             <div className="max-w-6xl">
               <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
                 Interactive Lab
@@ -3829,7 +3945,9 @@ const App = () => {
               />
             </div>
           </section>
-        </>
+        </section>
+      ) : (
+        <></>
       )}
     </main>
   );
