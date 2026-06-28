@@ -116,15 +116,194 @@ const figure = (title, render, description) => ({
 const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "" }) => {
   return (
     <div
-      className={`overflow-hidden rounded-[1.75rem] border p-2 shadow-[0_20px_48px_rgba(15,23,42,0.14)] ${
-        isDark ? "border-white/10 bg-white/[0.06]" : "border-slate-200/80 bg-white/85"
+      className={`overflow-hidden rounded-[1.65rem] border-[12px] shadow-[0_22px_60px_rgba(15,23,42,0.18)] ${
+        isDark ? "border-slate-100/85 bg-slate-100/95" : "border-white/95 bg-white/95"
       } ${className}`}
     >
       <img
         src={src}
         alt={alt}
-        className={`h-full w-full rounded-[1.2rem] object-cover ${imageClassName}`}
+        className={`h-full w-full rounded-[1.05rem] object-cover ${imageClassName}`}
       />
+    </div>
+  );
+};
+
+const HeroCollage = ({ isDark }) => {
+  const collageShellClass = isDark
+    ? "bg-white/[0.04] ring-1 ring-white/10"
+    : "bg-white/18 ring-1 ring-white/45";
+
+  const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-200/65";
+  const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-100/60";
+  const glowAccentClass = isDark ? "bg-blue-200/10" : "bg-blue-100/55";
+
+  return (
+    <div className="relative mx-auto w-full max-w-[44rem]">
+      <div className={`absolute left-[16%] top-[12%] h-36 w-36 rounded-full blur-[78px] ${glowPrimaryClass}`} />
+      <div className={`absolute right-[6%] top-[18%] h-52 w-52 rounded-full blur-[110px] ${glowSecondaryClass}`} />
+      <div className={`absolute bottom-[8%] left-[28%] h-40 w-40 rounded-full blur-[90px] ${glowAccentClass}`} />
+
+      <div className={`relative overflow-hidden rounded-[2.85rem] px-3 py-4 sm:px-5 sm:py-6 lg:px-7 lg:py-7 ${collageShellClass}`}>
+        <div
+          className={`absolute inset-[8%] rounded-[2.6rem] backdrop-blur-[2px] ${
+            isDark
+              ? "bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+              : "bg-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]"
+          }`}
+        />
+
+        <div className="relative grid grid-cols-2 gap-3 sm:grid-cols-6 sm:gap-4 lg:hidden">
+          <HeroCollagePhoto
+            src="/hero-coaster-frame.png"
+            alt="Roller coaster train descending a blue track curve"
+            isDark={isDark}
+            className="col-span-2 rotate-[3deg] sm:col-span-4"
+            imageClassName="aspect-[16/10]"
+          />
+          <HeroCollagePhoto
+            src="/mako-drop.png"
+            alt="Tall roller coaster drop against a blue sky"
+            isDark={isDark}
+            className="hidden rotate-[-5deg] sm:col-span-2 sm:row-span-2 sm:block"
+            imageClassName="aspect-[4/5]"
+          />
+          <HeroCollagePhoto
+            src="/hero-collage-1.png"
+            alt="Wooden roller coaster train cresting a hill"
+            isDark={isDark}
+            className="rotate-[-5deg] sm:col-span-3"
+            imageClassName="aspect-[6/5]"
+          />
+          <HeroCollagePhoto
+            src="/hero-collage-2.png"
+            alt="Red roller coaster train moving through a yellow track element"
+            isDark={isDark}
+            className="rotate-[4deg] sm:col-span-3"
+            imageClassName="aspect-[6/5]"
+          />
+          <HeroCollagePhoto
+            src="/hero-collage-3.png"
+            alt="Roller coaster train moving through an orange and blue track valley"
+            isDark={isDark}
+            className="col-span-2 max-w-[82%] justify-self-center rotate-[-3deg] sm:col-span-3 sm:max-w-none sm:justify-self-end"
+            imageClassName="aspect-[16/10]"
+          />
+        </div>
+
+        <div className="relative hidden h-[38rem] lg:block">
+          <HeroCollagePhoto
+            src="/mako-drop.png"
+            alt="Tall roller coaster drop against a blue sky"
+            isDark={isDark}
+            className="absolute left-[12%] top-[5%] z-10 w-[22%] rotate-[-6deg]"
+            imageClassName="aspect-[4/5]"
+          />
+          <HeroCollagePhoto
+            src="/hero-coaster-frame.png"
+            alt="Roller coaster train descending a blue track curve"
+            isDark={isDark}
+            className="absolute right-[4%] top-[7%] z-30 w-[62%] rotate-[4deg]"
+            imageClassName="aspect-[16/10]"
+          />
+          <HeroCollagePhoto
+            src="/hero-collage-1.png"
+            alt="Wooden roller coaster train cresting a hill"
+            isDark={isDark}
+            className="absolute left-[2%] top-[33%] z-20 w-[38%] rotate-[-6deg]"
+            imageClassName="aspect-[6/5]"
+          />
+          <HeroCollagePhoto
+            src="/hero-collage-3.png"
+            alt="Roller coaster train moving through an orange and blue track valley"
+            isDark={isDark}
+            className="absolute left-[24%] bottom-[7%] z-10 w-[43%] rotate-[-3deg]"
+            imageClassName="aspect-[16/10]"
+          />
+          <HeroCollagePhoto
+            src="/hero-collage-2.png"
+            alt="Red roller coaster train moving through a yellow track element"
+            isDark={isDark}
+            className="absolute right-[6%] bottom-[2%] z-20 w-[37%] rotate-[5deg]"
+            imageClassName="aspect-[6/5]"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SettingsControl = ({
+  className = "",
+  copyClass,
+  isDark,
+  mutedClass,
+  panelClass,
+  settingsOpen,
+  setSettingsOpen,
+  settingsRef,
+  setTheme,
+  subtlePanelClass,
+  theme,
+  titleClass,
+}) => {
+  return (
+    <div ref={settingsRef} className={`relative ${className}`}>
+      <button
+        type="button"
+        onClick={() => setSettingsOpen((open) => !open)}
+        className={`inline-flex items-center gap-3 rounded-full border px-4 py-2.5 text-sm font-semibold transition ${
+          isDark
+            ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+            : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+        }`}
+      >
+        Settings
+        <span className={`text-xs ${mutedClass}`}>{settingsOpen ? "-" : "+"}</span>
+      </button>
+
+      {settingsOpen ? (
+        <div
+          className={`absolute right-0 top-[calc(100%+0.75rem)] z-20 w-72 rounded-3xl border p-4 ${panelClass}`}
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className={`text-sm font-semibold ${titleClass}`}>Appearance</p>
+              <p className={`mt-1 text-sm leading-6 ${copyClass}`}>
+                Switch between dark and light mode.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() =>
+                setTheme((currentTheme) =>
+                  currentTheme === "dark" ? "light" : "dark",
+                )
+              }
+              className={`relative inline-flex h-8 w-16 shrink-0 items-center rounded-full p-1 transition ${
+                isDark
+                  ? "bg-cyan-300/80"
+                  : "border border-slate-300/80 bg-slate-300/80"
+              }`}
+              aria-label="Toggle light mode and dark mode"
+              aria-pressed={theme !== "dark"}
+            >
+              <span
+                className={`inline-block h-6 w-6 rounded-full bg-white shadow-sm transition-transform ${
+                  isDark ? "translate-x-0" : "translate-x-8"
+                }`}
+              />
+            </button>
+          </div>
+
+          <div
+            className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${subtlePanelClass} ${copyClass}`}
+          >
+            Current mode:{" "}
+            <span className={titleClass}>{isDark ? "Dark" : "Light"}</span>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -3604,65 +3783,23 @@ const App = () => {
 
   return (
     <main className="section-shell relative py-10 sm:py-12 lg:py-16">
-      <div className="absolute right-5 top-1 z-30 sm:right-6 sm:top-2 lg:right-8 lg:top-3">
-        <div ref={settingsRef} className="relative">
-          <button
-            type="button"
-            onClick={() => setSettingsOpen((open) => !open)}
-            className={`inline-flex items-center gap-3 rounded-full border px-4 py-2.5 text-sm font-semibold transition ${
-              isDark
-                ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
-                : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
-            }`}
-          >
-            Settings
-            <span className={`text-xs ${mutedClass}`}>{settingsOpen ? "-" : "+"}</span>
-          </button>
-
-          {settingsOpen ? (
-            <div
-              className={`absolute right-0 top-[calc(100%+0.75rem)] z-20 w-72 rounded-3xl border p-4 ${panelClass}`}
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className={`text-sm font-semibold ${titleClass}`}>Appearance</p>
-                  <p className={`mt-1 text-sm leading-6 ${copyClass}`}>
-                    Switch between dark and light mode.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setTheme((currentTheme) =>
-                      currentTheme === "dark" ? "light" : "dark",
-                    )
-                  }
-                  className={`relative inline-flex h-8 w-16 shrink-0 items-center rounded-full p-1 transition ${
-                    isDark
-                      ? "bg-cyan-300/80"
-                      : "border border-slate-300/80 bg-slate-300/80"
-                  }`}
-                  aria-label="Toggle light mode and dark mode"
-                  aria-pressed={!isDark}
-                >
-                  <span
-                    className={`inline-block h-6 w-6 rounded-full bg-white shadow-sm transition-transform ${
-                      isDark ? "translate-x-0" : "translate-x-8"
-                    }`}
-                  />
-                </button>
-              </div>
-
-              <div
-                className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${subtlePanelClass} ${copyClass}`}
-              >
-                Current mode:{" "}
-                <span className={titleClass}>{isDark ? "Dark" : "Light"}</span>
-              </div>
-            </div>
-          ) : null}
+      {view === "home" || view === "lesson" ? (
+        <div className="absolute right-5 top-1 z-30 sm:right-6 sm:top-2 lg:right-8 lg:top-3">
+          <SettingsControl
+            copyClass={copyClass}
+            isDark={isDark}
+            mutedClass={mutedClass}
+            panelClass={panelClass}
+            settingsOpen={settingsOpen}
+            setSettingsOpen={setSettingsOpen}
+            settingsRef={settingsRef}
+            setTheme={setTheme}
+            subtlePanelClass={subtlePanelClass}
+            theme={theme}
+            titleClass={titleClass}
+          />
         </div>
-      </div>
+      ) : null}
 
       {view === "lesson" ? (
         <LessonView
@@ -3722,77 +3859,13 @@ const App = () => {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-3xl lg:min-h-[42rem]">
-            <div
-              className={`absolute inset-x-[8%] inset-y-[10%] rounded-full blur-[100px] ${
-                isDark ? "bg-white/28" : "bg-slate-300/35"
-              }`}
-            />
-
-            <div className="relative grid grid-cols-2 gap-4 sm:gap-5 lg:hidden">
-              <HeroCollagePhoto
-                src="/hero-coaster-frame.png"
-                alt="Roller coaster train descending a blue track curve"
-                isDark={isDark}
-                className="col-span-2"
-                imageClassName="aspect-video"
-              />
-              <HeroCollagePhoto
-                src="/hero-collage-1.png"
-                alt="Wooden roller coaster train cresting a hill"
-                isDark={isDark}
-                imageClassName="aspect-[5/4]"
-              />
-              <HeroCollagePhoto
-                src="/hero-collage-2.png"
-                alt="Red roller coaster train moving through a yellow track element"
-                isDark={isDark}
-                imageClassName="aspect-[5/4]"
-              />
-              <HeroCollagePhoto
-                src="/hero-collage-3.png"
-                alt="Roller coaster train moving through an orange and blue track valley"
-                isDark={isDark}
-                className="col-span-2"
-                imageClassName="aspect-[16/10]"
-              />
-            </div>
-
-            <div className="relative hidden h-[42rem] lg:block">
-              <HeroCollagePhoto
-                src="/hero-collage-1.png"
-                alt="Wooden roller coaster train cresting a hill"
-                isDark={isDark}
-                className="absolute left-0 top-[11.5rem] z-10 w-[39%] rotate-[-6deg]"
-                imageClassName="aspect-[5/4]"
-              />
-              <HeroCollagePhoto
-                src="/hero-coaster-frame.png"
-                alt="Roller coaster train descending a blue track curve"
-                isDark={isDark}
-                className="absolute right-0 top-[3rem] z-20 w-[63%] rotate-[2deg]"
-                imageClassName="aspect-video"
-              />
-              <HeroCollagePhoto
-                src="/hero-collage-3.png"
-                alt="Roller coaster train moving through an orange and blue track valley"
-                isDark={isDark}
-                className="absolute left-[13%] bottom-[1.25rem] z-0 w-[46%] rotate-[4deg]"
-                imageClassName="aspect-[16/10]"
-              />
-              <HeroCollagePhoto
-                src="/hero-collage-2.png"
-                alt="Red roller coaster train moving through a yellow track element"
-                isDark={isDark}
-                className="absolute right-[2%] bottom-[0.5rem] z-10 w-[41%] rotate-[-5deg]"
-                imageClassName="aspect-[5/4]"
-              />
-            </div>
+          <div className="flex items-center justify-center lg:min-h-[42rem]">
+            <HeroCollage isDark={isDark} />
           </div>
         </section>
       ) : view === "topics" ? (
-        <section className="pb-10 pt-12 sm:pb-14 sm:pt-14">
-          <div className="mb-8 flex flex-wrap items-center gap-3">
+        <section className="pb-10 pt-4 sm:pb-14 sm:pt-6">
+          <div className="mb-8 flex items-center justify-between gap-4">
             <button
               type="button"
               onClick={() => setView("home")}
@@ -3804,17 +3877,19 @@ const App = () => {
             >
               Back Home
             </button>
-            <button
-              type="button"
-              onClick={() => setView("simulation")}
-              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
-                isDark
-                  ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
-                  : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
-              }`}
-            >
-              Simulation
-            </button>
+            <SettingsControl
+              copyClass={copyClass}
+              isDark={isDark}
+              mutedClass={mutedClass}
+              panelClass={panelClass}
+              settingsOpen={settingsOpen}
+              setSettingsOpen={setSettingsOpen}
+              settingsRef={settingsRef}
+              setTheme={setTheme}
+              subtlePanelClass={subtlePanelClass}
+              theme={theme}
+              titleClass={titleClass}
+            />
           </div>
 
           <section id="topics" className="pt-2">
@@ -3890,8 +3965,8 @@ const App = () => {
           </section>
         </section>
       ) : view === "simulation" ? (
-        <section className="pb-10 pt-12 sm:pb-14 sm:pt-14">
-          <div className="mb-8 flex flex-wrap items-center gap-3">
+        <section className="pb-10 pt-4 sm:pb-14 sm:pt-6">
+          <div className="mb-8 flex items-center justify-between gap-4">
             <button
               type="button"
               onClick={() => setView("home")}
@@ -3903,17 +3978,19 @@ const App = () => {
             >
               Back Home
             </button>
-            <button
-              type="button"
-              onClick={() => setView("topics")}
-              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
-                isDark
-                  ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
-                  : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
-              }`}
-            >
-              Learning Sections
-            </button>
+            <SettingsControl
+              copyClass={copyClass}
+              isDark={isDark}
+              mutedClass={mutedClass}
+              panelClass={panelClass}
+              settingsOpen={settingsOpen}
+              setSettingsOpen={setSettingsOpen}
+              settingsRef={settingsRef}
+              setTheme={setTheme}
+              subtlePanelClass={subtlePanelClass}
+              theme={theme}
+              titleClass={titleClass}
+            />
           </div>
 
           <section id="simulation" className="pt-2">
