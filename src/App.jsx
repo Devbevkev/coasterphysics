@@ -20,6 +20,48 @@ const Initial = ({ symbol }) => {
   );
 };
 
+const escapeHtml = (text) =>
+  text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+
+const formatPhysicsMarkup = (text) => {
+  const replacements = [
+    [/sqrt/g, "√"],
+    [/one-half/g, "½"],
+    [/(?<![A-Za-z])Fnet,inward(?![A-Za-z])/g, "F<sub>c</sub>"],
+    [/(?<![A-Za-z])Fc(?![A-Za-z])/g, "F<sub>c</sub>"],
+    [/(?<![A-Za-z])Fnet(?![A-Za-z])/g, "F<sub>net</sub>"],
+    [/(?<![A-Za-z])Favg(?![A-Za-z])/g, "F<sub>avg</sub>"],
+    [/(?<![A-Za-z])Fg(?![A-Za-z])/g, "F<sub>g</sub>"],
+    [/(?<![A-Za-z])Wnet(?![A-Za-z])/g, "W<sub>net</sub>"],
+    [/(?<![A-Za-z])W_nc(?![A-Za-z])/g, "W<sub>nc</sub>"],
+    [/(?<![A-Za-z])ΔE_mech(?![A-Za-z])/g, "ΔE<sub>mech</sub>"],
+    [/(?<![A-Za-z])vavg(?![A-Za-z])/g, "v<sub>avg</sub>"],
+    [/(?<![A-Za-z])aavg(?![A-Za-z])/g, "a<sub>avg</sub>"],
+    [/(?<![A-Za-z])ac(?![A-Za-z])/g, "a<sub>c</sub>"],
+    [/v0/g, "v<sub>0</sub>"],
+    [/x0/g, "x<sub>0</sub>"],
+    [/(?<![A-Za-z])vf(?![A-Za-z])/g, "v<sub>f</sub>"],
+    [/(?<![A-Za-z])vi(?![A-Za-z])/g, "v<sub>i</sub>"],
+    [/(?<![A-Za-z])pf(?![A-Za-z])/g, "p<sub>f</sub>"],
+    [/(?<![A-Za-z])pi(?![A-Za-z])/g, "p<sub>i</sub>"],
+  ];
+
+  return replacements.reduce(
+    (result, [pattern, replacement]) => result.replace(pattern, replacement),
+    escapeHtml(text),
+  );
+};
+
+const FormattedPhysicsText = ({ as: Component = "span", className, text }) => (
+  <Component
+    className={className}
+    dangerouslySetInnerHTML={{ __html: formatPhysicsMarkup(text) }}
+  />
+);
+
 const equation = (label, expression) => ({ label, expression });
 
 const card = (title, text) => ({ title, text });
@@ -62,14 +104,14 @@ const FlatTrackFreeBodyDiagram = ({ isDark }) => {
       <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
       <circle cx="160" cy="90" r="11" fill={bodyFill} />
 
-      <line x1="160" y1="90" x2="160" y2="40" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="160,28 150,46 170,46" fill={forceColor} />
-      <text x="178" y="46" fill={textColor} fontSize="18" fontWeight="600">
+      <line x1="160" y1="78" x2="160" y2="42" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="160,30 150,48 170,48" fill={forceColor} />
+      <text x="178" y="48" fill={textColor} fontSize="18" fontWeight="600">
         N
       </text>
 
-      <line x1="160" y1="90" x2="160" y2="140" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="160,152 150,134 170,134" fill={forceColor} />
+      <line x1="160" y1="102" x2="160" y2="138" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="160,150 150,132 170,132" fill={forceColor} />
       <text x="178" y="146" fill={textColor} fontSize="18" fontWeight="600">
         mg
       </text>
@@ -88,9 +130,10 @@ const SlopeCartDiagram = ({ isDark }) => {
   return (
     <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Roller coaster cart on a sloped track">
       <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
-      <line x1="54" y1="130" x2="272" y2="72" stroke={trackColor} strokeWidth="6" strokeLinecap="round" />
+      <line x1="48" y1="132" x2="112" y2="132" stroke={trackColor} strokeWidth="4" strokeLinecap="round" opacity="0.7" />
+      <line x1="72" y1="132" x2="272" y2="78" stroke={trackColor} strokeWidth="6" strokeLinecap="round" />
 
-      <g transform="translate(152 96) rotate(-15)">
+      <g transform="translate(156 98) rotate(-15)">
         <rect x="-46" y="-16" width="92" height="28" rx="12" fill={cartFill} />
         <rect x="-28" y="-30" width="56" height="16" rx="8" fill={accentFill} opacity="0.95" />
         <circle cx="-24" cy="18" r="10" fill={wheelFill} />
@@ -99,8 +142,8 @@ const SlopeCartDiagram = ({ isDark }) => {
         <circle cx="24" cy="18" r="3.5" fill={accentFill} />
       </g>
 
-      <path d="M72 132 A32 32 0 0 1 96 104" fill="none" stroke={trackColor} strokeWidth="2.5" />
-      <text x="100" y="116" fill={textColor} fontSize="16" fontWeight="600">
+      <path d="M96 132 A24 24 0 0 0 95 126" fill="none" stroke={trackColor} strokeWidth="2.5" />
+      <text x="84" y="122" fill={textColor} fontSize="16" fontWeight="600">
         θ
       </text>
     </svg>
@@ -118,32 +161,120 @@ const SlopeComponentsDiagram = ({ isDark }) => {
   return (
     <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Slope force analysis with gravity components">
       <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
-      <line x1="68" y1="128" x2="266" y2="76" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+      <line x1="70" y1="126" x2="162" y2="101" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+      <line x1="190" y1="93" x2="272" y2="72" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
 
-      <circle cx="162" cy="96" r="10" fill={bodyFill} />
+      <circle cx="176" cy="98" r="11" fill={bodyFill} />
 
-      <line x1="162" y1="96" x2="148" y2="42" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="145,30 140,49 159,44" fill={forceColor} />
-      <text x="118" y="42" fill={textColor} fontSize="17" fontWeight="600">
+      <line x1="173" y1="86" x2="158" y2="45" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="154,31 148,50 167,45" fill={forceColor} />
+      <text x="128" y="44" fill={textColor} fontSize="17" fontWeight="600">
         N
       </text>
 
-      <line x1="162" y1="96" x2="162" y2="148" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="162,160 152,142 172,142" fill={forceColor} />
-      <text x="178" y="150" fill={textColor} fontSize="17" fontWeight="600">
+      <line x1="176" y1="110" x2="176" y2="146" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="176,158 166,140 186,140" fill={forceColor} />
+      <text x="194" y="150" fill={textColor} fontSize="17" fontWeight="600">
         mg
       </text>
 
-      <line x1="162" y1="96" x2="114" y2="109" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
-      <polygon points="103,112 120,100 123,119" fill={componentColor} />
-      <text x="72" y="124" fill={textColor} fontSize="15" fontWeight="600">
+      <line x1="166" y1="101" x2="123" y2="113" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
+      <polygon points="111,116 128,104 132,123" fill={componentColor} />
+      <text x="76" y="115" fill={textColor} fontSize="15" fontWeight="600">
         mg sinθ
       </text>
 
-      <line x1="162" y1="96" x2="176" y2="148" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
-      <polygon points="179,160 167,144 186,140" fill={componentColor} />
-      <text x="188" y="136" fill={textColor} fontSize="15" fontWeight="600">
+      <line x1="181" y1="109" x2="194" y2="151" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
+      <polygon points="197,163 185,147 204,143" fill={componentColor} />
+      <text x="208" y="132" fill={textColor} fontSize="15" fontWeight="600">
         mg cosθ
+      </text>
+    </svg>
+  );
+};
+
+const DipForceDiagram = ({ isDark }) => {
+  const circleColor = isDark ? "#94a3b8" : "#94a3b8";
+  const bodyFill = isDark ? "#f8fafc" : "#0f172a";
+  const centerFill = isDark ? "#38bdf8" : "#0ea5e9";
+  const forceColor = isDark ? "#22d3ee" : "#0284c7";
+  const gravityColor = isDark ? "#fbbf24" : "#d97706";
+  const textColor = isDark ? "#e2e8f0" : "#334155";
+
+  return (
+    <svg viewBox="0 0 320 220" className="h-56 w-full" role="img" aria-label="Free-body diagram at the bottom of a dip">
+      <circle cx="160" cy="106" r="72" fill="none" stroke={circleColor} strokeWidth="3" opacity="0.65" />
+      <circle cx="160" cy="106" r="4.5" fill={centerFill} />
+      <circle cx="160" cy="178" r="10" fill={bodyFill} />
+
+      <line x1="160" y1="168" x2="160" y2="128" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="160,116 150,134 170,134" fill={forceColor} />
+      <text x="176" y="132" fill={textColor} fontSize="18" fontWeight="600">
+        N
+      </text>
+
+      <line x1="160" y1="188" x2="160" y2="210" stroke={gravityColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="160,218 150,200 170,200" fill={gravityColor} />
+      <text x="176" y="210" fill={textColor} fontSize="18" fontWeight="600">
+        mg
+      </text>
+    </svg>
+  );
+};
+
+const HillForceDiagram = ({ isDark }) => {
+  const circleColor = isDark ? "#94a3b8" : "#94a3b8";
+  const bodyFill = isDark ? "#f8fafc" : "#0f172a";
+  const centerFill = isDark ? "#38bdf8" : "#0ea5e9";
+  const forceColor = isDark ? "#22d3ee" : "#0284c7";
+  const gravityColor = isDark ? "#fbbf24" : "#d97706";
+  const textColor = isDark ? "#e2e8f0" : "#334155";
+
+  return (
+    <svg viewBox="0 0 320 220" className="h-56 w-full" role="img" aria-label="Free-body diagram at the top of a hill">
+      <circle cx="160" cy="114" r="72" fill="none" stroke={circleColor} strokeWidth="3" opacity="0.65" />
+      <circle cx="160" cy="114" r="4.5" fill={centerFill} />
+      <circle cx="160" cy="42" r="10" fill={bodyFill} />
+
+      <line x1="160" y1="32" x2="160" y2="10" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="160,0 150,18 170,18" fill={forceColor} />
+      <text x="176" y="18" fill={textColor} fontSize="18" fontWeight="600">
+        N
+      </text>
+
+      <line x1="160" y1="52" x2="160" y2="92" stroke={gravityColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="160,104 150,86 170,86" fill={gravityColor} />
+      <text x="176" y="88" fill={textColor} fontSize="18" fontWeight="600">
+        mg
+      </text>
+    </svg>
+  );
+};
+
+const LoopTopForceDiagram = ({ isDark }) => {
+  const circleColor = isDark ? "#94a3b8" : "#94a3b8";
+  const bodyFill = isDark ? "#f8fafc" : "#0f172a";
+  const centerFill = isDark ? "#38bdf8" : "#0ea5e9";
+  const forceColor = isDark ? "#22d3ee" : "#0284c7";
+  const gravityColor = isDark ? "#fbbf24" : "#d97706";
+  const textColor = isDark ? "#e2e8f0" : "#334155";
+
+  return (
+    <svg viewBox="0 0 320 220" className="h-56 w-full" role="img" aria-label="Free-body diagram at the top of a loop">
+      <circle cx="160" cy="114" r="72" fill="none" stroke={circleColor} strokeWidth="3" opacity="0.65" />
+      <circle cx="160" cy="114" r="4.5" fill={centerFill} />
+      <circle cx="160" cy="42" r="10" fill={bodyFill} />
+
+      <line x1="148" y1="44" x2="148" y2="86" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="148,98 138,80 158,80" fill={forceColor} />
+      <text x="112" y="88" fill={textColor} fontSize="18" fontWeight="600">
+        N
+      </text>
+
+      <line x1="172" y1="44" x2="172" y2="86" stroke={gravityColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="172,98 162,80 182,80" fill={gravityColor} />
+      <text x="188" y="88" fill={textColor} fontSize="18" fontWeight="600">
+        mg
       </text>
     </svg>
   );
@@ -873,7 +1004,7 @@ const energyLesson = createLesson(
             K<sub>i</sub> + U<sub>gi</sub> = K<sub>f</sub> + U<sub>gf</sub>
           </>,
         ),
-        equation("Drop-speed relation", <>v = sqrt(2gh)</>),
+        equation("Drop-speed relation", <>v = √(2gh)</>),
       ],
       variables: [
         {
@@ -941,8 +1072,8 @@ const energyLesson = createLesson(
           "D. 28.0 m/s",
         ],
         2,
-        "Correct. Use v = sqrt(2gh) = sqrt((2)(9.8)(20)) ≈ 19.8 m/s.",
-        "Not quite. Set the lost gravitational potential energy equal to the gained kinetic energy, or use v = sqrt(2gh). For h = 20 m, the speed is about 19.8 m/s.",
+        "Correct. Use v = √(2gh) = √((2)(9.8)(20)) ≈ 19.8 m/s.",
+        "Not quite. Set the lost gravitational potential energy equal to the gained kinetic energy, or use v = √(2gh). For h = 20 m, the speed is about 19.8 m/s.",
       ),
     }),
     createStep(
@@ -955,6 +1086,28 @@ const energyLesson = createLesson(
           "At the bottom of the drop, the train may be moving very quickly but it no longer has as much height available to convert. When it climbs the next hill, kinetic energy changes back into gravitational potential energy, so the speed falls as the height rises.",
           "This repeating exchange explains the rhythm of a coaster. It also explains why the first hill is usually the tallest on a traditional coaster. Without an additional launch or lift, the ride cannot give itself back the mechanical energy it has already lost.",
         ],
+        realWorldExample: {
+          eyebrow: "Real-World Example",
+          title: "Mako Coaster Example",
+          imageSrc: "/mako-drop.png",
+          imageAlt: "Mako roller coaster train descending a steep drop.",
+          stats: [
+            {
+              label: "Height",
+              value: "200 ft (61.0 m)",
+            },
+            {
+              label: "Published top speed",
+              value: "73 mph (32.6 m/s)",
+            },
+          ],
+          paragraphs: [
+            "Using published stats for Mako at SeaWorld Orlando, the ideal energy model gives a quick estimate for how fast the train could be moving near the bottom of the first drop.",
+            "From rest, v = √(2gh) = √((2)(9.8)(61.0)) ≈ 34.6 m/s ≈ 77.4 mph.",
+            "That ideal-model result is a little higher than the published 73 mph top speed because a real coaster is not frictionless. Wheels, bearings, and track contact create friction, air resistance removes energy, and some energy is also dissipated as sound and heat.",
+            "So the energy equation is still very useful, but in real life it gives an estimate rather than a perfect exact speed.",
+          ],
+        },
         bullets: [
           "Energy methods can compare two points even if the track shape between them is complicated.",
           "Energy bar charts help students track K, Ug, and total mechanical energy visually.",
@@ -1010,7 +1163,7 @@ const energyLesson = createLesson(
             "D. 39.6 m/s",
           ],
           2,
-          "Correct. Use v = sqrt(2gh) = sqrt((2)(9.8)(40)) ≈ 28.0 m/s.",
+          "Correct. Use v = √(2gh) = √((2)(9.8)(40)) ≈ 28.0 m/s.",
           "Not quite. Set gravitational potential energy equal to kinetic energy and solve for v. For h = 40 m, the speed is about 28.0 m/s.",
         ),
         quizQuestion(
@@ -1128,7 +1281,7 @@ const circularMotionLesson = createLesson(
     ),
     createStep("equations", "Equations", "Key Equations", {
       body: [
-        "These equations should always be paired with a diagram and a clearly chosen inward direction. The algebra is short, but only if the physical setup is right first.",
+        "These are the two core circular-motion relationships. Once you know the speed and radius, the next section shows how a free-body diagram turns them into valley, hill, and loop equations.",
       ],
       equations: [
         equation(
@@ -1138,72 +1291,12 @@ const circularMotionLesson = createLesson(
           </>,
         ),
         equation(
-          "Net inward force",
+          "Centripetal force",
           <>
-            F<sub>net,inward</sub> = m
+            F<sub>c</sub> = m
             <Fraction numerator="v²" denominator="r" />
           </>,
         ),
-        equation(
-          "Bottom of a dip",
-          <>
-            N - mg = m
-            <Fraction numerator="v²" denominator="r" />
-          </>,
-        ),
-        equation(
-          "Top of a hill",
-          <>
-            mg - N = m
-            <Fraction numerator="v²" denominator="r" />
-          </>,
-        ),
-        equation(
-          "Top of a loop, minimum-speed idea",
-          <>v = sqrt(gr)</>,
-        ),
-      ],
-      variables: [
-        {
-          symbol: "ac",
-          meaning: "centripetal acceleration",
-          note: "The inward acceleration required to keep the coaster moving in a curve.",
-        },
-        {
-          symbol: "v",
-          meaning: "speed",
-          note: "How fast the coaster is moving along the track.",
-        },
-        {
-          symbol: "r",
-          meaning: "radius of curvature",
-          note: "How tight the hill, dip, turn, or loop is.",
-        },
-        {
-          symbol: "Fnet,inward",
-          display: (
-            <>
-              F<sub>net,inward</sub>
-            </>
-          ),
-          meaning: "net inward force",
-          note: "The total force directed toward the center of curvature.",
-        },
-        {
-          symbol: "N",
-          meaning: "normal force",
-          note: "The support force from the seat or track on the rider or car.",
-        },
-        {
-          symbol: "m",
-          meaning: "mass",
-          note: "The mass of the coaster car or rider being analyzed.",
-        },
-        {
-          symbol: "g",
-          meaning: "gravitational field strength",
-          note: "Near Earth, g is approximately 9.8 m/s².",
-        },
       ],
       bullets: [
         "At the top of a loop, the limiting case occurs when N = 0.",
@@ -1222,6 +1315,67 @@ const circularMotionLesson = createLesson(
         "Not quite. Apply a_c = v²/r. With v = 15 m/s and r = 30 m, the centripetal acceleration is 7.5 m/s².",
       ),
     }),
+    createStep(
+      "derivations",
+      "Derive",
+      "How the Valley, Hill, and Loop Equations Are Built",
+      {
+        body: [
+          "Start every derivation by choosing the inward direction first. Then draw only the real forces on the dot, add them along the inward axis, and set that net force equal to Fc = m(v²/r).",
+          "The sign changes from one location to another because inward changes from upward at the bottom of a dip to downward at the top of a hill or loop.",
+        ],
+        derivations: [
+          {
+            title: "Bottom of a Dip",
+            equation: (
+              <>
+                N - mg = m
+                <Fraction numerator="v²" denominator="r" />
+              </>
+            ),
+            render: (isDark) => <DipForceDiagram isDark={isDark} />,
+            paragraphs: [
+              "At the bottom of the dip, the center of curvature is above the coaster, so inward is upward.",
+              "The normal force points upward and weight points downward, so the inward net force is N - mg.",
+              "Set that equal to Fc = m(v²/r) to get N - mg = m(v²/r).",
+            ],
+          },
+          {
+            title: "Top of a Hill",
+            equation: (
+              <>
+                mg - N = m
+                <Fraction numerator="v²" denominator="r" />
+              </>
+            ),
+            render: (isDark) => <HillForceDiagram isDark={isDark} />,
+            paragraphs: [
+              "At the top of a hill, the center of curvature is below the coaster, so inward is downward.",
+              "Weight points inward while the normal force points away from the center, so the inward net force is mg - N.",
+              "That gives mg - N = m(v²/r). A smaller N here is why riders feel lighter at the crest.",
+            ],
+          },
+          {
+            title: "Top of a Loop, Minimum-Speed Case",
+            equation: (
+              <div className="space-y-3">
+                <div>
+                  mg = m
+                  <Fraction numerator="v²" denominator="r" />
+                </div>
+                <div>v = √(gr)</div>
+              </div>
+            ),
+            render: (isDark) => <LoopTopForceDiagram isDark={isDark} />,
+            paragraphs: [
+              "At the top of a loop, both N and mg point inward, which is downward toward the center of the loop.",
+              "For the minimum-speed idea, use the limiting case N = 0. Then gravity alone provides the centripetal force.",
+              "That leaves mg = m(v²/r), and solving for v gives v = √(gr).",
+            ],
+          },
+        ],
+      },
+    ),
     createStep(
       "coaster-explanation",
       "Explain",
@@ -2253,7 +2407,7 @@ const designSafetyLesson = createLesson(
         equation(
           "Curved-motion force condition",
           <>
-            F<sub>net,inward</sub> = m
+            F<sub>c</sub> = m
             <Fraction numerator="v²" denominator="r" />
           </>,
         ),
@@ -2330,14 +2484,14 @@ const designSafetyLesson = createLesson(
           note: "The rate at which velocity changes.",
         },
         {
-          symbol: "Fnet,inward",
+          symbol: "Fc",
           display: (
             <>
-              F<sub>net,inward</sub>
+              F<sub>c</sub>
             </>
           ),
-          meaning: "net inward force",
-          note: "The force required to keep the coaster following a curved path.",
+          meaning: "centripetal force",
+          note: "The net inward force required to keep the coaster following a curved path.",
         },
         {
           symbol: "m",
@@ -2814,8 +2968,83 @@ const LessonView = ({
           {step.body ? (
             <div className={`mt-6 space-y-4 text-lg leading-8 ${copyClass}`}>
               {step.body.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+                <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
               ))}
+            </div>
+          ) : null}
+
+          {step.derivations ? (
+            <div className="mt-6 grid gap-5">
+              {step.derivations.map((item) => (
+                <div key={item.title} className={`rounded-[1.9rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
+                  <div className="grid gap-6 lg:grid-cols-[minmax(0,17rem)_minmax(0,1fr)] lg:items-center">
+                    <div className={`rounded-[1.6rem] border p-4 ${subtlePanelClass}`}>
+                      {item.render(isDark)}
+                    </div>
+
+                    <div>
+                      <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                        {item.title}
+                      </p>
+                      <div
+                        className={`mt-4 overflow-x-auto pb-3 font-serif text-[1.85rem] font-normal leading-[1.45] tracking-normal sm:text-[2.2rem] ${titleClass}`}
+                      >
+                        {item.equation}
+                      </div>
+
+                      <div className={`mt-4 space-y-3 text-base leading-7 ${copyClass}`}>
+                        {item.paragraphs.map((paragraph) => (
+                          <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {step.realWorldExample ? (
+            <div className={`mt-6 rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
+              <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                {step.realWorldExample.eyebrow}
+              </p>
+              <h4 className={`mt-3 text-2xl font-semibold ${titleClass}`}>
+                {step.realWorldExample.title}
+              </h4>
+
+              <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)]">
+                <div>
+                  <img
+                    src={step.realWorldExample.imageSrc}
+                    alt={step.realWorldExample.imageAlt}
+                    className={`w-full rounded-[1.5rem] border object-cover ${
+                      isDark ? "border-white/10" : "border-slate-300/70"
+                    }`}
+                  />
+                </div>
+
+                <div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {step.realWorldExample.stats.map((item) => (
+                      <div key={item.label} className={`rounded-3xl border p-4 ${subtlePanelClass}`}>
+                        <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
+                          {item.label}
+                        </p>
+                        <p className={`mt-2 text-xl font-semibold ${titleClass}`}>
+                          {item.value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className={`mt-5 space-y-4 text-base leading-7 ${copyClass}`}>
+                    {step.realWorldExample.paragraphs.map((paragraph) => (
+                      <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           ) : null}
 
@@ -2824,7 +3053,7 @@ const LessonView = ({
               {step.bullets.map((item) => (
                 <li key={item} className="flex gap-3">
                   <span className={`mt-2 h-2 w-2 rounded-full ${listDotClass}`} />
-                  <span>{item}</span>
+                  <FormattedPhysicsText text={item} />
                 </li>
               ))}
             </ul>
@@ -2905,7 +3134,11 @@ const LessonView = ({
               {step.cards.map((stepCard) => (
                 <div key={stepCard.title} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
                   <h4 className={`text-lg font-semibold ${titleClass}`}>{stepCard.title}</h4>
-                  <p className={`mt-3 text-base leading-7 ${copyClass}`}>{stepCard.text}</p>
+                  <FormattedPhysicsText
+                    as="p"
+                    className={`mt-3 text-base leading-7 ${copyClass}`}
+                    text={stepCard.text}
+                  />
                 </div>
               ))}
             </div>
@@ -2918,7 +3151,11 @@ const LessonView = ({
                   <div key={item.title} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
                     <h4 className={`text-lg font-semibold ${titleClass}`}>{item.title}</h4>
                     {item.description ? (
-                      <p className={`mt-2 text-sm leading-6 ${copyClass}`}>{item.description}</p>
+                      <FormattedPhysicsText
+                        as="p"
+                        className={`mt-2 text-sm leading-6 ${copyClass}`}
+                        text={item.description}
+                      />
                     ) : null}
                     <div className="mt-4">{item.render(isDark)}</div>
                   </div>
@@ -2943,9 +3180,11 @@ const LessonView = ({
                 </div>
               </div>
 
-              <p className={`mt-6 text-base leading-7 ${copyClass}`}>
-                {currentPracticeProblem.prompt}
-              </p>
+              <FormattedPhysicsText
+                as="p"
+                className={`mt-6 text-base leading-7 ${copyClass}`}
+                text={currentPracticeProblem.prompt}
+              />
 
               <div className="mt-6 grid gap-3">
                 {currentPracticeProblem.choices.map((choice, index) => {
@@ -2971,9 +3210,10 @@ const LessonView = ({
                             : "border-slate-300/70 bg-white/70 hover:bg-white"
                       } ${practiceChecked ? "cursor-default" : ""}`}
                     >
-                      <span className={`${isDark ? "text-slate-100" : "text-slate-800"}`}>
-                        {choice}
-                      </span>
+                      <FormattedPhysicsText
+                        className={isDark ? "text-slate-100" : "text-slate-800"}
+                        text={choice}
+                      />
                     </button>
                   );
                 })}
@@ -2994,11 +3234,15 @@ const LessonView = ({
                   <p className="font-semibold">
                     {practiceIsCorrect ? "Correct" : "Not quite"}
                   </p>
-                  <p className="mt-2">
-                    {practiceIsCorrect
-                      ? currentPracticeProblem.correctExplanation
-                      : currentPracticeProblem.incorrectExplanation}
-                  </p>
+                  <FormattedPhysicsText
+                    as="p"
+                    className="mt-2"
+                    text={
+                      practiceIsCorrect
+                        ? currentPracticeProblem.correctExplanation
+                        : currentPracticeProblem.incorrectExplanation
+                    }
+                  />
                 </div>
               ) : null}
 
@@ -3035,9 +3279,11 @@ const LessonView = ({
                 </div>
               </div>
 
-              <p className={`mt-6 text-base leading-7 ${copyClass}`}>
-                {currentQuizQuestion.question}
-              </p>
+              <FormattedPhysicsText
+                as="p"
+                className={`mt-6 text-base leading-7 ${copyClass}`}
+                text={currentQuizQuestion.question}
+              />
 
               <div className="mt-6 grid gap-3">
                 {currentQuizQuestion.choices.map((choice, index) => {
@@ -3063,9 +3309,10 @@ const LessonView = ({
                             : "border-slate-300/70 bg-white/70 hover:bg-white"
                       } ${quizChecked ? "cursor-default" : ""}`}
                     >
-                      <span className={`${isDark ? "text-slate-100" : "text-slate-800"}`}>
-                        {choice}
-                      </span>
+                      <FormattedPhysicsText
+                        className={isDark ? "text-slate-100" : "text-slate-800"}
+                        text={choice}
+                      />
                     </button>
                   );
                 })}
@@ -3084,11 +3331,15 @@ const LessonView = ({
                   }`}
                 >
                   <p className="font-semibold">{quizIsCorrect ? "Correct" : "Not quite"}</p>
-                  <p className="mt-2">
-                    {quizIsCorrect
-                      ? currentQuizQuestion.correctExplanation
-                      : currentQuizQuestion.incorrectExplanation}
-                  </p>
+                  <FormattedPhysicsText
+                    as="p"
+                    className="mt-2"
+                    text={
+                      quizIsCorrect
+                        ? currentQuizQuestion.correctExplanation
+                        : currentQuizQuestion.incorrectExplanation
+                    }
+                  />
                 </div>
               ) : null}
 
@@ -3242,7 +3493,7 @@ const App = () => {
 
   return (
     <main className="section-shell py-10 sm:py-12 lg:py-16">
-      <div className="flex justify-end">
+      <div className="-mt-3 flex justify-end pr-1 sm:-mt-4 sm:pr-2">
         <div ref={settingsRef} className="relative">
           <button
             type="button"
@@ -3332,10 +3583,11 @@ const App = () => {
               </h1>
 
               <p className={`mt-8 max-w-2xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
-                Coasterphysics grew out of a fascination with roller coasters
-                and the physics questions they naturally raise. This version of
-                the project turns that curiosity into a full AP Physics C:
-                Mechanics lesson sequence built around real coaster motion.
+                Coasterphysics brings physics to life through the motion,
+                design, and thrill of roller coasters. Our mission is to make
+                complex physics concepts clear, engaging, and accessible
+                through interactive lessons, real-world examples, and
+                coaster-inspired problem solving.
               </p>
 
               <div className="mt-10 flex flex-col items-start gap-3">
@@ -3353,7 +3605,7 @@ const App = () => {
                       : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
                   }`}
                 >
-                  Simulation Button
+                  Simulation
                 </a>
               </div>
             </div>
@@ -3452,7 +3704,7 @@ const App = () => {
               <h2
                 className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
               >
-                Explore a Drop in Real Time
+                Coaster simulation
               </h2>
               <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
                 Change the drop height and the level-out length to see how the

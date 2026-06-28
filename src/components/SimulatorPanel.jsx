@@ -135,7 +135,7 @@ const SimulatorPanel = ({
   }, [settings]);
 
   return (
-    <div className="grid gap-8 xl:grid-cols-[0.95fr_1.05fr]">
+    <div className="grid items-start gap-8 xl:grid-cols-[0.95fr_1.05fr]">
       <div className={`${panelClass} p-6 sm:p-8`}>
         <div className="mb-8 flex items-center justify-between gap-4">
           <div>
@@ -219,7 +219,9 @@ const SimulatorPanel = ({
       </div>
 
       <div className={`${panelClass} relative overflow-hidden p-6 sm:p-8`}>
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-transparent to-amber-300/10" />
+        {isDark ? (
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-transparent to-amber-300/10" />
+        ) : null}
         <div className="relative">
           <h3 className={`text-2xl font-semibold ${titleClass}`}>
             Changing Track Profile
@@ -384,8 +386,6 @@ const SimulatorPanel = ({
 
               <g transform={`translate(${track.carX}, ${track.carY - 12})`}>
                 <rect x="-14" y="-10" width="28" height="12" rx="6" fill="#f8fafc" />
-                <circle cx="-8" cy="4" r="4" fill={isDark ? "#cbd5e1" : "#64748b"} />
-                <circle cx="8" cy="4" r="4" fill={isDark ? "#cbd5e1" : "#64748b"} />
               </g>
             </svg>
           </div>
@@ -404,8 +404,8 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-cyan-200 bg-gradient-to-br from-cyan-100 via-white to-sky-50 shadow-[0_14px_32px_rgba(14,165,233,0.10)]",
-          label: "text-cyan-700",
+          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
+          label: "text-slate-500",
           value: "text-slate-900",
         },
     amber: isDark
@@ -415,8 +415,8 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-amber-200 bg-gradient-to-br from-amber-100 via-white to-yellow-50 shadow-[0_14px_32px_rgba(245,158,11,0.10)]",
-          label: "text-amber-700",
+          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
+          label: "text-slate-500",
           value: "text-slate-900",
         },
     rose: isDark
@@ -426,8 +426,8 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-rose-200 bg-gradient-to-br from-rose-100 via-white to-pink-50 shadow-[0_14px_32px_rgba(244,63,94,0.10)]",
-          label: "text-rose-700",
+          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
+          label: "text-slate-500",
           value: "text-slate-900",
         },
     emerald: isDark
@@ -437,8 +437,8 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-emerald-200 bg-gradient-to-br from-emerald-100 via-white to-teal-50 shadow-[0_14px_32px_rgba(16,185,129,0.10)]",
-          label: "text-emerald-700",
+          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
+          label: "text-slate-500",
           value: "text-slate-900",
         },
   };
