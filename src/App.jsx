@@ -20,11 +20,50 @@ const Initial = ({ symbol }) => {
   );
 };
 
+const Radical = ({ children }) => {
+  return (
+    <span className="physics-radical">
+      <span className="physics-radical-sign">√</span>
+      <span className="physics-radical-content">{children}</span>
+    </span>
+  );
+};
+
 const escapeHtml = (text) =>
   text
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+
+const wrapRadicals = (text) => {
+  let result = "";
+
+  for (let index = 0; index < text.length; index += 1) {
+    if (text[index] === "√" && text[index + 1] === "(") {
+      let depth = 0;
+      let endIndex = index + 1;
+
+      for (; endIndex < text.length; endIndex += 1) {
+        if (text[endIndex] === "(") depth += 1;
+        if (text[endIndex] === ")") {
+          depth -= 1;
+          if (depth === 0) break;
+        }
+      }
+
+      if (depth === 0 && endIndex < text.length) {
+        const radicand = text.slice(index + 2, endIndex);
+        result += `<span class="physics-radical"><span class="physics-radical-sign">√</span><span class="physics-radical-content">${radicand}</span></span>`;
+        index = endIndex;
+        continue;
+      }
+    }
+
+    result += text[index];
+  }
+
+  return result;
+};
 
 const formatPhysicsMarkup = (text) => {
   const replacements = [
@@ -49,9 +88,11 @@ const formatPhysicsMarkup = (text) => {
     [/(?<![A-Za-z])pi(?![A-Za-z])/g, "p<sub>i</sub>"],
   ];
 
-  return replacements.reduce(
-    (result, [pattern, replacement]) => result.replace(pattern, replacement),
-    escapeHtml(text),
+  return wrapRadicals(
+    replacements.reduce(
+      (result, [pattern, replacement]) => result.replace(pattern, replacement),
+      escapeHtml(text),
+    ),
   );
 };
 
@@ -130,10 +171,10 @@ const SlopeCartDiagram = ({ isDark }) => {
   return (
     <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Roller coaster cart on a sloped track">
       <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
-      <line x1="48" y1="132" x2="112" y2="132" stroke={trackColor} strokeWidth="4" strokeLinecap="round" opacity="0.7" />
-      <line x1="72" y1="132" x2="272" y2="78" stroke={trackColor} strokeWidth="6" strokeLinecap="round" />
+      <line x1="42" y1="140" x2="112" y2="140" stroke={trackColor} strokeWidth="4" strokeLinecap="round" opacity="0.7" />
+      <line x1="70" y1="140" x2="272" y2="86" stroke={trackColor} strokeWidth="6" strokeLinecap="round" />
 
-      <g transform="translate(156 98) rotate(-15)">
+      <g transform="translate(156 106) rotate(-15)">
         <rect x="-46" y="-16" width="92" height="28" rx="12" fill={cartFill} />
         <rect x="-28" y="-30" width="56" height="16" rx="8" fill={accentFill} opacity="0.95" />
         <circle cx="-24" cy="18" r="10" fill={wheelFill} />
@@ -142,8 +183,8 @@ const SlopeCartDiagram = ({ isDark }) => {
         <circle cx="24" cy="18" r="3.5" fill={accentFill} />
       </g>
 
-      <path d="M96 132 A24 24 0 0 0 95 126" fill="none" stroke={trackColor} strokeWidth="2.5" />
-      <text x="84" y="122" fill={textColor} fontSize="16" fontWeight="600">
+      <path d="M92 140 A30 30 0 0 0 101 124" fill="none" stroke={trackColor} strokeWidth="2.5" />
+      <text x="80" y="127" fill={textColor} fontSize="16" fontWeight="600">
         θ
       </text>
     </svg>
@@ -161,32 +202,32 @@ const SlopeComponentsDiagram = ({ isDark }) => {
   return (
     <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Slope force analysis with gravity components">
       <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
-      <line x1="70" y1="126" x2="162" y2="101" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
-      <line x1="190" y1="93" x2="272" y2="72" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+      <line x1="58" y1="138" x2="170" y2="108" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+      <line x1="200" y1="100" x2="282" y2="78" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
 
-      <circle cx="176" cy="98" r="11" fill={bodyFill} />
+      <circle cx="184" cy="104" r="11" fill={bodyFill} />
 
-      <line x1="173" y1="86" x2="158" y2="45" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="154,31 148,50 167,45" fill={forceColor} />
-      <text x="128" y="44" fill={textColor} fontSize="17" fontWeight="600">
+      <line x1="181" y1="92" x2="166" y2="50" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="162,36 156,55 175,50" fill={forceColor} />
+      <text x="134" y="52" fill={textColor} fontSize="17" fontWeight="600">
         N
       </text>
 
-      <line x1="176" y1="110" x2="176" y2="146" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="176,158 166,140 186,140" fill={forceColor} />
-      <text x="194" y="150" fill={textColor} fontSize="17" fontWeight="600">
+      <line x1="184" y1="116" x2="184" y2="150" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="184,162 174,144 194,144" fill={forceColor} />
+      <text x="214" y="160" fill={textColor} fontSize="17" fontWeight="600">
         mg
       </text>
 
-      <line x1="166" y1="101" x2="123" y2="113" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
-      <polygon points="111,116 128,104 132,123" fill={componentColor} />
-      <text x="76" y="115" fill={textColor} fontSize="15" fontWeight="600">
+      <line x1="174" y1="107" x2="128" y2="119" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
+      <polygon points="116,122 133,110 136,129" fill={componentColor} />
+      <text x="54" y="126" fill={textColor} fontSize="14" fontWeight="600">
         mg sinθ
       </text>
 
-      <line x1="181" y1="109" x2="194" y2="151" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
-      <polygon points="197,163 185,147 204,143" fill={componentColor} />
-      <text x="208" y="132" fill={textColor} fontSize="15" fontWeight="600">
+      <line x1="189" y1="115" x2="202" y2="154" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
+      <polygon points="205,166 193,150 212,146" fill={componentColor} />
+      <text x="226" y="136" fill={textColor} fontSize="14" fontWeight="600">
         mg cosθ
       </text>
     </svg>
@@ -196,7 +237,6 @@ const SlopeComponentsDiagram = ({ isDark }) => {
 const DipForceDiagram = ({ isDark }) => {
   const circleColor = isDark ? "#94a3b8" : "#94a3b8";
   const bodyFill = isDark ? "#f8fafc" : "#0f172a";
-  const centerFill = isDark ? "#38bdf8" : "#0ea5e9";
   const forceColor = isDark ? "#22d3ee" : "#0284c7";
   const gravityColor = isDark ? "#fbbf24" : "#d97706";
   const textColor = isDark ? "#e2e8f0" : "#334155";
@@ -204,7 +244,6 @@ const DipForceDiagram = ({ isDark }) => {
   return (
     <svg viewBox="0 0 320 220" className="h-56 w-full" role="img" aria-label="Free-body diagram at the bottom of a dip">
       <circle cx="160" cy="106" r="72" fill="none" stroke={circleColor} strokeWidth="3" opacity="0.65" />
-      <circle cx="160" cy="106" r="4.5" fill={centerFill} />
       <circle cx="160" cy="178" r="10" fill={bodyFill} />
 
       <line x1="160" y1="168" x2="160" y2="128" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
@@ -225,7 +264,6 @@ const DipForceDiagram = ({ isDark }) => {
 const HillForceDiagram = ({ isDark }) => {
   const circleColor = isDark ? "#94a3b8" : "#94a3b8";
   const bodyFill = isDark ? "#f8fafc" : "#0f172a";
-  const centerFill = isDark ? "#38bdf8" : "#0ea5e9";
   const forceColor = isDark ? "#22d3ee" : "#0284c7";
   const gravityColor = isDark ? "#fbbf24" : "#d97706";
   const textColor = isDark ? "#e2e8f0" : "#334155";
@@ -233,7 +271,6 @@ const HillForceDiagram = ({ isDark }) => {
   return (
     <svg viewBox="0 0 320 220" className="h-56 w-full" role="img" aria-label="Free-body diagram at the top of a hill">
       <circle cx="160" cy="114" r="72" fill="none" stroke={circleColor} strokeWidth="3" opacity="0.65" />
-      <circle cx="160" cy="114" r="4.5" fill={centerFill} />
       <circle cx="160" cy="42" r="10" fill={bodyFill} />
 
       <line x1="160" y1="32" x2="160" y2="10" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
@@ -254,26 +291,17 @@ const HillForceDiagram = ({ isDark }) => {
 const LoopTopForceDiagram = ({ isDark }) => {
   const circleColor = isDark ? "#94a3b8" : "#94a3b8";
   const bodyFill = isDark ? "#f8fafc" : "#0f172a";
-  const centerFill = isDark ? "#38bdf8" : "#0ea5e9";
-  const forceColor = isDark ? "#22d3ee" : "#0284c7";
   const gravityColor = isDark ? "#fbbf24" : "#d97706";
   const textColor = isDark ? "#e2e8f0" : "#334155";
 
   return (
     <svg viewBox="0 0 320 220" className="h-56 w-full" role="img" aria-label="Free-body diagram at the top of a loop">
       <circle cx="160" cy="114" r="72" fill="none" stroke={circleColor} strokeWidth="3" opacity="0.65" />
-      <circle cx="160" cy="114" r="4.5" fill={centerFill} />
       <circle cx="160" cy="42" r="10" fill={bodyFill} />
-
-      <line x1="148" y1="44" x2="148" y2="86" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="148,98 138,80 158,80" fill={forceColor} />
-      <text x="112" y="88" fill={textColor} fontSize="18" fontWeight="600">
-        N
-      </text>
 
       <line x1="172" y1="44" x2="172" y2="86" stroke={gravityColor} strokeWidth="5" strokeLinecap="round" />
       <polygon points="172,98 162,80 182,80" fill={gravityColor} />
-      <text x="188" y="88" fill={textColor} fontSize="18" fontWeight="600">
+      <text x="190" y="88" fill={textColor} fontSize="18" fontWeight="600">
         mg
       </text>
     </svg>
@@ -1004,7 +1032,12 @@ const energyLesson = createLesson(
             K<sub>i</sub> + U<sub>gi</sub> = K<sub>f</sub> + U<sub>gf</sub>
           </>,
         ),
-        equation("Drop-speed relation", <>v = √(2gh)</>),
+        equation(
+          "Drop-speed relation",
+          <>
+            v = <Radical>2gh</Radical>
+          </>,
+        ),
       ],
       variables: [
         {
@@ -1363,7 +1396,9 @@ const circularMotionLesson = createLesson(
                   mg = m
                   <Fraction numerator="v²" denominator="r" />
                 </div>
-                <div>v = √(gr)</div>
+                <div>
+                  v = <Radical>gr</Radical>
+                </div>
               </div>
             ),
             render: (isDark) => <LoopTopForceDiagram isDark={isDark} />,
@@ -1373,6 +1408,49 @@ const circularMotionLesson = createLesson(
               "That leaves mg = m(v²/r), and solving for v gives v = √(gr).",
             ],
           },
+        ],
+      },
+    ),
+    createStep(
+      "g-force",
+      "G-Force",
+      "How Roller Coasters Create G-Force",
+      {
+        body: [
+          "On a roller coaster, g-force is a way to compare what the rider feels to ordinary gravity. The most useful rider version comes from the normal force: how hard the seat or restraint pushes on you.",
+          "At rest on flat ground, N = mg, so the ratio is 1 g. If the seat pushes less than mg, the rider feels lighter than normal. If it pushes more than mg, the rider feels heavier than normal.",
+          "This section stays with that basic rider idea first. It does not yet use the bottom-of-loop case; it only explains how to read g-force from the seat force compared with weight.",
+        ],
+        equations: [
+          equation(
+            "Rider g-force",
+            <>
+              g-force = <Fraction numerator="N" denominator="mg" />
+            </>,
+          ),
+        ],
+        cards: [
+          card(
+            "What N Means",
+            "N is the normal force: the push from the seat or restraint on the rider.",
+          ),
+          card(
+            "How to Read the Ratio",
+            "If N = mg, the rider feels 1 g. If N is half of mg, the rider feels 0.5 g. If N is twice mg, the rider feels 2 g.",
+          ),
+        ],
+        figures: [
+          figure(
+            "Crest Example",
+            () => (
+              <img
+                src="/circular-gforce-example.png"
+                alt="Roller coaster crest showing a place where riders can feel light."
+                className="w-full rounded-[1.35rem] border border-slate-300/70 object-cover"
+              />
+            ),
+            "Near the top of a crest, the normal force can drop below the rider's usual weight. That makes the felt g-force less than 1 g, which is why riders often describe the moment as light or floaty.",
+          ),
         ],
       },
     ),
@@ -3417,6 +3495,8 @@ const App = () => {
   const [activeLessonId, setActiveLessonId] = useState("kinematics");
   const [lessonStepIndex, setLessonStepIndex] = useState(0);
   const settingsRef = useRef(null);
+  const topicsRef = useRef(null);
+  const overviewScrollTargetRef = useRef(null);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("coasterphysics-theme");
@@ -3431,6 +3511,17 @@ const App = () => {
   }, [theme]);
 
   useEffect(() => {
+    if (view === "lesson") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    if (overviewScrollTargetRef.current === "topics") {
+      topicsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      overviewScrollTargetRef.current = null;
+      return;
+    }
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [view]);
 
@@ -3491,9 +3582,14 @@ const App = () => {
     setView("overview");
   };
 
+  const returnToSections = () => {
+    overviewScrollTargetRef.current = "topics";
+    setView("overview");
+  };
+
   return (
-    <main className="section-shell py-10 sm:py-12 lg:py-16">
-      <div className="-mt-3 flex justify-end pr-1 sm:-mt-4 sm:pr-2">
+    <main className="section-shell relative py-10 sm:py-12 lg:py-16">
+      <div className="absolute right-5 top-1 z-30 sm:right-6 sm:top-2 lg:right-8 lg:top-3">
         <div ref={settingsRef} className="relative">
           <button
             type="button"
@@ -3568,7 +3664,7 @@ const App = () => {
           warmDotClass={warmDotClass}
           stepIndex={lessonStepIndex}
           setStepIndex={setLessonStepIndex}
-          onBack={() => setView("overview")}
+          onBack={returnToSections}
           hasNextLesson={Boolean(nextSection)}
           onNextLesson={goToNextLesson}
         />
@@ -3610,21 +3706,29 @@ const App = () => {
               </div>
             </div>
 
-            <div className="relative mx-auto flex w-full max-w-xl items-end justify-center lg:min-h-[40rem]">
+            <div className="relative mx-auto flex w-full max-w-2xl items-center justify-center lg:min-h-[40rem]">
               <div
-                className={`absolute inset-x-[14%] inset-y-[18%] rounded-full blur-[90px] ${
+                className={`absolute inset-x-[8%] inset-y-[18%] rounded-full blur-[90px] ${
                   isDark ? "bg-white/28" : "bg-slate-300/35"
                 }`}
               />
-              <img
-                src="/roller-coaster-hero.png"
-                alt="Roller coaster silhouette cresting a hill"
-                className="relative h-[24rem] w-auto max-w-full object-contain sm:h-[30rem] lg:h-[40rem]"
-              />
+              <div
+                className={`relative w-full overflow-hidden rounded-[2rem] border p-3 shadow-[0_24px_60px_rgba(15,23,42,0.16)] ${
+                  isDark
+                    ? "border-white/10 bg-white/[0.06]"
+                    : "border-slate-200/80 bg-white/80"
+                }`}
+              >
+                <img
+                  src="/hero-coaster-frame.png"
+                  alt="Roller coaster train descending a blue track curve"
+                  className="aspect-video w-full rounded-[1.35rem] object-cover"
+                />
+              </div>
             </div>
           </section>
 
-          <section id="topics" className="pt-16 pb-10 sm:pt-20 sm:pb-14">
+          <section id="topics" ref={topicsRef} className="pt-16 pb-10 sm:pt-20 sm:pb-14">
             <div className="max-w-6xl">
               <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
                 Learning Path

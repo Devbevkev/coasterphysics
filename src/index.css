@@ -54,6 +54,25 @@
     @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl;
   }
 
+  .physics-radical {
+    display: inline-flex;
+    align-items: flex-start;
+    white-space: nowrap;
+  }
+
+  .physics-radical-sign {
+    line-height: 1;
+    transform: translateY(0.06em);
+  }
+
+  .physics-radical-content {
+    display: inline-block;
+    margin-left: 0.02em;
+    padding: 0 0.08em 0 0.14em;
+    border-top: 0.08em solid currentColor;
+    line-height: 0.95;
+  }
+
   .section-shell {
     @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
   }
