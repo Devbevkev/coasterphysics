@@ -2,8 +2,33 @@ import { useMemo, useState } from "react";
 
 const GRAVITY = 9.81;
 const METERS_PER_SECOND_TO_MPH = 2.23694;
+const AIR_DENSITY = 1.225;
+const TRAIN_MASS = 6500;
 
-const getIdealMaxSpeed = (height) => Math.sqrt(2 * GRAVITY * Math.max(height, 0));
+const frictionProfiles = [
+  {
+    key: "low",
+    label: "Low",
+    rollingResistance: 0.0035,
+    dragArea: 3.9,
+  },
+  {
+    key: "medium",
+    label: "Medium",
+    rollingResistance: 0.007,
+    dragArea: 4.8,
+  },
+  {
+    key: "high",
+    label: "High",
+    rollingResistance: 0.012,
+    dragArea: 6.0,
+  },
+];
+
+const frictionProfilesByKey = Object.fromEntries(
+  frictionProfiles.map((profile) => [profile.key, profile]),
+);
 
 const controls = [
   {
@@ -46,6 +71,7 @@ const SimulatorPanel = ({
   const [settings, setSettings] = useState({
     height: 54,
     levelOutLength: 88,
+    friction: "medium",
   });
 
   const updateSetting = (key, nextValue) => {
@@ -56,8 +82,33 @@ const SimulatorPanel = ({
   };
 
   const model = useMemo(() => {
-    const { height, levelOutLength } = settings;
-    const maxSpeed = getIdealMaxSpeed(height);
+    const { height, levelOutLength, friction } = settings;
+    const frictionProfile = frictionProfilesByKey[friction];
+    const segments = 240;
+    const dragCoefficient =
+      (AIR_DENSITY * frictionProfile.dragArea) / (2 * TRAIN_MASS);
+
+    let speedSquared = 0;
+    for (let index = 0; index < segments; index += 1) {
+      const t0 = index / segments;
+      const t1 = (index + 1) / segments;
+      const x0 = levelOutLength * t0;
+      const x1 = levelOutLength * t1;
+      const z0 = height * (1 - t0) ** 2;
+      const z1 = height * (1 - t1) ** 2;
+      const dx = x1 - x0;
+      const dz = z0 - z1;
+      const ds = Math.hypot(dx, dz);
+      const sinTheta = ds === 0 ? 0 : dz / ds;
+      const cosTheta = ds === 0 ? 1 : dx / ds;
+      const rollingAccel = frictionProfile.rollingResistance * GRAVITY * cosTheta;
+      const dragAccel = dragCoefficient * speedSquared;
+      const tangentialAccel = GRAVITY * sinTheta - rollingAccel - dragAccel;
+      const nextSpeedSquared = Math.max(0, speedSquared + 2 * tangentialAccel * ds);
+      speedSquared = nextSpeedSquared;
+    }
+
+    const maxSpeed = Math.sqrt(speedSquared);
     const maxSpeedMph = maxSpeed * METERS_PER_SECOND_TO_MPH;
     const transitionRadius = (levelOutLength ** 2) / (2 * height);
     const peakGForce = 1 + maxSpeed ** 2 / (transitionRadius * GRAVITY);
@@ -74,6 +125,7 @@ const SimulatorPanel = ({
       peakGForce,
       entryAngle,
       intensity,
+      frictionLabel: frictionProfile.label,
     };
   }, [settings]);
 
@@ -214,6 +266,48 @@ const SimulatorPanel = ({
               </div>
             </label>
           ))}
+
+          <div>
+            <div className="mb-3 flex items-center justify-between gap-4 text-sm">
+              <span className={titleClass}>Friction</span>
+              <span className={`text-xs font-semibold uppercase tracking-[0.12em] ${mutedClass}`}>
+                {model.frictionLabel}
+              </span>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              {frictionProfiles.map((profile) => {
+                const active = settings.friction === profile.key;
+
+                return (
+                  <button
+                    key={profile.key}
+                    type="button"
+                    onClick={() =>
+                      setSettings((current) => ({
+                        ...current,
+                        friction: profile.key,
+                      }))
+                    }
+                    className={`rounded-full border px-4 py-3 text-sm font-semibold transition ${
+                      active
+                        ? isDark
+                          ? "border-cyan-300/40 bg-cyan-300/10 text-cyan-100"
+                          : "border-sky-300 bg-sky-50 text-sky-700"
+                        : isDark
+                          ? "border-white/10 bg-white/[0.03] text-slate-200 hover:bg-white/[0.07]"
+                          : "border-slate-300/70 bg-white/70 text-slate-700 hover:bg-white"
+                    }`}
+                  >
+                    {profile.label}
+                  </button>
+                );
+              })}
+            </div>
+            <p className={`mt-3 text-sm leading-6 ${copyClass}`}>
+              Friction blends rolling resistance and aerodynamic drag into the
+              speed and g-force estimates.
+            </p>
+          </div>
         </div>
 
       </div>

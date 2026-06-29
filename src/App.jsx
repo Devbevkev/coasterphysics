@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import SimulatorPanel from "./components/SimulatorPanel";
+import SiteFooter from "./components/SiteFooter";
 
 const Fraction = ({ numerator, denominator }) => {
   return (
@@ -116,7 +117,7 @@ const figure = (title, render, description) => ({
 const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "" }) => {
   return (
     <div
-      className={`overflow-hidden rounded-[1.65rem] border-[12px] shadow-[0_22px_60px_rgba(15,23,42,0.18)] ${
+      className={`overflow-hidden rounded-[1.65rem] border-[12px] shadow-[0_22px_54px_rgba(15,23,42,0.16)] ${
         isDark ? "border-slate-100/85 bg-slate-100/95" : "border-white/95 bg-white/95"
       } ${className}`}
     >
@@ -130,104 +131,74 @@ const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "
 };
 
 const HeroCollage = ({ isDark }) => {
-  const collageShellClass = isDark
-    ? "bg-white/[0.04] ring-1 ring-white/10"
-    : "bg-white/18 ring-1 ring-white/45";
-
-  const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-200/65";
-  const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-100/60";
-  const glowAccentClass = isDark ? "bg-blue-200/10" : "bg-blue-100/55";
+  const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-200/55";
+  const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-100/50";
 
   return (
     <div className="relative mx-auto w-full max-w-[44rem]">
-      <div className={`absolute left-[16%] top-[12%] h-36 w-36 rounded-full blur-[78px] ${glowPrimaryClass}`} />
-      <div className={`absolute right-[6%] top-[18%] h-52 w-52 rounded-full blur-[110px] ${glowSecondaryClass}`} />
-      <div className={`absolute bottom-[8%] left-[28%] h-40 w-40 rounded-full blur-[90px] ${glowAccentClass}`} />
+      <div className={`absolute right-[12%] top-[14%] h-44 w-44 rounded-full blur-[84px] ${glowPrimaryClass}`} />
+      <div className={`absolute left-[20%] bottom-[10%] h-52 w-52 rounded-full blur-[108px] ${glowSecondaryClass}`} />
 
-      <div className={`relative overflow-hidden rounded-[2.85rem] px-3 py-4 sm:px-5 sm:py-6 lg:px-7 lg:py-7 ${collageShellClass}`}>
-        <div
-          className={`absolute inset-[8%] rounded-[2.6rem] backdrop-blur-[2px] ${
-            isDark
-              ? "bg-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-              : "bg-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]"
-          }`}
+      <div className="relative grid grid-cols-2 gap-4 sm:grid-cols-6 sm:gap-5 lg:hidden">
+        <HeroCollagePhoto
+          src="/hero-coaster-frame.png"
+          alt="Roller coaster train descending a blue track curve"
+          isDark={isDark}
+          className="col-span-2 rotate-[2deg] sm:col-span-4"
+          imageClassName="aspect-[16/10]"
         />
+        <HeroCollagePhoto
+          src="/mako-drop.png"
+          alt="Tall roller coaster drop against a blue sky"
+          isDark={isDark}
+          className="hidden rotate-[4deg] sm:col-span-2 sm:block"
+          imageClassName="aspect-[4/5]"
+        />
+        <HeroCollagePhoto
+          src="/hero-collage-1.png"
+          alt="Wooden roller coaster train cresting a hill"
+          isDark={isDark}
+          className="rotate-[-5deg] sm:col-span-3"
+          imageClassName="aspect-[6/5]"
+        />
+        <HeroCollagePhoto
+          src="/hero-collage-3.png"
+          alt="Roller coaster train moving through an orange and blue track valley"
+          isDark={isDark}
+          className="rotate-[3deg] sm:col-span-3"
+          imageClassName="aspect-[16/10]"
+        />
+      </div>
 
-        <div className="relative grid grid-cols-2 gap-3 sm:grid-cols-6 sm:gap-4 lg:hidden">
-          <HeroCollagePhoto
-            src="/hero-coaster-frame.png"
-            alt="Roller coaster train descending a blue track curve"
-            isDark={isDark}
-            className="col-span-2 rotate-[3deg] sm:col-span-4"
-            imageClassName="aspect-[16/10]"
-          />
-          <HeroCollagePhoto
-            src="/mako-drop.png"
-            alt="Tall roller coaster drop against a blue sky"
-            isDark={isDark}
-            className="hidden rotate-[-5deg] sm:col-span-2 sm:row-span-2 sm:block"
-            imageClassName="aspect-[4/5]"
-          />
-          <HeroCollagePhoto
-            src="/hero-collage-1.png"
-            alt="Wooden roller coaster train cresting a hill"
-            isDark={isDark}
-            className="rotate-[-5deg] sm:col-span-3"
-            imageClassName="aspect-[6/5]"
-          />
-          <HeroCollagePhoto
-            src="/hero-collage-2.png"
-            alt="Red roller coaster train moving through a yellow track element"
-            isDark={isDark}
-            className="rotate-[4deg] sm:col-span-3"
-            imageClassName="aspect-[6/5]"
-          />
-          <HeroCollagePhoto
-            src="/hero-collage-3.png"
-            alt="Roller coaster train moving through an orange and blue track valley"
-            isDark={isDark}
-            className="col-span-2 max-w-[82%] justify-self-center rotate-[-3deg] sm:col-span-3 sm:max-w-none sm:justify-self-end"
-            imageClassName="aspect-[16/10]"
-          />
-        </div>
-
-        <div className="relative hidden h-[38rem] lg:block">
-          <HeroCollagePhoto
-            src="/mako-drop.png"
-            alt="Tall roller coaster drop against a blue sky"
-            isDark={isDark}
-            className="absolute left-[12%] top-[5%] z-10 w-[22%] rotate-[-6deg]"
-            imageClassName="aspect-[4/5]"
-          />
-          <HeroCollagePhoto
-            src="/hero-coaster-frame.png"
-            alt="Roller coaster train descending a blue track curve"
-            isDark={isDark}
-            className="absolute right-[4%] top-[7%] z-30 w-[62%] rotate-[4deg]"
-            imageClassName="aspect-[16/10]"
-          />
-          <HeroCollagePhoto
-            src="/hero-collage-1.png"
-            alt="Wooden roller coaster train cresting a hill"
-            isDark={isDark}
-            className="absolute left-[2%] top-[33%] z-20 w-[38%] rotate-[-6deg]"
-            imageClassName="aspect-[6/5]"
-          />
-          <HeroCollagePhoto
-            src="/hero-collage-3.png"
-            alt="Roller coaster train moving through an orange and blue track valley"
-            isDark={isDark}
-            className="absolute left-[24%] bottom-[7%] z-10 w-[43%] rotate-[-3deg]"
-            imageClassName="aspect-[16/10]"
-          />
-          <HeroCollagePhoto
-            src="/hero-collage-2.png"
-            alt="Red roller coaster train moving through a yellow track element"
-            isDark={isDark}
-            className="absolute right-[6%] bottom-[2%] z-20 w-[37%] rotate-[5deg]"
-            imageClassName="aspect-[6/5]"
-          />
-        </div>
+      <div className="relative hidden h-[38rem] lg:block">
+        <HeroCollagePhoto
+          src="/mako-drop.png"
+          alt="Tall roller coaster drop against a blue sky"
+          isDark={isDark}
+          className="absolute right-[14%] top-[1.25rem] z-10 w-[20%] rotate-[4deg]"
+          imageClassName="aspect-[4/5]"
+        />
+        <HeroCollagePhoto
+          src="/hero-coaster-frame.png"
+          alt="Roller coaster train descending a blue track curve"
+          isDark={isDark}
+          className="absolute right-[0%] top-[9rem] z-30 w-[63%] rotate-[1deg]"
+          imageClassName="aspect-[16/10]"
+        />
+        <HeroCollagePhoto
+          src="/hero-collage-1.png"
+          alt="Wooden roller coaster train cresting a hill"
+          isDark={isDark}
+          className="absolute left-[6%] bottom-[2.5rem] z-10 w-[30%] rotate-[-5deg]"
+          imageClassName="aspect-[6/5]"
+        />
+        <HeroCollagePhoto
+          src="/hero-collage-3.png"
+          alt="Roller coaster train moving through an orange and blue track valley"
+          isDark={isDark}
+          className="absolute right-[2%] bottom-[0.5rem] z-20 w-[37%] rotate-[3deg]"
+          imageClassName="aspect-[16/10]"
+        />
       </div>
     </div>
   );
@@ -355,6 +326,75 @@ const FlatTrackFreeBodyDiagram = ({ isDark }) => {
   );
 };
 
+const KinematicsVelocityGraph = ({ isDark }) => {
+  const axisColor = isDark ? "#94a3b8" : "#64748b";
+  const labelColor = isDark ? "#e2e8f0" : "#334155";
+  const gridColor = isDark ? "rgba(148,163,184,0.18)" : "rgba(148,163,184,0.28)";
+  const lineColor = isDark ? "#22d3ee" : "#0284c7";
+  const pointFill = isDark ? "#f8fafc" : "#0f172a";
+
+  return (
+    <svg
+      viewBox="0 0 320 220"
+      className="h-64 w-full"
+      role="img"
+      aria-label="Velocity-time graph with constant positive slope and labeled axes"
+    >
+      <rect x="0" y="0" width="320" height="220" rx="24" fill="transparent" />
+
+      {[0, 1, 2, 3, 4, 5].map((tick) => {
+        const x = 56 + tick * 42;
+        return (
+          <g key={`x-${tick}`}>
+            <line x1={x} y1="26" x2={x} y2="176" stroke={gridColor} strokeWidth="1.5" />
+            <line x1={x} y1="176" x2={x} y2="182" stroke={axisColor} strokeWidth="2" />
+            <text x={x} y="198" textAnchor="middle" fill={labelColor} fontSize="13" fontWeight="600">
+              {tick}
+            </text>
+          </g>
+        );
+      })}
+
+      {[0, 4, 8, 12, 16].map((tick, index) => {
+        const y = 176 - index * 37.5;
+        return (
+          <g key={`y-${tick}`}>
+            <line x1="56" y1={y} x2="272" y2={y} stroke={gridColor} strokeWidth="1.5" />
+            <line x1="50" y1={y} x2="56" y2={y} stroke={axisColor} strokeWidth="2" />
+            <text x="40" y={y + 4} textAnchor="end" fill={labelColor} fontSize="13" fontWeight="600">
+              {tick}
+            </text>
+          </g>
+        );
+      })}
+
+      <line x1="56" y1="176" x2="280" y2="176" stroke={axisColor} strokeWidth="2.5" strokeLinecap="round" />
+      <line x1="56" y1="184" x2="56" y2="20" stroke={axisColor} strokeWidth="2.5" strokeLinecap="round" />
+      <polygon points="286,176 274,170 274,182" fill={axisColor} />
+      <polygon points="56,14 50,26 62,26" fill={axisColor} />
+
+      <line x1="56" y1="138.5" x2="266" y2="44.75" stroke={lineColor} strokeWidth="5" strokeLinecap="round" />
+      <circle cx="56" cy="138.5" r="5.5" fill={pointFill} stroke={lineColor} strokeWidth="3" />
+      <circle cx="266" cy="44.75" r="5.5" fill={pointFill} stroke={lineColor} strokeWidth="3" />
+
+      <text x="168" y="214" textAnchor="middle" fill={labelColor} fontSize="14" fontWeight="600">
+        Time (s)
+      </text>
+      <text
+        x="18"
+        y="102"
+        textAnchor="middle"
+        fill={labelColor}
+        fontSize="14"
+        fontWeight="600"
+        transform="rotate(-90 18 102)"
+      >
+        Velocity (m/s)
+      </text>
+    </svg>
+  );
+};
+
 const SlopeCartDiagram = ({ isDark }) => {
   const panelFill = isDark ? "#0f172a" : "#f8fafc";
   const trackColor = isDark ? "#94a3b8" : "#64748b";
@@ -366,20 +406,42 @@ const SlopeCartDiagram = ({ isDark }) => {
   return (
     <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Roller coaster cart on a sloped track">
       <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
-      <line x1="42" y1="140" x2="112" y2="140" stroke={trackColor} strokeWidth="4" strokeLinecap="round" opacity="0.7" />
-      <line x1="70" y1="140" x2="272" y2="86" stroke={trackColor} strokeWidth="6" strokeLinecap="round" />
+      <line
+        x1="36"
+        y1="144"
+        x2="84"
+        y2="144"
+        stroke={trackColor}
+        strokeWidth="4"
+        strokeLinecap="round"
+        opacity="0.72"
+      />
 
-      <g transform="translate(156 106) rotate(-15)">
-        <rect x="-46" y="-16" width="92" height="28" rx="12" fill={cartFill} />
-        <rect x="-28" y="-30" width="56" height="16" rx="8" fill={accentFill} opacity="0.95" />
-        <circle cx="-24" cy="18" r="10" fill={wheelFill} />
-        <circle cx="24" cy="18" r="10" fill={wheelFill} />
-        <circle cx="-24" cy="18" r="3.5" fill={accentFill} />
-        <circle cx="24" cy="18" r="3.5" fill={accentFill} />
+      <g transform="translate(84 144) rotate(-15)">
+        <line x1="0" y1="0" x2="196" y2="0" stroke={trackColor} strokeWidth="6" strokeLinecap="round" />
+
+        <g transform="translate(112 -10)">
+          <rect x="-46" y="-26" width="92" height="28" rx="12" fill={cartFill} />
+          <rect x="-28" y="-40" width="56" height="16" rx="8" fill={accentFill} opacity="0.95" />
+          <circle cx="-18" cy="0" r="10" fill={wheelFill} />
+          <circle cx="24" cy="0" r="10" fill={wheelFill} />
+          <circle cx="-18" cy="0" r="3.5" fill={accentFill} />
+          <circle cx="24" cy="0" r="3.5" fill={accentFill} />
+        </g>
       </g>
 
-      <path d="M92 140 A30 30 0 0 0 101 124" fill="none" stroke={trackColor} strokeWidth="2.5" />
-      <text x="80" y="127" fill={textColor} fontSize="16" fontWeight="600">
+      <line
+        x1="84"
+        y1="144"
+        x2="64"
+        y2="149.4"
+        stroke={trackColor}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.85"
+      />
+      <path d="M76 144 A16 16 0 0 0 68.5 146.1" fill="none" stroke={trackColor} strokeWidth="2.5" />
+      <text x="68" y="126" fill={textColor} fontSize="16" fontWeight="600">
         θ
       </text>
     </svg>
@@ -397,32 +459,50 @@ const SlopeComponentsDiagram = ({ isDark }) => {
   return (
     <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Slope force analysis with gravity components">
       <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
-      <line x1="58" y1="138" x2="170" y2="108" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
-      <line x1="200" y1="100" x2="282" y2="78" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+      <line x1="58" y1="138" x2="174" y2="107" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
+      <line x1="204" y1="99" x2="286" y2="77" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
 
-      <circle cx="184" cy="104" r="11" fill={bodyFill} />
+      <circle cx="190" cy="104" r="11" fill={bodyFill} />
 
-      <line x1="181" y1="92" x2="166" y2="50" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="162,36 156,55 175,50" fill={forceColor} />
-      <text x="134" y="52" fill={textColor} fontSize="17" fontWeight="600">
+      <line x1="187" y1="92" x2="172" y2="50" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="168,36 162,55 181,50" fill={forceColor} />
+      <text x="142" y="52" fill={textColor} fontSize="17" fontWeight="600">
         N
       </text>
 
-      <line x1="184" y1="116" x2="184" y2="150" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="184,162 174,144 194,144" fill={forceColor} />
-      <text x="214" y="160" fill={textColor} fontSize="17" fontWeight="600">
+      <line x1="190" y1="116" x2="190" y2="150" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="190,162 180,144 200,144" fill={forceColor} />
+      <text x="232" y="160" fill={textColor} fontSize="17" fontWeight="600">
         mg
       </text>
 
-      <line x1="174" y1="107" x2="128" y2="119" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
-      <polygon points="116,122 133,110 136,129" fill={componentColor} />
-      <text x="54" y="126" fill={textColor} fontSize="14" fontWeight="600">
+      <line
+        x1="179"
+        y1="107"
+        x2="162"
+        y2="111.6"
+        stroke={componentColor}
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeDasharray="6 5"
+      />
+      <polygon points="150,114.8 167,102.8 170,121.6" fill={componentColor} />
+      <text x="88" y="126" fill={textColor} fontSize="14" fontWeight="600">
         mg sinθ
       </text>
 
-      <line x1="189" y1="115" x2="202" y2="154" stroke={componentColor} strokeWidth="4" strokeLinecap="round" strokeDasharray="6 5" />
-      <polygon points="205,166 193,150 212,146" fill={componentColor} />
-      <text x="226" y="136" fill={textColor} fontSize="14" fontWeight="600">
+      <line
+        x1="195"
+        y1="115"
+        x2="209"
+        y2="156"
+        stroke={componentColor}
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeDasharray="6 5"
+      />
+      <polygon points="212,168 200,152 219,148" fill={componentColor} />
+      <text x="240" y="136" fill={textColor} fontSize="14" fontWeight="600">
         mg cosθ
       </text>
     </svg>
@@ -494,9 +574,9 @@ const LoopTopForceDiagram = ({ isDark }) => {
       <circle cx="160" cy="114" r="72" fill="none" stroke={circleColor} strokeWidth="3" opacity="0.65" />
       <circle cx="160" cy="42" r="10" fill={bodyFill} />
 
-      <line x1="172" y1="44" x2="172" y2="86" stroke={gravityColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="172,98 162,80 182,80" fill={gravityColor} />
-      <text x="190" y="88" fill={textColor} fontSize="18" fontWeight="600">
+      <line x1="160" y1="52" x2="160" y2="86" stroke={gravityColor} strokeWidth="5" strokeLinecap="round" />
+      <polygon points="160,98 150,80 170,80" fill={gravityColor} />
+      <text x="178" y="88" fill={textColor} fontSize="18" fontWeight="600">
         mg
       </text>
     </svg>
@@ -509,12 +589,18 @@ const practiceQuestion = (
   correctChoice,
   correctExplanation,
   incorrectExplanation,
+  extras = {},
 ) => ({
   prompt,
   choices,
   correctChoice,
   correctExplanation,
   incorrectExplanation,
+  ...extras,
+});
+
+const practiceSet = (...questions) => ({
+  questions,
 });
 
 const quizQuestion = (
@@ -743,17 +829,34 @@ const kinematicsLesson = createLesson(
       ],
       callout:
         "The moment a section of track becomes strongly curved or the forces start changing significantly, these constant-acceleration equations stop being the right model.",
-      practice: practiceQuestion(
-        "A coaster starts from rest and accelerates at 4.0 m/s² for 3.0 s on a straight section of track. What is its final velocity?",
-        [
-          "A. 7.0 m/s",
-          "B. 12 m/s",
-          "C. 16 m/s",
-          "D. 24 m/s",
-        ],
-        1,
-        "Correct. Use v = v0 + at. Since the coaster starts from rest, v0 = 0, so v = (4.0)(3.0) = 12 m/s.",
-        "Not quite. Use v = v0 + at. Because the coaster starts from rest, v0 = 0, so the final velocity is (4.0)(3.0) = 12 m/s.",
+      practice: practiceSet(
+        practiceQuestion(
+          "A coaster starts from rest and accelerates at 4.0 m/s² for 3.0 s on a straight section of track. What is its final velocity?",
+          [
+            "A. 7.0 m/s",
+            "B. 12 m/s",
+            "C. 16 m/s",
+            "D. 24 m/s",
+          ],
+          1,
+          "Correct. Use v = v0 + at. Since the coaster starts from rest, v0 = 0, so v = (4.0)(3.0) = 12 m/s.",
+          "Not quite. Use v = v0 + at. Because the coaster starts from rest, v0 = 0, so the final velocity is (4.0)(3.0) = 12 m/s.",
+        ),
+        practiceQuestion(
+          "The velocity-time graph below is a straight line. What is the coaster's acceleration?",
+          [
+            "A. 1.0 m/s²",
+            "B. 2.0 m/s²",
+            "C. 5.0 m/s²",
+            "D. 10 m/s²",
+          ],
+          1,
+          "Correct. The slope of a velocity-time graph is acceleration. Using the labeled points, the slope is (14 - 4) / (5 - 0) = 10 / 5 = 2.0 m/s².",
+          "Not quite. Read the slope from the graph: acceleration = rise/run = (14 - 4) / (5 - 0) = 2.0 m/s².",
+          {
+            render: (isDark) => <KinematicsVelocityGraph isDark={isDark} />,
+          },
+        ),
       ),
     }),
     createStep(
@@ -1636,6 +1739,7 @@ const circularMotionLesson = createLesson(
         ],
         cardStyle: "plain",
         realWorldExample: {
+          position: "bottom",
           eyebrow: "Ride Feel",
           title: "Crest Example",
           imageSrc: "/circular-gforce-example.png",
@@ -3017,17 +3121,22 @@ const LessonView = ({
   const isLastStep = stepIndex === lesson.steps.length - 1;
   const isTerminalQuizStep = isQuizStep && isLastStep;
   const [tocOpen, setTocOpen] = useState(true);
+  const [practiceIndex, setPracticeIndex] = useState(0);
   const [selectedPracticeChoice, setSelectedPracticeChoice] = useState(null);
   const [practiceChecked, setPracticeChecked] = useState(false);
-  const [practiceUnlocked, setPracticeUnlocked] = useState(false);
   const [quizIndex, setQuizIndex] = useState(0);
   const [selectedQuizChoice, setSelectedQuizChoice] = useState(null);
   const [quizChecked, setQuizChecked] = useState(false);
 
-  const currentPracticeProblem = step.practice ?? null;
+  const practiceQuestions = step.practice?.questions ?? (step.practice ? [step.practice] : []);
+  const currentPracticeProblem = practiceQuestions[practiceIndex] ?? null;
   const practiceIsCorrect =
     currentPracticeProblem &&
     selectedPracticeChoice === currentPracticeProblem.correctChoice;
+  const practiceComplete =
+    practiceQuestions.length > 0 &&
+    practiceIndex === practiceQuestions.length - 1 &&
+    practiceChecked;
   const currentQuizQuestion = step.quiz?.[quizIndex] ?? null;
   const quizIsCorrect =
     currentQuizQuestion && selectedQuizChoice === currentQuizQuestion.correctChoice;
@@ -3035,7 +3144,7 @@ const LessonView = ({
     step.id === "quiz" && quizIndex === step.quiz.length - 1 && quizChecked;
   const nextButtonDisabled = isTerminalQuizStep
     ? !quizComplete
-    : (step.practice && !practiceUnlocked) ||
+    : (practiceQuestions.length > 0 && !practiceComplete) ||
       (step.id === "quiz" && !quizComplete) ||
       isLastStep;
   const nextButtonLabel = isTerminalQuizStep
@@ -3045,10 +3154,15 @@ const LessonView = ({
     : "Next";
 
   useEffect(() => {
+    setPracticeIndex(0);
     setSelectedPracticeChoice(null);
     setPracticeChecked(false);
-    setPracticeUnlocked(false);
   }, [step.id]);
+
+  useEffect(() => {
+    setSelectedPracticeChoice(null);
+    setPracticeChecked(false);
+  }, [practiceIndex]);
 
   useEffect(() => {
     if (step.id !== "quiz") {
@@ -3070,8 +3184,14 @@ const LessonView = ({
       return;
     }
 
-    setPracticeChecked(true);
-    setPracticeUnlocked(true);
+    if (!practiceChecked) {
+      setPracticeChecked(true);
+      return;
+    }
+
+    if (practiceIndex < practiceQuestions.length - 1) {
+      setPracticeIndex((current) => current + 1);
+    }
   };
 
   const handleQuizAdvance = () => {
@@ -3093,6 +3213,56 @@ const LessonView = ({
       Math.min(current + 1, lesson.steps.length - 1),
     );
   };
+
+  const renderRealWorldExample = (example) => (
+    <div className={`mt-6 rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
+      <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+        {example.eyebrow}
+      </p>
+      <h4 className={`mt-3 text-2xl font-semibold ${titleClass}`}>
+        {example.title}
+      </h4>
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)]">
+        <div>
+          <img
+            src={example.imageSrc}
+            alt={example.imageAlt}
+            className={`w-full rounded-[1.5rem] border object-cover ${
+              isDark ? "border-white/10" : "border-slate-300/70"
+            }`}
+          />
+        </div>
+
+        <div>
+          {example.stats?.length ? (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {example.stats.map((item) => (
+                <div key={item.label} className={`rounded-3xl border p-4 ${subtlePanelClass}`}>
+                  <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
+                    {item.label}
+                  </p>
+                  <p className={`mt-2 text-xl font-semibold ${titleClass}`}>
+                    {item.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          <div
+            className={`space-y-4 text-base leading-7 ${copyClass} ${
+              example.stats?.length ? "mt-5" : ""
+            }`}
+          >
+            {example.paragraphs.map((paragraph) => (
+              <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <section className="py-8 sm:py-10">
@@ -3277,55 +3447,9 @@ const LessonView = ({
             </div>
           ) : null}
 
-          {step.realWorldExample ? (
-            <div className={`mt-6 rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
-              <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-                {step.realWorldExample.eyebrow}
-              </p>
-              <h4 className={`mt-3 text-2xl font-semibold ${titleClass}`}>
-                {step.realWorldExample.title}
-              </h4>
-
-              <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)]">
-                <div>
-                  <img
-                    src={step.realWorldExample.imageSrc}
-                    alt={step.realWorldExample.imageAlt}
-                    className={`w-full rounded-[1.5rem] border object-cover ${
-                      isDark ? "border-white/10" : "border-slate-300/70"
-                    }`}
-                  />
-                </div>
-
-                <div>
-                  {step.realWorldExample.stats?.length ? (
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      {step.realWorldExample.stats.map((item) => (
-                        <div key={item.label} className={`rounded-3xl border p-4 ${subtlePanelClass}`}>
-                          <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
-                            {item.label}
-                          </p>
-                          <p className={`mt-2 text-xl font-semibold ${titleClass}`}>
-                            {item.value}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
-
-                  <div
-                    className={`space-y-4 text-base leading-7 ${copyClass} ${
-                      step.realWorldExample.stats?.length ? "mt-5" : ""
-                    }`}
-                  >
-                    {step.realWorldExample.paragraphs.map((paragraph) => (
-                      <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : null}
+          {step.realWorldExample && step.realWorldExample.position !== "bottom"
+            ? renderRealWorldExample(step.realWorldExample)
+            : null}
 
           {step.bullets ? (
             <ul className={`mt-6 space-y-3 text-base leading-7 ${isDark ? "text-slate-200" : "text-slate-700"}`}>
@@ -3450,6 +3574,10 @@ const LessonView = ({
             </div>
           ) : null}
 
+          {step.realWorldExample && step.realWorldExample.position === "bottom"
+            ? renderRealWorldExample(step.realWorldExample)
+            : null}
+
           {step.practice ? (
             <div className={`mt-6 rounded-3xl border p-6 ${subtlePanelClass}`}>
               <div className="flex flex-wrap items-center justify-between gap-3">
@@ -3462,7 +3590,9 @@ const LessonView = ({
                   </h4>
                 </div>
                 <div className={`text-sm font-semibold ${mutedClass}`}>
-                  Answer it to unlock the next step
+                  {practiceQuestions.length > 1
+                    ? `Question ${practiceIndex + 1} of ${practiceQuestions.length}`
+                    : "Answer it to unlock the next step"}
                 </div>
               </div>
 
@@ -3471,6 +3601,12 @@ const LessonView = ({
                 className={`mt-6 text-base leading-7 ${copyClass}`}
                 text={currentPracticeProblem.prompt}
               />
+
+              {currentPracticeProblem.render ? (
+                <div className={`mt-6 rounded-[1.75rem] border p-4 ${subtlePanelClass}`}>
+                  {currentPracticeProblem.render(isDark)}
+                </div>
+              ) : null}
 
               <div className="mt-6 grid gap-3">
                 {currentPracticeProblem.choices.map((choice, index) => {
@@ -3536,14 +3672,18 @@ const LessonView = ({
                 <button
                   type="button"
                   onClick={handlePracticeCheck}
-                  disabled={selectedPracticeChoice === null}
+                  disabled={selectedPracticeChoice === null && !practiceChecked}
                   className={`inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition ${
-                    selectedPracticeChoice === null
+                    selectedPracticeChoice === null && !practiceChecked
                       ? "cursor-not-allowed opacity-50"
                       : "hover:bg-cyan-200"
                   }`}
                 >
-                  {practiceChecked ? "Answer Checked" : "Check Answer"}
+                  {!practiceChecked
+                    ? "Check Answer"
+                    : practiceIndex < practiceQuestions.length - 1
+                      ? "Next Question"
+                      : "Answer Checked"}
                 </button>
               </div>
             </div>
@@ -3781,252 +3921,267 @@ const App = () => {
     setView("topics");
   };
 
+  const navigateToView = (nextView) => {
+    setSettingsOpen(false);
+
+    if (view === nextView) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    setView(nextView);
+  };
+
   return (
-    <main className="section-shell relative py-10 sm:py-12 lg:py-16">
-      {view === "home" || view === "lesson" ? (
-        <div className="absolute right-5 top-1 z-30 sm:right-6 sm:top-2 lg:right-8 lg:top-3">
-          <SettingsControl
-            copyClass={copyClass}
+    <div className="flex min-h-screen flex-col">
+      <main className="section-shell relative flex-1 py-10 sm:py-12 lg:py-16">
+        {view === "home" || view === "lesson" ? (
+          <div className="absolute right-5 top-1 z-30 sm:right-6 sm:top-2 lg:right-8 lg:top-3">
+            <SettingsControl
+              copyClass={copyClass}
+              isDark={isDark}
+              mutedClass={mutedClass}
+              panelClass={panelClass}
+              settingsOpen={settingsOpen}
+              setSettingsOpen={setSettingsOpen}
+              settingsRef={settingsRef}
+              setTheme={setTheme}
+              subtlePanelClass={subtlePanelClass}
+              theme={theme}
+              titleClass={titleClass}
+            />
+          </div>
+        ) : null}
+
+        {view === "lesson" ? (
+          <LessonView
+            lesson={currentLesson}
             isDark={isDark}
-            mutedClass={mutedClass}
             panelClass={panelClass}
-            settingsOpen={settingsOpen}
-            setSettingsOpen={setSettingsOpen}
-            settingsRef={settingsRef}
-            setTheme={setTheme}
             subtlePanelClass={subtlePanelClass}
-            theme={theme}
             titleClass={titleClass}
+            copyClass={copyClass}
+            mutedClass={mutedClass}
+            accentLabelClass={accentLabelClass}
+            accentNumberClass={accentNumberClass}
+            listDotClass={listDotClass}
+            warmDotClass={warmDotClass}
+            stepIndex={lessonStepIndex}
+            setStepIndex={setLessonStepIndex}
+            onBack={returnToSections}
+            hasNextLesson={Boolean(nextSection)}
+            onNextLesson={goToNextLesson}
           />
-        </div>
-      ) : null}
-
-      {view === "lesson" ? (
-        <LessonView
-          lesson={currentLesson}
-          isDark={isDark}
-          panelClass={panelClass}
-          subtlePanelClass={subtlePanelClass}
-          titleClass={titleClass}
-          copyClass={copyClass}
-          mutedClass={mutedClass}
-          accentLabelClass={accentLabelClass}
-          accentNumberClass={accentNumberClass}
-          listDotClass={listDotClass}
-          warmDotClass={warmDotClass}
-          stepIndex={lessonStepIndex}
-          setStepIndex={setLessonStepIndex}
-          onBack={returnToSections}
-          hasNextLesson={Boolean(nextSection)}
-          onNextLesson={goToNextLesson}
-        />
-      ) : view === "home" ? (
-        <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
-          <div className="max-w-3xl">
-            <h1
-              className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[5.8rem] lg:leading-[0.96] ${titleClass}`}
-            >
-              coasterphysics
-            </h1>
-
-            <p className={`mt-8 max-w-2xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
-              Coasterphysics brings physics to life through the motion,
-              design, and thrill of roller coasters. Our mission is to make
-              complex physics concepts clear, engaging, and accessible
-              through interactive lessons, real-world examples, and
-              coaster-inspired problem solving.
-            </p>
-
-            <div className="mt-10 flex flex-col items-start gap-3">
-              <button
-                type="button"
-                onClick={() => setView("topics")}
-                className="inline-flex min-w-[18rem] items-center justify-center rounded-full bg-cyan-300 px-8 py-5 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
+        ) : view === "home" ? (
+          <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
+            <div className="max-w-3xl">
+              <h1
+                className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[5.8rem] lg:leading-[0.96] ${titleClass}`}
               >
-                Start Learning
-              </button>
+                coasterphysics
+              </h1>
+
+              <p className={`mt-8 max-w-2xl text-xl leading-[1.7] sm:text-2xl ${copyClass}`}>
+                Coasterphysics brings physics to life through the motion,
+                design, and thrill of roller coasters. Our mission is to make
+                complex physics concepts clear, engaging, and accessible
+                through interactive lessons, real-world examples, and
+                coaster-inspired problem solving.
+              </p>
+
+              <div className="mt-10 flex flex-col items-start gap-3">
+                <button
+                  type="button"
+                  onClick={() => setView("topics")}
+                  className="inline-flex min-w-[18rem] items-center justify-center rounded-full bg-cyan-300 px-8 py-5 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
+                >
+                  Start Learning
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setView("simulation")}
+                  className={`inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
+                    isDark
+                      ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
+                      : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
+                  }`}
+                >
+                  Simulation
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center lg:min-h-[42rem]">
+              <HeroCollage isDark={isDark} />
+            </div>
+          </section>
+        ) : view === "topics" ? (
+          <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
+            <div className="mb-5 flex items-center justify-between gap-4">
               <button
                 type="button"
-                onClick={() => setView("simulation")}
-                className={`inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
+                onClick={() => setView("home")}
+                className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
                   isDark
-                    ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
-                    : "border-sky-300 bg-sky-50 text-sky-800 hover:bg-white"
+                    ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                    : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
                 }`}
               >
-                Simulation
+                Back Home
               </button>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center lg:min-h-[42rem]">
-            <HeroCollage isDark={isDark} />
-          </div>
-        </section>
-      ) : view === "topics" ? (
-        <section className="pb-10 pt-4 sm:pb-14 sm:pt-6">
-          <div className="mb-8 flex items-center justify-between gap-4">
-            <button
-              type="button"
-              onClick={() => setView("home")}
-              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
-                isDark
-                  ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
-                  : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
-              }`}
-            >
-              Back Home
-            </button>
-            <SettingsControl
-              copyClass={copyClass}
-              isDark={isDark}
-              mutedClass={mutedClass}
-              panelClass={panelClass}
-              settingsOpen={settingsOpen}
-              setSettingsOpen={setSettingsOpen}
-              settingsRef={settingsRef}
-              setTheme={setTheme}
-              subtlePanelClass={subtlePanelClass}
-              theme={theme}
-              titleClass={titleClass}
-            />
-          </div>
-
-          <section id="topics" className="pt-2">
-            <div className="max-w-6xl">
-              <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-                Learning Path
-              </p>
-              <h2
-                className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
-              >
-                Select a Roller Coaster Physics Section
-              </h2>
-              <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
-                Start with kinematics, then build through forces, energy,
-                circular motion, losses, momentum, rotation, and full coaster
-                design reasoning.
-              </p>
-            </div>
-
-            <div className="mt-10 grid gap-4">
-              {sections.map((section) => {
-                const isActive = section.id === activeSection.id;
-
-                return (
-                  <button
-                    key={section.id}
-                    type="button"
-                    onClick={() => {
-                      openLesson(section);
-                    }}
-                    className={`${panelClass} flex items-center justify-between gap-4 p-5 text-left transition ${
-                      isActive
-                        ? isDark
-                          ? "border-cyan-300/40 bg-cyan-300/10"
-                          : "border-sky-300 bg-sky-50"
-                        : isDark
-                          ? "hover:border-white/15 hover:bg-white/[0.07]"
-                          : "hover:border-slate-400 hover:bg-white"
-                    }`}
-                  >
-                    <div className="flex items-start gap-4">
-                      <span
-                        className={`mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
-                      >
-                        {section.number}
-                      </span>
-                      <div>
-                        <h3 className={`text-xl font-semibold ${titleClass}`}>
-                          {section.title}
-                        </h3>
-                        <p
-                          className={`mt-1 text-sm uppercase tracking-[0.16em] ${mutedClass}`}
-                        >
-                          {section.subtitle}
-                        </p>
-                      </div>
-                    </div>
-
-                    <span
-                      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-xl transition ${
-                        isDark
-                          ? "border-white/10 bg-white/[0.04] text-slate-200"
-                          : "border-slate-300/70 bg-white/70 text-slate-700"
-                      }`}
-                      aria-hidden="true"
-                    >
-                      →
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-        </section>
-      ) : view === "simulation" ? (
-        <section className="pb-10 pt-4 sm:pb-14 sm:pt-6">
-          <div className="mb-8 flex items-center justify-between gap-4">
-            <button
-              type="button"
-              onClick={() => setView("home")}
-              className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
-                isDark
-                  ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
-                  : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
-              }`}
-            >
-              Back Home
-            </button>
-            <SettingsControl
-              copyClass={copyClass}
-              isDark={isDark}
-              mutedClass={mutedClass}
-              panelClass={panelClass}
-              settingsOpen={settingsOpen}
-              setSettingsOpen={setSettingsOpen}
-              settingsRef={settingsRef}
-              setTheme={setTheme}
-              subtlePanelClass={subtlePanelClass}
-              theme={theme}
-              titleClass={titleClass}
-            />
-          </div>
-
-          <section id="simulation" className="pt-2">
-            <div className="max-w-6xl">
-              <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-                Interactive Lab
-              </p>
-              <h2
-                className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
-              >
-                Coaster simulation
-              </h2>
-              <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
-                Change the drop height and the level-out length to see how the
-                coaster profile, maximum speed, and peak g-force respond
-                together.
-              </p>
-            </div>
-
-            <div className="mt-10">
-              <SimulatorPanel
-                isDark={isDark}
-                panelClass={panelClass}
-                subtlePanelClass={subtlePanelClass}
-                titleClass={titleClass}
+              <SettingsControl
                 copyClass={copyClass}
+                isDark={isDark}
                 mutedClass={mutedClass}
-                accentLabelClass={accentLabelClass}
+                panelClass={panelClass}
+                settingsOpen={settingsOpen}
+                setSettingsOpen={setSettingsOpen}
+                settingsRef={settingsRef}
+                setTheme={setTheme}
+                subtlePanelClass={subtlePanelClass}
+                theme={theme}
+                titleClass={titleClass}
               />
             </div>
+
+            <section id="topics" className="pt-0">
+              <div className="max-w-6xl">
+                <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+                  Learning Path
+                </p>
+                <h2
+                  className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+                >
+                  Select a Roller Coaster Physics Section
+                </h2>
+                <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
+                  Start with kinematics, then build through forces, energy,
+                  circular motion, losses, momentum, rotation, and full coaster
+                  design reasoning.
+                </p>
+              </div>
+
+              <div className="mt-10 grid gap-4">
+                {sections.map((section) => {
+                  const isActive = section.id === activeSection.id;
+
+                  return (
+                    <button
+                      key={section.id}
+                      type="button"
+                      onClick={() => {
+                        openLesson(section);
+                      }}
+                      className={`${panelClass} flex items-center justify-between gap-4 p-5 text-left transition ${
+                        isActive
+                          ? isDark
+                            ? "border-cyan-300/40 bg-cyan-300/10"
+                            : "border-sky-300 bg-sky-50"
+                          : isDark
+                            ? "hover:border-white/15 hover:bg-white/[0.07]"
+                            : "hover:border-slate-400 hover:bg-white"
+                      }`}
+                    >
+                      <div className="flex items-start gap-4">
+                        <span
+                          className={`mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
+                        >
+                          {section.number}
+                        </span>
+                        <div>
+                          <h3 className={`text-xl font-semibold ${titleClass}`}>
+                            {section.title}
+                          </h3>
+                          <p
+                            className={`mt-1 text-sm uppercase tracking-[0.16em] ${mutedClass}`}
+                          >
+                            {section.subtitle}
+                          </p>
+                        </div>
+                      </div>
+
+                      <span
+                        className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-xl transition ${
+                          isDark
+                            ? "border-white/10 bg-white/[0.04] text-slate-200"
+                            : "border-slate-300/70 bg-white/70 text-slate-700"
+                        }`}
+                        aria-hidden="true"
+                      >
+                        →
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
           </section>
-        </section>
-      ) : (
-        <></>
-      )}
-    </main>
+        ) : view === "simulation" ? (
+          <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <button
+                type="button"
+                onClick={() => setView("home")}
+                className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                  isDark
+                    ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                    : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+                }`}
+              >
+                Back Home
+              </button>
+              <SettingsControl
+                copyClass={copyClass}
+                isDark={isDark}
+                mutedClass={mutedClass}
+                panelClass={panelClass}
+                settingsOpen={settingsOpen}
+                setSettingsOpen={setSettingsOpen}
+                settingsRef={settingsRef}
+                setTheme={setTheme}
+                subtlePanelClass={subtlePanelClass}
+                theme={theme}
+                titleClass={titleClass}
+              />
+            </div>
+
+            <section id="simulation" className="pt-0">
+              <div className="max-w-6xl">
+                <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+                  Interactive Lab
+                </p>
+                <h2
+                  className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+                >
+                  Coaster simulation
+                </h2>
+                <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
+                  Change the drop height and the level-out length to see how the
+                  coaster profile, maximum speed, and peak g-force respond
+                  together.
+                </p>
+              </div>
+
+              <div className="mt-10">
+                <SimulatorPanel
+                  isDark={isDark}
+                  panelClass={panelClass}
+                  subtlePanelClass={subtlePanelClass}
+                  titleClass={titleClass}
+                  copyClass={copyClass}
+                  mutedClass={mutedClass}
+                  accentLabelClass={accentLabelClass}
+                />
+              </div>
+            </section>
+          </section>
+        ) : (
+          <></>
+        )}
+      </main>
+
+      {view !== "lesson" ? <SiteFooter onNavigate={navigateToView} /> : null}
+    </div>
   );
 };
 
