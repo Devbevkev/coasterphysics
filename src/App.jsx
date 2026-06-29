@@ -181,49 +181,49 @@ const HeroCollage = ({ isDark }) => {
     {
       src: "/mako-drop.png",
       alt: "Tall roller coaster drop against a blue sky",
-      className: "absolute left-[2%] top-[1rem] z-10 w-[21%] rotate-[-6deg]",
+      className: "absolute left-[-2%] top-[0.75rem] z-10 w-[23%] rotate-[-6deg]",
       imageClassName: "aspect-[4/5]",
     },
     {
       src: "/hero-collage-loop-blue.png",
       alt: "Blue roller coaster loop with train entering the element",
-      className: "absolute right-[4%] top-[0.75rem] z-20 w-[24%] rotate-[5deg]",
+      className: "absolute right-[1%] top-[0.5rem] z-20 w-[26%] rotate-[5deg]",
       imageClassName: "aspect-[4/5]",
     },
     {
       src: "/hero-coaster-frame.png",
       alt: "Roller coaster train descending a blue track curve",
-      className: "absolute right-[12%] top-[7.75rem] z-40 w-[52%] rotate-[1.5deg]",
+      className: "absolute right-[7%] top-[7.5rem] z-40 w-[57%] rotate-[1.5deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-superman.png",
       alt: "Red and blue roller coaster train cresting a hill",
-      className: "absolute left-[8%] top-[9.5rem] z-20 w-[34%] rotate-[-4deg]",
+      className: "absolute left-[0%] top-[9rem] z-20 w-[38%] rotate-[-4deg]",
       imageClassName: "aspect-[6/4]",
     },
     {
       src: "/hero-collage-red-inversion.png",
       alt: "Red roller coaster train diving through a tight inversion",
-      className: "absolute left-[26%] bottom-[6.5rem] z-30 w-[30%] rotate-[4deg]",
+      className: "absolute left-[18%] bottom-[7rem] z-30 w-[33%] rotate-[4deg]",
       imageClassName: "aspect-[5/4]",
     },
     {
       src: "/hero-collage-wood-sunset.png",
       alt: "Wooden roller coaster train cresting a hill at sunset",
-      className: "absolute left-[2%] bottom-[1.25rem] z-10 w-[27%] rotate-[-5deg]",
+      className: "absolute left-[-1%] bottom-[1rem] z-10 w-[30%] rotate-[-5deg]",
       imageClassName: "aspect-[6/5]",
     },
     {
       src: "/hero-collage-white-loop.png",
       alt: "White roller coaster inversion against a clear blue sky",
-      className: "absolute right-[2%] bottom-[0.75rem] z-20 w-[32%] rotate-[3deg]",
+      className: "absolute right-[-1%] bottom-[0.5rem] z-20 w-[35%] rotate-[3deg]",
       imageClassName: "aspect-[6/5]",
     },
   ];
 
   return (
-    <div className="relative mx-auto w-full max-w-[46rem]">
+    <div className="relative mx-auto w-full max-w-[49rem] lg:-translate-x-8 xl:-translate-x-12">
       <div className={`absolute right-[12%] top-[14%] h-44 w-44 rounded-full blur-[84px] ${glowPrimaryClass}`} />
       <div className={`absolute left-[20%] bottom-[10%] h-52 w-52 rounded-full blur-[108px] ${glowSecondaryClass}`} />
 
@@ -240,7 +240,7 @@ const HeroCollage = ({ isDark }) => {
         ))}
       </div>
 
-      <div className="relative hidden h-[42rem] lg:block">
+      <div className="relative hidden h-[44rem] lg:block">
         {desktopPhotos.map((photo) => (
           <HeroCollagePhoto
             key={photo.src}
