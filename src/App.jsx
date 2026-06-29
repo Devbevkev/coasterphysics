@@ -271,7 +271,7 @@ const SettingsControl = ({
   titleClass,
 }) => {
   return (
-    <div ref={settingsRef} className={`relative ${className}`}>
+    <div ref={settingsRef} className={`relative z-[70] ${className}`}>
       <button
         type="button"
         onClick={() => setSettingsOpen((open) => !open)}
@@ -287,7 +287,7 @@ const SettingsControl = ({
 
       {settingsOpen ? (
         <div
-          className={`absolute right-0 top-[calc(100%+0.75rem)] z-20 w-72 rounded-3xl border p-4 ${panelClass}`}
+          className={`absolute right-0 top-[calc(100%+0.75rem)] z-[80] w-72 rounded-3xl border p-4 ${panelClass}`}
         >
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -3993,7 +3993,7 @@ const App = () => {
     <div className="flex min-h-screen flex-col">
       <main className="section-shell relative flex-1 py-10 sm:py-12 lg:py-16">
         {view === "home" || view === "lesson" ? (
-          <div className="absolute right-5 top-1 z-30 sm:right-6 sm:top-2 lg:right-8 lg:top-3">
+          <div className="absolute right-5 top-1 z-[60] sm:right-6 sm:top-2 lg:right-8 lg:top-3">
             <SettingsControl
               copyClass={copyClass}
               isDark={isDark}
