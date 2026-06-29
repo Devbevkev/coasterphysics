@@ -133,72 +133,124 @@ const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "
 const HeroCollage = ({ isDark }) => {
   const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-200/55";
   const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-100/50";
+  const mobilePhotos = [
+    {
+      src: "/hero-coaster-frame.png",
+      alt: "Roller coaster train descending a blue track curve",
+      className: "col-span-2 rotate-[2deg] sm:col-span-4",
+      imageClassName: "aspect-[16/10]",
+    },
+    {
+      src: "/mako-drop.png",
+      alt: "Tall roller coaster drop against a blue sky",
+      className: "hidden rotate-[-5deg] sm:col-span-2 sm:block",
+      imageClassName: "aspect-[4/5]",
+    },
+    {
+      src: "/hero-collage-superman.png",
+      alt: "Red and blue roller coaster train cresting a hill",
+      className: "col-span-2 rotate-[-4deg] sm:col-span-3",
+      imageClassName: "aspect-[6/4]",
+    },
+    {
+      src: "/hero-collage-white-loop.png",
+      alt: "White roller coaster inversion against a clear blue sky",
+      className: "hidden rotate-[4deg] sm:col-span-3 sm:block",
+      imageClassName: "aspect-[6/5]",
+    },
+    {
+      src: "/hero-collage-red-inversion.png",
+      alt: "Red roller coaster train diving through a tight inversion",
+      className: "col-span-1 rotate-[5deg] sm:col-span-2",
+      imageClassName: "aspect-[5/4]",
+    },
+    {
+      src: "/hero-collage-wood-sunset.png",
+      alt: "Wooden roller coaster train cresting a hill at sunset",
+      className: "col-span-1 rotate-[-3deg] sm:col-span-2",
+      imageClassName: "aspect-[6/5]",
+    },
+    {
+      src: "/hero-collage-loop-blue.png",
+      alt: "Blue roller coaster loop with train entering the element",
+      className: "hidden rotate-[6deg] sm:col-span-2 sm:block",
+      imageClassName: "aspect-[4/5]",
+    },
+  ];
+  const desktopPhotos = [
+    {
+      src: "/mako-drop.png",
+      alt: "Tall roller coaster drop against a blue sky",
+      className: "absolute left-[2%] top-[1rem] z-10 w-[21%] rotate-[-6deg]",
+      imageClassName: "aspect-[4/5]",
+    },
+    {
+      src: "/hero-collage-loop-blue.png",
+      alt: "Blue roller coaster loop with train entering the element",
+      className: "absolute right-[4%] top-[0.75rem] z-20 w-[24%] rotate-[5deg]",
+      imageClassName: "aspect-[4/5]",
+    },
+    {
+      src: "/hero-coaster-frame.png",
+      alt: "Roller coaster train descending a blue track curve",
+      className: "absolute right-[12%] top-[7.75rem] z-40 w-[52%] rotate-[1.5deg]",
+      imageClassName: "aspect-[16/10]",
+    },
+    {
+      src: "/hero-collage-superman.png",
+      alt: "Red and blue roller coaster train cresting a hill",
+      className: "absolute left-[8%] top-[9.5rem] z-20 w-[34%] rotate-[-4deg]",
+      imageClassName: "aspect-[6/4]",
+    },
+    {
+      src: "/hero-collage-red-inversion.png",
+      alt: "Red roller coaster train diving through a tight inversion",
+      className: "absolute left-[26%] bottom-[6.5rem] z-30 w-[30%] rotate-[4deg]",
+      imageClassName: "aspect-[5/4]",
+    },
+    {
+      src: "/hero-collage-wood-sunset.png",
+      alt: "Wooden roller coaster train cresting a hill at sunset",
+      className: "absolute left-[2%] bottom-[1.25rem] z-10 w-[27%] rotate-[-5deg]",
+      imageClassName: "aspect-[6/5]",
+    },
+    {
+      src: "/hero-collage-white-loop.png",
+      alt: "White roller coaster inversion against a clear blue sky",
+      className: "absolute right-[2%] bottom-[0.75rem] z-20 w-[32%] rotate-[3deg]",
+      imageClassName: "aspect-[6/5]",
+    },
+  ];
 
   return (
-    <div className="relative mx-auto w-full max-w-[44rem]">
+    <div className="relative mx-auto w-full max-w-[46rem]">
       <div className={`absolute right-[12%] top-[14%] h-44 w-44 rounded-full blur-[84px] ${glowPrimaryClass}`} />
       <div className={`absolute left-[20%] bottom-[10%] h-52 w-52 rounded-full blur-[108px] ${glowSecondaryClass}`} />
 
       <div className="relative grid grid-cols-2 gap-4 sm:grid-cols-6 sm:gap-5 lg:hidden">
-        <HeroCollagePhoto
-          src="/hero-coaster-frame.png"
-          alt="Roller coaster train descending a blue track curve"
-          isDark={isDark}
-          className="col-span-2 rotate-[2deg] sm:col-span-4"
-          imageClassName="aspect-[16/10]"
-        />
-        <HeroCollagePhoto
-          src="/mako-drop.png"
-          alt="Tall roller coaster drop against a blue sky"
-          isDark={isDark}
-          className="hidden rotate-[4deg] sm:col-span-2 sm:block"
-          imageClassName="aspect-[4/5]"
-        />
-        <HeroCollagePhoto
-          src="/hero-collage-1.png"
-          alt="Wooden roller coaster train cresting a hill"
-          isDark={isDark}
-          className="rotate-[-5deg] sm:col-span-3"
-          imageClassName="aspect-[6/5]"
-        />
-        <HeroCollagePhoto
-          src="/hero-collage-3.png"
-          alt="Roller coaster train moving through an orange and blue track valley"
-          isDark={isDark}
-          className="rotate-[3deg] sm:col-span-3"
-          imageClassName="aspect-[16/10]"
-        />
+        {mobilePhotos.map((photo) => (
+          <HeroCollagePhoto
+            key={photo.src}
+            src={photo.src}
+            alt={photo.alt}
+            isDark={isDark}
+            className={photo.className}
+            imageClassName={photo.imageClassName}
+          />
+        ))}
       </div>
 
-      <div className="relative hidden h-[38rem] lg:block">
-        <HeroCollagePhoto
-          src="/mako-drop.png"
-          alt="Tall roller coaster drop against a blue sky"
-          isDark={isDark}
-          className="absolute right-[14%] top-[1.25rem] z-10 w-[20%] rotate-[4deg]"
-          imageClassName="aspect-[4/5]"
-        />
-        <HeroCollagePhoto
-          src="/hero-coaster-frame.png"
-          alt="Roller coaster train descending a blue track curve"
-          isDark={isDark}
-          className="absolute right-[0%] top-[9rem] z-30 w-[63%] rotate-[1deg]"
-          imageClassName="aspect-[16/10]"
-        />
-        <HeroCollagePhoto
-          src="/hero-collage-1.png"
-          alt="Wooden roller coaster train cresting a hill"
-          isDark={isDark}
-          className="absolute left-[6%] bottom-[2.5rem] z-10 w-[30%] rotate-[-5deg]"
-          imageClassName="aspect-[6/5]"
-        />
-        <HeroCollagePhoto
-          src="/hero-collage-3.png"
-          alt="Roller coaster train moving through an orange and blue track valley"
-          isDark={isDark}
-          className="absolute right-[2%] bottom-[0.5rem] z-20 w-[37%] rotate-[3deg]"
-          imageClassName="aspect-[16/10]"
-        />
+      <div className="relative hidden h-[42rem] lg:block">
+        {desktopPhotos.map((photo) => (
+          <HeroCollagePhoto
+            key={photo.src}
+            src={photo.src}
+            alt={photo.alt}
+            isDark={isDark}
+            className={photo.className}
+            imageClassName={photo.imageClassName}
+          />
+        ))}
       </div>
     </div>
   );
@@ -433,15 +485,20 @@ const SlopeCartDiagram = ({ isDark }) => {
       <line
         x1="84"
         y1="144"
-        x2="64"
-        y2="149.4"
+        x2="112"
+        y2="144"
         stroke={trackColor}
         strokeWidth="2.5"
         strokeLinecap="round"
         opacity="0.85"
       />
-      <path d="M76 144 A16 16 0 0 0 68.5 146.1" fill="none" stroke={trackColor} strokeWidth="2.5" />
-      <text x="68" y="126" fill={textColor} fontSize="16" fontWeight="600">
+      <path
+        d="M100 144 A16 16 0 0 0 99.45 139.86"
+        fill="none"
+        stroke={trackColor}
+        strokeWidth="2.5"
+      />
+      <text x="96" y="132" fill={textColor} fontSize="16" fontWeight="600">
         θ
       </text>
     </svg>
@@ -472,7 +529,7 @@ const SlopeComponentsDiagram = ({ isDark }) => {
 
       <line x1="190" y1="116" x2="190" y2="150" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
       <polygon points="190,162 180,144 200,144" fill={forceColor} />
-      <text x="232" y="160" fill={textColor} fontSize="17" fontWeight="600">
+      <text x="214" y="160" fill={textColor} fontSize="17" fontWeight="600">
         mg
       </text>
 
@@ -502,7 +559,7 @@ const SlopeComponentsDiagram = ({ isDark }) => {
         strokeDasharray="6 5"
       />
       <polygon points="212,168 200,152 219,148" fill={componentColor} />
-      <text x="240" y="136" fill={textColor} fontSize="14" fontWeight="600">
+      <text x="222" y="138" fill={textColor} fontSize="14" fontWeight="600">
         mg cosθ
       </text>
     </svg>
@@ -4180,7 +4237,7 @@ const App = () => {
         )}
       </main>
 
-      {view !== "lesson" ? <SiteFooter onNavigate={navigateToView} /> : null}
+      {view !== "lesson" ? <SiteFooter isDark={isDark} onNavigate={navigateToView} /> : null}
     </div>
   );
 };
