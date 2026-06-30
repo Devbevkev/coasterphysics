@@ -45,8 +45,8 @@ const SiteFooter = ({ isDark, onNavigate }) => {
       <div className={`absolute -top-14 right-20 h-40 w-40 rounded-full ${topGlowClass} blur-3xl`} />
       <div className={`absolute bottom-0 left-0 h-32 w-32 rounded-full ${bottomGlowClass} blur-3xl`} />
 
-      <div className="section-shell relative py-10 sm:py-11">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="section-shell relative py-8 sm:py-9">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)_minmax(0,1fr)]">
           <div className="max-w-md">
             <p className={`font-display text-2xl font-semibold tracking-tight sm:text-[2rem] ${titleClass}`}>
               Coaster Physics
@@ -75,13 +75,14 @@ const SiteFooter = ({ isDark, onNavigate }) => {
           <div>
             <FooterSectionTitle className={sectionTitleClass}>About</FooterSectionTitle>
             <p className={`mt-4 max-w-sm text-sm leading-7 sm:text-base ${copyClass}`}>
-              I&apos;m a high school student trying to help others learn simple
-              physics through their interest in coasters.
+              This site was created by a high school student with a passion
+              for helping others understand physics through the real-world
+              thrill of roller coasters.
             </p>
           </div>
         </div>
 
-        <div className={`mt-8 border-t pt-4 ${ruleClass}`}>
+        <div className={`mt-6 border-t pt-3 ${ruleClass}`}>
           <p className={`text-sm ${copyrightClass}`}>
             © 2026 Coaster Physics. All rights reserved.
           </p>

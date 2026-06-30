@@ -117,14 +117,14 @@ const figure = (title, render, description) => ({
 const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "" }) => {
   return (
     <div
-      className={`overflow-hidden rounded-[1.65rem] border-[12px] shadow-[0_22px_54px_rgba(15,23,42,0.16)] ${
+      className={`overflow-hidden rounded-[1.5rem] border-[10px] shadow-[0_20px_46px_rgba(15,23,42,0.14)] ${
         isDark ? "border-slate-100/85 bg-slate-100/95" : "border-white/95 bg-white/95"
       } ${className}`}
     >
       <img
         src={src}
         alt={alt}
-        className={`h-full w-full rounded-[1.05rem] object-cover ${imageClassName}`}
+        className={`h-full w-full rounded-[0.95rem] object-cover ${imageClassName}`}
       />
     </div>
   );
@@ -181,49 +181,49 @@ const HeroCollage = ({ isDark }) => {
     {
       src: "/mako-drop.png",
       alt: "Tall roller coaster drop against a blue sky",
-      className: "absolute left-[-3%] top-[0.25rem] z-10 w-[24%] rotate-[-6deg]",
+      className: "absolute left-[14%] top-[0.75rem] z-10 w-[22%] rotate-[-7deg]",
       imageClassName: "aspect-[4/5]",
     },
     {
       src: "/hero-collage-loop-blue.png",
       alt: "Blue roller coaster loop with train entering the element",
-      className: "absolute right-[0%] top-[0rem] z-20 w-[28%] rotate-[5deg]",
+      className: "absolute right-[4%] top-[0.25rem] z-20 w-[23%] rotate-[6deg]",
       imageClassName: "aspect-[4/5]",
     },
     {
       src: "/hero-coaster-frame.png",
       alt: "Roller coaster train descending a blue track curve",
-      className: "absolute right-[3%] top-[10rem] z-40 w-[61%] rotate-[1.5deg]",
+      className: "absolute right-[2%] top-[7rem] z-40 w-[52%] rotate-[1.5deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-superman.png",
       alt: "Red and blue roller coaster train cresting a hill",
-      className: "absolute left-[-7%] top-[15.5rem] z-20 w-[42%] rotate-[-4deg]",
+      className: "absolute left-[4%] top-[11rem] z-20 w-[36%] rotate-[-5deg]",
       imageClassName: "aspect-[6/4]",
     },
     {
       src: "/hero-collage-red-inversion.png",
       alt: "Red roller coaster train diving through a tight inversion",
-      className: "absolute left-[22%] bottom-[9rem] z-30 w-[36%] rotate-[4deg]",
+      className: "absolute left-[27%] bottom-[5.5rem] z-30 w-[31%] rotate-[4deg]",
       imageClassName: "aspect-[5/4]",
     },
     {
       src: "/hero-collage-wood-sunset.png",
       alt: "Wooden roller coaster train cresting a hill at sunset",
-      className: "absolute left-[1%] bottom-[1rem] z-10 w-[32%] rotate-[-5deg]",
+      className: "absolute left-[8%] bottom-[1rem] z-10 w-[26%] rotate-[-4deg]",
       imageClassName: "aspect-[6/5]",
     },
     {
       src: "/hero-collage-white-loop.png",
       alt: "White roller coaster inversion against a clear blue sky",
-      className: "absolute right-[0%] bottom-[3rem] z-20 w-[39%] rotate-[3deg]",
+      className: "absolute right-[3%] bottom-[1.5rem] z-20 w-[30%] rotate-[4deg]",
       imageClassName: "aspect-[6/5]",
     },
   ];
 
   return (
-    <div className="relative mx-auto w-full max-w-[51rem] lg:-translate-x-10 xl:-translate-x-14">
+    <div className="relative mx-auto w-full max-w-[48rem]">
       <div className={`absolute right-[12%] top-[14%] h-44 w-44 rounded-full blur-[84px] ${glowPrimaryClass}`} />
       <div className={`absolute left-[20%] bottom-[10%] h-52 w-52 rounded-full blur-[108px] ${glowSecondaryClass}`} />
 
@@ -240,7 +240,7 @@ const HeroCollage = ({ isDark }) => {
         ))}
       </div>
 
-      <div className="relative hidden h-[46rem] lg:block">
+      <div className="relative hidden h-[40rem] lg:block">
         {desktopPhotos.map((photo) => (
           <HeroCollagePhoto
             key={photo.src}
