@@ -176,54 +176,96 @@ const HeroCollage = ({ isDark }) => {
       className: "hidden rotate-[6deg] sm:col-span-2 sm:block",
       imageClassName: "aspect-[4/5]",
     },
+    {
+      src: "/hero-collage-blue-crest-wide.png",
+      alt: "Blue coaster train cresting a hill against a bright sky",
+      className: "hidden rotate-[-2deg] sm:col-span-4 sm:block",
+      imageClassName: "aspect-[16/9]",
+    },
+    {
+      src: "/hero-collage-orange-turn.png",
+      alt: "Orange coaster train carving through a banked turn",
+      className: "hidden rotate-[4deg] sm:col-span-2 sm:block",
+      imageClassName: "aspect-[6/5]",
+    },
   ];
   const desktopPhotos = [
     {
       src: "/mako-drop.png",
       alt: "Tall roller coaster drop against a blue sky",
-      className: "absolute left-[14%] top-[0.75rem] z-10 w-[22%] rotate-[-7deg]",
+      className: "absolute left-[5%] top-[0.5rem] z-10 w-[19.5%] rotate-[-7deg]",
       imageClassName: "aspect-[4/5]",
+    },
+    {
+      src: "/hero-collage-red-loop-tower.png",
+      alt: "Roller coaster train diving beside a red vertical loop structure",
+      className: "absolute left-[26%] top-[0rem] z-20 w-[20.5%] rotate-[3deg]",
+      imageClassName: "aspect-[4/6]",
     },
     {
       src: "/hero-collage-loop-blue.png",
       alt: "Blue roller coaster loop with train entering the element",
-      className: "absolute right-[4%] top-[0.25rem] z-20 w-[23%] rotate-[6deg]",
+      className: "absolute right-[1%] top-[0rem] z-20 w-[21.5%] rotate-[6deg]",
       imageClassName: "aspect-[4/5]",
     },
     {
       src: "/hero-coaster-frame.png",
       alt: "Roller coaster train descending a blue track curve",
-      className: "absolute right-[2%] top-[7rem] z-40 w-[52%] rotate-[1.5deg]",
+      className: "absolute right-[-1%] top-[7.5rem] z-40 w-[41%] rotate-[1.5deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-superman.png",
       alt: "Red and blue roller coaster train cresting a hill",
-      className: "absolute left-[4%] top-[11rem] z-20 w-[36%] rotate-[-5deg]",
+      className: "absolute left-[-1%] top-[10.5rem] z-20 w-[30%] rotate-[-5deg]",
       imageClassName: "aspect-[6/4]",
+    },
+    {
+      src: "/hero-collage-blue-crest-wide.png",
+      alt: "Blue coaster train cresting a hill against a bright sky",
+      className: "absolute left-[20%] top-[11.5rem] z-30 w-[43%] rotate-[-2deg]",
+      imageClassName: "aspect-[16/9]",
+    },
+    {
+      src: "/hero-collage-inverted-train.png",
+      alt: "Inverted coaster train sweeping across a deep blue sky",
+      className: "absolute right-[8%] top-[19rem] z-20 w-[26%] rotate-[-3deg]",
+      imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-red-inversion.png",
       alt: "Red roller coaster train diving through a tight inversion",
-      className: "absolute left-[27%] bottom-[5.5rem] z-30 w-[31%] rotate-[4deg]",
+      className: "absolute left-[53%] bottom-[7rem] z-30 w-[24%] rotate-[4deg]",
       imageClassName: "aspect-[5/4]",
+    },
+    {
+      src: "/hero-collage-orange-turn.png",
+      alt: "Orange coaster train carving through a banked turn",
+      className: "absolute left-[18%] bottom-[8.75rem] z-20 w-[22%] rotate-[-4deg]",
+      imageClassName: "aspect-[6/5]",
     },
     {
       src: "/hero-collage-wood-sunset.png",
       alt: "Wooden roller coaster train cresting a hill at sunset",
-      className: "absolute left-[8%] bottom-[1rem] z-10 w-[26%] rotate-[-4deg]",
+      className: "absolute left-[7%] bottom-[0.75rem] z-10 w-[22%] rotate-[-4deg]",
       imageClassName: "aspect-[6/5]",
+    },
+    {
+      src: "/hero-collage-vegas-glider.png",
+      alt: "Green coaster car gliding above a city skyline at sunset",
+      className: "absolute left-[29%] bottom-[0.75rem] z-20 w-[28.5%] rotate-[2deg]",
+      imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-white-loop.png",
       alt: "White roller coaster inversion against a clear blue sky",
-      className: "absolute right-[3%] bottom-[1.5rem] z-20 w-[30%] rotate-[4deg]",
+      className: "absolute right-[0%] bottom-[0.75rem] z-20 w-[25.5%] rotate-[4deg]",
       imageClassName: "aspect-[6/5]",
     },
   ];
 
   return (
-    <div className="relative mx-auto w-full max-w-[48rem]">
+    <div className="relative mx-auto w-full max-w-[52rem]">
       <div className={`absolute right-[12%] top-[14%] h-44 w-44 rounded-full blur-[84px] ${glowPrimaryClass}`} />
       <div className={`absolute left-[20%] bottom-[10%] h-52 w-52 rounded-full blur-[108px] ${glowSecondaryClass}`} />
 
@@ -240,7 +282,7 @@ const HeroCollage = ({ isDark }) => {
         ))}
       </div>
 
-      <div className="relative hidden h-[40rem] lg:block">
+      <div className="relative hidden h-[42rem] lg:block">
         {desktopPhotos.map((photo) => (
           <HeroCollagePhoto
             key={photo.src}
@@ -449,120 +491,76 @@ const KinematicsVelocityGraph = ({ isDark }) => {
 
 const SlopeCartDiagram = ({ isDark }) => {
   const panelFill = isDark ? "#0f172a" : "#f8fafc";
+  const panelGlow = isDark ? "rgba(148,163,184,0.1)" : "rgba(255,255,255,0.95)";
   const trackColor = isDark ? "#94a3b8" : "#64748b";
   const cartFill = isDark ? "#22d3ee" : "#38bdf8";
-  const wheelFill = isDark ? "#cbd5e1" : "#475569";
+  const wheelFill = isDark ? "#475569" : "#475569";
   const accentFill = isDark ? "#f8fafc" : "#ffffff";
   const textColor = isDark ? "#e2e8f0" : "#334155";
 
   return (
     <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Roller coaster cart on a sloped track">
-      <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
+      <defs>
+        <radialGradient id="slopeGlow" cx="50%" cy="42%" r="78%">
+          <stop offset="0%" stopColor={panelGlow} />
+          <stop offset="100%" stopColor={panelFill} />
+        </radialGradient>
+      </defs>
+
+      <rect x="0" y="0" width="320" height="180" rx="24" fill="url(#slopeGlow)" />
+
       <line
-        x1="36"
-        y1="144"
-        x2="84"
-        y2="144"
+        x1="0"
+        y1="161"
+        x2="300"
+        y2="77"
         stroke={trackColor}
-        strokeWidth="4"
+        strokeWidth="6"
         strokeLinecap="round"
-        opacity="0.72"
+        opacity="0.92"
       />
 
-      <g transform="translate(84 144) rotate(-15)">
-        <line x1="0" y1="0" x2="196" y2="0" stroke={trackColor} strokeWidth="6" strokeLinecap="round" />
-
-        <g transform="translate(112 -10)">
-          <rect x="-46" y="-26" width="92" height="28" rx="12" fill={cartFill} />
-          <rect x="-28" y="-40" width="56" height="16" rx="8" fill={accentFill} opacity="0.95" />
-          <circle cx="-18" cy="0" r="10" fill={wheelFill} />
-          <circle cx="24" cy="0" r="10" fill={wheelFill} />
-          <circle cx="-18" cy="0" r="3.5" fill={accentFill} />
-          <circle cx="24" cy="0" r="3.5" fill={accentFill} />
-        </g>
+      <g transform="translate(116 111) rotate(-15)">
+        <rect x="-52" y="-26" width="104" height="32" rx="14" fill={cartFill} />
+        <rect x="-26" y="-40" width="56" height="18" rx="9" fill={accentFill} opacity="0.95" />
+        <circle cx="-22" cy="4" r="11" fill={wheelFill} />
+        <circle cx="24" cy="4" r="11" fill={wheelFill} />
+        <circle cx="-22" cy="4" r="4.25" fill={accentFill} />
+        <circle cx="24" cy="4" r="4.25" fill={accentFill} />
       </g>
 
       <line
-        x1="84"
-        y1="144"
-        x2="112"
-        y2="144"
+        x1="18"
+        y1="162"
+        x2="68"
+        y2="162"
         stroke={trackColor}
-        strokeWidth="2.5"
+        strokeWidth="3"
         strokeLinecap="round"
-        opacity="0.85"
+        opacity="0.82"
       />
       <path
-        d="M100 144 A16 16 0 0 0 99.45 139.86"
+        d="M44 162 A14 14 0 0 0 41.5 151.2"
         fill="none"
         stroke={trackColor}
         strokeWidth="2.5"
       />
-      <text x="96" y="132" fill={textColor} fontSize="16" fontWeight="600">
+      <text x="50" y="158" fill={textColor} fontSize="16" fontWeight="600">
         θ
       </text>
     </svg>
   );
 };
 
-const SlopeComponentsDiagram = ({ isDark }) => {
-  const panelFill = isDark ? "#0f172a" : "#f8fafc";
-  const bodyFill = isDark ? "#f8fafc" : "#0f172a";
-  const forceColor = isDark ? "#22d3ee" : "#0284c7";
-  const componentColor = isDark ? "#fbbf24" : "#d97706";
-  const guideColor = isDark ? "#94a3b8" : "#64748b";
-  const textColor = isDark ? "#e2e8f0" : "#334155";
-
+const SlopeComponentsDiagram = () => {
   return (
-    <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Slope force analysis with gravity components">
-      <rect x="0" y="0" width="320" height="180" rx="24" fill={panelFill} />
-      <line x1="58" y1="138" x2="174" y2="107" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
-      <line x1="204" y1="99" x2="286" y2="77" stroke={guideColor} strokeWidth="4" strokeLinecap="round" opacity="0.75" />
-
-      <circle cx="190" cy="104" r="11" fill={bodyFill} />
-
-      <line x1="187" y1="92" x2="172" y2="50" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="168,36 162,55 181,50" fill={forceColor} />
-      <text x="142" y="52" fill={textColor} fontSize="17" fontWeight="600">
-        N
-      </text>
-
-      <line x1="190" y1="116" x2="190" y2="150" stroke={forceColor} strokeWidth="5" strokeLinecap="round" />
-      <polygon points="190,162 180,144 200,144" fill={forceColor} />
-      <text x="214" y="160" fill={textColor} fontSize="17" fontWeight="600">
-        mg
-      </text>
-
-      <line
-        x1="179"
-        y1="107"
-        x2="162"
-        y2="111.6"
-        stroke={componentColor}
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeDasharray="6 5"
+    <div className="overflow-hidden rounded-[1.5rem] bg-white">
+      <img
+        src="/slope-components-reference.png"
+        alt="Slope free-body diagram showing N, mg, mg sin theta, and mg cos theta"
+        className="h-48 w-full object-cover"
       />
-      <polygon points="150,114.8 167,102.8 170,121.6" fill={componentColor} />
-      <text x="88" y="126" fill={textColor} fontSize="14" fontWeight="600">
-        mg sinθ
-      </text>
-
-      <line
-        x1="195"
-        y1="115"
-        x2="209"
-        y2="156"
-        stroke={componentColor}
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeDasharray="6 5"
-      />
-      <polygon points="212,168 200,152 219,148" fill={componentColor} />
-      <text x="222" y="138" fill={textColor} fontSize="14" fontWeight="600">
-        mg cosθ
-      </text>
-    </svg>
+    </div>
   );
 };
 
@@ -790,6 +788,59 @@ const kinematicsLesson = createLesson(
           "A flat velocity-time graph means constant velocity, not zero motion.",
           "A coaster can have constant speed and still accelerate if the direction changes.",
         ],
+        figures: [
+          figure(
+            "Coaster Cart on a Flat Track",
+            (isDark) => <FlatTrackCartDiagram isDark={isDark} />,
+            "This simple model strips the ride down to one cart resting on level track so the motion description and the forces stay easy to separate.",
+          ),
+          figure(
+            "Flat-Track Free-Body Diagram",
+            (isDark) => <FlatTrackFreeBodyDiagram isDark={isDark} />,
+            "On level track at rest, the upward normal force balances the downward weight.",
+          ),
+        ],
+        realWorldExample: {
+          position: "bottom",
+          eyebrow: "Real-World Example",
+          title: "Copperhead Strike Train Mass Example",
+          imageSrc: "/copperhead-strike-train.png",
+          imageAlt: "Copperhead Strike roller coaster train banking through orange track.",
+          stats: [
+            {
+              label: "Coaster",
+              value: "Copperhead Strike",
+            },
+            {
+              label: "Park",
+              value: "Carowinds",
+            },
+            {
+              label: "Train capacity",
+              value: "16 riders",
+            },
+            {
+              label: "Estimated empty train mass",
+              value: "6,400 kg",
+            },
+            {
+              label: "Estimated loaded train mass",
+              value: "7,600 kg",
+            },
+          ],
+          rightFigure: {
+            title: "Flat-Track FBD",
+            description: "Use the same simple level-track model shown above: the only vertical forces are N upward and mg downward.",
+            render: (isDark) => <FlatTrackFreeBodyDiagram isDark={isDark} />,
+          },
+          paragraphs: [
+            "The photo shows Copperhead Strike, but to match the simple free-body diagram above, imagine the full 16-rider train resting on a level section of track in the station or brake run.",
+            "Carowinds publicly lists the rider capacity, but not a public train mass, so this lesson uses an engineering estimate of about 6,400 kg for the empty train. Then mg = (6,400)(9.8) ≈ 62,700 N downward, so the normal force is about N ≈ 62,700 N upward while the train is at rest.",
+            "Now add riders. If the train is full and we estimate 16 riders at about 75 kg each, the riders add about 1,200 kg. That gives a loaded mass of about 7,600 kg.",
+            "For the loaded train, mg = (7,600)(9.8) ≈ 74,500 N, so the track must push upward with about N ≈ 74,500 N when the train is sitting still on level track.",
+            "That comparison shows the key idea: when mass increases, weight increases, and the supporting normal force must increase with it in the same simple at-rest model.",
+          ],
+        },
         callout:
           "If a coaster moves at 18 m/s through a turnaround, the speed can stay 18 m/s while the velocity keeps changing because the train keeps pointing in a new direction.",
         practice: practiceQuestion(
@@ -1195,6 +1246,18 @@ const forcesLesson = createLesson(
             "The component arrows help with the math, but on an actual free-body diagram you draw only the real forces such as N and mg, then resolve them separately.",
           ),
         ],
+        practice: practiceQuestion(
+          "A car rests on a frictionless 30° slope. Which force component pulls the car down the slope?",
+          [
+            "A. The normal force, N",
+            "B. The full weight, mg",
+            "C. The parallel component, mg sinθ",
+            "D. The perpendicular component, mg cosθ",
+          ],
+          2,
+          "Correct. Along a slope, the component of gravity parallel to the track is **mg sinθ**, and that is the part that pulls the car downhill.",
+          "Not quite. The force component along the slope is **mg sinθ**. The normal force points perpendicular to the track, and **mg cosθ** is the perpendicular component of weight.",
+        ),
       },
     ),
     createStep(
@@ -1481,7 +1544,15 @@ const energyLesson = createLesson(
           imageAlt: "Mako roller coaster train descending a steep drop.",
           stats: [
             {
+              label: "Park",
+              value: "SeaWorld Orlando",
+            },
+            {
               label: "Height",
+              value: "200 ft (61.0 m)",
+            },
+            {
+              label: "Drop",
               value: "200 ft (61.0 m)",
             },
             {
@@ -1801,6 +1872,28 @@ const circularMotionLesson = createLesson(
           title: "Crest Example",
           imageSrc: "/circular-gforce-example.png",
           imageAlt: "Roller coaster crest showing a place where riders can feel light.",
+          stats: [
+            {
+              label: "Coaster",
+              value: "Skyrush",
+            },
+            {
+              label: "Park",
+              value: "Hersheypark",
+            },
+            {
+              label: "Height",
+              value: "200 ft (61.0 m)",
+            },
+            {
+              label: "Drop",
+              value: "212 ft (64.6 m)",
+            },
+            {
+              label: "Top speed",
+              value: "75 mph (33.5 m/s)",
+            },
+          ],
           paragraphs: [
             "Near the top of a crest, the normal force can drop below the rider's usual weight. That makes the felt g-force less than 1 g, which is why riders often describe the moment as light or floaty.",
             "At the bottom of a tight valley or dip, the opposite can happen. If the seat pushes with five times the rider's weight, then N = 5mg, so the felt g-force is 5 g.",
@@ -3289,32 +3382,53 @@ const LessonView = ({
               isDark ? "border-white/10" : "border-slate-300/70"
             }`}
           />
-        </div>
 
-        <div>
           {example.stats?.length ? (
-            <div className="grid gap-4 sm:grid-cols-2">
-              {example.stats.map((item) => (
-                <div key={item.label} className={`rounded-3xl border p-4 ${subtlePanelClass}`}>
-                  <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              {example.stats.map((item, index) => (
+                <div
+                  key={item.label}
+                  className={`rounded-3xl border p-3 ${subtlePanelClass} ${
+                    example.stats.length % 2 === 1 && index === example.stats.length - 1
+                      ? "col-span-2"
+                      : ""
+                  }`}
+                >
+                  <p className={`text-[0.65rem] font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
                     {item.label}
                   </p>
-                  <p className={`mt-2 text-xl font-semibold ${titleClass}`}>
+                  <p className={`mt-1 text-sm font-semibold leading-5 ${titleClass}`}>
                     {item.value}
                   </p>
                 </div>
               ))}
             </div>
           ) : null}
+        </div>
 
-          <div
-            className={`space-y-4 text-base leading-7 ${copyClass} ${
-              example.stats?.length ? "mt-5" : ""
-            }`}
-          >
-            {example.paragraphs.map((paragraph) => (
-              <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
-            ))}
+        <div>
+          <div className={`space-y-4 text-base leading-7 ${copyClass}`}>
+            {example.rightFigure ? (
+              <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
+                <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                  {example.rightFigure.title}
+                </p>
+                {example.rightFigure.description ? (
+                  <FormattedPhysicsText
+                    as="p"
+                    className={`mt-2 text-sm leading-6 ${copyClass}`}
+                    text={example.rightFigure.description}
+                  />
+                ) : null}
+                <div className="mt-4">{example.rightFigure.render(isDark)}</div>
+              </div>
+            ) : null}
+
+            <div className={example.rightFigure ? "space-y-4" : ""}>
+              {example.paragraphs.map((paragraph) => (
+                <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
