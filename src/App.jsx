@@ -117,14 +117,14 @@ const figure = (title, render, description) => ({
 const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "" }) => {
   return (
     <div
-      className={`overflow-hidden rounded-[1.5rem] border-[10px] shadow-[0_20px_46px_rgba(15,23,42,0.14)] ${
+      className={`overflow-hidden rounded-[1.25rem] border-[6px] shadow-[0_18px_38px_rgba(15,23,42,0.13)] ${
         isDark ? "border-slate-100/85 bg-slate-100/95" : "border-white/95 bg-white/95"
       } ${className}`}
     >
       <img
         src={src}
         alt={alt}
-        className={`h-full w-full rounded-[0.95rem] object-cover ${imageClassName}`}
+        className={`h-full w-full rounded-[0.8rem] object-cover ${imageClassName}`}
       />
     </div>
   );
@@ -229,37 +229,37 @@ const HeroCollage = ({ isDark }) => {
     {
       src: "/hero-collage-inverted-train.png",
       alt: "Inverted coaster train sweeping across a deep blue sky",
-      className: "absolute right-[5%] top-[18.75rem] z-20 w-[30.5%] rotate-[-3deg]",
+      className: "absolute right-[5%] top-[17.75rem] z-20 w-[30.5%] rotate-[-3deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-red-inversion.png",
       alt: "Red roller coaster train diving through a tight inversion",
-      className: "absolute left-[50%] bottom-[6.75rem] z-30 w-[28.5%] rotate-[4deg]",
+      className: "absolute left-[50%] bottom-[12.25rem] z-30 w-[28.5%] rotate-[4deg]",
       imageClassName: "aspect-[5/4]",
     },
     {
       src: "/hero-collage-orange-turn.png",
       alt: "Orange coaster train carving through a banked turn",
-      className: "absolute left-[16%] bottom-[8.5rem] z-20 w-[26%] rotate-[-4deg]",
+      className: "absolute left-[16%] bottom-[13.5rem] z-20 w-[26%] rotate-[-4deg]",
       imageClassName: "aspect-[6/5]",
     },
     {
       src: "/hero-collage-wood-sunset.png",
       alt: "Wooden roller coaster train cresting a hill at sunset",
-      className: "absolute left-[4%] bottom-[0.25rem] z-10 w-[26%] rotate-[-4deg]",
+      className: "absolute left-[4%] bottom-[6rem] z-10 w-[26%] rotate-[-4deg]",
       imageClassName: "aspect-[6/5]",
     },
     {
       src: "/hero-collage-vegas-glider.png",
       alt: "Green coaster car gliding above a city skyline at sunset",
-      className: "absolute left-[27%] bottom-[0.25rem] z-20 w-[33.5%] rotate-[2deg]",
+      className: "absolute left-[27%] bottom-[6rem] z-20 w-[33.5%] rotate-[2deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-white-loop.png",
       alt: "White roller coaster inversion against a clear blue sky",
-      className: "absolute right-[-3%] bottom-[0.25rem] z-20 w-[30%] rotate-[4deg]",
+      className: "absolute right-[-3%] bottom-[6rem] z-20 w-[30%] rotate-[4deg]",
       imageClassName: "aspect-[6/5]",
     },
   ];
@@ -269,7 +269,7 @@ const HeroCollage = ({ isDark }) => {
       <div className={`absolute right-[12%] top-[14%] h-44 w-44 rounded-full blur-[84px] ${glowPrimaryClass}`} />
       <div className={`absolute left-[20%] bottom-[10%] h-52 w-52 rounded-full blur-[108px] ${glowSecondaryClass}`} />
 
-      <div className="relative grid grid-cols-2 gap-4 sm:grid-cols-6 sm:gap-5 lg:hidden">
+      <div className="relative grid grid-cols-2 gap-3 sm:grid-cols-6 sm:gap-4 lg:hidden">
         {mobilePhotos.map((photo) => (
           <HeroCollagePhoto
             key={photo.src}
@@ -801,9 +801,9 @@ const kinematicsLesson = createLesson(
           ),
         ],
         realWorldExample: {
-          position: "bottom",
+          position: "afterFigures",
           eyebrow: "Real-World Example",
-          title: "Copperhead Strike Train Mass Example",
+          title: "Copperhead Strike Car Mass Example",
           imageSrc: "/copperhead-strike-train.png",
           imageAlt: "Copperhead Strike roller coaster train banking through orange track.",
           stats: [
@@ -816,29 +816,29 @@ const kinematicsLesson = createLesson(
               value: "Carowinds",
             },
             {
-              label: "Train capacity",
-              value: "16 riders",
+              label: "Train layout",
+              value: "4 cars, 16 riders",
             },
             {
-              label: "Estimated empty train mass",
-              value: "6,400 kg",
+              label: "Estimated empty car mass",
+              value: "1,600 kg",
             },
             {
-              label: "Estimated loaded train mass",
-              value: "7,600 kg",
+              label: "Estimated loaded car mass",
+              value: "1,900 kg",
             },
           ],
           rightFigure: {
-            title: "Flat-Track FBD",
-            description: "Use the same simple level-track model shown above: the only vertical forces are N upward and mg downward.",
+            title: "Level-Track FBD",
+            description: "For one car at rest on level track, draw N upward and mg downward. Since the vertical forces balance, N = mg.",
             render: (isDark) => <FlatTrackFreeBodyDiagram isDark={isDark} />,
           },
           paragraphs: [
-            "The photo shows Copperhead Strike, but to match the simple free-body diagram above, imagine the full 16-rider train resting on a level section of track in the station or brake run.",
-            "Carowinds publicly lists the rider capacity, but not a public train mass, so this lesson uses an engineering estimate of about 6,400 kg for the empty train. Then mg = (6,400)(9.8) ≈ 62,700 N downward, so the normal force is about N ≈ 62,700 N upward while the train is at rest.",
-            "Now add riders. If the train is full and we estimate 16 riders at about 75 kg each, the riders add about 1,200 kg. That gives a loaded mass of about 7,600 kg.",
-            "For the loaded train, mg = (7,600)(9.8) ≈ 74,500 N, so the track must push upward with about N ≈ 74,500 N when the train is sitting still on level track.",
-            "That comparison shows the key idea: when mass increases, weight increases, and the supporting normal force must increase with it in the same simple at-rest model.",
+            "Copperhead Strike uses trains with 4 cars, and each car carries 4 riders. The exact empty mass is not publicly listed, so this lesson uses an engineering estimate of about 1,600 kg for one empty car.",
+            "For one empty car, mg = (1,600)(9.8) ≈ 15,700 N downward. On level track at rest, the vertical forces balance, so the normal force is about N ≈ 15,700 N upward.",
+            "Now add riders. If 4 riders each have an estimated mass of 75 kg, the riders add about 300 kg. That makes one loaded car about 1,900 kg.",
+            "For one loaded car, mg = (1,900)(9.8) ≈ 18,600 N downward, so the track must push upward with about N ≈ 18,600 N while the car is at rest on level track.",
+            "For the whole 4-car train, the same estimate gives about 6,400 kg empty and 7,600 kg loaded. That means the full-train normal force is about 62,700 N empty and 74,500 N loaded in this simple at-rest model.",
           ],
         },
         callout:
@@ -3618,7 +3618,8 @@ const LessonView = ({
             </div>
           ) : null}
 
-          {step.realWorldExample && step.realWorldExample.position !== "bottom"
+          {step.realWorldExample &&
+          !["afterFigures", "bottom"].includes(step.realWorldExample.position)
             ? renderRealWorldExample(step.realWorldExample)
             : null}
 
@@ -3744,6 +3745,10 @@ const LessonView = ({
               </div>
             </div>
           ) : null}
+
+          {step.realWorldExample && step.realWorldExample.position === "afterFigures"
+            ? renderRealWorldExample(step.realWorldExample)
+            : null}
 
           {step.realWorldExample && step.realWorldExample.position === "bottom"
             ? renderRealWorldExample(step.realWorldExample)
