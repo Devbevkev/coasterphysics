@@ -788,26 +788,19 @@ const kinematicsLesson = createLesson(
           "A flat velocity-time graph means constant velocity, not zero motion.",
           "A coaster can have constant speed and still accelerate if the direction changes.",
         ],
-        figures: [
-          figure(
-            "Coaster Cart on a Flat Track",
-            (isDark) => <FlatTrackCartDiagram isDark={isDark} />,
-            "This simple model strips the ride down to one cart resting on level track so the motion description and the forces stay easy to separate.",
-          ),
-        ],
         callout:
           "If a coaster moves at 18 m/s through a turnaround, the speed can stay 18 m/s while the velocity keeps changing because the train keeps pointing in a new direction.",
         practice: practiceQuestion(
-          "A roller coaster moves around a circular turn at a constant speed of 18 m/s. The turn has a radius of 36 m. What is the coaster's acceleration?",
+          "A coaster moves through a curve at a constant speed, but its direction keeps changing. Which statement best describes the motion?",
           [
-            "A. 0 m/s²",
-            "B. 0.5 m/s²",
-            "C. 9 m/s²",
-            "D. 648 m/s²",
+            "A. Its velocity stays constant because its speed stays constant.",
+            "B. It is accelerating because its velocity changes direction.",
+            "C. It has zero acceleration because it is not speeding up.",
+            "D. Its displacement must equal the full distance traveled.",
           ],
-          2,
-          "Correct. Even though the coaster's speed is constant, its direction is changing, so it is accelerating. For circular motion, a_c = v²/r = 18²/36 = 324/36 = 9 m/s².",
-          "Not quite. In circular motion, the acceleration is a_c = v²/r. Using 18 m/s and 36 m gives a_c = 18²/36 = 9 m/s².",
+          1,
+          "Correct. Velocity includes both speed and direction. If the direction changes, the velocity changes, so the coaster is accelerating even at constant speed.",
+          "Not quite. Speed can stay constant while velocity changes direction. A changing velocity means the coaster is accelerating.",
         ),
       },
     ),
@@ -1141,7 +1134,7 @@ const forcesLesson = createLesson(
         practice: practiceQuestion(
           "A rider sits in a coaster seat. The seat pushes upward on the rider. What is the Newton's Third Law partner to that force?",
           [
-            "A. The rider's weight pulling downward on Earth.",
+            "A. Earth pulling downward on the rider.",
             "B. The rider pushing downward on the seat.",
             "C. The coaster's acceleration upward.",
             "D. The normal force from the track on the car.",
@@ -1289,7 +1282,7 @@ const forcesLesson = createLesson(
             "A. A velocity arrow showing the rider's motion.",
             "B. The rider pushing downward on the seat.",
             "C. The seat's normal force on the rider and the rider's weight.",
-            "D. A separate centripetal force arrow on every diagram.",
+            "D. A forward arrow labeled as the force of motion.",
           ],
           2,
           "Correct. A free-body diagram shows real forces on the chosen object. For the rider, those include weight downward and the seat's normal force upward.",
@@ -4242,7 +4235,7 @@ const App = () => {
     <div className="flex min-h-screen flex-col">
       <main className="section-shell relative flex-1 py-10 sm:py-12 lg:py-16">
         {view === "home" || view === "lesson" ? (
-          <div className="absolute right-5 top-1 z-[60] sm:right-6 sm:top-2 lg:right-8 lg:top-3">
+          <div className="absolute right-0 top-1 z-[60] sm:right-0 sm:top-2 lg:-right-4 lg:top-3">
             <SettingsControl
               copyClass={copyClass}
               isDark={isDark}
@@ -4255,6 +4248,7 @@ const App = () => {
               subtlePanelClass={subtlePanelClass}
               theme={theme}
               titleClass={titleClass}
+              className="translate-x-2 sm:translate-x-4"
             />
           </div>
         ) : null}
@@ -4347,6 +4341,7 @@ const App = () => {
                 subtlePanelClass={subtlePanelClass}
                 theme={theme}
                 titleClass={titleClass}
+                className="translate-x-2 sm:translate-x-4"
               />
             </div>
 
@@ -4448,6 +4443,7 @@ const App = () => {
                 subtlePanelClass={subtlePanelClass}
                 theme={theme}
                 titleClass={titleClass}
+                className="translate-x-2 sm:translate-x-4"
               />
             </div>
 
