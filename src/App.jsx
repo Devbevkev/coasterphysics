@@ -978,17 +978,31 @@ const kinematicsLesson = createLesson(
             "The coaster train, track, and restraints still control the actual motion, so this is not a perfect free-projectile situation. It is a useful kinematics comparison: forward motion continues while gravity supplies the downward acceleration.",
           ],
         },
-        practice: practiceQuestion(
-          "What makes an airtime hill similar to projectile motion?",
-          [
-            "A. Gravity stops acting on the rider at the top of the hill.",
-            "B. The rider has forward motion while gravity accelerates the rider downward.",
-            "C. The rider's horizontal and vertical motions must always be identical.",
-            "D. The normal force becomes the same thing as velocity.",
-          ],
-          1,
-          "Correct. Projectile motion combines forward motion with downward acceleration from gravity. Airtime hills feel similar because riders continue forward while gravity pulls downward.",
-          "Not quite. Gravity still acts during airtime. The projectile-motion connection is that forward motion and downward acceleration happen at the same time.",
+        practice: practiceSet(
+          practiceQuestion(
+            "What makes an airtime hill similar to projectile motion?",
+            [
+              "A. Gravity stops acting on the rider at the top of the hill.",
+              "B. The rider has forward motion while gravity accelerates the rider downward.",
+              "C. The rider's horizontal and vertical motions must always be identical.",
+              "D. The normal force becomes the same thing as velocity.",
+            ],
+            1,
+            "Correct. Projectile motion combines forward motion with downward acceleration from gravity. Airtime hills feel similar because riders continue forward while gravity pulls downward.",
+            "Not quite. Gravity still acts during airtime. The projectile-motion connection is that forward motion and downward acceleration happen at the same time.",
+          ),
+          practiceQuestion(
+            "In an idealized airtime model, a rider has horizontal velocity 18 m/s, zero initial vertical velocity, and is modeled for 0.50 s. About how far forward and downward would the rider move?",
+            [
+              "A. 4.5 m forward and 0.50 m downward",
+              "B. 9.0 m forward and 1.2 m downward",
+              "C. 18 m forward and 4.9 m downward",
+              "D. 36 m forward and 9.8 m downward",
+            ],
+            1,
+            "Correct. Horizontally, x = vxt = (18)(0.50) = 9.0 m. Vertically, Δy = one-half gt² = 0.5(9.8)(0.50²) ≈ 1.2 m downward.",
+            "Not quite. Treat the directions separately: x = vxt = (18)(0.50) = 9.0 m, and Δy = one-half gt² = 0.5(9.8)(0.50²) ≈ 1.2 m downward.",
+          ),
         ),
       },
     ),
