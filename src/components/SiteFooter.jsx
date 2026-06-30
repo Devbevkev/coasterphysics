@@ -4,14 +4,6 @@ const quickLinks = [
   { label: "Simulation", target: "simulation" },
 ];
 
-const exploreLabels = [
-  "Forces",
-  "Energy",
-  "Loops",
-  "G-Forces",
-  "Roller Coaster Design",
-];
-
 const FooterNavButton = ({ label, onClick, textClass, hoverClass }) => {
   return (
     <button
@@ -41,9 +33,6 @@ const SiteFooter = ({ isDark, onNavigate }) => {
   const navTextClass = isDark ? "text-slate-300" : "text-slate-700";
   const navHoverClass = isDark ? "hover:text-cyan-200" : "hover:text-sky-900";
   const sectionTitleClass = isDark ? "text-cyan-200/90" : "text-sky-800";
-  const pillClass = isDark
-    ? "border-white/10 bg-white/[0.04] text-slate-300"
-    : "border-slate-500/45 bg-white/60 text-slate-800";
   const ruleClass = isDark ? "border-white/10" : "border-slate-400/45";
   const copyrightClass = isDark ? "text-slate-400" : "text-slate-600";
   const topGlowClass = isDark ? "bg-cyan-300/10" : "bg-cyan-200/12";
@@ -56,8 +45,8 @@ const SiteFooter = ({ isDark, onNavigate }) => {
       <div className={`absolute -top-14 right-20 h-40 w-40 rounded-full ${topGlowClass} blur-3xl`} />
       <div className={`absolute bottom-0 left-0 h-32 w-32 rounded-full ${bottomGlowClass} blur-3xl`} />
 
-      <div className="section-shell relative py-12 sm:py-14">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="section-shell relative py-10 sm:py-11">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)_minmax(0,1fr)]">
           <div className="max-w-md">
             <p className={`font-display text-2xl font-semibold tracking-tight sm:text-[2rem] ${titleClass}`}>
               Coaster Physics
@@ -84,21 +73,15 @@ const SiteFooter = ({ isDark, onNavigate }) => {
           </div>
 
           <div>
-            <FooterSectionTitle className={sectionTitleClass}>Explore</FooterSectionTitle>
-            <div className="mt-4 flex flex-wrap gap-2.5">
-              {exploreLabels.map((label) => (
-                <span
-                  key={label}
-                  className={`rounded-full border px-3 py-1.5 text-sm ${pillClass}`}
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
+            <FooterSectionTitle className={sectionTitleClass}>About</FooterSectionTitle>
+            <p className={`mt-4 max-w-sm text-sm leading-7 sm:text-base ${copyClass}`}>
+              I&apos;m a high school student trying to help others learn simple
+              physics through their interest in coasters.
+            </p>
           </div>
         </div>
 
-        <div className={`mt-10 border-t pt-5 ${ruleClass}`}>
+        <div className={`mt-8 border-t pt-4 ${ruleClass}`}>
           <p className={`text-sm ${copyrightClass}`}>
             © 2026 Coaster Physics. All rights reserved.
           </p>
