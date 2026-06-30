@@ -193,79 +193,79 @@ const HeroCollage = ({ isDark }) => {
     {
       src: "/mako-drop.png",
       alt: "Tall roller coaster drop against a blue sky",
-      className: "absolute left-[5%] top-[0.5rem] z-10 w-[19.5%] rotate-[-7deg]",
+      className: "absolute left-[4%] top-[0.25rem] z-10 w-[23%] rotate-[-7deg]",
       imageClassName: "aspect-[4/5]",
     },
     {
       src: "/hero-collage-red-loop-tower.png",
       alt: "Roller coaster train diving beside a red vertical loop structure",
-      className: "absolute left-[26%] top-[0rem] z-20 w-[20.5%] rotate-[3deg]",
+      className: "absolute left-[25%] top-[-0.25rem] z-20 w-[24%] rotate-[3deg]",
       imageClassName: "aspect-[4/6]",
     },
     {
       src: "/hero-collage-loop-blue.png",
       alt: "Blue roller coaster loop with train entering the element",
-      className: "absolute right-[1%] top-[0rem] z-20 w-[21.5%] rotate-[6deg]",
+      className: "absolute right-[-2%] top-[-0.25rem] z-20 w-[25%] rotate-[6deg]",
       imageClassName: "aspect-[4/5]",
     },
     {
       src: "/hero-coaster-frame.png",
       alt: "Roller coaster train descending a blue track curve",
-      className: "absolute right-[-1%] top-[7.5rem] z-40 w-[41%] rotate-[1.5deg]",
+      className: "absolute right-[-4%] top-[7rem] z-40 w-[48%] rotate-[1.5deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-superman.png",
       alt: "Red and blue roller coaster train cresting a hill",
-      className: "absolute left-[-1%] top-[10.5rem] z-20 w-[30%] rotate-[-5deg]",
+      className: "absolute left-[-4%] top-[10.25rem] z-20 w-[35%] rotate-[-5deg]",
       imageClassName: "aspect-[6/4]",
     },
     {
       src: "/hero-collage-blue-crest-wide.png",
       alt: "Blue coaster train cresting a hill against a bright sky",
-      className: "absolute left-[20%] top-[11.5rem] z-30 w-[43%] rotate-[-2deg]",
+      className: "absolute left-[18%] top-[11.25rem] z-30 w-[50%] rotate-[-2deg]",
       imageClassName: "aspect-[16/9]",
     },
     {
       src: "/hero-collage-inverted-train.png",
       alt: "Inverted coaster train sweeping across a deep blue sky",
-      className: "absolute right-[8%] top-[19rem] z-20 w-[26%] rotate-[-3deg]",
+      className: "absolute right-[5%] top-[18.75rem] z-20 w-[30.5%] rotate-[-3deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-red-inversion.png",
       alt: "Red roller coaster train diving through a tight inversion",
-      className: "absolute left-[53%] bottom-[7rem] z-30 w-[24%] rotate-[4deg]",
+      className: "absolute left-[50%] bottom-[6.75rem] z-30 w-[28.5%] rotate-[4deg]",
       imageClassName: "aspect-[5/4]",
     },
     {
       src: "/hero-collage-orange-turn.png",
       alt: "Orange coaster train carving through a banked turn",
-      className: "absolute left-[18%] bottom-[8.75rem] z-20 w-[22%] rotate-[-4deg]",
+      className: "absolute left-[16%] bottom-[8.5rem] z-20 w-[26%] rotate-[-4deg]",
       imageClassName: "aspect-[6/5]",
     },
     {
       src: "/hero-collage-wood-sunset.png",
       alt: "Wooden roller coaster train cresting a hill at sunset",
-      className: "absolute left-[7%] bottom-[0.75rem] z-10 w-[22%] rotate-[-4deg]",
+      className: "absolute left-[4%] bottom-[0.25rem] z-10 w-[26%] rotate-[-4deg]",
       imageClassName: "aspect-[6/5]",
     },
     {
       src: "/hero-collage-vegas-glider.png",
       alt: "Green coaster car gliding above a city skyline at sunset",
-      className: "absolute left-[29%] bottom-[0.75rem] z-20 w-[28.5%] rotate-[2deg]",
+      className: "absolute left-[27%] bottom-[0.25rem] z-20 w-[33.5%] rotate-[2deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-white-loop.png",
       alt: "White roller coaster inversion against a clear blue sky",
-      className: "absolute right-[0%] bottom-[0.75rem] z-20 w-[25.5%] rotate-[4deg]",
+      className: "absolute right-[-3%] bottom-[0.25rem] z-20 w-[30%] rotate-[4deg]",
       imageClassName: "aspect-[6/5]",
     },
   ];
 
   return (
-    <div className="relative mx-auto w-full max-w-[52rem]">
+    <div className="relative mx-auto w-full max-w-[52rem] lg:max-w-[58rem]">
       <div className={`absolute right-[12%] top-[14%] h-44 w-44 rounded-full blur-[84px] ${glowPrimaryClass}`} />
       <div className={`absolute left-[20%] bottom-[10%] h-52 w-52 rounded-full blur-[108px] ${glowSecondaryClass}`} />
 
@@ -282,7 +282,7 @@ const HeroCollage = ({ isDark }) => {
         ))}
       </div>
 
-      <div className="relative hidden h-[42rem] lg:block">
+      <div className="relative hidden h-[45rem] lg:block">
         {desktopPhotos.map((photo) => (
           <HeroCollagePhoto
             key={photo.src}
@@ -4182,7 +4182,7 @@ const App = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-center lg:min-h-[42rem]">
+            <div className="flex items-center justify-center lg:min-h-[45rem]">
               <HeroCollage isDark={isDark} />
             </div>
           </section>
