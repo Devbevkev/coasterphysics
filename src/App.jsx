@@ -915,6 +915,92 @@ const kinematicsLesson = createLesson(
       ),
     }),
     createStep(
+      "projectile-motion",
+      "Projectile Motion",
+      "Forward Motion and Downward Acceleration",
+      {
+        body: [
+          "Projectile motion is a two-dimensional kind of kinematics. The object keeps moving horizontally while gravity accelerates it downward. Those two motions happen at the same time, but they can be analyzed separately.",
+          "In the ideal model, horizontal motion has constant velocity because there is no horizontal acceleration. Vertical motion has constant downward acceleration from gravity. That is why a launched ball can move forward while also falling.",
+          "A rider on a coaster is not actually flying freely off the track, but airtime hills can be compared to projectile motion because the rider continues forward while gravity pulls downward. The feeling comes from the support force getting very small for a short moment.",
+        ],
+        bullets: [
+          "Horizontal motion: forward velocity continues if no horizontal force changes it.",
+          "Vertical motion: gravity creates downward acceleration of about 9.8 m/s².",
+          "The two directions happen at the same time, so projectile motion is still kinematics.",
+          "On a coaster, restraints and the track keep riders with the train, so projectile motion is a useful comparison rather than a complete model.",
+        ],
+        equations: [
+          equation("Horizontal velocity", <>v<sub>x</sub> = constant</>),
+          equation("Vertical acceleration", <>a<sub>y</sub> = -g</>),
+          equation(
+            "Horizontal position",
+            <>
+              x = v<sub>x</sub>t
+            </>,
+          ),
+          equation(
+            "Vertical position",
+            <>
+              y = <Initial symbol="y" /> + v<sub>y0</sub>t -{" "}
+              <Fraction numerator="1" denominator="2" />
+              gt²
+            </>,
+          ),
+        ],
+        realWorldExample: {
+          position: "bottom",
+          eyebrow: "Real-World Example",
+          title: "El Toro Airtime Hills",
+          imageSrc: "/el-toro-airtime.png",
+          imageAlt: "El Toro wooden roller coaster train cresting an airtime hill.",
+          stats: [
+            {
+              label: "Coaster",
+              value: "El Toro",
+            },
+            {
+              label: "Park",
+              value: "Six Flags Great Adventure",
+            },
+            {
+              label: "Height",
+              value: "181 ft",
+            },
+            {
+              label: "Drop",
+              value: "176 ft",
+            },
+            {
+              label: "Top speed",
+              value: "70 mph",
+            },
+            {
+              label: "Feature",
+              value: "Airtime hills",
+            },
+          ],
+          paragraphs: [
+            "El Toro's airtime hills are a strong real-world example of this idea. When the train moves quickly over the top of a hill, the rider's body wants to keep moving forward because of inertia while gravity pulls the rider downward.",
+            "This creates a short feeling of weightlessness, called airtime. It connects to projectile motion because the rider has forward motion and downward acceleration at the same time, similar to how a ball moves through the air after being launched.",
+            "The coaster train, track, and restraints still control the actual motion, so this is not a perfect free-projectile situation. It is a useful kinematics comparison: forward motion continues while gravity supplies the downward acceleration.",
+          ],
+        },
+        practice: practiceQuestion(
+          "What makes an airtime hill similar to projectile motion?",
+          [
+            "A. Gravity stops acting on the rider at the top of the hill.",
+            "B. The rider has forward motion while gravity accelerates the rider downward.",
+            "C. The rider's horizontal and vertical motions must always be identical.",
+            "D. The normal force becomes the same thing as velocity.",
+          ],
+          1,
+          "Correct. Projectile motion combines forward motion with downward acceleration from gravity. Airtime hills feel similar because riders continue forward while gravity pulls downward.",
+          "Not quite. Gravity still acts during airtime. The projectile-motion connection is that forward motion and downward acceleration happen at the same time.",
+        ),
+      },
+    ),
+    createStep(
       "coaster-explanation",
       "Explain",
       "How These Ideas Show Up on a Coaster",
@@ -1152,6 +1238,7 @@ const forcesLesson = createLesson(
       equations: [
         equation("Newton's Second Law", <>F<sub>net</sub> = ma</>),
         equation("Weight", <>F<sub>g</sub> = mg</>),
+        equation("Kinetic friction", <>f<sub>k</sub> = μ<sub>k</sub>N</>),
         equation("Parallel gravity component", <>mg sinθ</>),
         equation("Perpendicular gravity component", <>mg cosθ</>),
       ],
@@ -1192,6 +1279,26 @@ const forcesLesson = createLesson(
           note: "Near Earth, g is approximately 9.8 m/s².",
         },
         {
+          symbol: "fk",
+          display: (
+            <>
+              f<sub>k</sub>
+            </>
+          ),
+          meaning: "kinetic friction",
+          note: "A contact force that acts opposite sliding or rolling motion in the simple model.",
+        },
+        {
+          symbol: "μk",
+          display: (
+            <>
+              μ<sub>k</sub>
+            </>
+          ),
+          meaning: "coefficient of kinetic friction",
+          note: "A number that describes how strongly the surfaces resist motion in the simple friction model.",
+        },
+        {
           symbol: "θ",
           meaning: "track angle",
           note: "The angle the slope makes relative to the horizontal.",
@@ -1200,21 +1307,36 @@ const forcesLesson = createLesson(
       bullets: [
         "The parallel component changes motion along the track.",
         "The perpendicular component helps determine the normal force.",
+        "Friction acts opposite the relative motion and depends on the normal force in the simple model.",
         "You should solve for the net force before solving for acceleration.",
       ],
       callout:
         "On a sloped track, writing the full weight mg as the force along the track is almost always the wrong first step.",
-      practice: practiceQuestion(
-        "A coaster car has a net force of 1800 N acting on it along the track and a mass of 600 kg. What is its acceleration?",
-        [
-          "A. 0.33 m/s²",
-          "B. 3.0 m/s²",
-          "C. 600 m/s²",
-          "D. 2400 m/s²",
-        ],
-        1,
-        "Correct. Use Fnet = ma, so a = Fnet/m = 1800/600 = 3.0 m/s².",
-        "Not quite. Apply Newton's Second Law directly: a = Fnet/m = 1800/600 = 3.0 m/s².",
+      practice: practiceSet(
+        practiceQuestion(
+          "A coaster car has a net force of 1800 N acting on it along the track and a mass of 600 kg. What is its acceleration?",
+          [
+            "A. 0.33 m/s²",
+            "B. 3.0 m/s²",
+            "C. 600 m/s²",
+            "D. 2400 m/s²",
+          ],
+          1,
+          "Correct. Use Fnet = ma, so a = Fnet/m = 1800/600 = 3.0 m/s².",
+          "Not quite. Apply Newton's Second Law directly: a = Fnet/m = 1800/600 = 3.0 m/s².",
+        ),
+        practiceQuestion(
+          "A wheel assembly has a normal force of 500 N and a kinetic-friction coefficient of 0.04. What is the friction force in the simple model?",
+          [
+            "A. 0.08 N",
+            "B. 20 N",
+            "C. 500 N",
+            "D. 12,500 N",
+          ],
+          1,
+          "Correct. Use fk = μkN = (0.04)(500) = 20 N, acting opposite the motion.",
+          "Not quite. In the simple model, kinetic friction is fk = μkN. Multiply 0.04 by 500 N to get 20 N.",
+        ),
       ),
     }),
     createStep(
@@ -2476,6 +2598,12 @@ const momentumLesson = createLesson(
         equation("Momentum", <>p = mv</>),
         equation("Impulse as momentum change", <>J = Δp</>),
         equation("Impulse from force and time", <>J = FΔt</>),
+        equation(
+          "Momentum conservation",
+          <>
+            p<sub>total,i</sub> = p<sub>total,f</sub>
+          </>,
+        ),
       ],
       variables: [
         {
@@ -2517,18 +2645,33 @@ const momentumLesson = createLesson(
       bullets: [
         "Use direction carefully. A negative momentum change means the final momentum points opposite the initial direction.",
         "If the stopping time increases while the momentum change stays the same, the average force decreases.",
+        "Use momentum conservation only for a system with little external impulse during the short interaction.",
       ],
-      practice: practiceQuestion(
-        "A 500 kg coaster car speeds up from 4.0 m/s to 14 m/s in a launch section. What impulse does the launch deliver?",
-        [
-          "A. 900 N·s",
-          "B. 5000 N·s",
-          "C. 7000 N·s",
-          "D. 9000 N·s",
-        ],
-        1,
-        "Correct. Use J = Δp = m(vf - vi) = 500(14 - 4) = 5000 N·s.",
-        "Not quite. Impulse equals change in momentum. Here J = 500(14 - 4) = 5000 N·s.",
+      practice: practiceSet(
+        practiceQuestion(
+          "A 500 kg coaster car speeds up from 4.0 m/s to 14 m/s in a launch section. What impulse does the launch deliver?",
+          [
+            "A. 900 N·s",
+            "B. 5000 N·s",
+            "C. 7000 N·s",
+            "D. 9000 N·s",
+          ],
+          1,
+          "Correct. Use J = Δp = m(vf - vi) = 500(14 - 4) = 5000 N·s.",
+          "Not quite. Impulse equals change in momentum. Here J = 500(14 - 4) = 5000 N·s.",
+        ),
+        practiceQuestion(
+          "When is total momentum most likely to be conserved for a coaster system?",
+          [
+            "A. During a long brake run with large external braking forces.",
+            "B. During a short interaction between connected cars when outside impulses are small.",
+            "C. Whenever the train is moving fast.",
+            "D. Whenever gravity acts on the train.",
+          ],
+          1,
+          "Correct. Momentum conservation works best for a chosen system when external impulse is small during the interaction.",
+          "Not quite. Strong outside forces such as brakes or track forces can change the system's total momentum. Conservation fits short interactions where outside impulse is small.",
+        ),
       ),
     }),
     createStep(
@@ -2732,6 +2875,7 @@ const rotationLesson = createLesson(
         equation("Linear and angular speed", <>v = rω</>),
         equation("Linear and angular acceleration", <>a = rα</>),
         equation("Torque", <>τ = rF sinθ</>),
+        equation("Rotational Newton's Second Law", <>τ<sub>net</sub> = Iα</>),
         equation(
           "Rotational kinetic energy",
           <>
@@ -2780,6 +2924,16 @@ const rotationLesson = createLesson(
           note: "The turning effect of a force about an axis.",
         },
         {
+          symbol: "τnet",
+          display: (
+            <>
+              τ<sub>net</sub>
+            </>
+          ),
+          meaning: "net torque",
+          note: "The combined turning effect that changes angular motion.",
+        },
+        {
           symbol: "F",
           meaning: "force",
           note: "The force producing the torque.",
@@ -2822,19 +2976,34 @@ const rotationLesson = createLesson(
       ],
       bullets: [
         "If the wheel rolls without slipping, v = rω is the key bridge between translation and rotation.",
+        "Net torque changes angular motion the way net force changes linear motion.",
         "The same force can create very different torques depending on where it is applied.",
       ],
-      practice: practiceQuestion(
-        "A 40 N force is applied perpendicularly 0.25 m from a wheel's axle. What torque is produced?",
-        [
-          "A. 1.6 N·m",
-          "B. 10 N·m",
-          "C. 40 N·m",
-          "D. 160 N·m",
-        ],
-        1,
-        "Correct. Use τ = rF sinθ. With a perpendicular force, sin 90° = 1, so τ = (0.25)(40) = 10 N·m.",
-        "Not quite. Use τ = rF sinθ. Because the force is perpendicular, the torque is (0.25)(40) = 10 N·m.",
+      practice: practiceSet(
+        practiceQuestion(
+          "A 40 N force is applied perpendicularly 0.25 m from a wheel's axle. What torque is produced?",
+          [
+            "A. 1.6 N·m",
+            "B. 10 N·m",
+            "C. 40 N·m",
+            "D. 160 N·m",
+          ],
+          1,
+          "Correct. Use τ = rF sinθ. With a perpendicular force, sin 90° = 1, so τ = (0.25)(40) = 10 N·m.",
+          "Not quite. Use τ = rF sinθ. Because the force is perpendicular, the torque is (0.25)(40) = 10 N·m.",
+        ),
+        practiceQuestion(
+          "A wheel has rotational inertia 2.0 kg·m² and a net torque of 6.0 N·m. What is its angular acceleration?",
+          [
+            "A. 0.33 rad/s²",
+            "B. 3.0 rad/s²",
+            "C. 8.0 rad/s²",
+            "D. 12 rad/s²",
+          ],
+          1,
+          "Correct. Use τnet = Iα, so α = τnet/I = 6.0/2.0 = 3.0 rad/s².",
+          "Not quite. Net torque causes angular acceleration. Rearrange τnet = Iα to get α = 6.0/2.0 = 3.0 rad/s².",
+        ),
       ),
     }),
     createStep(
@@ -3006,6 +3175,7 @@ const designSafetyLesson = createLesson(
         body: [
           "Real coaster design is constrained by maximum height, maximum speed, track length, rider comfort, g-force limits, available land, materials, and cost. A design can be mathematically interesting and still be a poor coaster if it ignores these realities.",
           "G-forces matter in several ways. Positive g-forces can make riders feel very heavy, negative g-forces can create airtime, and lateral forces can become uncomfortable or unsafe if turns are not designed carefully. That is why smooth transitions, proper banking, and changing-radius elements matter so much.",
+          "Engineers also care about jerk, which is the rate at which acceleration changes. A force can be within a safe range and still feel rough if it changes too suddenly, so smooth transitions are about controlling both acceleration and how quickly acceleration changes.",
           "Safety also depends on systems beyond the track shape itself. Restraints, block zones, sensors, control systems, and emergency brakes are all examples of layered design thinking. Excitement and control have to coexist.",
         ],
         bullets: [
@@ -3056,6 +3226,12 @@ const designSafetyLesson = createLesson(
           </>,
         ),
         equation("Impulse", <>J = Δp</>),
+        equation(
+          "Jerk",
+          <>
+            j = <Fraction numerator="Δa" denominator="Δt" />
+          </>,
+        ),
         equation(
           "Rolling kinetic energy",
           <>
@@ -3172,6 +3348,11 @@ const designSafetyLesson = createLesson(
           note: "The total effect of force acting over time during a short interaction.",
         },
         {
+          symbol: "j",
+          meaning: "jerk",
+          note: "The rate at which acceleration changes; lower jerk usually feels smoother to riders.",
+        },
+        {
           symbol: "Δp",
           meaning: "change in momentum",
           note: "The difference between final and initial momentum.",
@@ -3200,18 +3381,33 @@ const designSafetyLesson = createLesson(
       bullets: [
         "A full ride uses different equations in different places, but the physics still has to agree from start to finish.",
         "Design work often means choosing the right model at the right location, not using one formula everywhere.",
+        "A comfortable layout controls jerk, not just maximum speed or maximum acceleration.",
       ],
-      practice: practiceQuestion(
-        "A coaster enters a brake run with 90,000 J of kinetic energy and comes to rest at the same height. How much nonconservative work must the brakes do?",
-        [
-          "A. -90,000 J",
-          "B. 0 J",
-          "C. 90,000 J",
-          "D. 180,000 J",
-        ],
-        0,
-        "Correct. Since the coaster stops at the same height, its mechanical energy decreases by 90,000 J, so the brakes must do -90,000 J of nonconservative work.",
-        "Not quite. At the same height, the lost kinetic energy must be removed by the brakes. That means W_nc = ΔE_mech = -90,000 J.",
+      practice: practiceSet(
+        practiceQuestion(
+          "A coaster enters a brake run with 90,000 J of kinetic energy and comes to rest at the same height. How much nonconservative work must the brakes do?",
+          [
+            "A. -90,000 J",
+            "B. 0 J",
+            "C. 90,000 J",
+            "D. 180,000 J",
+          ],
+          0,
+          "Correct. Since the coaster stops at the same height, its mechanical energy decreases by 90,000 J, so the brakes must do -90,000 J of nonconservative work.",
+          "Not quite. At the same height, the lost kinetic energy must be removed by the brakes. That means W_nc = ΔE_mech = -90,000 J.",
+        ),
+        practiceQuestion(
+          "Why does a smooth transition feel better than an abrupt track shape change?",
+          [
+            "A. It reduces sudden changes in acceleration, lowering jerk.",
+            "B. It removes gravity from the train.",
+            "C. It makes the train's mass smaller.",
+            "D. It guarantees the ride has no friction.",
+          ],
+          0,
+          "Correct. Smooth transitions reduce how suddenly acceleration changes, which lowers jerk and makes the force change feel less harsh.",
+          "Not quite. Smoothness is about controlling how quickly acceleration changes. That rate of change is called jerk.",
+        ),
       ),
     }),
     createStep(
@@ -3488,7 +3684,7 @@ const LessonView = ({
   };
 
   const renderRealWorldExample = (example) => (
-    <div className={`mt-6 rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
+    <div className="mt-8">
       <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
         {example.eyebrow}
       </p>
