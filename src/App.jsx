@@ -193,43 +193,43 @@ const HeroCollage = ({ isDark }) => {
     {
       src: "/mako-drop.png",
       alt: "Tall roller coaster drop against a blue sky",
-      className: "absolute left-[4%] top-[0.25rem] z-10 w-[23%] rotate-[-7deg]",
+      className: "absolute left-[4%] top-[1.25rem] z-10 w-[23%] rotate-[-7deg]",
       imageClassName: "aspect-[4/5]",
     },
     {
       src: "/hero-collage-red-loop-tower.png",
       alt: "Roller coaster train diving beside a red vertical loop structure",
-      className: "absolute left-[25%] top-[-0.25rem] z-20 w-[24%] rotate-[3deg]",
+      className: "absolute left-[25%] top-[0.75rem] z-20 w-[24%] rotate-[3deg]",
       imageClassName: "aspect-[4/6]",
     },
     {
       src: "/hero-collage-loop-blue.png",
       alt: "Blue roller coaster loop with train entering the element",
-      className: "absolute right-[-2%] top-[-0.25rem] z-20 w-[25%] rotate-[6deg]",
+      className: "absolute right-[-2%] top-[0.75rem] z-20 w-[25%] rotate-[6deg]",
       imageClassName: "aspect-[4/5]",
     },
     {
       src: "/hero-coaster-frame.png",
       alt: "Roller coaster train descending a blue track curve",
-      className: "absolute right-[-4%] top-[7rem] z-40 w-[48%] rotate-[1.5deg]",
+      className: "absolute right-[-4%] top-[8rem] z-40 w-[48%] rotate-[1.5deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
       src: "/hero-collage-superman.png",
       alt: "Red and blue roller coaster train cresting a hill",
-      className: "absolute left-[-4%] top-[10.25rem] z-20 w-[35%] rotate-[-5deg]",
+      className: "absolute left-[-4%] top-[11.25rem] z-20 w-[35%] rotate-[-5deg]",
       imageClassName: "aspect-[6/4]",
     },
     {
       src: "/hero-collage-blue-crest-wide.png",
       alt: "Blue coaster train cresting a hill against a bright sky",
-      className: "absolute left-[18%] top-[11.25rem] z-30 w-[50%] rotate-[-2deg]",
+      className: "absolute left-[18%] top-[12.25rem] z-30 w-[50%] rotate-[-2deg]",
       imageClassName: "aspect-[16/9]",
     },
     {
       src: "/hero-collage-inverted-train.png",
       alt: "Inverted coaster train sweeping across a deep blue sky",
-      className: "absolute right-[5%] top-[17.75rem] z-20 w-[30.5%] rotate-[-3deg]",
+      className: "absolute right-[5%] top-[18.5rem] z-20 w-[30.5%] rotate-[-3deg]",
       imageClassName: "aspect-[16/10]",
     },
     {
@@ -794,53 +794,7 @@ const kinematicsLesson = createLesson(
             (isDark) => <FlatTrackCartDiagram isDark={isDark} />,
             "This simple model strips the ride down to one cart resting on level track so the motion description and the forces stay easy to separate.",
           ),
-          figure(
-            "Flat-Track Free-Body Diagram",
-            (isDark) => <FlatTrackFreeBodyDiagram isDark={isDark} />,
-            "On level track at rest, the upward normal force balances the downward weight.",
-          ),
         ],
-        realWorldExample: {
-          position: "afterFigures",
-          eyebrow: "Real-World Example",
-          title: "Copperhead Strike Car Mass Example",
-          imageSrc: "/copperhead-strike-train.png",
-          imageAlt: "Copperhead Strike roller coaster train banking through orange track.",
-          stats: [
-            {
-              label: "Coaster",
-              value: "Copperhead Strike",
-            },
-            {
-              label: "Park",
-              value: "Carowinds",
-            },
-            {
-              label: "Train layout",
-              value: "4 cars, 16 riders",
-            },
-            {
-              label: "Estimated empty car mass",
-              value: "1,600 kg",
-            },
-            {
-              label: "Estimated loaded car mass",
-              value: "1,900 kg",
-            },
-          ],
-          rightFigure: {
-            title: "Level-Track FBD",
-            description: "For one car at rest on level track, draw N upward and mg downward. Since the vertical forces balance, N = mg.",
-            render: (isDark) => <FlatTrackFreeBodyDiagram isDark={isDark} />,
-          },
-          paragraphs: [
-            "Copperhead Strike uses trains with 4 cars, and each car carries 4 riders. The exact empty mass is not publicly listed, so this lesson uses an engineering estimate of about 1,600 kg for one empty car.",
-            "For one empty car, mg = (1,600)(9.8) ≈ 15,700 N downward. On level track at rest, the vertical forces balance, so the normal force is about N ≈ 15,700 N upward.",
-            "Now add riders. If 4 riders each have an estimated mass of 75 kg, the riders add about 300 kg. That makes one loaded car about 1,900 kg.",
-            "For one loaded car, mg = (1,900)(9.8) ≈ 18,600 N downward, so the track must push upward with about N ≈ 18,600 N while the car is at rest on level track.",
-            "For the whole 4-car train, the same estimate gives about 6,400 kg empty and 7,600 kg loaded. That means the full-train normal force is about 62,700 N empty and 74,500 N loaded in this simple at-rest model.",
-          ],
-        },
         callout:
           "If a coaster moves at 18 m/s through a turnaround, the speed can stay 18 m/s while the velocity keeps changing because the train keeps pointing in a new direction.",
         practice: practiceQuestion(
@@ -1001,6 +955,18 @@ const kinematicsLesson = createLesson(
           "Confusing slope and area when reading motion graphs.",
           "Thinking a flat velocity graph means the object is stopped when it only means the velocity is constant.",
         ],
+        practice: practiceQuestion(
+          "A coaster moves through a turn at constant speed, but its direction keeps changing. Which statement avoids the common kinematics mistake?",
+          [
+            "A. Its velocity is constant because its speed is constant.",
+            "B. Its acceleration is zero because it is not speeding up.",
+            "C. Its velocity changes because direction changes, so it is accelerating.",
+            "D. Its displacement must equal the full track distance.",
+          ],
+          2,
+          "Correct. Velocity includes direction, so changing direction means changing velocity. That means the coaster is accelerating even if its speed stays constant.",
+          "Not quite. Speed can stay constant while velocity changes direction. A changing velocity means acceleration.",
+        ),
       },
     ),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
@@ -1131,6 +1097,47 @@ const forcesLesson = createLesson(
             "For a cart resting on a flat track, the free-body diagram keeps only the upward normal force and the downward weight.",
           ),
         ],
+        realWorldExample: {
+          position: "afterFigures",
+          eyebrow: "Real-World Example",
+          title: "Copperhead Strike Car Mass Example",
+          imageSrc: "/copperhead-strike-train.png",
+          imageAlt: "Copperhead Strike roller coaster train banking through orange track.",
+          stats: [
+            {
+              label: "Coaster",
+              value: "Copperhead Strike",
+            },
+            {
+              label: "Park",
+              value: "Carowinds",
+            },
+            {
+              label: "Train layout",
+              value: "4 cars, 16 riders",
+            },
+            {
+              label: "Estimated empty car mass",
+              value: "1,600 kg",
+            },
+            {
+              label: "Estimated loaded car mass",
+              value: "1,900 kg",
+            },
+          ],
+          rightFigure: {
+            title: "Level-Track FBD",
+            description: "For one car at rest on level track, draw N upward and mg downward. Since the vertical forces balance, N = mg.",
+            render: (isDark) => <FlatTrackFreeBodyDiagram isDark={isDark} />,
+          },
+          paragraphs: [
+            "Copperhead Strike uses trains with 4 cars, and each car carries 4 riders. The exact empty mass is not publicly listed, so this lesson uses an engineering estimate of about 1,600 kg for one empty car.",
+            "For one empty car, mg = (1,600)(9.8) ≈ 15,700 N downward. On level track at rest, the vertical forces balance, so the normal force is about N ≈ 15,700 N upward.",
+            "Now add riders. If 4 riders each have an estimated mass of 75 kg, the riders add about 300 kg. That makes one loaded car about 1,900 kg.",
+            "For one loaded car, mg = (1,900)(9.8) ≈ 18,600 N downward, so the track must push upward with about N ≈ 18,600 N while the car is at rest on level track.",
+            "For the whole 4-car train, the same estimate gives about 6,400 kg empty and 7,600 kg loaded. That means the full-train normal force is about 62,700 N empty and 74,500 N loaded in this simple at-rest model.",
+          ],
+        },
         practice: practiceQuestion(
           "A rider sits in a coaster seat. The seat pushes upward on the rider. What is the Newton's Third Law partner to that force?",
           [
@@ -1276,6 +1283,18 @@ const forcesLesson = createLesson(
           "Drawing Newton's Third Law force pairs on the same object.",
           "Forgetting to split gravity into components on a slope.",
         ],
+        practice: practiceQuestion(
+          "Which choice belongs on a free-body diagram for a rider sitting in a coaster seat?",
+          [
+            "A. A velocity arrow showing the rider's motion.",
+            "B. The rider pushing downward on the seat.",
+            "C. The seat's normal force on the rider and the rider's weight.",
+            "D. A separate centripetal force arrow on every diagram.",
+          ],
+          2,
+          "Correct. A free-body diagram shows real forces on the chosen object. For the rider, those include weight downward and the seat's normal force upward.",
+          "Not quite. Draw only real forces acting on the chosen object. Motion arrows and third-law partner forces do not belong on that object's free-body diagram.",
+        ),
       },
     ),
     createStep("practice", "Practice", "Multiple Choice Practice", {
@@ -1589,6 +1608,18 @@ const energyLesson = createLesson(
           "Mixing up conservation of energy with Newton's Second Law.",
           "Ignoring energy losses when the problem clearly describes a real coaster section.",
         ],
+        practice: practiceQuestion(
+          "In an energy problem for a coaster drop, which height should you usually use?",
+          [
+            "A. The total height of the coaster structure.",
+            "B. The change in height between the starting and ending points.",
+            "C. The length of the track section.",
+            "D. The rider's height above the seat.",
+          ],
+          1,
+          "Correct. Gravitational potential energy depends on height change, so use the vertical difference between the two points being compared.",
+          "Not quite. Energy reasoning needs the change in gravitational potential energy, which depends on vertical height change, not track length or total structure height.",
+        ),
       },
     ),
     createStep("practice", "Practice", "Multiple Choice Practice", {
@@ -1935,6 +1966,18 @@ const circularMotionLesson = createLesson(
           "Forgetting that the inward direction changes from place to place on the track.",
           "Confusing actual weight with apparent weight.",
         ],
+        practice: practiceQuestion(
+          "Why is it a mistake to draw a separate outward centripetal force on a coaster in a curve?",
+          [
+            "A. The net force and acceleration point inward toward the center of curvature.",
+            "B. Curved motion never requires acceleration.",
+            "C. Gravity disappears whenever the track curves.",
+            "D. The normal force always points outward and cancels motion.",
+          ],
+          0,
+          "Correct. In circular motion, the acceleration and net force point inward. Centripetal force names the net inward force, not a new outward force.",
+          "Not quite. The outward feeling riders notice is not a real outward force on the free-body diagram. The required net force points inward.",
+        ),
       },
     ),
     createStep("practice", "Practice", "Multiple Choice Practice", {
@@ -2210,6 +2253,45 @@ const workLesson = createLesson(
           "During the ride, friction at the wheels and bearings plus air resistance do negative work on the coaster's mechanical energy. That is why a real train gradually loses some of its ability to climb back to its original height.",
           "At the end of the ride, brakes deliberately remove energy. A good braking zone is not just strong. It is controlled. Engineers want enough negative work to stop the train while keeping the force change tolerable for riders and hardware.",
         ],
+        realWorldExample: {
+          eyebrow: "Real-World Example",
+          title: "Maverick Second Launch Energy Example",
+          imageSrc: "/maverick-second-launch.png",
+          imageAlt: "Maverick roller coaster train banking on red track at Cedar Point.",
+          stats: [
+            {
+              label: "Coaster",
+              value: "Maverick",
+            },
+            {
+              label: "Park",
+              value: "Cedar Point",
+            },
+            {
+              label: "Second launch",
+              value: "70 mph in 3 s",
+            },
+            {
+              label: "Launch tunnel",
+              value: "400 ft",
+            },
+            {
+              label: "Track length",
+              value: "4,450 ft",
+            },
+            {
+              label: "Train capacity",
+              value: "12 riders",
+            },
+          ],
+          paragraphs: [
+            "Maverick uses a second LSM launch in a tunnel. Cedar Point describes this launch as sending riders through a 400 ft tunnel and reaching 70 mph in 3 s.",
+            "Convert the launch speed first: 70 mph ≈ 31.3 m/s. If we model the launch as speeding the train from rest to 31.3 m/s, the work-energy theorem gives Wnet = ΔK = one-half m vf² - one-half m vi².",
+            "Per kilogram of train mass, that is Wnet/m = one-half(31.3² - 0²) ≈ 490 J/kg. For a 75 kg rider, the same speed change corresponds to about ΔK = one-half(75)(31.3²) ≈ 36,700 J of kinetic energy.",
+            "Because that energy is added in about 3 s, the average launch power is P = W/t. Per kilogram, P/m ≈ 490/3 ≈ 160 W/kg. For a 75 kg rider-scale mass, that is about 12,200 W.",
+            "After the launch, gravity keeps trading K and Ug as the train rises and drops. Friction and air resistance do negative nonconservative work, so W_nc = ΔE_mech is negative over the ride. At the end, the brakes do negative work to remove the remaining kinetic energy safely.",
+          ],
+        },
         bullets: [
           "Gravity does positive work on a drop and negative work on an uphill segment.",
           "Friction and drag become more significant as speed increases.",
@@ -2232,6 +2314,18 @@ const workLesson = createLesson(
           "Confusing energy and power.",
           "Assuming mechanical energy is always conserved in real coaster motion.",
         ],
+        practice: practiceQuestion(
+          "A friction force acts opposite a coaster's motion through a brake run. What kind of work does friction do on the coaster's mechanical energy?",
+          [
+            "A. Positive work that adds mechanical energy.",
+            "B. Negative work that converts mechanical energy into thermal energy and sound.",
+            "C. Zero work because friction is not a real force.",
+            "D. Positive power but no work.",
+          ],
+          1,
+          "Correct. Friction acts opposite the motion, so it does negative work on the coaster's mechanical energy and converts that energy into other forms.",
+          "Not quite. Friction does not destroy energy, but it does remove mechanical energy from the coaster model by converting it into heat, sound, and vibration.",
+        ),
       },
     ),
     createStep("practice", "Practice", "Multiple Choice Practice", {
@@ -2476,6 +2570,18 @@ const momentumLesson = createLesson(
           "Ignoring direction when the coaster stops or reverses.",
           "Assuming momentum is automatically conserved even when strong external forces act.",
         ],
+        practice: practiceQuestion(
+          "During braking, what does the impulse from the brakes equal?",
+          [
+            "A. The train's final momentum only.",
+            "B. The train's change in momentum, including direction.",
+            "C. The train's mass only.",
+            "D. The braking force without considering time.",
+          ],
+          1,
+          "Correct. Impulse equals change in momentum, J = Δp. Direction matters because momentum is a vector.",
+          "Not quite. Impulse is not the same thing as force by itself. It is the effect of force over time, and it equals the change in momentum.",
+        ),
       },
     ),
     createStep("practice", "Practice", "Multiple Choice Practice", {
@@ -2770,6 +2876,18 @@ const rotationLesson = createLesson(
           "Ignoring rotational kinetic energy in rolling systems.",
           "Assuming all wheels respond the same way regardless of rotational inertia.",
         ],
+        practice: practiceQuestion(
+          "Two coaster wheels have the same mass, but one has more of its mass near the rim. Which wheel is harder to spin up?",
+          [
+            "A. The wheel with more mass near the rim, because its rotational inertia is larger.",
+            "B. The wheel with more mass near the axle, because its radius disappears.",
+            "C. They are always equally hard to spin because mass is the only factor.",
+            "D. Neither wheel can have rotational kinetic energy.",
+          ],
+          0,
+          "Correct. Rotational inertia depends on how mass is distributed. Mass farther from the axle makes the wheel harder to spin up or slow down.",
+          "Not quite. Mass distribution matters in rotation. Putting more mass near the rim increases rotational inertia.",
+        ),
       },
     ),
     createStep("practice", "Practice", "Multiple Choice Practice", {
@@ -3135,6 +3253,18 @@ const designSafetyLesson = createLesson(
           "Forgetting rider comfort and smooth transitions.",
           "Treating idealized classroom physics as if it were identical to real engineering practice.",
         ],
+        practice: practiceQuestion(
+          "Why is it a design mistake to judge a coaster only by maximum speed?",
+          [
+            "A. Speed is unrelated to physics.",
+            "B. A safe design also has to manage forces, energy loss, braking, and smooth transitions.",
+            "C. Faster trains always have smaller g-forces.",
+            "D. Maximum speed guarantees every later hill is reachable.",
+          ],
+          1,
+          "Correct. A good design balances speed with force limits, energy budget, braking, and rider comfort.",
+          "Not quite. Speed matters, but it is only one constraint. A realistic coaster also has to control forces, losses, transitions, and stopping.",
+        ),
       },
     ),
     createStep("practice", "Practice", "Multiple Choice Practice", {
