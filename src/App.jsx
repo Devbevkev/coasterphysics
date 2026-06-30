@@ -1056,7 +1056,7 @@ const kinematicsLesson = createLesson(
     ),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These five questions start with one graph-reading check and then shift into direct equation use. Each answer explanation is meant to model the kind of reasoning you should write out when solving problems on your own.",
+        "These seven questions start with graph reading, then shift into direct equation use and projectile-motion calculations. Each answer explanation is meant to model the kind of reasoning you should write out when solving problems on your own.",
       ],
       quiz: [
         quizQuestion(
@@ -1118,6 +1118,30 @@ const kinematicsLesson = createLesson(
           2,
           "Correct. Use Δx = one-half (v0 + v)t. The average velocity is 10 m/s, so the displacement is (10)(5.0) = 50 m.",
           "Not quite. Use Δx = one-half (v0 + v)t. The average of 8.0 m/s and 12 m/s is 10 m/s, so over 5.0 s the displacement is 50 m.",
+        ),
+        quizQuestion(
+          "In an ideal projectile-motion model, a rider continues forward at 20 m/s for 0.80 s. How far forward does the rider move?",
+          [
+            "A. 8.0 m",
+            "B. 16 m",
+            "C. 20 m",
+            "D. 25 m",
+          ],
+          1,
+          "Correct. Horizontal velocity stays constant in the ideal model, so x = vxt = (20)(0.80) = 16 m.",
+          "Not quite. Separate the horizontal motion from the vertical motion. Horizontally, x = vxt = (20)(0.80) = 16 m.",
+        ),
+        quizQuestion(
+          "During that same 0.80 s, assume the rider's initial vertical velocity is zero. About how far downward does gravity pull the rider?",
+          [
+            "A. 0.80 m",
+            "B. 1.6 m",
+            "C. 3.1 m",
+            "D. 7.8 m",
+          ],
+          2,
+          "Correct. Use Δy = one-half gt² = 0.5(9.8)(0.80²) ≈ 3.1 m downward.",
+          "Not quite. The vertical motion uses gravity: Δy = one-half gt² = 0.5(9.8)(0.80²) ≈ 3.1 m downward.",
         ),
       ],
     }),
@@ -1433,7 +1457,7 @@ const forcesLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These five questions focus on apparent weight, force components, and Newton's Second Law. Use them to practice turning a physical description into a force statement before you calculate.",
+        "These seven questions focus on apparent weight, force components, and Newton's Second Law. Use them to practice turning a physical description into a force statement before you calculate.",
       ],
       quiz: [
         quizQuestion(
@@ -1495,6 +1519,30 @@ const forcesLesson = createLesson(
           0,
           "Correct. On a frictionless incline, a = g sinθ = (9.8) sin 30° = 4.9 m/s².",
           "Not quite. Use the component of gravity along the track. On a frictionless 30° incline, a = g sin 30° = 4.9 m/s².",
+        ),
+        quizQuestion(
+          "A 60 kg rider is sitting still on a flat, level track section. What is the rider's weight?",
+          [
+            "A. 60 N",
+            "B. 98 N",
+            "C. 588 N",
+            "D. 6000 N",
+          ],
+          2,
+          "Correct. Weight is the gravitational force mg = (60)(9.8) = 588 N downward.",
+          "Not quite. Weight is not the same as mass. Use mg = (60)(9.8) = 588 N downward.",
+        ),
+        quizQuestion(
+          "A 500 kg coaster car has a 2400 N force down the track and 400 N of friction up the track. What is its acceleration down the track?",
+          [
+            "A. 2.0 m/s²",
+            "B. 4.0 m/s²",
+            "C. 4.8 m/s²",
+            "D. 5.6 m/s²",
+          ],
+          1,
+          "Correct. The net force is 2400 N - 400 N = 2000 N down the track, so a = Fnet/m = 2000/500 = 4.0 m/s².",
+          "Not quite. First find the net force: 2400 N - 400 N = 2000 N. Then use a = Fnet/m = 2000/500 = 4.0 m/s².",
         ),
       ],
     }),
@@ -1758,7 +1806,7 @@ const energyLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These five questions reinforce both calculation and interpretation, from bottom speed to energy conservation and later-hill design.",
+        "These seven questions reinforce both calculation and interpretation, from bottom speed to energy conservation and later-hill design.",
       ],
       quiz: [
         quizQuestion(
@@ -1820,6 +1868,30 @@ const energyLesson = createLesson(
           2,
           "Correct. Kinetic energy depends on v², so doubling the speed multiplies the kinetic energy by 4.",
           "Not quite. Because kinetic energy is proportional to v², doubling speed makes the kinetic energy four times as large.",
+        ),
+        quizQuestion(
+          "A 600 kg coaster train is moving at 10 m/s. What is its kinetic energy?",
+          [
+            "A. 3000 J",
+            "B. 30,000 J",
+            "C. 60,000 J",
+            "D. 300,000 J",
+          ],
+          1,
+          "Correct. K = one-half mv² = 0.5(600)(10²) = 30,000 J.",
+          "Not quite. Use kinetic energy, K = one-half mv². Substituting 600 kg and 10 m/s gives 30,000 J.",
+        ),
+        quizQuestion(
+          "A coaster has 200,000 J of mechanical energy, then loses 20,000 J to friction and air resistance. How much mechanical energy remains?",
+          [
+            "A. 20,000 J",
+            "B. 180,000 J",
+            "C. 200,000 J",
+            "D. 220,000 J",
+          ],
+          1,
+          "Correct. Nonconservative losses reduce the mechanical energy, so 200,000 J - 20,000 J = 180,000 J remains.",
+          "Not quite. Friction and air resistance remove mechanical energy from the coaster's usable energy budget. The remaining mechanical energy is 180,000 J.",
         ),
       ],
     }),
@@ -2112,7 +2184,7 @@ const circularMotionLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These five questions target the minimum-speed condition, inward direction, and the force calculations riders feel in hills and dips.",
+        "These seven questions target the minimum-speed condition, inward direction, and the force calculations riders feel in hills and dips.",
       ],
       quiz: [
         quizQuestion(
@@ -2174,6 +2246,30 @@ const circularMotionLesson = createLesson(
           0,
           "Correct. At the top of a hill, mg - N = mv²/r. So N = mg - mv²/r = 490 - 240 = 250 N.",
           "Not quite. At the top of the hill, gravity helps provide the inward force, so use mg - N = mv²/r. That gives N = 250 N.",
+        ),
+        quizQuestion(
+          "What is the minimum speed for a coaster to maintain contact at the top of a loop with radius 25 m?",
+          [
+            "A. 4.9 m/s",
+            "B. 9.8 m/s",
+            "C. 16 m/s",
+            "D. 25 m/s",
+          ],
+          2,
+          "Correct. At the minimum-contact condition, v = √(gr) = √((9.8)(25)) ≈ 16 m/s.",
+          "Not quite. At the top of the loop, the minimum-contact condition is v = √(gr). With r = 25 m, that is about 16 m/s.",
+        ),
+        quizQuestion(
+          "If a coaster's speed doubles while the curve radius stays the same, what happens to its centripetal acceleration?",
+          [
+            "A. It is cut in half.",
+            "B. It stays the same.",
+            "C. It doubles.",
+            "D. It quadruples.",
+          ],
+          3,
+          "Correct. Centripetal acceleration is a_c = v²/r, so doubling v makes v² four times larger.",
+          "Not quite. The speed is squared in a_c = v²/r. Doubling speed makes the centripetal acceleration four times as large.",
         ),
       ],
     }),
@@ -2401,23 +2497,45 @@ const workLesson = createLesson(
             },
             {
               label: "2. Start with work-energy",
-              equation: "Wnet = ΔK = 1/2 m vf² - 1/2 m vi²",
+              equation: (
+                <>
+                  W<sub>net</sub> = ΔK = <Fraction numerator="1" denominator="2" />
+                  mv<sub>f</sub>² - <Fraction numerator="1" denominator="2" />
+                  mv<sub>i</sub>²
+                </>
+              ),
               note: "The launch does positive work because it increases kinetic energy.",
             },
             {
               label: "3. Energy added per kilogram",
-              equation: "Wnet / m = 1/2(31.3² - 0²) ≈ 490 J/kg",
-              note: "This means each kilogram of train mass gains about 490 J of kinetic energy.",
+              equation: (
+                <>
+                  <Fraction numerator={<>W<sub>net</sub></>} denominator="m" /> ={" "}
+                  <Fraction numerator="1" denominator="2" />
+                  (31.3² - 0²) ≈ 490 J per kg
+                </>
+              ),
+              note: "Dividing by mass lets us estimate the energy added for each kilogram of train mass.",
             },
             {
               label: "4. Rider-scale energy",
-              equation: "ΔK = 1/2(75)(31.3²) ≈ 36,700 J",
-              note: "A 75 kg rider-scale mass makes the energy transfer easier to picture.",
+              equation: (
+                <>
+                  ΔK = <Fraction numerator="1" denominator="2" />
+                  (75)(31.3²) ≈ 36,700 J
+                </>
+              ),
+              note: "Using a 75 kg rider-scale mass makes the size of the energy transfer easier to picture.",
             },
             {
               label: "5. Average launch power",
-              equation: "P / m ≈ 490 / 3 ≈ 160 W/kg",
-              note: "Adding energy in only 3 s means the launch has a large power output.",
+              equation: (
+                <>
+                  <Fraction numerator="P" denominator="m" /> ≈{" "}
+                  <Fraction numerator="490" denominator="3" /> ≈ 160 W per kg
+                </>
+              ),
+              note: "Power is energy transfer per time. Adding the energy in only 3 s means the launch has a large power output.",
             },
           ],
           afterParagraphs: [
@@ -2480,7 +2598,7 @@ const workLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These five questions check whether you can interpret the physical setup and then calculate work, energy change, and power.",
+        "These seven questions check whether you can interpret the physical setup and then calculate work, energy change, and power.",
       ],
       quiz: [
         quizQuestion(
@@ -2542,6 +2660,30 @@ const workLesson = createLesson(
           2,
           "Correct. Use P = Fv = (3000)(20) = 60,000 W.",
           "Not quite. Instantaneous power from force and speed is P = Fv. Here that gives 60,000 W.",
+        ),
+        quizQuestion(
+          "A 500 N force acts at a 60° angle to the coaster's motion over a 10 m displacement. How much work does the force do?",
+          [
+            "A. 2500 J",
+            "B. 5000 J",
+            "C. 8660 J",
+            "D. 10,000 J",
+          ],
+          0,
+          "Correct. Work uses the component of force along the displacement: W = Fd cosθ = (500)(10)cos60° = 2500 J.",
+          "Not quite. Only the force component along the motion does work. Use W = Fd cosθ = (500)(10)(0.5) = 2500 J.",
+        ),
+        quizQuestion(
+          "A launch adds 80,000 J of energy while friction removes 20,000 J. What is the net change in the coaster's kinetic energy?",
+          [
+            "A. -100,000 J",
+            "B. -60,000 J",
+            "C. 60,000 J",
+            "D. 100,000 J",
+          ],
+          2,
+          "Correct. Net work is 80,000 J - 20,000 J = 60,000 J, so the kinetic energy increases by 60,000 J.",
+          "Not quite. Add positive and negative work together. The net work is +60,000 J, so ΔK = +60,000 J.",
         ),
       ],
     }),
@@ -2730,13 +2872,23 @@ const momentumLesson = createLesson(
             },
             {
               label: "3. Compare impulse per kilogram",
-              equation: "J / m = Δv ≈ 13.4 N·s/kg",
-              note: "Each kilogram of train mass gains about 13.4 N·s of momentum during the launch.",
+              equation: (
+                <>
+                  <Fraction numerator="J" denominator="m" /> = Δv ≈ 13.4 N·s per kg
+                </>
+              ),
+              note: "Dividing by mass avoids guessing the full train mass. Each kilogram gains about 13.4 N·s of momentum during the launch.",
             },
             {
               label: "4. Estimate average force per kilogram",
-              equation: "Favg / m = Δv / Δt ≈ 13.4 / 2.4 ≈ 5.6 N/kg",
-              note: "A shorter launch time means a larger average force for the same momentum change.",
+              equation: (
+                <>
+                  <Fraction numerator={<>F<sub>avg</sub></>} denominator="m" /> ={" "}
+                  <Fraction numerator="Δv" denominator="Δt" /> ≈{" "}
+                  <Fraction numerator="13.4" denominator="2.4" /> ≈ 5.6 N per kg
+                </>
+              ),
+              note: "This is the average launch force for each kilogram of train mass. A shorter launch time would require a larger force for the same momentum change.",
             },
           ],
           afterParagraphs: [
@@ -2799,7 +2951,7 @@ const momentumLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These five questions cover braking, launches, direction, and the force-time tradeoff that matters for rider safety.",
+        "These seven questions cover braking, launches, direction, and the force-time tradeoff that matters for rider safety.",
       ],
       quiz: [
         quizQuestion(
@@ -2861,6 +3013,30 @@ const momentumLesson = createLesson(
           0,
           "Correct. The change in momentum has magnitude m times the change in speed: 800 times 5 = 4000 N·s.",
           "Not quite. Use impulse equals change in momentum. The car loses 5 m/s of speed, so the impulse magnitude is (800)(5) = 4000 N·s.",
+        ),
+        quizQuestion(
+          "A 700 kg coaster car moving east at 10 m/s couples with an identical car at rest. If outside impulse is negligible, what is their shared speed afterward?",
+          [
+            "A. 2.5 m/s east",
+            "B. 5.0 m/s east",
+            "C. 10 m/s east",
+            "D. 20 m/s east",
+          ],
+          1,
+          "Correct. Initial momentum is (700)(10) = 7000 kg·m/s east. The combined mass is 1400 kg, so v = 7000/1400 = 5.0 m/s east.",
+          "Not quite. Conserve total momentum for the short coupling event: (700)(10) = (1400)v, so v = 5.0 m/s east.",
+        ),
+        quizQuestion(
+          "Brakes apply an average force of 3000 N opposite the train's motion for 4.0 s. What impulse do the brakes deliver?",
+          [
+            "A. 750 N·s opposite the motion",
+            "B. 3000 N·s opposite the motion",
+            "C. 12,000 N·s opposite the motion",
+            "D. 24,000 N·s opposite the motion",
+          ],
+          2,
+          "Correct. Impulse from average force is J = FΔt = (3000)(4.0) = 12,000 N·s, directed opposite the motion.",
+          "Not quite. Use J = FΔt. The impulse magnitude is (3000)(4.0) = 12,000 N·s, and its direction is opposite the train's motion.",
         ),
       ],
     }),
@@ -3131,7 +3307,7 @@ const rotationLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These five questions target the most important extensions beyond v = rω: torque, rotational inertia, and rolling-speed calculations.",
+        "These seven questions target the most important extensions beyond v = rω: torque, rotational inertia, and rolling-speed calculations.",
       ],
       quiz: [
         quizQuestion(
@@ -3193,6 +3369,30 @@ const rotationLesson = createLesson(
           1,
           "Correct. A rolling object can store energy in both translation and rotation, so the total kinetic energy includes a rotational term as well as one-half mv².",
           "Not quite. Rolling motion includes spinning, so the total kinetic energy must include rotational kinetic energy in addition to translational kinetic energy.",
+        ),
+        quizQuestion(
+          "A wheel has rotational inertia 3.0 kg·m² and experiences a net torque of 12 N·m. What is its angular acceleration?",
+          [
+            "A. 0.25 rad/s²",
+            "B. 4.0 rad/s²",
+            "C. 9.0 rad/s²",
+            "D. 36 rad/s²",
+          ],
+          1,
+          "Correct. Use τnet = Iα, so α = τnet/I = 12/3.0 = 4.0 rad/s².",
+          "Not quite. Net torque changes angular motion. Rearrange τnet = Iα to get α = 12/3.0 = 4.0 rad/s².",
+        ),
+        quizQuestion(
+          "A rotating wheel has I = 4.0 kg·m² and angular speed 5.0 rad/s. What is its rotational kinetic energy?",
+          [
+            "A. 10 J",
+            "B. 20 J",
+            "C. 50 J",
+            "D. 100 J",
+          ],
+          2,
+          "Correct. Krot = one-half Iω² = 0.5(4.0)(5.0²) = 50 J.",
+          "Not quite. Use Krot = one-half Iω². Substituting I = 4.0 kg·m² and ω = 5.0 rad/s gives 50 J.",
         ),
       ],
     }),
@@ -3535,7 +3735,7 @@ const designSafetyLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These five questions focus on design judgments about banking, force limits, energy budgeting, and rider comfort.",
+        "These seven questions focus on design judgments about banking, force limits, energy budgeting, and rider comfort.",
       ],
       quiz: [
         quizQuestion(
@@ -3597,6 +3797,30 @@ const designSafetyLesson = createLesson(
           1,
           "Correct. A small radius at high speed requires a large inward acceleration, which can create excessive forces on riders.",
           "Not quite. Tight turns at high speed require large centripetal acceleration, which is why they can create unsafe or uncomfortable g-forces.",
+        ),
+        quizQuestion(
+          "A transition changes a rider's acceleration from 2.0 m/s² to 8.0 m/s² in 3.0 s. What is the average jerk?",
+          [
+            "A. 2.0 m/s³",
+            "B. 3.0 m/s³",
+            "C. 6.0 m/s³",
+            "D. 10 m/s³",
+          ],
+          0,
+          "Correct. Jerk is change in acceleration divided by time: j = Δa/Δt = (8.0 - 2.0)/3.0 = 2.0 m/s³.",
+          "Not quite. Use j = Δa/Δt. The acceleration changes by 6.0 m/s² over 3.0 s, so the average jerk is 2.0 m/s³.",
+        ),
+        quizQuestion(
+          "A brake run removes 60,000 J of kinetic energy over 30 m. What average braking force magnitude does this represent?",
+          [
+            "A. 500 N",
+            "B. 1000 N",
+            "C. 2000 N",
+            "D. 30,000 N",
+          ],
+          2,
+          "Correct. Work magnitude is force times distance, so F = W/d = 60,000/30 = 2000 N.",
+          "Not quite. Brakes remove energy by doing negative work. The force magnitude is |W|/d = 60,000/30 = 2000 N.",
         ),
       ],
     }),
@@ -3743,6 +3967,18 @@ const LessonView = ({
     );
   };
 
+  const realWorldEquationClass = `mt-2 overflow-x-auto pb-1 font-serif text-xl font-normal leading-relaxed tracking-normal ${titleClass}`;
+  const renderRealWorldEquation = (equationContent) =>
+    typeof equationContent === "string" ? (
+      <FormattedPhysicsText
+        as="div"
+        className={realWorldEquationClass}
+        text={equationContent}
+      />
+    ) : (
+      <div className={realWorldEquationClass}>{equationContent}</div>
+    );
+
   const renderRealWorldExample = (example) => (
     <div className={`mt-6 rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
       <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
@@ -3752,12 +3988,12 @@ const LessonView = ({
         {example.title}
       </h4>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)]">
-        <div>
+      <div className="mt-6 grid gap-6 lg:h-[34rem] lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] lg:overflow-hidden">
+        <div className="lg:h-full">
           <img
             src={example.imageSrc}
             alt={example.imageAlt}
-            className={`w-full rounded-[1.5rem] border object-cover ${
+            className={`aspect-[4/3] w-full rounded-[1.5rem] border object-cover ${
               isDark ? "border-white/10" : "border-slate-300/70"
             }`}
           />
@@ -3776,8 +4012,8 @@ const LessonView = ({
           ) : null}
         </div>
 
-        <div>
-          <div className={`space-y-4 text-base leading-7 ${copyClass}`}>
+        <div className="min-h-0 lg:h-full">
+          <div className={`space-y-4 text-base leading-7 ${copyClass} lg:h-full lg:overflow-y-auto lg:pr-3`}>
             {example.rightFigure ? (
               <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
                 <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
@@ -3811,11 +4047,7 @@ const LessonView = ({
                   {example.calculationSteps.map((item) => (
                     <div key={item.label} className={`rounded-2xl border p-4 ${subtlePanelClass}`}>
                       <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
-                      <FormattedPhysicsText
-                        as="div"
-                        className={`mt-2 overflow-x-auto pb-1 font-serif text-xl font-normal leading-relaxed tracking-normal ${titleClass}`}
-                        text={item.equation}
-                      />
+                      {renderRealWorldEquation(item.equation)}
                       {item.note ? (
                         <FormattedPhysicsText
                           as="p"
