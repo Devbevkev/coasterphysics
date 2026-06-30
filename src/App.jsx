@@ -964,20 +964,12 @@ const kinematicsLesson = createLesson(
               value: "Six Flags Great Adventure",
             },
             {
-              label: "Height",
-              value: "181 ft",
-            },
-            {
-              label: "Drop",
-              value: "176 ft",
-            },
-            {
-              label: "Top speed",
+              label: "Max speed",
               value: "70 mph",
             },
             {
-              label: "Feature",
-              value: "Airtime hills",
+              label: "Height",
+              value: "181 ft",
             },
           ],
           paragraphs: [
@@ -1192,16 +1184,12 @@ const forcesLesson = createLesson(
               value: "Carowinds",
             },
             {
-              label: "Train layout",
-              value: "4 cars, 16 riders",
+              label: "Max speed",
+              value: "50 mph",
             },
             {
-              label: "Estimated empty car mass",
-              value: "1,600 kg",
-            },
-            {
-              label: "Estimated loaded car mass",
-              value: "1,900 kg",
+              label: "Height",
+              value: "82 ft",
             },
           ],
           rightFigure: {
@@ -1678,20 +1666,20 @@ const energyLesson = createLesson(
           imageAlt: "Mako roller coaster train descending a steep drop.",
           stats: [
             {
+              label: "Coaster",
+              value: "Mako",
+            },
+            {
               label: "Park",
               value: "SeaWorld Orlando",
             },
             {
+              label: "Max speed",
+              value: "73 mph",
+            },
+            {
               label: "Height",
-              value: "200 ft (61.0 m)",
-            },
-            {
-              label: "Drop",
-              value: "200 ft (61.0 m)",
-            },
-            {
-              label: "Published top speed",
-              value: "73 mph (32.6 m/s)",
+              value: "200 ft",
             },
           ],
           paragraphs: [
@@ -2028,16 +2016,12 @@ const circularMotionLesson = createLesson(
               value: "Hersheypark",
             },
             {
+              label: "Max speed",
+              value: "75 mph",
+            },
+            {
               label: "Height",
-              value: "200 ft (61.0 m)",
-            },
-            {
-              label: "Drop",
-              value: "212 ft (64.6 m)",
-            },
-            {
-              label: "Top speed",
-              value: "75 mph (33.5 m/s)",
+              value: "200 ft",
             },
           ],
           paragraphs: [
@@ -2383,28 +2367,48 @@ const workLesson = createLesson(
               value: "Cedar Point",
             },
             {
-              label: "Second launch",
-              value: "70 mph in 3 s",
+              label: "Max speed",
+              value: "70 mph",
             },
             {
-              label: "Launch tunnel",
-              value: "400 ft",
-            },
-            {
-              label: "Track length",
-              value: "4,450 ft",
-            },
-            {
-              label: "Train capacity",
-              value: "12 riders",
+              label: "Height",
+              value: "105 ft",
             },
           ],
           paragraphs: [
             "Maverick uses a second LSM launch in a tunnel. Cedar Point describes this launch as sending riders through a 400 ft tunnel and reaching 70 mph in 3 s.",
-            "Convert the launch speed first: 70 mph ≈ 31.3 m/s. If we model the launch as speeding the train from rest to 31.3 m/s, the work-energy theorem gives Wnet = ΔK = one-half m vf² - one-half m vi².",
-            "Per kilogram of train mass, that is Wnet/m = one-half(31.3² - 0²) ≈ 490 J/kg. For a 75 kg rider, the same speed change corresponds to about ΔK = one-half(75)(31.3²) ≈ 36,700 J of kinetic energy.",
-            "Because that energy is added in about 3 s, the average launch power is P = W/t. Per kilogram, P/m ≈ 490/3 ≈ 160 W/kg. For a 75 kg rider-scale mass, that is about 12,200 W.",
-            "After the launch, gravity keeps trading K and Ug as the train rises and drops. Friction and air resistance do negative nonconservative work, so W_nc = ΔE_mech is negative over the ride. At the end, the brakes do negative work to remove the remaining kinetic energy safely.",
+            "The launch adds kinetic energy very quickly. To keep the model readable, solve it in steps: convert speed, find the kinetic energy added, then divide by time to estimate power.",
+          ],
+          calculationSteps: [
+            {
+              label: "1. Convert the launch speed",
+              equation: "70 mph ≈ 31.3 m/s",
+              note: "Use meters per second before substituting into energy equations.",
+            },
+            {
+              label: "2. Start with work-energy",
+              equation: "Wnet = ΔK = 1/2 m vf² - 1/2 m vi²",
+              note: "The launch does positive work because it increases kinetic energy.",
+            },
+            {
+              label: "3. Energy added per kilogram",
+              equation: "Wnet / m = 1/2(31.3² - 0²) ≈ 490 J/kg",
+              note: "This means each kilogram of train mass gains about 490 J of kinetic energy.",
+            },
+            {
+              label: "4. Rider-scale energy",
+              equation: "ΔK = 1/2(75)(31.3²) ≈ 36,700 J",
+              note: "A 75 kg rider-scale mass makes the energy transfer easier to picture.",
+            },
+            {
+              label: "5. Average launch power",
+              equation: "P / m ≈ 490 / 3 ≈ 160 W/kg",
+              note: "Adding energy in only 3 s means the launch has a large power output.",
+            },
+          ],
+          afterParagraphs: [
+            "After the launch, gravity keeps trading K and Ug as the train rises and drops. Friction and air resistance do negative nonconservative work, so W_nc = ΔE_mech is negative over the ride.",
+            "At the end, the brakes do negative work to remove the remaining kinetic energy safely.",
           ],
         },
         bullets: [
@@ -2684,6 +2688,48 @@ const momentumLesson = createLesson(
           "From a rider-safety perspective, the time interval is as important as the speed change. A harsh stop and a smooth stop can produce the same total momentum change, but the harsh stop does it in much less time and therefore requires a larger average force.",
           "Momentum also helps us reason about coaster trains as connected systems. Internal forces between cars can be large even when the overall train is treated as one system from the outside.",
         ],
+        realWorldExample: {
+          eyebrow: "Real-World Example",
+          title: "VelociCoaster Launch Impulse Example",
+          imageSrc: "/velocicoaster-momentum.png",
+          imageAlt: "Jurassic World VelociCoaster train twisting through an inversion.",
+          stats: [
+            { label: "Coaster", value: "VelociCoaster" },
+            { label: "Park", value: "Universal Islands of Adventure" },
+            { label: "Max speed", value: "70 mph" },
+            { label: "Height", value: "155 ft" },
+          ],
+          paragraphs: [
+            "VelociCoaster is a strong momentum example because its launch system changes the train's velocity over a short time. A change in velocity means a change in momentum, so the launch delivers an impulse.",
+            "For a simple classroom model, use the second launch: the train speeds up from about 40 mph to 70 mph in about 2.4 s. The exact train mass is not needed if we compare the impulse per kilogram.",
+          ],
+          calculationSteps: [
+            {
+              label: "1. Convert the speed change",
+              equation: "40 mph ≈ 17.9 m/s and 70 mph ≈ 31.3 m/s",
+              note: "The change in speed is Δv ≈ 31.3 - 17.9 = 13.4 m/s.",
+            },
+            {
+              label: "2. Use impulse as momentum change",
+              equation: "J = Δp = mΔv",
+              note: "The launch impulse equals the train's change in momentum.",
+            },
+            {
+              label: "3. Compare impulse per kilogram",
+              equation: "J / m = Δv ≈ 13.4 N·s/kg",
+              note: "Each kilogram of train mass gains about 13.4 N·s of momentum during the launch.",
+            },
+            {
+              label: "4. Estimate average force per kilogram",
+              equation: "Favg / m = Δv / Δt ≈ 13.4 / 2.4 ≈ 5.6 N/kg",
+              note: "A shorter launch time means a larger average force for the same momentum change.",
+            },
+          ],
+          afterParagraphs: [
+            "This is why launches belong in the momentum chapter: they are not just energy transfers. They are short-time force events that rapidly change the train's momentum.",
+            "The same idea works in reverse during braking. A brake run gives the train an impulse opposite its motion, and spreading that impulse over more time makes the stop feel smoother.",
+          ],
+        },
         bullets: [
           "Launches increase momentum.",
           "Brakes decrease momentum.",
@@ -3684,7 +3730,7 @@ const LessonView = ({
   };
 
   const renderRealWorldExample = (example) => (
-    <div className="mt-8">
+    <div className={`mt-6 rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
       <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
         {example.eyebrow}
       </p>
@@ -3703,23 +3749,14 @@ const LessonView = ({
           />
 
           {example.stats?.length ? (
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              {example.stats.map((item, index) => (
-                <div
-                  key={item.label}
-                  className={`rounded-3xl border p-3 ${subtlePanelClass} ${
-                    example.stats.length % 2 === 1 && index === example.stats.length - 1
-                      ? "col-span-2"
-                      : ""
-                  }`}
-                >
-                  <p className={`text-[0.65rem] font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
-                    {item.label}
-                  </p>
-                  <p className={`mt-1 text-sm font-semibold leading-5 ${titleClass}`}>
-                    {item.value}
-                  </p>
-                </div>
+            <div className={`mt-4 rounded-[1.5rem] border p-4 text-sm leading-6 ${subtlePanelClass}`}>
+              {example.stats.map((item) => (
+                <p key={item.label} className={copyClass}>
+                  <span className={`font-semibold ${titleClass}`}>
+                    {item.label}:
+                  </span>{" "}
+                  {item.value}
+                </p>
               ))}
             </div>
           ) : null}
@@ -3743,11 +3780,48 @@ const LessonView = ({
               </div>
             ) : null}
 
-            <div className={example.rightFigure ? "space-y-4" : ""}>
-              {example.paragraphs.map((paragraph) => (
-                <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
-              ))}
-            </div>
+            {example.paragraphs?.length ? (
+              <div className={example.rightFigure ? "space-y-4" : "space-y-4"}>
+                {example.paragraphs.map((paragraph) => (
+                  <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+                ))}
+              </div>
+            ) : null}
+
+            {example.calculationSteps?.length ? (
+              <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
+                <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                  Calculation Steps
+                </p>
+                <div className="mt-4 grid gap-3">
+                  {example.calculationSteps.map((item) => (
+                    <div key={item.label} className={`rounded-2xl border p-4 ${subtlePanelClass}`}>
+                      <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
+                      <FormattedPhysicsText
+                        as="div"
+                        className={`mt-2 overflow-x-auto pb-1 font-serif text-xl font-normal leading-relaxed tracking-normal ${titleClass}`}
+                        text={item.equation}
+                      />
+                      {item.note ? (
+                        <FormattedPhysicsText
+                          as="p"
+                          className={`mt-2 text-sm leading-6 ${copyClass}`}
+                          text={item.note}
+                        />
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            {example.afterParagraphs?.length ? (
+              <div className="space-y-4">
+                {example.afterParagraphs.map((paragraph) => (
+                  <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
