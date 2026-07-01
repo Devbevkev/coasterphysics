@@ -70,6 +70,10 @@ const formatPhysicsMarkup = (text) => {
   const replacements = [
     [/sqrt/g, "√"],
     [/one-half/g, "½"],
+    [/vxt/g, "v<sub>x</sub>t"],
+    [/(?<![A-Za-z])τnet(?![A-Za-z])/g, "τ<sub>net</sub>"],
+    [/(?<![A-Za-z])Krot(?![A-Za-z])/g, "K<sub>rot</sub>"],
+    [/(?<![A-Za-z])Ktotal(?![A-Za-z])/g, "K<sub>total</sub>"],
     [/(?<![A-Za-z])Fnet,inward(?![A-Za-z])/g, "F<sub>c</sub>"],
     [/(?<![A-Za-z])Fc(?![A-Za-z])/g, "F<sub>c</sub>"],
     [/(?<![A-Za-z])Fnet(?![A-Za-z])/g, "F<sub>net</sub>"],
@@ -78,8 +82,11 @@ const formatPhysicsMarkup = (text) => {
     [/(?<![A-Za-z])Wnet(?![A-Za-z])/g, "W<sub>net</sub>"],
     [/(?<![A-Za-z])W_nc(?![A-Za-z])/g, "W<sub>nc</sub>"],
     [/(?<![A-Za-z])ΔE_mech(?![A-Za-z])/g, "ΔE<sub>mech</sub>"],
+    [/(?<![A-Za-z])Emech(?![A-Za-z])/g, "E<sub>mech</sub>"],
+    [/(?<![A-Za-z])Ug(?![A-Za-z])/g, "U<sub>g</sub>"],
     [/(?<![A-Za-z])vavg(?![A-Za-z])/g, "v<sub>avg</sub>"],
     [/(?<![A-Za-z])aavg(?![A-Za-z])/g, "a<sub>avg</sub>"],
+    [/(?<![A-Za-z])a_c(?![A-Za-z])/g, "a<sub>c</sub>"],
     [/(?<![A-Za-z])ac(?![A-Za-z])/g, "a<sub>c</sub>"],
     [/v0/g, "v<sub>0</sub>"],
     [/x0/g, "x<sub>0</sub>"],
@@ -1012,7 +1019,7 @@ const kinematicsLesson = createLesson(
           position: "bottom",
           eyebrow: "Real-World Example",
           title: "El Toro Airtime Hills",
-          goal: "Trying to explain: why airtime hills feel similar to projectile motion, even though the coaster train stays on the track.",
+          goal: "This example shows how airtime connects to projectile motion: riders keep moving forward while gravity accelerates them downward.",
           imageSrc: "/el-toro-airtime.png",
           imageAlt: "El Toro wooden roller coaster train cresting an airtime hill.",
           stats: [
@@ -1035,37 +1042,8 @@ const kinematicsLesson = createLesson(
           ],
           paragraphs: [
             "El Toro's airtime hills are a strong real-world example of this idea. When the train moves quickly over the top of a hill, the rider's body wants to keep moving forward because of inertia while gravity pulls the rider downward.",
-            "Use a short 0.50 s idealized airtime moment to see why this resembles projectile motion. The coaster is still controlled by the track and restraints, so this is a comparison model rather than a perfect free-projectile situation.",
-          ],
-          calculationSteps: [
-            {
-              label: "1. Convert the speed",
-              equation: "70 mph × 0.447 ≈ 31.3 m/s",
-              note: "This uses El Toro's max speed as a simple reference speed. The exact speed on a specific airtime hill can be different.",
-            },
-            {
-              label: "2. Estimate forward motion",
-              equation: (
-                <>
-                  x = v<sub>x</sub>t = (31.3)(0.50) ≈ 15.7 m
-                </>
-              ),
-              note: "In the projectile comparison, the rider keeps moving forward while the support force becomes very small.",
-            },
-            {
-              label: "3. Estimate downward motion",
-              equation: (
-                <>
-                  Δy = <Fraction numerator="1" denominator="2" />
-                  gt² = <Fraction numerator="1" denominator="2" />
-                  (9.8)(0.50²) ≈ 1.2 m downward
-                </>
-              ),
-              note: "Gravity still accelerates the rider downward during the same 0.50 s interval.",
-            },
-          ],
-          afterParagraphs: [
-            "The point is not that the rider leaves the coaster like a launched ball. The point is that forward motion and downward acceleration happen together, which is the same two-direction idea behind projectile motion.",
+            "This creates a short feeling of weightlessness, called airtime. It connects to projectile motion because the rider has forward motion and downward acceleration at the same time, similar to how a ball moves through the air after being launched.",
+            "The coaster train, track, and restraints still control the actual motion, so this is not a perfect free-projectile situation. It is a useful kinematics comparison: forward motion continues while gravity supplies the downward acceleration.",
           ],
         },
         practice: practiceSet(
@@ -1300,7 +1278,7 @@ const forcesLesson = createLesson(
           position: "afterFigures",
           eyebrow: "Real-World Example",
           title: "Copperhead Strike Car Mass Example",
-          goal: "Trying to find: the weight mg and normal force N for one empty car, then for one loaded car with riders.",
+          goal: "This example calculates the weight and normal force for one empty Copperhead Strike car, then repeats the calculation with riders added.",
           imageSrc: "/copperhead-strike-train.png",
           imageAlt: "Copperhead Strike roller coaster train banking through orange track.",
           stats: [
@@ -1351,7 +1329,13 @@ const forcesLesson = createLesson(
             },
             {
               label: "3. Add the riders",
-              equation: "m_riders = 4(75) = 300 kg, so m_loaded = 1,600 + 300 = 1,900 kg",
+              equation: (
+                <>
+                  rider mass = 4(75 kg) = 300 kg
+                  <br />
+                  loaded car mass = 1,600 kg + 300 kg = 1,900 kg
+                </>
+              ),
               note: "This uses 75 kg as a reasonable classroom estimate for each rider.",
             },
             {
@@ -1369,9 +1353,15 @@ const forcesLesson = createLesson(
               note: "On level track at rest, the normal force again balances the weight.",
             },
             {
-              label: "6. Check the full 4-car train",
-              equation: "m_empty train = 4(1,600) = 6,400 kg and m_loaded train = 4(1,900) = 7,600 kg",
-              note: "That gives about 62,700 N empty and 74,500 N loaded for the full-train normal force in this simple at-rest model.",
+              label: "6. Find the full-train masses",
+              equation: (
+                <>
+                  empty train mass = 4(1,600 kg) = 6,400 kg
+                  <br />
+                  loaded train mass = 4(1,900 kg) = 7,600 kg
+                </>
+              ),
+              note: "Using N = mg on level track, that gives about 62,700 N empty and 74,500 N loaded for the full-train normal force.",
             },
           ],
         },
@@ -1856,7 +1846,7 @@ const energyLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "Mako Coaster Example",
-          goal: "Trying to find: the ideal bottom speed from Mako's height, then explain why the real top speed is lower.",
+          goal: "This example estimates Mako's ideal bottom speed from its height, then compares that estimate with the published top speed.",
           imageSrc: "/mako-drop.png",
           imageAlt: "Mako roller coaster train descending a steep drop.",
           stats: [
@@ -1913,7 +1903,7 @@ const energyLesson = createLesson(
             },
           ],
           afterParagraphs: [
-            "That ideal-model result is a little higher than the published 73 mph top speed because a real coaster is not frictionless. Wheels, bearings, and track contact create friction, air resistance removes energy, and some energy is also dissipated as sound and heat.",
+            "That ideal estimate is a little higher than the published 73 mph top speed because a real coaster is not frictionless. Wheels, bearings, and track contact create friction, air resistance removes energy, and some energy is also dissipated as sound and heat.",
             "So the energy equation is still very useful, but in real life it gives an estimate rather than a perfect exact speed.",
           ],
         },
@@ -2255,8 +2245,8 @@ const circularMotionLesson = createLesson(
         realWorldExample: {
           position: "bottom",
           eyebrow: "Ride Feel",
-          title: "Crest Example",
-          goal: "Trying to explain: how the normal force N changes the g-force riders feel on crests and dips.",
+          title: "Skyrush G-Force Example",
+          goal: "This example uses a crest and a valley to show how normal force changes the g-force a rider feels.",
           imageSrc: "/circular-gforce-example.png",
           imageAlt: "Roller coaster crest showing a place where riders can feel light.",
           stats: [
@@ -2279,11 +2269,11 @@ const circularMotionLesson = createLesson(
           ],
           paragraphs: [
             "Near the top of a crest, the normal force can drop below the rider's usual weight. That makes the felt g-force less than 1 g, which is why riders often describe the moment as light or floaty.",
-            "At the bottom of a tight valley or dip, the opposite can happen. The steps below show how the normal force ratio becomes the g-force number riders feel.",
+            "At the bottom of a tight valley or dip, the opposite can happen. The steps below show how the normal-force ratio turns into the felt g-force.",
           ],
           calculationSteps: [
             {
-              label: "1. Start with the felt-g ratio",
+              label: "1. Start with the g-force ratio",
               equation: (
                 <>
                   felt g-force = <Fraction numerator="N" denominator="mg" />
@@ -2292,20 +2282,20 @@ const circularMotionLesson = createLesson(
               note: "The normal force N is the seat or restraint force on the rider. The weight mg is the rider's ordinary gravitational force.",
             },
             {
-              label: "2. Model a light crest",
+              label: "2. For a light-feeling crest",
               equation: (
                 <>
-                  if N = 0.5mg, then <Fraction numerator="N" denominator="mg" /> ={" "}
+                  If N = 0.5mg, then <Fraction numerator="N" denominator="mg" /> ={" "}
                   <Fraction numerator="0.5mg" denominator="mg" /> = 0.5 g
                 </>
               ),
-              note: "A smaller normal force makes the rider feel lighter than usual.",
+              note: "The seat pushes with less force than usual, so the rider feels lighter than normal.",
             },
             {
-              label: "3. Model a heavy valley",
+              label: "3. For a heavy-feeling valley",
               equation: (
                 <>
-                  if N = 5mg, then <Fraction numerator="N" denominator="mg" /> ={" "}
+                  If N = 5mg, then <Fraction numerator="N" denominator="mg" /> ={" "}
                   <Fraction numerator="5mg" denominator="mg" /> = 5 g
                 </>
               ),
@@ -2321,6 +2311,18 @@ const circularMotionLesson = createLesson(
             "This is why the same coaster can feel floaty over a crest and extremely heavy at the bottom of a valley. The rider's mass did not change; the normal force changed.",
           ],
         },
+        practice: practiceQuestion(
+          "A rider's ordinary weight is 600 N. At the bottom of a valley, the seat pushes upward on the rider with a normal force of 1800 N. What g-force does the rider feel?",
+          [
+            "A. 0.33 g",
+            "B. 1 g",
+            "C. 3 g",
+            "D. 1800 g",
+          ],
+          2,
+          "Correct. Felt g-force is N/(mg). Here the ordinary weight mg is 600 N, so 1800/600 = 3 g.",
+          "Not quite. Divide the normal force by the rider's ordinary weight: g-force = N/(mg) = 1800/600 = 3 g.",
+        ),
       },
     ),
     createStep(
@@ -2669,7 +2671,7 @@ const workLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "Maverick Second Launch Energy Example",
-          goal: "Trying to find: how much kinetic energy Maverick's second launch adds and the average power needed to add it quickly.",
+          goal: "This example calculates the kinetic energy added by Maverick's second launch and the average power of that launch.",
           imageSrc: "/maverick-second-launch.png",
           imageAlt: "Maverick roller coaster train banking on red track at Cedar Point.",
           stats: [
@@ -2692,7 +2694,7 @@ const workLesson = createLesson(
           ],
           paragraphs: [
             "Maverick uses a second LSM launch in a tunnel. Cedar Point describes this launch as sending riders through a 400 ft tunnel and reaching 70 mph in 3 s.",
-            "The launch adds kinetic energy very quickly. To keep the model readable, solve it in steps: convert speed, find the kinetic energy added, then divide by time to estimate power.",
+            "The launch adds kinetic energy very quickly. To keep the work clear, convert the speed, find the kinetic energy added, and then divide by time to estimate power.",
           ],
           calculationSteps: [
             {
@@ -2701,16 +2703,16 @@ const workLesson = createLesson(
               note: "Use meters per second before substituting into energy equations.",
             },
             {
-              label: "2. State the simple launch model",
+              label: "2. Set the launch speed and time",
               equation: (
                 <>
                   v<sub>i</sub> = 0, v<sub>f</sub> = 31.3 m/s, and Δt = 3.0 s
                 </>
               ),
-              note: "This simplified model treats the launch as speeding the train from rest to 70 mph in 3.0 s.",
+              note: "This simplified calculation treats the launch as speeding the train from rest to 70 mph in 3.0 s.",
             },
             {
-              label: "3. Start with work-energy",
+              label: "3. Use the work-energy theorem",
               equation: (
                 <>
                   W<sub>net</sub> = ΔK = <Fraction numerator="1" denominator="2" />
@@ -2721,39 +2723,39 @@ const workLesson = createLesson(
               note: "The launch does positive work because it increases kinetic energy.",
             },
             {
-              label: "4. Substitute speed to get energy per kilogram",
+              label: "4. Find the energy added for 1 kg of train mass",
               equation: (
                 <>
-                  W<sub>net</sub> (per kg) ≈{" "}
+                  For 1 kg: W<sub>net</sub> ≈{" "}
                   <Fraction numerator="1" denominator="2" />
-                  (31.3² - 0²) ≈ 490 J per kg
+                  (31.3² - 0²) ≈ 490 J
                 </>
               ),
-              note: "Because we are not using the full train mass, this reads as energy added for each kilogram of train mass.",
+              note: "Each kilogram of train mass gains about 490 J of kinetic energy in this estimate.",
             },
             {
-              label: "5. Check the size with a 75 kg rider-scale mass",
+              label: "5. Compare with a 75 kg mass",
               equation: (
                 <>
                   ΔK = <Fraction numerator="1" denominator="2" />
                   (75)(31.3²) ≈ 36,700 J
                 </>
               ),
-              note: "Using a 75 kg rider-scale mass makes the size of the energy transfer easier to picture.",
+              note: "This gives a familiar-sized energy value. It is not the full train energy.",
             },
             {
-              label: "6. Divide energy by time to get power",
+              label: "6. Find the average power for 1 kg",
               equation: (
                 <>
-                  P (per kg) ≈{" "}
-                  <Fraction numerator="490" denominator="3" /> ≈ 160 W per kg
+                  For 1 kg: P ≈{" "}
+                  <Fraction numerator="490 J" denominator="3 s" /> ≈ 160 W
                 </>
               ),
-              note: "This is power for each kilogram of train mass. Adding the energy in only 3 s means the launch has a large power output.",
+              note: "Adding that energy in only 3 s means the launch has a large power output.",
             },
           ],
           afterParagraphs: [
-            "After the launch, gravity keeps trading K and Ug as the train rises and drops. Friction and air resistance do negative nonconservative work, so W_nc = ΔE_mech is negative over the ride.",
+            "After the launch, kinetic energy K and gravitational potential energy Ug trade back and forth as the train rises and drops. Friction and air resistance do negative nonconservative work, so W_nc = ΔE_mech is negative over the ride.",
             "At the end, the brakes do negative work to remove the remaining kinetic energy safely.",
           ],
         },
@@ -3061,7 +3063,7 @@ const momentumLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "VelociCoaster Launch Impulse Example",
-          goal: "Trying to find: the impulse from VelociCoaster's second launch using its change in speed.",
+          goal: "This example calculates the impulse delivered during VelociCoaster's second launch from the change in speed.",
           imageSrc: "/velocicoaster-momentum.png",
           imageAlt: "Jurassic World VelociCoaster train twisting through an inversion.",
           stats: [
@@ -3072,7 +3074,7 @@ const momentumLesson = createLesson(
           ],
           paragraphs: [
             "VelociCoaster is a strong momentum example because its launch system changes the train's velocity over a short time. A change in velocity means a change in momentum, so the launch delivers an impulse.",
-            "For a simple classroom model, use the second launch speed change from about 40 mph to 70 mph. The exact train mass is not needed if we compare the impulse for each kilogram of train mass.",
+            "For this calculation, use the second launch speed change from about 40 mph to 70 mph. The exact train mass is not needed if we first find the impulse for 1 kg of train mass.",
           ],
           calculationSteps: [
             {
@@ -3095,7 +3097,7 @@ const momentumLesson = createLesson(
               note: "The launch impulse equals the train's change in momentum.",
             },
             {
-              label: "4. Substitute a 1 kg mass model",
+              label: "4. Find the impulse for 1 kg of train mass",
               equation: (
                 <>
                   J = (1 kg)(13.4 m/s) ≈ 13.4 N·s
@@ -4832,8 +4834,8 @@ const LessonView = ({
           <img
             src={example.imageSrc}
             alt={example.imageAlt}
-            className={`aspect-[4/3] w-full rounded-[1.5rem] border object-cover ${
-              isDark ? "border-white/10" : "border-slate-300/70"
+            className={`aspect-[4/3] w-full rounded-[1.5rem] border object-contain ${
+              isDark ? "border-white/10 bg-slate-950/30" : "border-slate-300/70 bg-slate-50"
             }`}
           />
 
@@ -5164,7 +5166,7 @@ const LessonView = ({
                         ) : item.display ? (
                           item.display
                         ) : (
-                          item.symbol
+                          <FormattedPhysicsText text={item.symbol} />
                         )}
                       </div>
                       <div>
