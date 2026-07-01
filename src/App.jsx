@@ -6,7 +6,7 @@ const Fraction = ({ numerator, denominator }) => {
   return (
     <span className="inline-flex flex-col items-center align-middle leading-none">
       <span className="px-1">{numerator}</span>
-      <span className="mt-1 w-full border-t border-current" />
+      <span className="mt-1 w-full border-t-2 border-current" />
       <span className="px-1 pt-1">{denominator}</span>
     </span>
   );
@@ -753,6 +753,12 @@ const sections = [
     title: "Real-World Coaster Design and Safety",
     subtitle: "Putting Mechanics Together",
   },
+  {
+    id: "final-quiz",
+    number: "9",
+    title: "Final Course Quiz",
+    subtitle: "50-Question Review Across Every Unit",
+  },
 ];
 
 const kinematicsLesson = createLesson(
@@ -952,6 +958,7 @@ const kinematicsLesson = createLesson(
           position: "bottom",
           eyebrow: "Real-World Example",
           title: "El Toro Airtime Hills",
+          goal: "Trying to explain: why airtime hills feel similar to projectile motion, even though the coaster train stays on the track.",
           imageSrc: "/el-toro-airtime.png",
           imageAlt: "El Toro wooden roller coaster train cresting an airtime hill.",
           stats: [
@@ -1210,6 +1217,7 @@ const forcesLesson = createLesson(
           position: "afterFigures",
           eyebrow: "Real-World Example",
           title: "Copperhead Strike Car Mass Example",
+          goal: "Trying to find: the weight mg and normal force N for one empty car, then for one loaded car with riders.",
           imageSrc: "/copperhead-strike-train.png",
           imageAlt: "Copperhead Strike roller coaster train banking through orange track.",
           stats: [
@@ -1724,6 +1732,7 @@ const energyLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "Mako Coaster Example",
+          goal: "Trying to find: the ideal bottom speed from Mako's height, then explain why the real top speed is lower.",
           imageSrc: "/mako-drop.png",
           imageAlt: "Mako roller coaster train descending a steep drop.",
           stats: [
@@ -2090,6 +2099,7 @@ const circularMotionLesson = createLesson(
           position: "bottom",
           eyebrow: "Ride Feel",
           title: "Crest Example",
+          goal: "Trying to explain: how the normal force N changes the g-force riders feel on crests and dips.",
           imageSrc: "/circular-gforce-example.png",
           imageAlt: "Roller coaster crest showing a place where riders can feel light.",
           stats: [
@@ -2465,6 +2475,7 @@ const workLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "Maverick Second Launch Energy Example",
+          goal: "Trying to find: how much kinetic energy Maverick's second launch adds and the average power needed to add it quickly.",
           imageSrc: "/maverick-second-launch.png",
           imageAlt: "Maverick roller coaster train banking on red track at Cedar Point.",
           stats: [
@@ -2510,12 +2521,12 @@ const workLesson = createLesson(
               label: "3. Energy added per kilogram",
               equation: (
                 <>
-                  <Fraction numerator={<>W<sub>net</sub></>} denominator="m" /> ={" "}
+                  W<sub>net</sub> (per kg) ≈{" "}
                   <Fraction numerator="1" denominator="2" />
                   (31.3² - 0²) ≈ 490 J per kg
                 </>
               ),
-              note: "Dividing by mass lets us estimate the energy added for each kilogram of train mass.",
+              note: "Because we are not using the full train mass, this reads as energy added for each kilogram of train mass.",
             },
             {
               label: "4. Rider-scale energy",
@@ -2531,11 +2542,11 @@ const workLesson = createLesson(
               label: "5. Average launch power",
               equation: (
                 <>
-                  <Fraction numerator="P" denominator="m" /> ≈{" "}
+                  P (per kg) ≈{" "}
                   <Fraction numerator="490" denominator="3" /> ≈ 160 W per kg
                 </>
               ),
-              note: "Power is energy transfer per time. Adding the energy in only 3 s means the launch has a large power output.",
+              note: "This is power for each kilogram of train mass. Adding the energy in only 3 s means the launch has a large power output.",
             },
           ],
           afterParagraphs: [
@@ -2847,6 +2858,7 @@ const momentumLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "VelociCoaster Launch Impulse Example",
+          goal: "Trying to find: the impulse and average force from VelociCoaster's second launch using its speed change and launch time.",
           imageSrc: "/velocicoaster-momentum.png",
           imageAlt: "Jurassic World VelociCoaster train twisting through an inversion.",
           stats: [
@@ -2874,21 +2886,21 @@ const momentumLesson = createLesson(
               label: "3. Compare impulse per kilogram",
               equation: (
                 <>
-                  <Fraction numerator="J" denominator="m" /> = Δv ≈ 13.4 N·s per kg
+                  J (per kg) ≈ Δv ≈ 13.4 N·s per kg
                 </>
               ),
-              note: "Dividing by mass avoids guessing the full train mass. Each kilogram gains about 13.4 N·s of momentum during the launch.",
+              note: "Because the full train mass is not needed here, this reads as impulse gained by each kilogram of train mass.",
             },
             {
               label: "4. Estimate average force per kilogram",
               equation: (
                 <>
-                  <Fraction numerator={<>F<sub>avg</sub></>} denominator="m" /> ={" "}
+                  F<sub>avg</sub> (per kg) ≈{" "}
                   <Fraction numerator="Δv" denominator="Δt" /> ≈{" "}
                   <Fraction numerator="13.4" denominator="2.4" /> ≈ 5.6 N per kg
                 </>
               ),
-              note: "This is the average launch force for each kilogram of train mass. A shorter launch time would require a larger force for the same momentum change.",
+              note: "This is the average launch force on each kilogram of train mass. A shorter launch time would require a larger force for the same momentum change.",
             },
           ],
           afterParagraphs: [
@@ -3838,6 +3850,621 @@ const designSafetyLesson = createLesson(
   ],
 );
 
+const finalQuizLesson = createLesson(
+  "Full Course Review",
+  "50-Question Final Mechanics Quiz",
+  "Students review the full roller coaster physics course with new calculation values and mixed conceptual questions across every unit.",
+  [
+    createStep("quiz", "Final Quiz", "Full Course Review: 50 Questions", {
+      body: [
+        "This final quiz mixes concepts and calculations from the full course: kinematics, projectile motion, Newton's laws, energy, circular motion, work, momentum, rotation, and coaster safety design.",
+      ],
+      quiz: [
+        quizQuestion(
+          "A coaster moving at 3.0 m/s accelerates uniformly at 2.0 m/s² for 5.0 s. What is its final velocity?",
+          [
+            "A. 7.0 m/s",
+            "B. 10 m/s",
+            "C. 13 m/s",
+            "D. 15 m/s",
+          ],
+          2,
+          "Correct. Use v = v0 + at = 3.0 + (2.0)(5.0) = 13 m/s.",
+          "Not quite. Add the change in velocity to the starting velocity: v = 3.0 + (2.0)(5.0) = 13 m/s.",
+        ),
+        quizQuestion(
+          "A train starts from rest and accelerates at 1.8 m/s² for 10 s. How far does it travel?",
+          [
+            "A. 18 m",
+            "B. 45 m",
+            "C. 90 m",
+            "D. 180 m",
+          ],
+          2,
+          "Correct. From rest, Δx = one-half at² = 0.5(1.8)(10²) = 90 m.",
+          "Not quite. Because the train starts from rest, use Δx = one-half at² = 90 m.",
+        ),
+        quizQuestion(
+          "A coaster's velocity changes from 5.0 m/s to 17 m/s in 4.0 s. What is its average acceleration?",
+          [
+            "A. 2.0 m/s²",
+            "B. 3.0 m/s²",
+            "C. 4.0 m/s²",
+            "D. 12 m/s²",
+          ],
+          1,
+          "Correct. Average acceleration is Δv/Δt = (17 - 5.0)/4.0 = 3.0 m/s².",
+          "Not quite. Find the velocity change first: 12 m/s over 4.0 s gives 3.0 m/s².",
+        ),
+        quizQuestion(
+          "In an ideal projectile model, a rider moves forward at 24 m/s for 0.75 s. How far forward does the rider move?",
+          [
+            "A. 12 m",
+            "B. 16 m",
+            "C. 18 m",
+            "D. 24 m",
+          ],
+          2,
+          "Correct. Horizontal velocity is constant, so x = vxt = (24)(0.75) = 18 m.",
+          "Not quite. Use horizontal motion only here: x = vxt = (24)(0.75) = 18 m.",
+        ),
+        quizQuestion(
+          "A rider has zero initial vertical velocity in an idealized airtime model. About how far downward does gravity pull the rider in 0.60 s?",
+          [
+            "A. 0.60 m",
+            "B. 1.8 m",
+            "C. 3.5 m",
+            "D. 5.9 m",
+          ],
+          1,
+          "Correct. Vertical drop is Δy = one-half gt² = 0.5(9.8)(0.60²) ≈ 1.8 m.",
+          "Not quite. The vertical motion uses gravity: Δy = 0.5(9.8)(0.60²), which is about 1.8 m.",
+        ),
+        quizQuestion(
+          "A coaster keeps the same speed while moving through a curved turn. Which statement best describes its motion?",
+          [
+            "A. It has no acceleration because the speed is constant.",
+            "B. Its acceleration points outward from the curve.",
+            "C. Its velocity changes because direction changes.",
+            "D. Its displacement must equal the full track length.",
+          ],
+          2,
+          "Correct. Velocity includes direction, so changing direction means the velocity is changing even if speed is constant.",
+          "Not quite. Constant speed does not mean constant velocity when the path curves.",
+        ),
+        quizQuestion(
+          "A coaster covers 96 m in 8.0 s at constant velocity. What is its velocity magnitude?",
+          [
+            "A. 8.0 m/s",
+            "B. 10 m/s",
+            "C. 12 m/s",
+            "D. 16 m/s",
+          ],
+          2,
+          "Correct. Use v = Δx/t = 96/8.0 = 12 m/s.",
+          "Not quite. Divide displacement by time: 96 m over 8.0 s is 12 m/s.",
+        ),
+        quizQuestion(
+          "What is the weight of a 72 kg rider?",
+          [
+            "A. 72 N",
+            "B. 353 N",
+            "C. 706 N",
+            "D. 7200 N",
+          ],
+          2,
+          "Correct. Weight is mg = (72)(9.8) ≈ 706 N.",
+          "Not quite. Mass is measured in kilograms, but weight is a force: mg ≈ 706 N.",
+        ),
+        quizQuestion(
+          "A 900 kg coaster car has a net force of 3600 N. What is its acceleration?",
+          [
+            "A. 2.0 m/s²",
+            "B. 4.0 m/s²",
+            "C. 6.0 m/s²",
+            "D. 9.0 m/s²",
+          ],
+          1,
+          "Correct. Newton's Second Law gives a = Fnet/m = 3600/900 = 4.0 m/s².",
+          "Not quite. Use a = Fnet/m. The acceleration is 4.0 m/s².",
+        ),
+        quizQuestion(
+          "A 400 kg coaster car is on a 37° frictionless incline. Using sin 37° ≈ 0.60, what is the component of gravity parallel to the track?",
+          [
+            "A. 400 N",
+            "B. 1600 N",
+            "C. 2400 N",
+            "D. 3920 N",
+          ],
+          2,
+          "Correct. The parallel component is mg sinθ = (400)(9.8)(0.60) ≈ 2400 N.",
+          "Not quite. The along-track component is mg sinθ, not the full weight.",
+        ),
+        quizQuestion(
+          "A 55 kg rider is at rest on a flat, level section of track. What normal force does the seat exert on the rider?",
+          [
+            "A. 55 N",
+            "B. 539 N",
+            "C. 980 N",
+            "D. 5390 N",
+          ],
+          1,
+          "Correct. On a level track at rest, N = mg = (55)(9.8) ≈ 539 N.",
+          "Not quite. With no vertical acceleration, the normal force balances the rider's weight.",
+        ),
+        quizQuestion(
+          "A 750 kg train segment has 3000 N down the track and 450 N of friction up the track. What is its acceleration down the track?",
+          [
+            "A. 2.6 m/s²",
+            "B. 3.4 m/s²",
+            "C. 4.0 m/s²",
+            "D. 4.6 m/s²",
+          ],
+          1,
+          "Correct. The net force is 3000 - 450 = 2550 N, so a = 2550/750 = 3.4 m/s².",
+          "Not quite. First subtract friction to get the net force, then divide by mass.",
+        ),
+        quizQuestion(
+          "A 70 kg rider feels 2.5 g at the bottom of a valley. About how large is the seat's normal force?",
+          [
+            "A. 690 N",
+            "B. 980 N",
+            "C. 1700 N",
+            "D. 2500 N",
+          ],
+          2,
+          "Correct. Felt g-force is N/(mg), so N = 2.5mg = 2.5(70)(9.8) ≈ 1700 N.",
+          "Not quite. A 2.5 g feeling means the normal force is 2.5 times the rider's weight.",
+        ),
+        quizQuestion(
+          "If the seat pushes upward on a rider, what is the matching Newton's Third Law force?",
+          [
+            "A. Gravity pulling the rider downward",
+            "B. The rider pushing downward on the seat",
+            "C. The track pushing sideways on the train",
+            "D. Air resistance pushing backward on the rider",
+          ],
+          1,
+          "Correct. The action-reaction pair is the seat pushing on the rider and the rider pushing back on the seat.",
+          "Not quite. Third-law pairs act on different objects and have equal size in opposite directions.",
+        ),
+        quizQuestion(
+          "Ignoring friction, a coaster starts from rest 25 m above the bottom of a drop. About how fast is it moving at the bottom?",
+          [
+            "A. 14 m/s",
+            "B. 22 m/s",
+            "C. 25 m/s",
+            "D. 49 m/s",
+          ],
+          1,
+          "Correct. Use v = √(2gh) = √((2)(9.8)(25)) ≈ 22 m/s.",
+          "Not quite. Convert height to speed with v = √(2gh), which gives about 22 m/s.",
+        ),
+        quizQuestion(
+          "A coaster moving at 18 m/s climbs until it momentarily stops. Ignoring friction, about how much height can it gain?",
+          [
+            "A. 9.2 m",
+            "B. 16.5 m",
+            "C. 18 m",
+            "D. 33 m",
+          ],
+          1,
+          "Correct. Set kinetic energy equal to gravitational potential energy: h = v²/(2g) = 18²/(19.6) ≈ 16.5 m.",
+          "Not quite. Use h = v²/(2g). With 18 m/s, the height is about 16.5 m.",
+        ),
+        quizQuestion(
+          "A 750 kg coaster train moves at 12 m/s. What is its kinetic energy?",
+          [
+            "A. 9000 J",
+            "B. 45,000 J",
+            "C. 54,000 J",
+            "D. 108,000 J",
+          ],
+          2,
+          "Correct. K = one-half mv² = 0.5(750)(12²) = 54,000 J.",
+          "Not quite. Kinetic energy depends on speed squared: K = 54,000 J.",
+        ),
+        quizQuestion(
+          "A 500 kg train segment is 20 m above the reference level. What is its gravitational potential energy?",
+          [
+            "A. 9800 J",
+            "B. 49,000 J",
+            "C. 98,000 J",
+            "D. 500,000 J",
+          ],
+          2,
+          "Correct. Ug = mgh = (500)(9.8)(20) = 98,000 J.",
+          "Not quite. Use gravitational potential energy: mgh = 98,000 J.",
+        ),
+        quizQuestion(
+          "At one point, a coaster has 300,000 J of mechanical energy and 120,000 J of gravitational potential energy. What is its kinetic energy?",
+          [
+            "A. 120,000 J",
+            "B. 180,000 J",
+            "C. 300,000 J",
+            "D. 420,000 J",
+          ],
+          1,
+          "Correct. Mechanical energy is K + Ug, so K = 300,000 - 120,000 = 180,000 J.",
+          "Not quite. Subtract potential energy from total mechanical energy.",
+        ),
+        quizQuestion(
+          "If a coaster's speed triples, how does its kinetic energy change?",
+          [
+            "A. It triples.",
+            "B. It becomes six times larger.",
+            "C. It becomes nine times larger.",
+            "D. It stays the same.",
+          ],
+          2,
+          "Correct. Kinetic energy is proportional to v², so tripling speed multiplies kinetic energy by 9.",
+          "Not quite. Because speed is squared in kinetic energy, 3² = 9.",
+        ),
+        quizQuestion(
+          "A coaster has 210,000 J of mechanical energy before losing 15,000 J to friction and drag. How much mechanical energy remains?",
+          [
+            "A. 15,000 J",
+            "B. 195,000 J",
+            "C. 210,000 J",
+            "D. 225,000 J",
+          ],
+          1,
+          "Correct. Mechanical energy remaining is 210,000 - 15,000 = 195,000 J.",
+          "Not quite. Friction and drag remove mechanical energy from the useful ride budget.",
+        ),
+        quizQuestion(
+          "A coaster travels at 18 m/s through a curve with radius 54 m. What is its centripetal acceleration?",
+          [
+            "A. 3.0 m/s²",
+            "B. 6.0 m/s²",
+            "C. 18 m/s²",
+            "D. 54 m/s²",
+          ],
+          1,
+          "Correct. ac = v²/r = 18²/54 = 324/54 = 6.0 m/s².",
+          "Not quite. Use ac = v²/r. The result is 6.0 m/s².",
+        ),
+        quizQuestion(
+          "A coaster moving at 24 m/s needs a centripetal acceleration of 8.0 m/s². What curve radius is required?",
+          [
+            "A. 24 m",
+            "B. 48 m",
+            "C. 72 m",
+            "D. 192 m",
+          ],
+          2,
+          "Correct. Rearrange ac = v²/r to r = v²/ac = 24²/8.0 = 72 m.",
+          "Not quite. Solve for radius: r = v²/ac.",
+        ),
+        quizQuestion(
+          "A 60 kg rider passes through the bottom of a dip at 16 m/s on a 32 m radius curve. What normal force does the seat exert?",
+          [
+            "A. 480 N",
+            "B. 590 N",
+            "C. 1070 N",
+            "D. 1540 N",
+          ],
+          2,
+          "Correct. At the bottom, N = mg + mv²/r = 588 + 480 ≈ 1070 N.",
+          "Not quite. The seat must support weight and provide the inward force at the bottom of the dip.",
+        ),
+        quizQuestion(
+          "A 70 kg rider passes over a hill crest at 14 m/s on a 49 m radius curve. What normal force does the seat exert?",
+          [
+            "A. 280 N",
+            "B. 410 N",
+            "C. 690 N",
+            "D. 970 N",
+          ],
+          1,
+          "Correct. At the top, N = mg - mv²/r = 686 - 280 ≈ 410 N.",
+          "Not quite. Gravity helps provide the inward force at the top, so the normal force is less than weight.",
+        ),
+        quizQuestion(
+          "What is the minimum speed at the top of a loop with radius 36 m if gravity alone provides the needed inward force?",
+          [
+            "A. 12 m/s",
+            "B. 19 m/s",
+            "C. 36 m/s",
+            "D. 59 m/s",
+          ],
+          1,
+          "Correct. The limiting speed is v = √(gr) = √((9.8)(36)) ≈ 19 m/s.",
+          "Not quite. Use the top-of-loop limiting condition v = √(gr).",
+        ),
+        quizQuestion(
+          "At the very top of a vertical loop, which way is inward?",
+          [
+            "A. Upward",
+            "B. Downward",
+            "C. Forward along the track only",
+            "D. Outward from the loop",
+          ],
+          1,
+          "Correct. At the top of the loop, the center is below the rider, so inward is downward.",
+          "Not quite. Always locate the center of curvature first. At the top of a loop, it is below the train.",
+        ),
+        quizQuestion(
+          "If curve radius doubles while speed stays the same, what happens to centripetal acceleration?",
+          [
+            "A. It is cut in half.",
+            "B. It stays the same.",
+            "C. It doubles.",
+            "D. It quadruples.",
+          ],
+          0,
+          "Correct. Since ac = v²/r, doubling r cuts ac in half when speed is unchanged.",
+          "Not quite. Radius is in the denominator of ac = v²/r.",
+        ),
+        quizQuestion(
+          "A 650 N launch force acts over 12 m in the same direction as motion. How much work is done?",
+          [
+            "A. 650 J",
+            "B. 3900 J",
+            "C. 7800 J",
+            "D. 12,000 J",
+          ],
+          2,
+          "Correct. Work is W = Fd = (650)(12) = 7800 J.",
+          "Not quite. Because force and displacement point the same way, W = Fd.",
+        ),
+        quizQuestion(
+          "An 800 N force acts at 60° to the direction of motion over 5.0 m. How much work does it do?",
+          [
+            "A. 2000 J",
+            "B. 4000 J",
+            "C. 6900 J",
+            "D. 8000 J",
+          ],
+          0,
+          "Correct. W = Fd cosθ = (800)(5.0)cos60° = 2000 J.",
+          "Not quite. Only the force component along the displacement does work.",
+        ),
+        quizQuestion(
+          "A 350 N friction force acts opposite a coaster's motion for 18 m. What work does friction do?",
+          [
+            "A. -6300 J",
+            "B. -350 J",
+            "C. 350 J",
+            "D. 6300 J",
+          ],
+          0,
+          "Correct. Friction points opposite motion, so W = -(350)(18) = -6300 J.",
+          "Not quite. Friction does negative work when it opposes the motion.",
+        ),
+        quizQuestion(
+          "A lift system does 45,000 J of work in 15 s. What is its average power?",
+          [
+            "A. 300 W",
+            "B. 3000 W",
+            "C. 30,000 W",
+            "D. 675,000 W",
+          ],
+          1,
+          "Correct. Power is work divided by time: P = 45,000/15 = 3000 W.",
+          "Not quite. Average power measures how quickly work is done.",
+        ),
+        quizQuestion(
+          "A brake run removes 70,000 J from a coaster that initially has 220,000 J of kinetic energy. How much kinetic energy remains?",
+          [
+            "A. 70,000 J",
+            "B. 150,000 J",
+            "C. 220,000 J",
+            "D. 290,000 J",
+          ],
+          1,
+          "Correct. The remaining kinetic energy is 220,000 - 70,000 = 150,000 J.",
+          "Not quite. Negative work from brakes reduces the kinetic energy.",
+        ),
+        quizQuestion(
+          "A launch system pushes with 2500 N while the train moves at 18 m/s. What instantaneous power is delivered?",
+          [
+            "A. 20,500 W",
+            "B. 25,000 W",
+            "C. 45,000 W",
+            "D. 180,000 W",
+          ],
+          2,
+          "Correct. Instantaneous power from force and speed is P = Fv = (2500)(18) = 45,000 W.",
+          "Not quite. Use P = Fv when force acts along the motion.",
+        ),
+        quizQuestion(
+          "A 650 kg coaster car moves at 16 m/s east. What is its momentum?",
+          [
+            "A. 650 kg·m/s east",
+            "B. 4160 kg·m/s east",
+            "C. 10,400 kg·m/s east",
+            "D. 16,000 kg·m/s east",
+          ],
+          2,
+          "Correct. Momentum is p = mv = (650)(16) = 10,400 kg·m/s east.",
+          "Not quite. Momentum equals mass times velocity, including direction.",
+        ),
+        quizQuestion(
+          "A 900 kg coaster car speeds up from 6.0 m/s to 22 m/s. What impulse does the launch deliver?",
+          [
+            "A. 5400 N·s",
+            "B. 14,400 N·s",
+            "C. 19,800 N·s",
+            "D. 25,200 N·s",
+          ],
+          1,
+          "Correct. J = Δp = mΔv = 900(22 - 6.0) = 14,400 N·s.",
+          "Not quite. Impulse equals change in momentum, not final momentum alone.",
+        ),
+        quizQuestion(
+          "An 800 kg car moving at 20 m/s is stopped in 5.0 s. What is the magnitude of the average braking force?",
+          [
+            "A. 800 N",
+            "B. 1600 N",
+            "C. 3200 N",
+            "D. 16,000 N",
+          ],
+          2,
+          "Correct. The momentum change magnitude is 800(20) = 16,000 kg·m/s, and 16,000/5.0 = 3200 N.",
+          "Not quite. Average force is momentum change divided by stopping time.",
+        ),
+        quizQuestion(
+          "Brakes apply a 4200 N average force opposite the motion for 3.5 s. What impulse magnitude do they deliver?",
+          [
+            "A. 1200 N·s",
+            "B. 4200 N·s",
+            "C. 14,700 N·s",
+            "D. 42,000 N·s",
+          ],
+          2,
+          "Correct. Impulse magnitude is J = FΔt = (4200)(3.5) = 14,700 N·s.",
+          "Not quite. Multiply average force by the time interval.",
+        ),
+        quizQuestion(
+          "A 600 kg coaster car moving at 12 m/s couples with an identical car at rest. If outside impulse is negligible, what is their shared speed afterward?",
+          [
+            "A. 3.0 m/s",
+            "B. 6.0 m/s",
+            "C. 9.0 m/s",
+            "D. 12 m/s",
+          ],
+          1,
+          "Correct. Momentum conservation gives (600)(12) = (1200)v, so v = 6.0 m/s.",
+          "Not quite. The moving car's momentum is shared by twice the mass after coupling.",
+        ),
+        quizQuestion(
+          "A coaster car moving west comes to rest. What direction is its change in momentum?",
+          [
+            "A. West",
+            "B. East",
+            "C. Upward",
+            "D. Zero direction because it stops",
+          ],
+          1,
+          "Correct. Δp = pf - pi. Ending at rest means the change points opposite the original westward momentum, so it points east.",
+          "Not quite. A stop requires a momentum change opposite the original motion.",
+        ),
+        quizQuestion(
+          "A coaster wheel with radius 0.25 m rotates at 44 rad/s. What is the rim's linear speed?",
+          [
+            "A. 5.5 m/s",
+            "B. 11 m/s",
+            "C. 22 m/s",
+            "D. 44 m/s",
+          ],
+          1,
+          "Correct. Use v = rω = (0.25)(44) = 11 m/s.",
+          "Not quite. Multiply angular speed by radius to connect rotation to linear speed.",
+        ),
+        quizQuestion(
+          "A 60 N force is applied perpendicularly 0.35 m from an axle. What torque is produced?",
+          [
+            "A. 17 N·m",
+            "B. 21 N·m",
+            "C. 60 N·m",
+            "D. 171 N·m",
+          ],
+          1,
+          "Correct. For a perpendicular force, τ = rF = (0.35)(60) = 21 N·m.",
+          "Not quite. Perpendicular means sinθ = 1, so torque is rF.",
+        ),
+        quizQuestion(
+          "A wheel has rotational inertia 6.0 kg·m² and net torque 18 N·m. What is its angular acceleration?",
+          [
+            "A. 0.33 rad/s²",
+            "B. 3.0 rad/s²",
+            "C. 12 rad/s²",
+            "D. 108 rad/s²",
+          ],
+          1,
+          "Correct. τnet = Iα, so α = τnet/I = 18/6.0 = 3.0 rad/s².",
+          "Not quite. Net torque changes angular motion according to τnet = Iα.",
+        ),
+        quizQuestion(
+          "A rotating wheel has I = 2.5 kg·m² and angular speed 8.0 rad/s. What is its rotational kinetic energy?",
+          [
+            "A. 20 J",
+            "B. 40 J",
+            "C. 80 J",
+            "D. 160 J",
+          ],
+          2,
+          "Correct. Krot = one-half Iω² = 0.5(2.5)(8.0²) = 80 J.",
+          "Not quite. Use the rotational energy equation and square the angular speed.",
+        ),
+        quizQuestion(
+          "Two wheels have the same mass and radius, but one has more mass concentrated near the rim. What is true about that wheel?",
+          [
+            "A. It has larger rotational inertia.",
+            "B. It has no rotational kinetic energy.",
+            "C. It is easier to spin up.",
+            "D. It cannot exert torque.",
+          ],
+          0,
+          "Correct. Mass farther from the axis increases rotational inertia, making changes in spin harder.",
+          "Not quite. Rotational inertia depends on mass distribution, not just total mass.",
+        ),
+        quizQuestion(
+          "A transition changes rider acceleration from 3.0 m/s² to 9.0 m/s² in 2.0 s. What is the average jerk?",
+          [
+            "A. 2.0 m/s³",
+            "B. 3.0 m/s³",
+            "C. 6.0 m/s³",
+            "D. 12 m/s³",
+          ],
+          1,
+          "Correct. Jerk is Δa/Δt = (9.0 - 3.0)/2.0 = 3.0 m/s³.",
+          "Not quite. Divide the acceleration change by the time interval.",
+        ),
+        quizQuestion(
+          "A brake run removes 96,000 J of kinetic energy over 40 m. What average braking force magnitude does that represent?",
+          [
+            "A. 1200 N",
+            "B. 2400 N",
+            "C. 4800 N",
+            "D. 96,000 N",
+          ],
+          1,
+          "Correct. Work magnitude is force times distance, so F = 96,000/40 = 2400 N.",
+          "Not quite. Braking work removes energy over distance. Divide energy removed by distance.",
+        ),
+        quizQuestion(
+          "Why do engineers bank high-speed coaster turns?",
+          [
+            "A. To make gravity disappear",
+            "B. To redirect the normal force so the turn feels smoother",
+            "C. To make the train's mass smaller",
+            "D. To guarantee zero friction everywhere",
+          ],
+          1,
+          "Correct. Banking lets the normal force help provide inward acceleration, reducing uncomfortable sideways force.",
+          "Not quite. Banking is about directing forces more comfortably through the turn.",
+        ),
+        quizQuestion(
+          "A design has later non-launched hills almost as tall as the first hill even though the ride has large friction and drag losses. What is the main concern?",
+          [
+            "A. The train may not have enough mechanical energy to clear those hills.",
+            "B. The train's mass will become zero.",
+            "C. Gravity will stop acting after the first drop.",
+            "D. The wheels will stop rotating because torque is impossible.",
+          ],
+          0,
+          "Correct. Energy losses reduce the usable mechanical energy available for later hills.",
+          "Not quite. Later hills have to fit the remaining energy budget after losses.",
+        ),
+        quizQuestion(
+          "Why is a tight high-speed turn a rider-comfort concern?",
+          [
+            "A. It always removes all kinetic energy.",
+            "B. It requires large centripetal acceleration and can create excessive g-forces.",
+            "C. It makes impulse equal zero.",
+            "D. It prevents the track from exerting normal force.",
+          ],
+          1,
+          "Correct. Large speed and small radius make v²/r large, which can create uncomfortable or unsafe forces.",
+          "Not quite. The key issue is the large inward acceleration required by a tight fast turn.",
+        ),
+      ],
+    }),
+  ],
+);
+
 const lessonMap = {
   kinematics: kinematicsLesson,
   forces: forcesLesson,
@@ -3847,6 +4474,7 @@ const lessonMap = {
   momentum: momentumLesson,
   rotation: rotationLesson,
   "design-safety": designSafetyLesson,
+  "final-quiz": finalQuizLesson,
 };
 
 const LessonView = ({
@@ -3987,6 +4615,16 @@ const LessonView = ({
       <h4 className={`mt-3 text-2xl font-semibold ${titleClass}`}>
         {example.title}
       </h4>
+
+      {example.goal ? (
+        <div className={`mt-4 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${subtlePanelClass}`}>
+          <FormattedPhysicsText
+            as="p"
+            className={copyClass}
+            text={example.goal}
+          />
+        </div>
+      ) : null}
 
       <div className="mt-6 grid gap-6 lg:h-[34rem] lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] lg:overflow-hidden">
         <div className="lg:h-full">
