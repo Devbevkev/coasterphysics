@@ -979,6 +979,18 @@ const kinematicsLesson = createLesson(
             render: (isDark) => <KinematicsVelocityGraph isDark={isDark} />,
           },
         ),
+        practiceQuestion(
+          "A coaster starts from rest and accelerates at 3.0 m/s² for 4.0 s on a straight launch track. How far does it travel?",
+          [
+            "A. 12 m",
+            "B. 24 m",
+            "C. 36 m",
+            "D. 48 m",
+          ],
+          1,
+          "Correct. Use x = x0 + v0t + one-half at². With x0 = 0 and v0 = 0, x = one-half(3.0)(4.0²) = 24 m.",
+          "Not quite. Since the coaster starts from rest, use x = one-half at² = one-half(3.0)(4.0²) = 24 m.",
+        ),
       ),
     }),
     createStep(
@@ -1485,6 +1497,18 @@ const forcesLesson = createLesson(
           "Correct. Use fk = μkN = (0.04)(500) = 20 N, acting opposite the motion.",
           "Not quite. In the simple model, kinetic friction is fk = μkN. Multiply 0.04 by 500 N to get 20 N.",
         ),
+        practiceQuestion(
+          "A 700 kg coaster car is on a frictionless 30° incline. What component of gravity pulls it down the track?",
+          [
+            "A. 700 N",
+            "B. 3430 N",
+            "C. 6860 N",
+            "D. 13,720 N",
+          ],
+          1,
+          "Correct. The parallel component is mg sinθ = (700)(9.8) sin 30° = (700)(9.8)(0.5) = 3430 N.",
+          "Not quite. Use the component along the track: mg sinθ. With 700 kg and 30°, that is 3430 N.",
+        ),
       ),
     }),
     createStep(
@@ -1820,17 +1844,43 @@ const energyLesson = createLesson(
         "Reference height can be chosen wherever it makes the algebra easiest.",
         "If friction is present, mechanical energy is no longer constant by itself.",
       ],
-      practice: practiceQuestion(
-        "A coaster drops 20 m from rest with friction ignored. What is its speed at the bottom?",
-        [
-          "A. 9.9 m/s",
-          "B. 14.0 m/s",
-          "C. 19.8 m/s",
-          "D. 28.0 m/s",
-        ],
-        2,
-        "Correct. Use v = √(2gh) = √((2)(9.8)(20)) ≈ 19.8 m/s.",
-        "Not quite. Set the lost gravitational potential energy equal to the gained kinetic energy, or use v = √(2gh). For h = 20 m, the speed is about 19.8 m/s.",
+      practice: practiceSet(
+        practiceQuestion(
+          "A coaster drops 20 m from rest with friction ignored. What is its speed at the bottom?",
+          [
+            "A. 9.9 m/s",
+            "B. 14.0 m/s",
+            "C. 19.8 m/s",
+            "D. 28.0 m/s",
+          ],
+          2,
+          "Correct. Use v = √(2gh) = √((2)(9.8)(20)) ≈ 19.8 m/s.",
+          "Not quite. Set the lost gravitational potential energy equal to the gained kinetic energy, or use v = √(2gh). For h = 20 m, the speed is about 19.8 m/s.",
+        ),
+        practiceQuestion(
+          "A 600 kg coaster car is moving at 12 m/s. What is its kinetic energy?",
+          [
+            "A. 7200 J",
+            "B. 36,000 J",
+            "C. 43,200 J",
+            "D. 86,400 J",
+          ],
+          2,
+          "Correct. Use K = one-half mv² = 0.5(600)(12²) = 43,200 J.",
+          "Not quite. Kinetic energy depends on speed squared: K = one-half mv² = 0.5(600)(12²) = 43,200 J.",
+        ),
+        practiceQuestion(
+          "A coaster has 20,000 J of kinetic energy and 120,000 J of gravitational potential energy. If mechanical energy is conserved, what is K when Ug is 50,000 J?",
+          [
+            "A. 50,000 J",
+            "B. 70,000 J",
+            "C. 90,000 J",
+            "D. 140,000 J",
+          ],
+          2,
+          "Correct. Total mechanical energy is 20,000 + 120,000 = 140,000 J. If Ug becomes 50,000 J, then K = 140,000 - 50,000 = 90,000 J.",
+          "Not quite. First find total mechanical energy: 140,000 J. Then subtract the new potential energy: K = 90,000 J.",
+        ),
       ),
     }),
     createStep(
@@ -2137,17 +2187,43 @@ const circularMotionLesson = createLesson(
         "At the top of a loop, the limiting case occurs when N = 0.",
         "You cannot use mg = mv²/r in every circular-motion problem. It only fits a very specific case.",
       ],
-      practice: practiceQuestion(
-        "A coaster moves at 15 m/s through a curve with radius 30 m. What is its centripetal acceleration?",
-        [
-          "A. 0.50 m/s²",
-          "B. 7.5 m/s²",
-          "C. 15 m/s²",
-          "D. 30 m/s²",
-        ],
-        1,
-        "Correct. Use a_c = v²/r = 15²/30 = 225/30 = 7.5 m/s².",
-        "Not quite. Apply a_c = v²/r. With v = 15 m/s and r = 30 m, the centripetal acceleration is 7.5 m/s².",
+      practice: practiceSet(
+        practiceQuestion(
+          "A coaster moves at 15 m/s through a curve with radius 30 m. What is its centripetal acceleration?",
+          [
+            "A. 0.50 m/s²",
+            "B. 7.5 m/s²",
+            "C. 15 m/s²",
+            "D. 30 m/s²",
+          ],
+          1,
+          "Correct. Use a_c = v²/r = 15²/30 = 225/30 = 7.5 m/s².",
+          "Not quite. Apply a_c = v²/r. With v = 15 m/s and r = 30 m, the centripetal acceleration is 7.5 m/s².",
+        ),
+        practiceQuestion(
+          "An 800 kg coaster car moves at 20 m/s through a curve with radius 40 m. What inward net force is required?",
+          [
+            "A. 4000 N",
+            "B. 8000 N",
+            "C. 16,000 N",
+            "D. 32,000 N",
+          ],
+          1,
+          "Correct. Use Fc = mv²/r = (800)(20²)/40 = 8000 N inward.",
+          "Not quite. First square the speed, then use Fc = mv²/r. The required inward force is 8000 N.",
+        ),
+        practiceQuestion(
+          "A coaster moving at 18 m/s needs a centripetal acceleration of 9.0 m/s². What radius does the curve need?",
+          [
+            "A. 18 m",
+            "B. 24 m",
+            "C. 36 m",
+            "D. 81 m",
+          ],
+          2,
+          "Correct. Rearrange ac = v²/r to r = v²/ac. Then r = 18²/9.0 = 36 m.",
+          "Not quite. Use r = v²/ac. With v = 18 m/s and ac = 9.0 m/s², the radius is 36 m.",
+        ),
       ),
     }),
     createStep(
@@ -2645,17 +2721,43 @@ const workLesson = createLesson(
         "A launch can do large work in little time, which means large power.",
         "A brake run removes kinetic energy by doing negative work over a controlled distance.",
       ],
-      practice: practiceQuestion(
-        "A braking system does -24,000 J of work on a coaster over 8.0 s. What is its average power?",
-        [
-          "A. -300 W",
-          "B. -3000 W",
-          "C. 3000 W",
-          "D. 192,000 W",
-        ],
-        1,
-        "Correct. Use P = W/t = -24,000/8.0 = -3000 W. The negative sign shows the brakes are removing energy.",
-        "Not quite. Average power is work divided by time. Here P = -24,000/8.0 = -3000 W, and the negative sign matters because energy is being removed.",
+      practice: practiceSet(
+        practiceQuestion(
+          "A braking system does -24,000 J of work on a coaster over 8.0 s. What is its average power?",
+          [
+            "A. -300 W",
+            "B. -3000 W",
+            "C. 3000 W",
+            "D. 192,000 W",
+          ],
+          1,
+          "Correct. Use P = W/t = -24,000/8.0 = -3000 W. The negative sign shows the brakes are removing energy.",
+          "Not quite. Average power is work divided by time. Here P = -24,000/8.0 = -3000 W, and the negative sign matters because energy is being removed.",
+        ),
+        practiceQuestion(
+          "A launch motor pulls a coaster with a forward force of 5000 N over 12 m. If the force points in the same direction as the motion, how much work is done?",
+          [
+            "A. 417 J",
+            "B. 5000 J",
+            "C. 60,000 J",
+            "D. 120,000 J",
+          ],
+          2,
+          "Correct. When force and displacement point the same way, cosθ = 1, so W = Fd = (5000)(12) = 60,000 J.",
+          "Not quite. The force is in the same direction as the motion, so use W = Fd = 60,000 J.",
+        ),
+        practiceQuestion(
+          "A coaster has 30,000 J of kinetic energy. A launch does 45,000 J of net work on it. What is the final kinetic energy?",
+          [
+            "A. 15,000 J",
+            "B. 30,000 J",
+            "C. 45,000 J",
+            "D. 75,000 J",
+          ],
+          3,
+          "Correct. The work-energy theorem says Wnet = ΔK, so the final kinetic energy is 30,000 + 45,000 = 75,000 J.",
+          "Not quite. Positive net work increases kinetic energy, so add 45,000 J to the starting 30,000 J.",
+        ),
       ),
     }),
     createStep(
@@ -2734,14 +2836,14 @@ const workLesson = createLesson(
               note: "Each kilogram of train mass gains about 490 J of kinetic energy in this estimate.",
             },
             {
-              label: "5. Compare with a 75 kg mass",
+              label: "5. Use a 75 kg sample mass",
               equation: (
                 <>
                   ΔK = <Fraction numerator="1" denominator="2" />
                   (75)(31.3²) ≈ 36,700 J
                 </>
               ),
-              note: "This gives a familiar-sized energy value. It is not the full train energy.",
+              note: "A 75 kg mass is about the size of one rider, so this shows the scale of the energy change. The actual train has much more mass, so the full-train energy would be much larger.",
             },
             {
               label: "6. Find the average power for 1 kg",
@@ -3047,6 +3149,18 @@ const momentumLesson = createLesson(
           1,
           "Correct. Momentum conservation works best for a chosen system when external impulse is small during the interaction.",
           "Not quite. Strong outside forces such as brakes or track forces can change the system's total momentum. Conservation fits short interactions where outside impulse is small.",
+        ),
+        practiceQuestion(
+          "A brake applies an average force of 4000 N opposite a coaster's motion for 3.0 s. What is the impulse from the brake?",
+          [
+            "A. 1300 N·s opposite the motion",
+            "B. 4000 N·s opposite the motion",
+            "C. 12,000 N·s opposite the motion",
+            "D. 24,000 N·s opposite the motion",
+          ],
+          2,
+          "Correct. Use J = FΔt = (4000)(3.0) = 12,000 N·s, directed opposite the motion because the braking force points backward.",
+          "Not quite. Impulse from average force is J = FΔt. The magnitude is 12,000 N·s, and the direction is opposite the motion.",
         ),
       ),
     }),
@@ -3454,6 +3568,18 @@ const rotationLesson = createLesson(
           1,
           "Correct. Use τnet = Iα, so α = τnet/I = 6.0/2.0 = 3.0 rad/s².",
           "Not quite. Net torque causes angular acceleration. Rearrange τnet = Iα to get α = 6.0/2.0 = 3.0 rad/s².",
+        ),
+        practiceQuestion(
+          "A coaster wheel has radius 0.25 m and angular speed 48 rad/s. What is the linear speed at the rim?",
+          [
+            "A. 4.8 m/s",
+            "B. 12 m/s",
+            "C. 24 m/s",
+            "D. 192 m/s",
+          ],
+          1,
+          "Correct. Use v = rω = (0.25)(48) = 12 m/s.",
+          "Not quite. Linear rim speed is radius times angular speed: v = rω = 12 m/s.",
         ),
       ),
     }),
@@ -3882,6 +4008,18 @@ const designSafetyLesson = createLesson(
           0,
           "Correct. Smooth transitions reduce how suddenly acceleration changes, which lowers jerk and makes the force change feel less harsh.",
           "Not quite. Smoothness is about controlling how quickly acceleration changes. That rate of change is called jerk.",
+        ),
+        practiceQuestion(
+          "A transition changes rider acceleration from 3.0 m/s² to 9.0 m/s² in 2.0 s. What is the average jerk?",
+          [
+            "A. 2.0 m/s³",
+            "B. 3.0 m/s³",
+            "C. 6.0 m/s³",
+            "D. 12 m/s³",
+          ],
+          1,
+          "Correct. Use j = Δa/Δt. The acceleration changes by 6.0 m/s² over 2.0 s, so j = 3.0 m/s³.",
+          "Not quite. Jerk is acceleration change divided by time: (9.0 - 3.0)/2.0 = 3.0 m/s³.",
         ),
       ),
     }),
@@ -4810,31 +4948,34 @@ const LessonView = ({
       <div className={realWorldEquationClass}>{equationContent}</div>
     );
 
+  const realWorldDividerClass = `my-8 h-px w-full ${isDark ? "bg-white/10" : "bg-slate-300/70"}`;
   const renderRealWorldExample = (example) => (
-    <div className={`mt-6 rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
-      <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-        {example.eyebrow}
-      </p>
-      <h4 className={`mt-3 text-2xl font-semibold ${titleClass}`}>
-        {example.title}
-      </h4>
+    <>
+      <div className={realWorldDividerClass} />
+      <div className={`rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
+        <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+          {example.eyebrow}
+        </p>
+        <h4 className={`mt-3 text-2xl font-semibold ${titleClass}`}>
+          {example.title}
+        </h4>
 
-      {example.goal ? (
-        <div className={`mt-4 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${subtlePanelClass}`}>
-          <FormattedPhysicsText
-            as="p"
-            className={copyClass}
-            text={example.goal}
-          />
-        </div>
-      ) : null}
+        {example.goal ? (
+          <div className={`mt-4 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${subtlePanelClass}`}>
+            <FormattedPhysicsText
+              as="p"
+              className={copyClass}
+              text={example.goal}
+            />
+          </div>
+        ) : null}
 
-      <div className="mt-6 grid gap-6 lg:h-[34rem] lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] lg:overflow-hidden">
-        <div className="lg:h-full">
+      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)]">
+        <div>
           <img
             src={example.imageSrc}
             alt={example.imageAlt}
-            className={`aspect-[4/3] w-full rounded-[1.5rem] border object-contain ${
+            className={`mx-auto block max-h-[20rem] max-w-full rounded-[1.5rem] border object-contain ${
               isDark ? "border-white/10 bg-slate-950/30" : "border-slate-300/70 bg-slate-50"
             }`}
           />
@@ -4853,8 +4994,8 @@ const LessonView = ({
           ) : null}
         </div>
 
-        <div className="min-h-0 lg:h-full">
-          <div className={`space-y-4 text-base leading-7 ${copyClass} lg:h-full lg:overflow-y-auto lg:pr-3`}>
+        <div className="min-h-0">
+          <div className={`space-y-4 text-base leading-7 ${copyClass} lg:max-h-[34rem] lg:overflow-y-auto lg:pr-3`}>
             {example.rightFigure ? (
               <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
                 <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
@@ -4912,7 +5053,9 @@ const LessonView = ({
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      <div className={realWorldDividerClass} />
+    </>
   );
 
   return (
