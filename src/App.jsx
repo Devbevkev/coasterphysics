@@ -4970,18 +4970,18 @@ const LessonView = ({
           </div>
         ) : null}
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)]">
-        <div>
+      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
+        <div className="lg:max-h-[34rem] lg:overflow-y-auto lg:pr-1">
           <img
             src={example.imageSrc}
             alt={example.imageAlt}
-            className={`mx-auto block max-h-[20rem] max-w-full rounded-[1.5rem] border object-contain ${
-              isDark ? "border-white/10 bg-slate-950/30" : "border-slate-300/70 bg-slate-50"
+            className={`block h-auto w-full rounded-[1.5rem] border ${
+              isDark ? "border-white/10" : "border-slate-300/70"
             }`}
           />
 
           {example.stats?.length ? (
-            <div className={`mt-4 rounded-[1.5rem] border p-4 text-sm leading-6 ${subtlePanelClass}`}>
+            <div className={`mt-3 rounded-[1.5rem] border p-3 text-sm leading-5 ${subtlePanelClass}`}>
               {example.stats.map((item) => (
                 <p key={item.label} className={copyClass}>
                   <span className={`font-semibold ${titleClass}`}>
