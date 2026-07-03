@@ -6582,7 +6582,14 @@ const ImageCreditsView = ({
 
 const App = () => {
   const [activeSection, setActiveSection] = useState(sections[0]);
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState(() => {
+    try {
+      const savedTheme = window.localStorage.getItem("coasterphysics-theme");
+      return savedTheme === "light" || savedTheme === "dark" ? savedTheme : "light";
+    } catch {
+      return "light";
+    }
+  });
   const [showCoasterExamples, setShowCoasterExamples] = useState(() => {
     try {
       return window.localStorage.getItem("coasterphysics-show-examples") !== "false";
@@ -6620,13 +6627,6 @@ const App = () => {
         window.history.scrollRestoration = previousScrollRestoration;
       }
     };
-  }, []);
-
-  useEffect(() => {
-    const savedTheme = window.localStorage.getItem("coasterphysics-theme");
-    if (savedTheme === "light" || savedTheme === "dark") {
-      setTheme(savedTheme);
-    }
   }, []);
 
   useEffect(() => {
