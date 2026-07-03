@@ -822,6 +822,89 @@ const sections = [
   },
 ];
 
+const uploadedImageCredits = [
+  {
+    title: "Copperhead Strike Train",
+    file: "/copperhead-strike-train.png",
+    usedIn: "Forces and Newton's Laws real-world example",
+    source: "User-provided image uploaded in this project thread.",
+    copyrightNote:
+      "Original photographer, source URL, and license were not included with the upload.",
+  },
+  {
+    title: "Maverick Second Launch",
+    file: "/maverick-second-launch.png",
+    usedIn: "Work, Friction, and Power real-world example",
+    source: "User-provided image uploaded in this project thread.",
+    copyrightNote:
+      "Original photographer, source URL, and license were not included with the upload.",
+  },
+  {
+    title: "El Toro Airtime Hills",
+    file: "/el-toro-airtime.png",
+    usedIn: "Kinematics projectile motion real-world example",
+    source: "User-provided image uploaded in this project thread.",
+    copyrightNote:
+      "Original photographer, source URL, and license were not included with the upload.",
+  },
+  {
+    title: "VelociCoaster Launch and Roll",
+    file: "/velocicoaster-momentum.png",
+    usedIn: "Momentum and Impulse real-world example",
+    source: "User-provided image uploaded in this project thread.",
+    copyrightNote:
+      "Original photographer, source URL, and license were not included with the upload.",
+  },
+];
+
+const otherSiteImageCredits = [
+  {
+    title: "Home Hero Collage Images",
+    file: "/hero-coaster-frame.png",
+    usedIn: "Home page image collage",
+    source: "Existing project image assets.",
+    copyrightNote:
+      "Original sources and licenses are not documented in the project files yet.",
+    relatedFiles: [
+      "/hero-coaster-frame.png",
+      "/hero-collage-superman.png",
+      "/hero-collage-white-loop.png",
+      "/hero-collage-red-inversion.png",
+      "/hero-collage-wood-sunset.png",
+      "/hero-collage-loop-blue.png",
+      "/hero-collage-blue-crest-wide.png",
+      "/hero-collage-orange-turn.png",
+      "/hero-collage-red-loop-tower.png",
+      "/hero-collage-inverted-train.png",
+      "/hero-collage-vegas-glider.png",
+    ],
+  },
+  {
+    title: "Mako Drop",
+    file: "/mako-drop.png",
+    usedIn: "Home page hero collage and Energy real-world example",
+    source: "Existing project image asset.",
+    copyrightNote:
+      "Original source and license are not documented in the project files yet.",
+  },
+  {
+    title: "Circular G-Force Coaster",
+    file: "/circular-gforce-example.png",
+    usedIn: "Circular Motion real-world example",
+    source: "Existing project image asset.",
+    copyrightNote:
+      "Original source and license are not documented in the project files yet.",
+  },
+  {
+    title: "Slope Components Reference",
+    file: "/slope-components-reference.png",
+    usedIn: "Forces slope components figure",
+    source: "Existing project image asset.",
+    copyrightNote:
+      "Original source and license are not documented in the project files yet.",
+  },
+];
+
 const kinematicsLesson = createLesson(
   "Lesson 1: Kinematics",
   "Describing Motion Before Explaining It",
@@ -6020,6 +6103,114 @@ const LessonView = ({
   );
 };
 
+const ImageCreditsView = ({
+  isDark,
+  subtlePanelClass,
+  titleClass,
+  copyClass,
+  mutedClass,
+  accentLabelClass,
+}) => {
+  const imageBorderClass = isDark ? "border-white/10" : "border-slate-300/70";
+  const sourceBoxClass = isDark
+    ? "border-cyan-300/15 bg-cyan-300/10 text-cyan-50"
+    : "border-sky-200 bg-sky-50 text-sky-950";
+  const warningBoxClass = isDark
+    ? "border-amber-300/20 bg-amber-300/10 text-amber-50"
+    : "border-amber-200 bg-amber-50 text-amber-950";
+
+  const renderCreditCard = (credit) => (
+    <article key={credit.title} className={`rounded-[2rem] border p-4 sm:p-5 ${subtlePanelClass}`}>
+      <div className="grid gap-4 sm:grid-cols-[9rem_minmax(0,1fr)]">
+        <div className={`overflow-hidden rounded-2xl border ${imageBorderClass}`}>
+          <img
+            src={credit.file}
+            alt={credit.title}
+            className="aspect-[4/3] h-full w-full object-cover"
+          />
+        </div>
+
+        <div className="min-w-0">
+          <h3 className={`text-lg font-semibold ${titleClass}`}>{credit.title}</h3>
+          <p className={`mt-1 text-sm leading-6 ${copyClass}`}>{credit.usedIn}</p>
+
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            <div className={`rounded-2xl border p-3 text-sm leading-6 ${sourceBoxClass}`}>
+              <p className="font-semibold">Source</p>
+              <p className="mt-1">{credit.source}</p>
+            </div>
+            <div className={`rounded-2xl border p-3 text-sm leading-6 ${warningBoxClass}`}>
+              <p className="font-semibold">Copyright note</p>
+              <p className="mt-1">{credit.copyrightNote}</p>
+            </div>
+          </div>
+
+          <p className={`mt-3 break-all text-xs leading-5 ${mutedClass}`}>
+            Site file: {credit.file}
+          </p>
+
+          {credit.relatedFiles?.length ? (
+            <div className={`mt-3 rounded-2xl border p-3 text-xs leading-5 ${subtlePanelClass}`}>
+              <p className={`font-semibold uppercase tracking-[0.14em] ${accentLabelClass}`}>
+                Included files
+              </p>
+              <ul className={`mt-2 grid gap-1 break-all ${mutedClass}`}>
+                {credit.relatedFiles.map((file) => (
+                  <li key={file}>{file}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </article>
+  );
+
+  return (
+    <section id="credits" className="pt-0">
+      <div className="max-w-6xl">
+        <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+          Image Credits
+        </p>
+        <h2 className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}>
+          Image sources used on this site
+        </h2>
+        <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
+          The images uploaded directly into this project are credited as
+          user-provided uploads because the original source links were not
+          supplied with the files.
+        </p>
+        <div className={`mt-5 max-w-4xl rounded-[1.5rem] border p-4 text-sm leading-7 ${subtlePanelClass}`}>
+          <p className={copyClass}>
+            Before a final public submission, replace any missing source notes
+            with the original photographer, website URL, and license when those
+            details are available. Crediting an image does not automatically
+            grant permission to reuse it.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-10">
+        <p className={`text-sm font-semibold uppercase tracking-[0.2em] ${accentLabelClass}`}>
+          Images Uploaded in This Project Thread
+        </p>
+        <div className="mt-5 grid gap-4">
+          {uploadedImageCredits.map(renderCreditCard)}
+        </div>
+      </div>
+
+      <div className="mt-10">
+        <p className={`text-sm font-semibold uppercase tracking-[0.2em] ${accentLabelClass}`}>
+          Other Site Image Assets
+        </p>
+        <div className="mt-5 grid gap-4">
+          {otherSiteImageCredits.map(renderCreditCard)}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const App = () => {
   const [activeSection, setActiveSection] = useState(sections[0]);
   const [theme, setTheme] = useState("dark");
@@ -6420,6 +6611,45 @@ const App = () => {
                 })}
               </div>
             </section>
+          </section>
+        ) : view === "credits" ? (
+          <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <button
+                type="button"
+                onClick={() => setView("home")}
+                className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                  isDark
+                    ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                    : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+                }`}
+              >
+                Back Home
+              </button>
+              <SettingsControl
+                copyClass={copyClass}
+                isDark={isDark}
+                mutedClass={mutedClass}
+                panelClass={panelClass}
+                settingsOpen={settingsOpen}
+                setSettingsOpen={setSettingsOpen}
+                settingsRef={settingsRef}
+                setTheme={setTheme}
+                subtlePanelClass={subtlePanelClass}
+                theme={theme}
+                titleClass={titleClass}
+                className="translate-x-2 sm:translate-x-4"
+              />
+            </div>
+
+            <ImageCreditsView
+              isDark={isDark}
+              subtlePanelClass={subtlePanelClass}
+              titleClass={titleClass}
+              copyClass={copyClass}
+              mutedClass={mutedClass}
+              accentLabelClass={accentLabelClass}
+            />
           </section>
         ) : view === "simulation" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">

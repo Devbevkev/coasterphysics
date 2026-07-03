@@ -2,6 +2,7 @@ const quickLinks = [
   { label: "Home", target: "home" },
   { label: "Learning Path", target: "topics" },
   { label: "Simulation", target: "simulation" },
+  { label: "Image Credits", target: "credits" },
 ];
 
 const FooterNavButton = ({ label, onClick, textClass, hoverClass }) => {
