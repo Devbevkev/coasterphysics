@@ -16,7 +16,7 @@ const Initial = ({ symbol }) => {
   return (
     <>
       {symbol}
-      <sub>0</sub>
+      <sub className="text-[0.58em] leading-none">0</sub>
     </>
   );
 };
@@ -1145,7 +1145,7 @@ const kinematicsLesson = createLesson(
     ),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These seven questions start with graph reading, then shift into direct equation use and projectile-motion calculations. Each answer explanation is meant to model the kind of reasoning you should write out when solving problems on your own.",
+        "These ten questions start with graph reading, then shift into direct equation use and projectile-motion calculations. Each answer explanation is meant to model the kind of reasoning you should write out when solving problems on your own.",
       ],
       quiz: [
         quizQuestion(
@@ -1231,6 +1231,42 @@ const kinematicsLesson = createLesson(
           2,
           "Correct. Use Δy = one-half gt² = 0.5(9.8)(0.80²) ≈ 3.1 m downward.",
           "Not quite. The vertical motion uses gravity: Δy = one-half gt² = 0.5(9.8)(0.80²) ≈ 3.1 m downward.",
+        ),
+        quizQuestion(
+          "A coaster moves at a constant velocity of 9.0 m/s for 6.0 s on a straight section. What is its displacement?",
+          [
+            "A. 15 m",
+            "B. 36 m",
+            "C. 54 m",
+            "D. 81 m",
+          ],
+          2,
+          "Correct. For constant velocity, Δx = vt = (9.0)(6.0) = 54 m.",
+          "Not quite. Use displacement equals velocity times time. Here Δx = (9.0)(6.0) = 54 m.",
+        ),
+        quizQuestion(
+          "A coaster's velocity changes from 10 m/s to 22 m/s in 4.0 s. What is its acceleration?",
+          [
+            "A. 2.0 m/s²",
+            "B. 3.0 m/s²",
+            "C. 8.0 m/s²",
+            "D. 32 m/s²",
+          ],
+          1,
+          "Correct. Acceleration is change in velocity divided by time: a = (22 - 10)/4.0 = 3.0 m/s².",
+          "Not quite. Find the velocity change first, then divide by time: 12 m/s divided by 4.0 s gives 3.0 m/s².",
+        ),
+        quizQuestion(
+          "In an ideal projectile-motion model, a rider has zero initial vertical velocity. About how fast downward is the rider moving after 1.2 s?",
+          [
+            "A. 4.9 m/s",
+            "B. 9.8 m/s",
+            "C. 11.8 m/s",
+            "D. 19.6 m/s",
+          ],
+          2,
+          "Correct. The vertical velocity change is gt = (9.8)(1.2) ≈ 11.8 m/s downward.",
+          "Not quite. Vertical velocity changes because of gravity. After 1.2 s, the downward speed is about (9.8)(1.2) = 11.8 m/s.",
         ),
       ],
     }),
@@ -1612,7 +1648,7 @@ const forcesLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These seven questions focus on apparent weight, force components, and Newton's Second Law. Use them to practice turning a physical description into a force statement before you calculate.",
+        "These ten questions focus on apparent weight, force components, and Newton's Second Law. Use them to practice turning a physical description into a force statement before you calculate.",
       ],
       quiz: [
         quizQuestion(
@@ -1698,6 +1734,42 @@ const forcesLesson = createLesson(
           1,
           "Correct. The net force is 2400 N - 400 N = 2000 N down the track, so a = Fnet/m = 2000/500 = 4.0 m/s².",
           "Not quite. First find the net force: 2400 N - 400 N = 2000 N. Then use a = Fnet/m = 2000/500 = 4.0 m/s².",
+        ),
+        quizQuestion(
+          "An 80 kg rider is at rest on a flat, level track section. What normal force does the seat exert on the rider?",
+          [
+            "A. 80 N upward",
+            "B. 392 N upward",
+            "C. 784 N upward",
+            "D. 1600 N upward",
+          ],
+          2,
+          "Correct. At rest on level track, N = mg = (80)(9.8) = 784 N upward.",
+          "Not quite. The rider is not accelerating vertically, so the normal force balances weight: N = mg = 784 N.",
+        ),
+        quizQuestion(
+          "A coaster wheel has a normal force of 1000 N and a kinetic-friction coefficient of 0.05. What is the friction force in the simple model?",
+          [
+            "A. 20 N",
+            "B. 50 N",
+            "C. 500 N",
+            "D. 20,000 N",
+          ],
+          1,
+          "Correct. Use fk = μkN = (0.05)(1000) = 50 N.",
+          "Not quite. Friction in this simple model is μk times the normal force, so fk = 50 N.",
+        ),
+        quizQuestion(
+          "A 400 kg coaster car is on a 60° incline. What component of gravity presses perpendicular into the track?",
+          [
+            "A. 980 N",
+            "B. 1960 N",
+            "C. 3390 N",
+            "D. 3920 N",
+          ],
+          1,
+          "Correct. The perpendicular component is mg cosθ = (400)(9.8)cos60° = 1960 N.",
+          "Not quite. Use the perpendicular component mg cosθ. Since cos60° = 0.5, the result is 1960 N.",
         ),
       ],
     }),
@@ -2021,7 +2093,7 @@ const energyLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These seven questions reinforce both calculation and interpretation, from bottom speed to energy conservation and later-hill design.",
+        "These ten questions reinforce both calculation and interpretation, from bottom speed to energy conservation and later-hill design.",
       ],
       quiz: [
         quizQuestion(
@@ -2107,6 +2179,42 @@ const energyLesson = createLesson(
           1,
           "Correct. Nonconservative losses reduce the mechanical energy, so 200,000 J - 20,000 J = 180,000 J remains.",
           "Not quite. Friction and air resistance remove mechanical energy from the coaster's usable energy budget. The remaining mechanical energy is 180,000 J.",
+        ),
+        quizQuestion(
+          "A 500 kg coaster train is 30 m above the chosen zero-height level. What is its gravitational potential energy?",
+          [
+            "A. 15,000 J",
+            "B. 49,000 J",
+            "C. 147,000 J",
+            "D. 300,000 J",
+          ],
+          2,
+          "Correct. Use Ug = mgh = (500)(9.8)(30) = 147,000 J.",
+          "Not quite. Gravitational potential energy is mgh, so multiply 500 kg, 9.8 m/s², and 30 m.",
+        ),
+        quizQuestion(
+          "A 400 kg coaster car is moving at 20 m/s. What is its kinetic energy?",
+          [
+            "A. 4000 J",
+            "B. 40,000 J",
+            "C. 80,000 J",
+            "D. 160,000 J",
+          ],
+          2,
+          "Correct. K = one-half mv² = 0.5(400)(20²) = 80,000 J.",
+          "Not quite. Square the speed first, then use K = one-half mv². The kinetic energy is 80,000 J.",
+        ),
+        quizQuestion(
+          "A coaster's mechanical energy changes from 300,000 J to 240,000 J because of friction and drag. What is the nonconservative work?",
+          [
+            "A. -60,000 J",
+            "B. 60,000 J",
+            "C. 240,000 J",
+            "D. 540,000 J",
+          ],
+          0,
+          "Correct. Wnc = ΔEmech = 240,000 - 300,000 = -60,000 J.",
+          "Not quite. Nonconservative work equals the change in mechanical energy, so the work is negative when mechanical energy decreases.",
         ),
       ],
     }),
@@ -2475,7 +2583,7 @@ const circularMotionLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These seven questions target the minimum-speed condition, inward direction, and the force calculations riders feel in hills and dips.",
+        "These ten questions target the minimum-speed condition, inward direction, and the force calculations riders feel in hills and dips.",
       ],
       quiz: [
         quizQuestion(
@@ -2561,6 +2669,42 @@ const circularMotionLesson = createLesson(
           3,
           "Correct. Centripetal acceleration is a_c = v²/r, so doubling v makes v² four times larger.",
           "Not quite. The speed is squared in a_c = v²/r. Doubling speed makes the centripetal acceleration four times as large.",
+        ),
+        quizQuestion(
+          "A 60 kg rider moves through a curve at 15 m/s with radius 30 m. What inward net force is required?",
+          [
+            "A. 150 N",
+            "B. 300 N",
+            "C. 450 N",
+            "D. 900 N",
+          ],
+          2,
+          "Correct. Use Fc = mv²/r = (60)(15²)/30 = 450 N inward.",
+          "Not quite. Square the speed first, then use Fc = mv²/r. The required inward force is 450 N.",
+        ),
+        quizQuestion(
+          "A 50 kg rider feels a normal force of 1470 N. About how many g's is the rider feeling?",
+          [
+            "A. 1 g",
+            "B. 2 g",
+            "C. 3 g",
+            "D. 5 g",
+          ],
+          2,
+          "Correct. Felt g-force is N/(mg) = 1470/((50)(9.8)) = 1470/490 = 3 g.",
+          "Not quite. Compare the normal force to weight: N/(mg). Here 1470 N is three times the rider's weight.",
+        ),
+        quizQuestion(
+          "A coaster moving at 24 m/s needs centripetal acceleration of 12 m/s². What curve radius is needed?",
+          [
+            "A. 24 m",
+            "B. 36 m",
+            "C. 48 m",
+            "D. 72 m",
+          ],
+          2,
+          "Correct. Rearrange ac = v²/r to r = v²/ac = 24²/12 = 48 m.",
+          "Not quite. Use r = v²/ac. With v = 24 m/s and ac = 12 m/s², the radius is 48 m.",
         ),
       ],
     }),
@@ -2925,7 +3069,7 @@ const workLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These seven questions check whether you can interpret the physical setup and then calculate work, energy change, and power.",
+        "These ten questions check whether you can interpret the physical setup and then calculate work, energy change, and power.",
       ],
       quiz: [
         quizQuestion(
@@ -3011,6 +3155,42 @@ const workLesson = createLesson(
           2,
           "Correct. Net work is 80,000 J - 20,000 J = 60,000 J, so the kinetic energy increases by 60,000 J.",
           "Not quite. Add positive and negative work together. The net work is +60,000 J, so ΔK = +60,000 J.",
+        ),
+        quizQuestion(
+          "A motor transfers 50,000 J of energy to a coaster in 5.0 s. What is the average power?",
+          [
+            "A. 1000 W",
+            "B. 10,000 W",
+            "C. 50,000 W",
+            "D. 250,000 W",
+          ],
+          1,
+          "Correct. Average power is P = W/t = 50,000/5.0 = 10,000 W.",
+          "Not quite. Power is the rate of energy transfer, so divide the work by the time.",
+        ),
+        quizQuestion(
+          "A coaster's mechanical energy drops from 210,000 J to 170,000 J during a rough section. What is Wnc?",
+          [
+            "A. -40,000 J",
+            "B. 40,000 J",
+            "C. 170,000 J",
+            "D. 380,000 J",
+          ],
+          0,
+          "Correct. Wnc = ΔEmech = 170,000 - 210,000 = -40,000 J.",
+          "Not quite. Nonconservative work equals the change in mechanical energy, so the decrease gives a negative value.",
+        ),
+        quizQuestion(
+          "A launch force acts in the direction of motion over 15 m and does 45,000 J of work. What is the force?",
+          [
+            "A. 300 N",
+            "B. 1500 N",
+            "C. 3000 N",
+            "D. 45,000 N",
+          ],
+          2,
+          "Correct. With force and displacement in the same direction, W = Fd, so F = 45,000/15 = 3000 N.",
+          "Not quite. Rearrange W = Fd to F = W/d. The force is 3000 N.",
         ),
       ],
     }),
@@ -3289,7 +3469,7 @@ const momentumLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These seven questions cover braking, launches, direction, and the force-time tradeoff that matters for rider safety.",
+        "These ten questions cover braking, launches, direction, and the force-time tradeoff that matters for rider safety.",
       ],
       quiz: [
         quizQuestion(
@@ -3375,6 +3555,42 @@ const momentumLesson = createLesson(
           2,
           "Correct. Impulse from average force is J = FΔt = (3000)(4.0) = 12,000 N·s, directed opposite the motion.",
           "Not quite. Use J = FΔt. The impulse magnitude is (3000)(4.0) = 12,000 N·s, and its direction is opposite the train's motion.",
+        ),
+        quizQuestion(
+          "A 900 kg coaster car moves west at 8.0 m/s. What is its momentum?",
+          [
+            "A. 112.5 kg·m/s west",
+            "B. 7200 kg·m/s west",
+            "C. 7200 kg·m/s east",
+            "D. 9000 kg·m/s west",
+          ],
+          1,
+          "Correct. Momentum is p = mv = (900)(8.0) = 7200 kg·m/s west.",
+          "Not quite. Momentum has direction, so multiply mass by velocity and keep the west direction.",
+        ),
+        quizQuestion(
+          "A brake gives a coaster an impulse of 18,000 N·s over 6.0 s. What average force magnitude is this?",
+          [
+            "A. 300 N",
+            "B. 3000 N",
+            "C. 18,000 N",
+            "D. 108,000 N",
+          ],
+          1,
+          "Correct. Use J = FΔt, so F = J/Δt = 18,000/6.0 = 3000 N.",
+          "Not quite. Divide impulse by the time interval to get the average force magnitude.",
+        ),
+        quizQuestion(
+          "A 400 kg car moving at 12 m/s connects with a 600 kg car moving the same direction at 4.0 m/s. What is their shared speed afterward if outside impulse is small?",
+          [
+            "A. 4.8 m/s",
+            "B. 6.0 m/s",
+            "C. 7.2 m/s",
+            "D. 16 m/s",
+          ],
+          2,
+          "Correct. Initial momentum is (400)(12) + (600)(4.0) = 7200 kg·m/s. The combined mass is 1000 kg, so v = 7.2 m/s.",
+          "Not quite. Conserve total momentum: 7200 kg·m/s = (1000 kg)v, so the shared speed is 7.2 m/s.",
         ),
       ],
     }),
@@ -3657,7 +3873,7 @@ const rotationLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These seven questions target the most important extensions beyond v = rω: torque, rotational inertia, and rolling-speed calculations.",
+        "These ten questions target the most important extensions beyond v = rω: torque, rotational inertia, and rolling-speed calculations.",
       ],
       quiz: [
         quizQuestion(
@@ -3743,6 +3959,42 @@ const rotationLesson = createLesson(
           2,
           "Correct. Krot = one-half Iω² = 0.5(4.0)(5.0²) = 50 J.",
           "Not quite. Use Krot = one-half Iω². Substituting I = 4.0 kg·m² and ω = 5.0 rad/s gives 50 J.",
+        ),
+        quizQuestion(
+          "A wheel has radius 0.30 m and linear acceleration 6.0 m/s² at the rim. What is its angular acceleration?",
+          [
+            "A. 1.8 rad/s²",
+            "B. 5.7 rad/s²",
+            "C. 20 rad/s²",
+            "D. 60 rad/s²",
+          ],
+          2,
+          "Correct. Use a = rα, so α = a/r = 6.0/0.30 = 20 rad/s².",
+          "Not quite. Rearrange a = rα to solve for angular acceleration. Divide 6.0 by 0.30.",
+        ),
+        quizQuestion(
+          "An 80 N force is applied 0.50 m from an axle at a 30° angle to the lever arm. What torque is produced?",
+          [
+            "A. 20 N·m",
+            "B. 40 N·m",
+            "C. 80 N·m",
+            "D. 160 N·m",
+          ],
+          0,
+          "Correct. Use τ = rF sinθ = (0.50)(80)sin30° = 20 N·m.",
+          "Not quite. Include the angle: sin30° = 0.5, so the torque is 20 N·m.",
+        ),
+        quizQuestion(
+          "A rolling wheel has m = 10 kg, v = 4.0 m/s, I = 1.0 kg·m², and ω = 8.0 rad/s. What is its total kinetic energy?",
+          [
+            "A. 32 J",
+            "B. 80 J",
+            "C. 112 J",
+            "D. 144 J",
+          ],
+          2,
+          "Correct. Ktotal = one-half mv² + one-half Iω² = 80 J + 32 J = 112 J.",
+          "Not quite. Add translational and rotational kinetic energy: 0.5(10)(4.0²) + 0.5(1.0)(8.0²) = 112 J.",
         ),
       ],
     }),
@@ -4097,7 +4349,7 @@ const designSafetyLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These seven questions focus on design judgments about banking, force limits, energy budgeting, and rider comfort.",
+        "These ten questions focus on design judgments about banking, force limits, energy budgeting, and rider comfort.",
       ],
       quiz: [
         quizQuestion(
@@ -4183,6 +4435,42 @@ const designSafetyLesson = createLesson(
           2,
           "Correct. Work magnitude is force times distance, so F = W/d = 60,000/30 = 2000 N.",
           "Not quite. Brakes remove energy by doing negative work. The force magnitude is |W|/d = 60,000/30 = 2000 N.",
+        ),
+        quizQuestion(
+          "A design target limits centripetal acceleration to 12 m/s² in a turn. If the train enters at 18 m/s, what is the smallest allowed turn radius?",
+          [
+            "A. 12 m",
+            "B. 18 m",
+            "C. 27 m",
+            "D. 54 m",
+          ],
+          2,
+          "Correct. Use r = v²/ac = 18²/12 = 27 m.",
+          "Not quite. A tighter radius would increase acceleration. Use r = v²/ac to find 27 m.",
+        ),
+        quizQuestion(
+          "A coaster has 500,000 J of mechanical energy, loses 80,000 J before a hill, and the hill requires 450,000 J to reach. What should the designer conclude?",
+          [
+            "A. The train has enough energy with 50,000 J left over.",
+            "B. The train is short by 30,000 J.",
+            "C. The hill needs no energy because gravity pulls downward.",
+            "D. The train's mass must become zero.",
+          ],
+          1,
+          "Correct. After losses, the train has 420,000 J, which is 30,000 J less than the hill requires.",
+          "Not quite. Subtract the loss first: 500,000 J - 80,000 J = 420,000 J. That is not enough for a 450,000 J hill.",
+        ),
+        quizQuestion(
+          "A transition changes acceleration by 9.0 m/s² in 1.5 s. What is the average jerk?",
+          [
+            "A. 1.5 m/s³",
+            "B. 6.0 m/s³",
+            "C. 9.0 m/s³",
+            "D. 13.5 m/s³",
+          ],
+          1,
+          "Correct. Jerk is j = Δa/Δt = 9.0/1.5 = 6.0 m/s³.",
+          "Not quite. Divide the acceleration change by the time interval. That gives 6.0 m/s³.",
         ),
       ],
     }),
@@ -4827,7 +5115,42 @@ const lessonMap = {
   "final-quiz": finalQuizLesson,
 };
 
+const progressStorageKey = "coasterphysics-progress-v1";
+const emptyProgress = {
+  completedSteps: {},
+  quizScores: {},
+};
+
+const normalizeProgress = (value) => ({
+  completedSteps: value?.completedSteps ?? {},
+  quizScores: value?.quizScores ?? {},
+});
+
+const getTrackableSteps = (lesson) =>
+  lesson.steps.filter((step) => step.id !== "quiz");
+
+const getLessonProgressSummary = (lesson, completedSteps = {}, quizScore = null) => {
+  const trackableSteps = getTrackableSteps(lesson);
+
+  if (trackableSteps.length === 0) {
+    return {
+      completedCount: quizScore ? 1 : 0,
+      totalCount: 1,
+      percent: quizScore ? 100 : 0,
+    };
+  }
+
+  const completedCount = trackableSteps.filter((step) => completedSteps[step.id]).length;
+
+  return {
+    completedCount,
+    totalCount: trackableSteps.length,
+    percent: Math.round((completedCount / trackableSteps.length) * 100),
+  };
+};
+
 const LessonView = ({
+  lessonId,
   lesson,
   isDark,
   panelClass,
@@ -4844,6 +5167,10 @@ const LessonView = ({
   onBack,
   hasNextLesson,
   onNextLesson,
+  completedSteps,
+  quizScore,
+  onStepComplete,
+  onQuizComplete,
 }) => {
   const step = lesson.steps[stepIndex];
   const lessonHeading = lesson.chapterName ?? getChapterName(lesson.title);
@@ -4858,6 +5185,7 @@ const LessonView = ({
   const [quizIndex, setQuizIndex] = useState(0);
   const [selectedQuizChoice, setSelectedQuizChoice] = useState(null);
   const [quizChecked, setQuizChecked] = useState(false);
+  const [quizResults, setQuizResults] = useState({});
 
   const practiceQuestions = step.practice?.questions ?? (step.practice ? [step.practice] : []);
   const currentPracticeProblem = practiceQuestions[practiceIndex] ?? null;
@@ -4873,10 +5201,14 @@ const LessonView = ({
     currentQuizQuestion && selectedQuizChoice === currentQuizQuestion.correctChoice;
   const quizComplete =
     step.id === "quiz" && quizIndex === step.quiz.length - 1 && quizChecked;
+  const stepAlreadyComplete = Boolean(completedSteps?.[step.id]);
+  const quizAlreadyComplete = Boolean(quizScore);
+  const canMarkCurrentStepComplete =
+    !isQuizStep && practiceQuestions.length === 0;
   const nextButtonDisabled = isTerminalQuizStep
-    ? !quizComplete
-    : (practiceQuestions.length > 0 && !practiceComplete) ||
-      (step.id === "quiz" && !quizComplete) ||
+    ? !(quizComplete || quizAlreadyComplete)
+    : (practiceQuestions.length > 0 && !(practiceComplete || stepAlreadyComplete)) ||
+      (step.id === "quiz" && !(quizComplete || quizAlreadyComplete)) ||
       isLastStep;
   const nextButtonLabel = isTerminalQuizStep
     ? hasNextLesson
@@ -4903,12 +5235,19 @@ const LessonView = ({
     setQuizIndex(0);
     setSelectedQuizChoice(null);
     setQuizChecked(false);
+    setQuizResults({});
   }, [step.id]);
 
   useEffect(() => {
     setSelectedQuizChoice(null);
     setQuizChecked(false);
   }, [quizIndex]);
+
+  useEffect(() => {
+    if (practiceComplete) {
+      onStepComplete(lessonId, step.id);
+    }
+  }, [lessonId, onStepComplete, practiceComplete, step.id]);
 
   const handlePracticeCheck = () => {
     if (!currentPracticeProblem) {
@@ -4931,7 +5270,23 @@ const LessonView = ({
     }
 
     if (!quizChecked) {
+      const nextResults = {
+        ...quizResults,
+        [quizIndex]: Boolean(quizIsCorrect),
+      };
+
+      setQuizResults(nextResults);
       setQuizChecked(true);
+
+      if (quizIndex === step.quiz.length - 1) {
+        const correctCount = step.quiz.reduce(
+          (total, _question, index) => total + (nextResults[index] ? 1 : 0),
+          0,
+        );
+
+        onQuizComplete(lessonId, correctCount, step.quiz.length);
+      }
+
       return;
     }
 
@@ -5269,14 +5624,14 @@ const LessonView = ({
 
           {step.equations ? (
             <div className="mt-6">
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid auto-rows-fr gap-4 sm:grid-cols-2">
                 {step.equations.map((item) => (
-                  <div key={item.label} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
-                    <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
+                  <div key={item.label} className={`flex h-full min-h-[9.75rem] flex-col rounded-3xl border p-4 sm:p-5 ${subtlePanelClass}`}>
+                    <p className={`flex min-h-[3.25rem] items-start text-sm font-semibold uppercase leading-6 tracking-[0.18em] ${mutedClass}`}>
                       {item.label}
                     </p>
                     <div
-                      className={`mt-4 overflow-x-auto pb-3 ${equationTextClass} text-[1.8rem] leading-[1.5] sm:text-[2.15rem]`}
+                      className={`mt-1 flex min-h-[4.1rem] items-center overflow-x-auto pb-2 ${equationTextClass} text-[1.55rem] leading-[1.35] sm:text-[1.9rem]`}
                     >
                       {item.expression}
                     </div>
@@ -5532,6 +5887,11 @@ const LessonView = ({
                         setSelectedQuizChoice(index);
                         if (quizChecked && selectedQuizChoice !== index) {
                           setQuizChecked(false);
+                          setQuizResults((current) => {
+                            const nextResults = { ...current };
+                            delete nextResults[quizIndex];
+                            return nextResults;
+                          });
                         }
                       }}
                       className={`rounded-2xl border px-4 py-4 text-left transition ${
@@ -5637,6 +5997,22 @@ const LessonView = ({
             >
               {nextButtonLabel}
             </button>
+            {canMarkCurrentStepComplete ? (
+              <button
+                type="button"
+                onClick={() => onStepComplete(lessonId, step.id)}
+                disabled={stepAlreadyComplete}
+                className={`ml-auto inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                  stepAlreadyComplete
+                    ? "cursor-default opacity-70"
+                    : isDark
+                      ? "border-emerald-300/30 bg-emerald-300/10 text-emerald-50 hover:bg-emerald-300/15"
+                      : "border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100"
+                }`}
+              >
+                {stepAlreadyComplete ? "Completed" : "Mark Complete"}
+              </button>
+            ) : null}
           </div>
         </article>
       </div>
@@ -5651,6 +6027,16 @@ const App = () => {
   const [view, setView] = useState("home");
   const [activeLessonId, setActiveLessonId] = useState("kinematics");
   const [lessonStepIndex, setLessonStepIndex] = useState(0);
+  const [progress, setProgress] = useState(() => {
+    try {
+      const savedProgress = window.localStorage.getItem(progressStorageKey);
+      return savedProgress
+        ? normalizeProgress(JSON.parse(savedProgress))
+        : emptyProgress;
+    } catch {
+      return emptyProgress;
+    }
+  });
   const settingsRef = useRef(null);
 
   useEffect(() => {
@@ -5664,6 +6050,10 @@ const App = () => {
     document.documentElement.dataset.theme = theme;
     window.localStorage.setItem("coasterphysics-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    window.localStorage.setItem(progressStorageKey, JSON.stringify(progress));
+  }, [progress]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -5709,6 +6099,41 @@ const App = () => {
   const currentLesson = lessonMap[activeLessonId];
   const activeSectionIndex = sections.findIndex((section) => section.id === activeLessonId);
   const nextSection = activeSectionIndex >= 0 ? sections[activeSectionIndex + 1] ?? null : null;
+
+  const markStepComplete = (lessonId, stepId) => {
+    setProgress((current) => {
+      const lessonSteps = current.completedSteps?.[lessonId] ?? {};
+
+      if (lessonSteps[stepId]) {
+        return current;
+      }
+
+      return {
+        ...current,
+        completedSteps: {
+          ...current.completedSteps,
+          [lessonId]: {
+            ...lessonSteps,
+            [stepId]: true,
+          },
+        },
+      };
+    });
+  };
+
+  const recordQuizScore = (lessonId, correct, total) => {
+    setProgress((current) => ({
+      ...current,
+      quizScores: {
+        ...current.quizScores,
+        [lessonId]: {
+          correct,
+          total,
+          completedAt: Date.now(),
+        },
+      },
+    }));
+  };
 
   const openLesson = (section) => {
     setActiveSection(section);
@@ -5765,6 +6190,7 @@ const App = () => {
 
         {view === "lesson" ? (
           <LessonView
+            lessonId={activeLessonId}
             lesson={currentLesson}
             isDark={isDark}
             panelClass={panelClass}
@@ -5781,6 +6207,10 @@ const App = () => {
             onBack={returnToSections}
             hasNextLesson={Boolean(nextSection)}
             onNextLesson={goToNextLesson}
+            completedSteps={progress.completedSteps?.[activeLessonId] ?? {}}
+            quizScore={progress.quizScores?.[activeLessonId] ?? null}
+            onStepComplete={markStepComplete}
+            onQuizComplete={recordQuizScore}
           />
         ) : view === "home" ? (
           <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
@@ -5875,6 +6305,17 @@ const App = () => {
               <div className="mt-10 grid gap-4">
                 {sections.map((section) => {
                   const isActive = section.id === activeSection.id;
+                  const lesson = lessonMap[section.id];
+                  const completedSteps = progress.completedSteps?.[section.id] ?? {};
+                  const quizScore = progress.quizScores?.[section.id] ?? null;
+                  const progressSummary = getLessonProgressSummary(
+                    lesson,
+                    completedSteps,
+                    quizScore,
+                  );
+                  const quizScoreText = quizScore
+                    ? `${Math.round((quizScore.correct / quizScore.total) * 100)}% (${quizScore.correct}/${quizScore.total})`
+                    : "n/a";
 
                   return (
                     <button
@@ -5883,17 +6324,17 @@ const App = () => {
                       onClick={() => {
                         openLesson(section);
                       }}
-                      className={`${panelClass} flex items-center justify-between gap-4 p-5 text-left transition ${
+                      className={`${panelClass} flex flex-col gap-4 p-5 text-left transition lg:flex-row lg:items-center lg:justify-between ${
                         isActive
                           ? isDark
                             ? "border-cyan-300/40 bg-cyan-300/10"
                             : "border-sky-300 bg-sky-50"
                           : isDark
                             ? "hover:border-white/15 hover:bg-white/[0.07]"
-                            : "hover:border-slate-400 hover:bg-white"
+                          : "hover:border-slate-400 hover:bg-white"
                       }`}
                     >
-                      <div className="flex min-w-0 items-start gap-4">
+                      <div className="flex min-w-0 flex-1 items-start gap-4">
                         <span
                           className={`mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
                         >
@@ -5921,16 +6362,59 @@ const App = () => {
                         </div>
                       </div>
 
-                      <span
-                        className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-xl transition ${
-                          isDark
-                            ? "border-white/10 bg-white/[0.04] text-slate-200"
-                            : "border-slate-300/70 bg-white/70 text-slate-700"
-                        }`}
-                        aria-hidden="true"
-                      >
-                        →
-                      </span>
+                      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-end lg:w-auto">
+                        <div className="min-w-[12rem]">
+                          <div className="mb-1 flex items-center justify-between gap-3">
+                            <span className={`text-xs font-semibold uppercase tracking-[0.14em] ${mutedClass}`}>
+                              Progress
+                            </span>
+                            <span className={`text-xs font-semibold ${titleClass}`}>
+                              {progressSummary.percent}%
+                            </span>
+                          </div>
+                          <div
+                            className={`h-3 overflow-hidden rounded-full border ${
+                              isDark
+                                ? "border-white/10 bg-white/10"
+                                : "border-slate-300 bg-slate-200/80"
+                            }`}
+                            aria-label={`${section.title} progress ${progressSummary.percent}%`}
+                          >
+                            <div
+                              className={`h-full rounded-full ${
+                                isDark ? "bg-cyan-300" : "bg-sky-500"
+                              }`}
+                              style={{ width: `${progressSummary.percent}%` }}
+                            />
+                          </div>
+                        </div>
+
+                        <div
+                          className={`min-w-[6.5rem] rounded-2xl border px-3 py-2 ${
+                            isDark
+                              ? "border-white/10 bg-white/[0.04]"
+                              : "border-slate-300/70 bg-white/70"
+                          }`}
+                        >
+                          <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${mutedClass}`}>
+                            Quiz
+                          </p>
+                          <p className={`mt-1 text-sm font-semibold ${titleClass}`}>
+                            {quizScoreText}
+                          </p>
+                        </div>
+
+                        <span
+                          className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-xl transition ${
+                            isDark
+                              ? "border-white/10 bg-white/[0.04] text-slate-200"
+                              : "border-slate-300/70 bg-white/70 text-slate-700"
+                          }`}
+                          aria-hidden="true"
+                        >
+                          →
+                        </span>
+                      </div>
                     </button>
                   );
                 })}
