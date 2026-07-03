@@ -4945,7 +4945,7 @@ const LessonView = ({
     );
   };
 
-  const equationTextClass = `font-display font-medium tracking-normal ${titleClass}`;
+  const equationTextClass = `font-body font-medium tracking-normal ${titleClass}`;
   const realWorldEquationClass = `mt-2 overflow-x-auto pb-1 ${equationTextClass} text-xl leading-relaxed`;
   const renderRealWorldEquation = (equationContent) =>
     typeof equationContent === "string" ? (
@@ -5296,7 +5296,7 @@ const LessonView = ({
                   <div key={item.symbol} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
                     <div className="flex items-start gap-4">
                       <div
-                        className={`min-w-[5.5rem] rounded-2xl border px-3 py-3 text-center font-display text-2xl font-medium leading-none ${
+                        className={`min-w-[5.5rem] rounded-2xl border px-3 py-3 text-center font-body text-2xl font-medium leading-none ${
                           isDark
                             ? "border-white/10 bg-white/[0.04] text-white"
                             : "border-slate-300/70 bg-white/80 text-slate-900"
