@@ -92,6 +92,18 @@
     line-height: 0.95;
   }
 
+  .physics-initial-subscript {
+    font-size: 0.58em;
+    line-height: 0;
+    vertical-align: -0.34em;
+  }
+
+  .physics-nested-initial-zero {
+    display: inline-block;
+    font-size: 0.82em;
+    transform: translateY(0.16em);
+  }
+
   .section-shell {
     @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
   }

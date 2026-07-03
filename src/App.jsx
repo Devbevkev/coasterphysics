@@ -16,7 +16,7 @@ const Initial = ({ symbol }) => {
   return (
     <>
       {symbol}
-      <sub className="text-[0.58em] leading-none">0</sub>
+      <sub className="physics-initial-subscript">0</sub>
     </>
   );
 };
@@ -88,8 +88,9 @@ const formatPhysicsMarkup = (text) => {
     [/(?<![A-Za-z])aavg(?![A-Za-z])/g, "a<sub>avg</sub>"],
     [/(?<![A-Za-z])a_c(?![A-Za-z])/g, "a<sub>c</sub>"],
     [/(?<![A-Za-z])ac(?![A-Za-z])/g, "a<sub>c</sub>"],
-    [/v0/g, "v<sub>0</sub>"],
-    [/x0/g, "x<sub>0</sub>"],
+    [/v0/g, 'v<sub class="physics-initial-subscript">0</sub>'],
+    [/x0/g, 'x<sub class="physics-initial-subscript">0</sub>'],
+    [/y0/g, 'y<sub class="physics-initial-subscript">0</sub>'],
     [/(?<![A-Za-z])vf(?![A-Za-z])/g, "v<sub>f</sub>"],
     [/(?<![A-Za-z])vi(?![A-Za-z])/g, "v<sub>i</sub>"],
     [/(?<![A-Za-z])pf(?![A-Za-z])/g, "p<sub>f</sub>"],
@@ -110,6 +111,12 @@ const FormattedPhysicsText = ({ as: Component = "span", className, text }) => (
     dangerouslySetInnerHTML={{ __html: formatPhysicsMarkup(text) }}
   />
 );
+
+const scrollPageToTop = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+};
 
 const equation = (label, expression) => ({ label, expression });
 
@@ -827,66 +834,170 @@ const uploadedImageCredits = [
     title: "Copperhead Strike Train",
     file: "/copperhead-strike-train.png",
     usedIn: "Forces and Newton's Laws real-world example",
-    source: "User-provided image uploaded in this project thread.",
+    source: "Closest verified source found: Carowinds / Six Flags official Copperhead Strike page.",
+    sourceUrl: "https://www.sixflags.com/carowinds/attractions/copperhead-strike",
     copyrightNote:
-      "Original photographer, source URL, and license were not included with the upload.",
+      "Exact original upload page was not confirmed by search. Treat this as a traced ride/source citation, not a confirmed reuse license.",
   },
   {
     title: "Maverick Second Launch",
     file: "/maverick-second-launch.png",
     usedIn: "Work, Friction, and Power real-world example",
-    source: "User-provided image uploaded in this project thread.",
+    source: "Closest verified source found: Maverick page on Wikimedia/Wikipedia, with ride photos and source links.",
+    sourceUrl: "https://en.wikipedia.org/wiki/Maverick_(roller_coaster)",
     copyrightNote:
-      "Original photographer, source URL, and license were not included with the upload.",
+      "Exact image match was not confirmed by search. Use a verified replacement image or confirm the original photographer before final publication.",
   },
   {
     title: "El Toro Airtime Hills",
     file: "/el-toro-airtime.png",
     usedIn: "Kinematics projectile motion real-world example",
-    source: "User-provided image uploaded in this project thread.",
+    source: "Visible image watermark reads © Joel N...; closest verified coaster source found: El Toro public image pages.",
+    sourceUrl: "https://www.pa-community.com/parques/six-flags-great-adventure/atracciones/el-toro",
     copyrightNote:
-      "Original photographer, source URL, and license were not included with the upload.",
+      "The original posting URL for the watermarked image was not confirmed by search. The visible watermark should be kept or the image should be replaced with a clearly licensed version.",
   },
   {
     title: "VelociCoaster Launch and Roll",
     file: "/velocicoaster-momentum.png",
     usedIn: "Momentum and Impulse real-world example",
-    source: "User-provided image uploaded in this project thread.",
+    source: "Pais&Filhos article; photo credit listed there as Nicole Moshe - NBCUniversal.",
+    sourceUrl: "https://paisefilhos.com.br/familia/velocicoaster-a-mais-rapida-e-veloz-montanha-russa-da-florida-esta-na-universal-orlando-resorts/",
     copyrightNote:
-      "Original photographer, source URL, and license were not included with the upload.",
+      "This appears to be the strongest traced match. Credit does not automatically mean reuse permission is granted.",
+  },
+];
+
+const homeCoverImageCredits = [
+  {
+    title: "Millennium Force Cover Photo",
+    file: "/hero-coaster-frame.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest visual match found: Millennium Force page on Coaster Wiki / Fandom.",
+    sourceUrl: "https://coaster.wikia.com/wiki/Millennium_Force",
+    copyrightNote:
+      "Exact original image page was not confirmed by search. Use this as a traced visual/source citation, not a confirmed reuse license.",
+  },
+  {
+    title: "Mako Drop Cover Photo",
+    file: "/mako-drop.png",
+    usedIn: "Home page cover collage and Energy real-world example",
+    source:
+      "Closest visual match found: Orlando Florida guide page for SeaWorld Orlando roller coasters.",
+    sourceUrl:
+      "https://www.orlando-florida.net/top-3-seaworld-orlando-rollercoasters-you-can-ride-in-2022/",
+    copyrightNote:
+      "Exact original image page was not confirmed by search. Credit does not automatically grant permission to reuse it.",
+  },
+  {
+    title: "Superman Coaster Cover Photo",
+    file: "/hero-collage-superman.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest visual match found: Milenio article using a Superman coaster image.",
+    sourceUrl:
+      "https://www.milenio.com/politica/comunidad/denuncian-discriminacion-pareja-gay-besarse-six-flags",
+    copyrightNote:
+      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
+  },
+  {
+    title: "White Inversion Cover Photo",
+    file: "/hero-collage-white-loop.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest visual match found: Six Flags Magic Mountain memberships page.",
+    sourceUrl: "https://www.sixflags.com/magicmountain/memberships",
+    copyrightNote:
+      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
+  },
+  {
+    title: "Wooden Inversion Cover Photo",
+    file: "/hero-collage-red-inversion.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest visual match found: The Gravity Group Timberliner trains page.",
+    sourceUrl: "https://thegravitygroup.com/timberliner/",
+    copyrightNote:
+      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
+  },
+  {
+    title: "Wooden Coaster Sunset Cover Photo",
+    file: "/hero-collage-wood-sunset.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest visual match found: Wisconsin Dells amusement parks guide.",
+    sourceUrl:
+      "https://www.wisdells.com/blog-stories/Best-Amusement-Parks-in-Wisconsin-Dells",
+    copyrightNote:
+      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
+  },
+  {
+    title: "Blue Loop Cover Photo",
+    file: "/hero-collage-loop-blue.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Existing project image asset; exact original source was not confirmed by image search.",
+    copyrightNote:
+      "Replace with the original photographer, website URL, and license before final publication if available.",
+  },
+  {
+    title: "Blue Crest Cover Photo",
+    file: "/hero-collage-blue-crest-wide.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest visual match found: Visit Cincy page for Kings Island Amusement Park.",
+    sourceUrl:
+      "https://www.visitcincy.com/listing/kings-island-amusement-park/4778/",
+    copyrightNote:
+      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
+  },
+  {
+    title: "Copperhead Strike Cover Photo",
+    file: "/hero-collage-orange-turn.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest verified source found: Carowinds / Six Flags official Copperhead Strike page.",
+    sourceUrl: "https://www.sixflags.com/carowinds/attractions/copperhead-strike",
+    copyrightNote:
+      "Exact original image page was not confirmed by search. Use this as a traced ride/source citation, not a confirmed reuse license.",
+  },
+  {
+    title: "Red Loop Tower Cover Photo",
+    file: "/hero-collage-red-loop-tower.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest visual match found: Gazeta.pl roller coaster article.",
+    sourceUrl:
+      "https://podroze.gazeta.pl/podroze/56%2C114158%2C23711374%2Cnajciekawsze-roller-coastery-w-polsce-mamy-m-in-najwyzszy.html",
+    copyrightNote:
+      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
+  },
+  {
+    title: "Manta-Style Inverted Train Cover Photo",
+    file: "/hero-collage-inverted-train.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest verified ride/source found: SeaWorld Manta coaster pages; exact image source was not confirmed.",
+    sourceUrl: "https://seaworld.com/orlando/rides/manta/",
+    copyrightNote:
+      "The image appears to show a Manta-style flying coaster, but the exact original photographer/license was not confirmed by search.",
+  },
+  {
+    title: "Strat Tower Ride Cover Photo",
+    file: "/hero-collage-vegas-glider.png",
+    usedIn: "Home page cover collage",
+    source:
+      "Closest visual match found: Tiqets page for The STRAT Tower thrill rides.",
+    sourceUrl:
+      "https://www.tiqets.com/en/las-vegas-attractions-c82073/tickets-for-the-strat-tower-entry-optional-thrill-rides-p976687/",
+    copyrightNote:
+      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
   },
 ];
 
 const otherSiteImageCredits = [
-  {
-    title: "Home Hero Collage Images",
-    file: "/hero-coaster-frame.png",
-    usedIn: "Home page image collage",
-    source: "Existing project image assets.",
-    copyrightNote:
-      "Original sources and licenses are not documented in the project files yet.",
-    relatedFiles: [
-      "/hero-coaster-frame.png",
-      "/hero-collage-superman.png",
-      "/hero-collage-white-loop.png",
-      "/hero-collage-red-inversion.png",
-      "/hero-collage-wood-sunset.png",
-      "/hero-collage-loop-blue.png",
-      "/hero-collage-blue-crest-wide.png",
-      "/hero-collage-orange-turn.png",
-      "/hero-collage-red-loop-tower.png",
-      "/hero-collage-inverted-train.png",
-      "/hero-collage-vegas-glider.png",
-    ],
-  },
-  {
-    title: "Mako Drop",
-    file: "/mako-drop.png",
-    usedIn: "Home page hero collage and Energy real-world example",
-    source: "Existing project image asset.",
-    copyrightNote:
-      "Original source and license are not documented in the project files yet.",
-  },
+  ...homeCoverImageCredits,
   {
     title: "Circular G-Force Coaster",
     file: "/circular-gforce-example.png",
@@ -1101,7 +1212,11 @@ const kinematicsLesson = createLesson(
           equation(
             "Vertical position",
             <>
-              y = <Initial symbol="y" /> + v<sub>y0</sub>t -{" "}
+              y = <Initial symbol="y" /> + v
+              <sub>
+                y<span className="physics-nested-initial-zero">0</span>
+              </sub>
+              t -{" "}
               <Fraction numerator="1" denominator="2" />
               gt²
             </>,
@@ -5298,6 +5413,14 @@ const LessonView = ({
       ? "Next Unit"
       : "Finish Course"
     : "Next";
+  const completedStepCircleClass = isDark
+    ? "bg-emerald-300/20 text-emerald-100 ring-1 ring-emerald-300/35"
+    : "bg-emerald-100 text-emerald-800 ring-1 ring-emerald-300";
+  const completedCollapsedStepClass = isDark
+    ? "border-emerald-300/40 bg-emerald-300/15 text-emerald-100 hover:bg-emerald-300/20"
+    : "border-emerald-300 bg-emerald-100 text-emerald-800 hover:bg-emerald-50";
+  const isLessonStepComplete = (item) =>
+    item.id === "quiz" ? Boolean(quizScore) : Boolean(completedSteps?.[item.id]);
 
   useEffect(() => {
     setPracticeIndex(0);
@@ -5571,6 +5694,7 @@ const LessonView = ({
             <div className="grid gap-3">
               {lesson.steps.map((item, index) => {
                 const active = index === stepIndex;
+                const stepComplete = isLessonStepComplete(item);
 
                 return (
                   <button
@@ -5589,7 +5713,9 @@ const LessonView = ({
                   >
                     <div className="flex items-center gap-3">
                       <span
-                        className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold ${accentNumberClass}`}
+                        className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold ${
+                          stepComplete ? completedStepCircleClass : accentNumberClass
+                        }`}
                       >
                         {index + 1}
                       </span>
@@ -5614,6 +5740,7 @@ const LessonView = ({
             <div className="flex flex-col items-center gap-3 py-0.5">
               {lesson.steps.map((item, index) => {
                 const active = index === stepIndex;
+                const stepComplete = isLessonStepComplete(item);
 
                 return (
                   <button
@@ -5621,7 +5748,9 @@ const LessonView = ({
                     type="button"
                     onClick={() => setStepIndex(index)}
                     className={`inline-flex h-10 w-10 items-center justify-center rounded-full border text-xs font-semibold transition ${
-                      active
+                      stepComplete
+                        ? completedCollapsedStepClass
+                        : active
                         ? isDark
                           ? "border-cyan-300/40 bg-cyan-300/10 text-cyan-100"
                           : "border-sky-300 bg-sky-50 text-sky-700"
@@ -6138,6 +6267,16 @@ const ImageCreditsView = ({
             <div className={`rounded-2xl border p-3 text-sm leading-6 ${sourceBoxClass}`}>
               <p className="font-semibold">Source</p>
               <p className="mt-1">{credit.source}</p>
+              {credit.sourceUrl ? (
+                <a
+                  href={credit.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-flex break-all text-xs font-semibold underline underline-offset-4"
+                >
+                  {credit.sourceUrl}
+                </a>
+              ) : null}
             </div>
             <div className={`rounded-2xl border p-3 text-sm leading-6 ${warningBoxClass}`}>
               <p className="font-semibold">Copyright note</p>
@@ -6176,15 +6315,16 @@ const ImageCreditsView = ({
           Image sources used on this site
         </h2>
         <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
-          The images uploaded directly into this project are credited as
-          user-provided uploads because the original source links were not
-          supplied with the files.
+          These credits list the strongest sources found through image and web
+          searches. Some entries are exact traced matches, while others are
+          marked as closest verified sources when the original image page could
+          not be confirmed.
         </p>
         <div className={`mt-5 max-w-4xl rounded-[1.5rem] border p-4 text-sm leading-7 ${subtlePanelClass}`}>
           <p className={copyClass}>
-            Before a final public submission, replace any missing source notes
-            with the original photographer, website URL, and license when those
-            details are available. Crediting an image does not automatically
+            Before a final public submission, replace any closest-match entries
+            with the original photographer, website URL, and license if those
+            details become available. Crediting an image does not automatically
             grant permission to reuse it.
           </p>
         </div>
@@ -6231,6 +6371,22 @@ const App = () => {
   const settingsRef = useRef(null);
 
   useEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration;
+
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    scrollPageToTop();
+
+    return () => {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = previousScrollRestoration;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const savedTheme = window.localStorage.getItem("coasterphysics-theme");
     if (savedTheme === "light" || savedTheme === "dark") {
       setTheme(savedTheme);
@@ -6247,7 +6403,9 @@ const App = () => {
   }, [progress]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const frame = window.requestAnimationFrame(scrollPageToTop);
+
+    return () => window.cancelAnimationFrame(frame);
   }, [view]);
 
   useEffect(() => {
@@ -6350,7 +6508,7 @@ const App = () => {
     setSettingsOpen(false);
 
     if (view === nextView) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      scrollPageToTop();
       return;
     }
 
@@ -6554,7 +6712,7 @@ const App = () => {
                       </div>
 
                       <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-end lg:w-auto">
-                        <div className="min-w-[12rem]">
+                        <div className="w-full sm:min-w-[16rem] sm:pr-2 lg:min-w-[17rem] lg:pr-3">
                           <div className="mb-1 flex items-center justify-between gap-3">
                             <span className={`text-xs font-semibold uppercase tracking-[0.14em] ${mutedClass}`}>
                               Progress
