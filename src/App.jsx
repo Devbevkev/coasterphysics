@@ -4945,7 +4945,8 @@ const LessonView = ({
     );
   };
 
-  const realWorldEquationClass = `mt-2 overflow-x-auto pb-1 font-serif text-xl font-normal leading-relaxed tracking-normal ${titleClass}`;
+  const equationTextClass = `font-display font-medium tracking-normal ${titleClass}`;
+  const realWorldEquationClass = `mt-2 overflow-x-auto pb-1 ${equationTextClass} text-xl leading-relaxed`;
   const renderRealWorldEquation = (equationContent) =>
     typeof equationContent === "string" ? (
       <FormattedPhysicsText
@@ -5233,7 +5234,7 @@ const LessonView = ({
                         {item.title}
                       </p>
                       <div
-                        className={`mt-4 overflow-x-auto pb-3 font-serif text-[1.85rem] font-normal leading-[1.45] tracking-normal sm:text-[2.2rem] ${titleClass}`}
+                        className={`mt-4 overflow-x-auto pb-3 ${equationTextClass} text-[1.85rem] leading-[1.45] sm:text-[2.2rem]`}
                       >
                         {item.equation}
                       </div>
@@ -5275,7 +5276,7 @@ const LessonView = ({
                       {item.label}
                     </p>
                     <div
-                      className={`mt-4 overflow-x-auto pb-3 font-serif text-[1.8rem] font-normal leading-[1.5] tracking-normal sm:text-[2.15rem] ${titleClass}`}
+                      className={`mt-4 overflow-x-auto pb-3 ${equationTextClass} text-[1.8rem] leading-[1.5] sm:text-[2.15rem]`}
                     >
                       {item.expression}
                     </div>
@@ -5295,7 +5296,7 @@ const LessonView = ({
                   <div key={item.symbol} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
                     <div className="flex items-start gap-4">
                       <div
-                        className={`min-w-[5.5rem] rounded-2xl border px-3 py-3 text-center font-serif text-2xl font-normal leading-none ${
+                        className={`min-w-[5.5rem] rounded-2xl border px-3 py-3 text-center font-display text-2xl font-medium leading-none ${
                           isDark
                             ? "border-white/10 bg-white/[0.04] text-white"
                             : "border-slate-300/70 bg-white/80 text-slate-900"
