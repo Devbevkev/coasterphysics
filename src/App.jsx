@@ -4,9 +4,9 @@ import SiteFooter from "./components/SiteFooter";
 
 const Fraction = ({ numerator, denominator }) => {
   return (
-    <span className="inline-flex flex-col items-center align-middle leading-none">
+    <span className="physics-fraction inline-flex flex-col items-center align-middle leading-none">
       <span className="px-1">{numerator}</span>
-      <span className="mt-1 w-full border-t-2 border-current" />
+      <span className="physics-fraction-rule w-full" />
       <span className="px-1 pt-1">{denominator}</span>
     </span>
   );
@@ -321,7 +321,9 @@ const SettingsControl = ({
   settingsOpen,
   setSettingsOpen,
   settingsRef,
+  setShowCoasterExamples,
   setTheme,
+  showCoasterExamples,
   subtlePanelClass,
   theme,
   titleClass,
@@ -380,6 +382,44 @@ const SettingsControl = ({
           >
             Current mode:{" "}
             <span className={titleClass}>{isDark ? "Dark" : "Light"}</span>
+          </div>
+
+          <div className={`mt-4 rounded-2xl border p-4 ${subtlePanelClass}`}>
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className={`text-sm font-semibold ${titleClass}`}>
+                  Coaster examples
+                </p>
+                <p className={`mt-1 text-sm leading-6 ${copyClass}`}>
+                  Show or hide the real-world coaster example cards in lessons.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCoasterExamples((current) => !current)}
+                className={`relative inline-flex h-8 w-16 shrink-0 items-center rounded-full p-1 transition ${
+                  showCoasterExamples
+                    ? "bg-cyan-300/80"
+                    : isDark
+                      ? "bg-white/10"
+                      : "border border-slate-300/80 bg-slate-300/80"
+                }`}
+                aria-label="Toggle real-world coaster examples"
+                aria-pressed={showCoasterExamples}
+              >
+                <span
+                  className={`inline-block h-6 w-6 rounded-full bg-white shadow-sm transition-transform ${
+                    showCoasterExamples ? "translate-x-8" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+            <p className={`mt-3 text-sm ${copyClass}`}>
+              Current setting:{" "}
+              <span className={titleClass}>
+                {showCoasterExamples ? "On" : "Off"}
+              </span>
+            </p>
           </div>
         </div>
       ) : null}
@@ -652,6 +692,82 @@ const LoopTopForceDiagram = ({ isDark }) => {
   );
 };
 
+const TorqueWheelDiagram = ({ isDark }) => {
+  const panelFill = isDark ? "#0f172a" : "#f8fafc";
+  const wheelStroke = isDark ? "#94a3b8" : "#64748b";
+  const wheelFill = isDark ? "rgba(148,163,184,0.12)" : "rgba(226,232,240,0.72)";
+  const axleFill = isDark ? "#f8fafc" : "#0f172a";
+  const forceColor = isDark ? "#22d3ee" : "#0284c7";
+  const radiusColor = isDark ? "#fbbf24" : "#d97706";
+  const torqueColor = isDark ? "#a78bfa" : "#7c3aed";
+  const textColor = isDark ? "#e2e8f0" : "#334155";
+  const mutedText = isDark ? "#cbd5e1" : "#475569";
+
+  return (
+    <svg
+      viewBox="0 0 360 240"
+      className="h-64 w-full"
+      role="img"
+      aria-label="Torque diagram showing a wheel, radius, and tangential force arrow"
+    >
+      <rect x="0" y="0" width="360" height="240" rx="24" fill={panelFill} />
+
+      <circle cx="150" cy="124" r="70" fill={wheelFill} stroke={wheelStroke} strokeWidth="4" />
+      <circle cx="150" cy="124" r="10" fill={axleFill} />
+      <circle cx="150" cy="124" r="3.5" fill={panelFill} />
+
+      {[0, 45, 90, 135].map((angle) => (
+        <line
+          key={angle}
+          x1="150"
+          y1="124"
+          x2="220"
+          y2="124"
+          stroke={wheelStroke}
+          strokeWidth="2"
+          strokeLinecap="round"
+          opacity="0.35"
+          transform={`rotate(${angle} 150 124)`}
+        />
+      ))}
+
+      <line x1="150" y1="124" x2="220" y2="124" stroke={radiusColor} strokeWidth="5" strokeLinecap="round" />
+      <circle cx="220" cy="124" r="6" fill={radiusColor} />
+      <text x="182" y="112" fill={textColor} fontSize="18" fontWeight="700">
+        r
+      </text>
+
+      <line x1="220" y1="124" x2="220" y2="58" stroke={forceColor} strokeWidth="6" strokeLinecap="round" />
+      <polygon points="220,42 208,64 232,64" fill={forceColor} />
+      <text x="238" y="68" fill={textColor} fontSize="18" fontWeight="700">
+        F
+      </text>
+      <text x="238" y="90" fill={mutedText} fontSize="14" fontWeight="600">
+        tangent
+      </text>
+
+      <path
+        d="M105 72 C137 42 188 47 213 82"
+        fill="none"
+        stroke={torqueColor}
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+      <polygon points="222,96 201,87 219,74" fill={torqueColor} />
+      <text x="94" y="55" fill={textColor} fontSize="18" fontWeight="700">
+        τ
+      </text>
+
+      <text x="128" y="212" fill={mutedText} fontSize="14" fontWeight="600">
+        axle
+      </text>
+      <text x="38" y="32" fill={textColor} fontSize="16" fontWeight="700">
+        Tangential force creates torque
+      </text>
+    </svg>
+  );
+};
+
 const practiceQuestion = (
   prompt,
   choices,
@@ -865,6 +981,16 @@ const uploadedImageCredits = [
     sourceUrl: "https://paisefilhos.com.br/familia/velocicoaster-a-mais-rapida-e-veloz-montanha-russa-da-florida-esta-na-universal-orlando-resorts/",
     copyrightNote:
       "This appears to be the strongest traced match. Credit does not automatically mean reuse permission is granted.",
+  },
+  {
+    title: "Time Traveler Controlled Spin",
+    file: "/time-traveler-spin.png",
+    usedIn: "Rotation and Torque real-world example",
+    source: "Amusement Insider article supplied with the image.",
+    sourceUrl:
+      "https://www.amusementinsider.com/2018/10/time-traveler-silver-dollar-city.html",
+    copyrightNote:
+      "Crediting the image source does not automatically grant reuse permission. Confirm permission or replace with a clearly licensed image before final public publication if needed.",
   },
 ];
 
@@ -3839,6 +3965,13 @@ const rotationLesson = createLesson(
           "Rotational inertia depends on mass distribution, not only total mass.",
           "Rolling objects can have both translational and rotational kinetic energy.",
         ],
+        figures: [
+          figure(
+            "Torque on a Wheel",
+            (isDark) => <TorqueWheelDiagram isDark={isDark} />,
+            "The force arrow is tangent to the wheel, so it makes a strong turning effect. The radius r is the lever arm from the axle to where the force acts.",
+          ),
+        ],
         callout:
           "Students often treat rotational inertia like ordinary mass. It plays a similar role, but it depends on where the mass is relative to the axis, not just how much mass there is.",
         practice: practiceQuestion(
@@ -4016,6 +4149,88 @@ const rotationLesson = createLesson(
           "Torque matters because forces from the track and axle can twist components, and the wheel geometry determines how forward motion and rotation stay linked. Bearings, wheel materials, and alignment all matter because they influence both energy loss and mechanical stress.",
           "This is also where students see that the simplified 'particle model' of earlier lessons has limits. The full train is a system of translating and rotating parts, and realistic design decisions have to respect both.",
         ],
+        realWorldExample: {
+          eyebrow: "Real-World Example",
+          title: "Time Traveler Controlled Spin Example",
+          goal: "This example explains how torque changes a spinning coaster car's angular motion, and why rotational inertia affects how quickly that spin changes.",
+          imageSrc: "/time-traveler-spin.png",
+          imageAlt: "Time Traveler spinning coaster cars rotating on the track at Silver Dollar City.",
+          stats: [
+            {
+              label: "Coaster",
+              value: "Time Traveler",
+            },
+            {
+              label: "Park",
+              value: "Silver Dollar City",
+            },
+            {
+              label: "Max speed",
+              value: "50.3 mph",
+            },
+            {
+              label: "Height",
+              value: "100 ft",
+            },
+          ],
+          paragraphs: [
+            "Time Traveler is a launched spinning coaster, so each car can rotate while the train is also moving along the track. That makes it a strong example for this unit because the ride is not only translating forward; parts of the vehicle are rotating too.",
+            "A spinning car changes its spin only when a net torque acts on it. In a simplified model, a sideways spin-control force acting away from the car's center creates torque. The farther that force acts from the rotation axis, the larger the torque.",
+            "Rotational inertia matters too. If the car and riders have more mass spread farther from the center, the same torque produces a smaller angular acceleration. That is why rotation is about both the applied turning effect and how the mass is distributed.",
+          ],
+          calculationSteps: [
+            {
+              label: "1. Set up a simple spin-control model",
+              equation: (
+                <>
+                  r = 0.80 m, F = 120 N, and θ = 90°
+                </>
+              ),
+              note: "These are classroom model numbers for a sideways force on the spinning car, not published ride sensor values.",
+            },
+            {
+              label: "2. Calculate the torque",
+              equation: (
+                <>
+                  τ = rF sinθ = (0.80)(120)sin90° = 96 N·m
+                </>
+              ),
+              note: "The force is perpendicular to the lever arm in this model, so sin90° = 1.",
+            },
+            {
+              label: "3. Connect torque to angular acceleration",
+              equation: (
+                <>
+                  τ<sub>net</sub> = Iα
+                </>
+              ),
+              note: "Net torque changes angular motion the way net force changes linear motion.",
+            },
+            {
+              label: "4. Estimate the angular acceleration",
+              equation: (
+                <>
+                  α = <Fraction numerator={<span>τ<sub>net</sub></span>} denominator="I" /> ={" "}
+                  <Fraction numerator="96" denominator="240" /> = 0.40 rad/s²
+                </>
+              ),
+              note: "Using I = 240 kg·m² as a sample rotational inertia gives a moderate spin-rate change.",
+            },
+            {
+              label: "5. Find the spin-speed change over 2.0 s",
+              equation: (
+                <>
+                  Δω = αΔt = (0.40)(2.0) = 0.80 rad/s
+                </>
+              ),
+              note: "A longer time, larger torque, or smaller rotational inertia would change the spin rate more.",
+            },
+          ],
+          afterParagraphs: [
+            "The lesson is not that every spin on Time Traveler can be calculated from these exact numbers. The lesson is the relationship: torque starts or changes rotation, while rotational inertia resists that change.",
+            "This is why spinning coaster design has to control more than speed along the track. Engineers also care about how quickly the cars rotate, how smooth the changes feel, and how the rotating hardware handles repeated torques.",
+          ],
+        },
         bullets: [
           "Wheel design affects efficiency because rotational kinetic energy is part of the total energy budget.",
           "Poor bearings increase unwanted friction and energy loss.",
@@ -5369,6 +5584,7 @@ const LessonView = ({
   quizScore,
   onStepComplete,
   onQuizComplete,
+  showCoasterExamples,
 }) => {
   const step = lesson.steps[stepIndex];
   const lessonHeading = lesson.chapterName ?? getChapterName(lesson.title);
@@ -5384,6 +5600,7 @@ const LessonView = ({
   const [selectedQuizChoice, setSelectedQuizChoice] = useState(null);
   const [quizChecked, setQuizChecked] = useState(false);
   const [quizResults, setQuizResults] = useState({});
+  const hideLessonSidebar = lessonId === "final-quiz";
 
   const practiceQuestions = step.practice?.questions ?? (step.practice ? [step.practice] : []);
   const currentPracticeProblem = practiceQuestions[practiceIndex] ?? null;
@@ -5520,6 +5737,16 @@ const LessonView = ({
     );
 
   const realWorldDividerClass = `my-8 h-px w-full ${isDark ? "bg-white/10" : "bg-slate-300/70"}`;
+  const lessonGridClass = hideLessonSidebar
+    ? "mt-8 grid items-start gap-4"
+    : "mt-8 grid items-start gap-4 lg:[grid-template-columns:var(--lesson-columns)] lg:[transition:grid-template-columns_280ms_ease]";
+  const lessonGridStyle = hideLessonSidebar
+    ? undefined
+    : {
+        "--lesson-columns": tocOpen
+          ? "22rem minmax(0,1fr)"
+          : "5.25rem minmax(0,1fr)",
+      };
   const renderRealWorldExample = (example) => (
     <>
       <div className={realWorldDividerClass} />
@@ -5543,16 +5770,18 @@ const LessonView = ({
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
         <div className="lg:max-h-[34rem] lg:overflow-y-auto lg:pr-1">
-          <img
-            src={example.imageSrc}
-            alt={example.imageAlt}
-            className={`block h-auto w-full rounded-[1.5rem] border ${
-              isDark ? "border-white/10" : "border-slate-300/70"
-            }`}
-          />
+          {example.imageSrc ? (
+            <img
+              src={example.imageSrc}
+              alt={example.imageAlt}
+              className={`block h-auto w-full rounded-[1.5rem] border ${
+                isDark ? "border-white/10" : "border-slate-300/70"
+              }`}
+            />
+          ) : null}
 
           {example.stats?.length ? (
-            <div className={`mt-3 rounded-[1.5rem] border p-3 text-sm leading-5 ${subtlePanelClass}`}>
+            <div className={`${example.imageSrc ? "mt-3" : ""} rounded-[1.5rem] border p-3 text-sm leading-5 ${subtlePanelClass}`}>
               {example.stats.map((item) => (
                 <p key={item.label} className={copyClass}>
                   <span className={`font-semibold ${titleClass}`}>
@@ -5649,14 +5878,8 @@ const LessonView = ({
         </div>
       </div>
 
-      <div
-        className="mt-8 grid items-start gap-4 lg:[grid-template-columns:var(--lesson-columns)] lg:[transition:grid-template-columns_280ms_ease]"
-        style={{
-          "--lesson-columns": tocOpen
-            ? "22rem minmax(0,1fr)"
-            : "5.25rem minmax(0,1fr)",
-        }}
-      >
+      <div className={lessonGridClass} style={lessonGridStyle}>
+        {!hideLessonSidebar ? (
         <aside className={`${panelClass} lg:sticky lg:top-8 lg:self-start p-4 sm:p-5`}>
           <div className={`flex ${tocOpen ? "items-start justify-between gap-4" : "flex-col items-center gap-4"}`}>
             <div
@@ -5768,6 +5991,7 @@ const LessonView = ({
             </div>
           </div>
         </aside>
+        ) : null}
 
         <article className={`${panelClass} p-7 sm:p-8`}>
           {!isQuizStep ? (
@@ -5818,7 +6042,8 @@ const LessonView = ({
             </div>
           ) : null}
 
-          {step.realWorldExample &&
+          {showCoasterExamples &&
+          step.realWorldExample &&
           !["afterFigures", "bottom"].includes(step.realWorldExample.position)
             ? renderRealWorldExample(step.realWorldExample)
             : null}
@@ -5946,11 +6171,15 @@ const LessonView = ({
             </div>
           ) : null}
 
-          {step.realWorldExample && step.realWorldExample.position === "afterFigures"
+          {showCoasterExamples &&
+          step.realWorldExample &&
+          step.realWorldExample.position === "afterFigures"
             ? renderRealWorldExample(step.realWorldExample)
             : null}
 
-          {step.realWorldExample && step.realWorldExample.position === "bottom"
+          {showCoasterExamples &&
+          step.realWorldExample &&
+          step.realWorldExample.position === "bottom"
             ? renderRealWorldExample(step.realWorldExample)
             : null}
 
@@ -6354,6 +6583,13 @@ const ImageCreditsView = ({
 const App = () => {
   const [activeSection, setActiveSection] = useState(sections[0]);
   const [theme, setTheme] = useState("dark");
+  const [showCoasterExamples, setShowCoasterExamples] = useState(() => {
+    try {
+      return window.localStorage.getItem("coasterphysics-show-examples") !== "false";
+    } catch {
+      return true;
+    }
+  });
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [view, setView] = useState("home");
   const [activeLessonId, setActiveLessonId] = useState("kinematics");
@@ -6397,6 +6633,13 @@ const App = () => {
     document.documentElement.dataset.theme = theme;
     window.localStorage.setItem("coasterphysics-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      "coasterphysics-show-examples",
+      showCoasterExamples ? "true" : "false",
+    );
+  }, [showCoasterExamples]);
 
   useEffect(() => {
     window.localStorage.setItem(progressStorageKey, JSON.stringify(progress));
@@ -6528,7 +6771,9 @@ const App = () => {
               settingsOpen={settingsOpen}
               setSettingsOpen={setSettingsOpen}
               settingsRef={settingsRef}
+              setShowCoasterExamples={setShowCoasterExamples}
               setTheme={setTheme}
+              showCoasterExamples={showCoasterExamples}
               subtlePanelClass={subtlePanelClass}
               theme={theme}
               titleClass={titleClass}
@@ -6560,9 +6805,10 @@ const App = () => {
             quizScore={progress.quizScores?.[activeLessonId] ?? null}
             onStepComplete={markStepComplete}
             onQuizComplete={recordQuizScore}
+            showCoasterExamples={showCoasterExamples}
           />
         ) : view === "home" ? (
-          <section className="grid min-h-[72vh] items-center gap-10 lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
+          <section className="grid min-h-[calc(100svh-5rem)] items-center gap-10 lg:min-h-[calc(100svh-8rem)] lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
             <div className="max-w-3xl">
               <h1
                 className={`font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[5.8rem] lg:leading-[0.96] ${titleClass}`}
@@ -6626,7 +6872,9 @@ const App = () => {
                 settingsOpen={settingsOpen}
                 setSettingsOpen={setSettingsOpen}
                 settingsRef={settingsRef}
+                setShowCoasterExamples={setShowCoasterExamples}
                 setTheme={setTheme}
+                showCoasterExamples={showCoasterExamples}
                 subtlePanelClass={subtlePanelClass}
                 theme={theme}
                 titleClass={titleClass}
@@ -6792,7 +7040,9 @@ const App = () => {
                 settingsOpen={settingsOpen}
                 setSettingsOpen={setSettingsOpen}
                 settingsRef={settingsRef}
+                setShowCoasterExamples={setShowCoasterExamples}
                 setTheme={setTheme}
+                showCoasterExamples={showCoasterExamples}
                 subtlePanelClass={subtlePanelClass}
                 theme={theme}
                 titleClass={titleClass}
@@ -6831,7 +7081,9 @@ const App = () => {
                 settingsOpen={settingsOpen}
                 setSettingsOpen={setSettingsOpen}
                 settingsRef={settingsRef}
+                setShowCoasterExamples={setShowCoasterExamples}
                 setTheme={setTheme}
+                showCoasterExamples={showCoasterExamples}
                 subtlePanelClass={subtlePanelClass}
                 theme={theme}
                 titleClass={titleClass}

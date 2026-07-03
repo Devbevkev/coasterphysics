@@ -2,8 +2,40 @@ import { useMemo, useState } from "react";
 
 const GRAVITY = 9.81;
 const METERS_PER_SECOND_TO_MPH = 2.23694;
+const METERS_PER_FOOT = 0.3048;
+const FEET_PER_METER = 1 / METERS_PER_FOOT;
 const AIR_DENSITY = 1.225;
 const TRAIN_MASS = 6500;
+const MAX_DROP_HEIGHT_FEET = 1000;
+const MAX_DROP_HEIGHT_METERS = MAX_DROP_HEIGHT_FEET / FEET_PER_METER;
+
+const feetToMeters = (feet) => feet * METERS_PER_FOOT;
+
+const unitSystems = {
+  imperial: {
+    label: "Feet",
+    lengthUnit: "ft",
+    fromMeters: (meters) => meters * FEET_PER_METER,
+    toMeters: feetToMeters,
+  },
+  metric: {
+    label: "Meters",
+    lengthUnit: "m",
+    fromMeters: (meters) => meters,
+    toMeters: (meters) => meters,
+  },
+};
+
+const unitOptions = [
+  {
+    key: "imperial",
+    label: "Feet",
+  },
+  {
+    key: "metric",
+    label: "Meters",
+  },
+];
 
 const frictionProfiles = [
   {
@@ -34,18 +66,12 @@ const controls = [
   {
     key: "height",
     label: "Drop height",
-    min: 20,
-    max: 100,
-    step: 1,
-    unit: "m",
+    hasMaximum: true,
   },
   {
     key: "levelOutLength",
     label: "Level-out length",
-    min: 35,
-    max: 150,
-    step: 1,
-    unit: "m",
+    hasMaximum: false,
   },
 ];
 
@@ -53,10 +79,78 @@ const controlsByKey = Object.fromEntries(
   controls.map((control) => [control.key, control]),
 );
 
-const clampControlValue = (key, value) => {
-  const control = controlsByKey[key];
+const formatInputValue = (meters, unitSystem) => {
+  const unitConfig = unitSystems[unitSystem];
+  const displayValue = unitConfig.fromMeters(meters);
 
-  return Math.min(control.max, Math.max(control.min, value));
+  if (unitSystem === "imperial") {
+    return `${Math.round(displayValue)}`;
+  }
+
+  return `${Number(displayValue.toFixed(1))}`;
+};
+
+const formatLength = (meters, unitSystem, decimals = unitSystem === "imperial" ? 0 : 1) => {
+  const unitConfig = unitSystems[unitSystem];
+  return `${unitConfig.fromMeters(meters).toFixed(decimals)} ${unitConfig.lengthUnit}`;
+};
+
+const getDropHeightLimitLabel = (unitSystem) => {
+  if (unitSystem === "imperial") {
+    return `${MAX_DROP_HEIGHT_FEET} ft`;
+  }
+
+  return `${MAX_DROP_HEIGHT_METERS.toFixed(1)} m`;
+};
+
+const getControlError = (control, displayValue, unitSystem) => {
+  const unitConfig = unitSystems[unitSystem];
+
+  if (!Number.isFinite(displayValue)) {
+    return `Enter a number for ${control.label.toLowerCase()}.`;
+  }
+
+  if (displayValue < 0) {
+    return `${control.label} cannot be negative.`;
+  }
+
+  if (displayValue === 0) {
+    return `${control.label} must be greater than 0 ${unitConfig.lengthUnit}.`;
+  }
+
+  if (displayValue < 1) {
+    return `${control.label} is too low. Minimum is 1 ${unitConfig.lengthUnit}.`;
+  }
+
+  const metersValue = unitConfig.toMeters(displayValue);
+
+  if (control.key === "height" && metersValue > MAX_DROP_HEIGHT_METERS) {
+    return `Drop height cannot be above ${getDropHeightLimitLabel(unitSystem)}.`;
+  }
+
+  return "";
+};
+
+const getSliderBounds = (control, metersValue, unitSystem) => {
+  const unitConfig = unitSystems[unitSystem];
+  const displayValue = unitConfig.fromMeters(metersValue);
+  const minimum = 1;
+
+  if (control.key === "height") {
+    return {
+      min: minimum,
+      max: unitConfig.fromMeters(MAX_DROP_HEIGHT_METERS),
+      maxLabel: getDropHeightLimitLabel(unitSystem),
+    };
+  }
+
+  const defaultMax = unitSystem === "imperial" ? 1500 : 450;
+
+  return {
+    min: minimum,
+    max: Math.max(defaultMax, Math.ceil(displayValue)),
+    maxLabel: "No max",
+  };
 };
 
 const SimulatorPanel = ({
@@ -68,17 +162,73 @@ const SimulatorPanel = ({
   mutedClass,
   accentLabelClass,
 }) => {
+  const [unitSystem, setUnitSystem] = useState("imperial");
   const [settings, setSettings] = useState({
-    height: 54,
-    levelOutLength: 88,
+    height: feetToMeters(180),
+    levelOutLength: feetToMeters(290),
     friction: "medium",
   });
+  const [controlInputs, setControlInputs] = useState({
+    height: "180",
+    levelOutLength: "290",
+  });
+  const [controlErrors, setControlErrors] = useState({});
 
-  const updateSetting = (key, nextValue) => {
+  const updateSettingFromDisplay = (key, nextDisplayValue) => {
+    const control = controlsByKey[key];
+    const error = getControlError(control, nextDisplayValue, unitSystem);
+
+    setControlErrors((current) => ({
+      ...current,
+      [key]: error,
+    }));
+
+    if (error) {
+      return;
+    }
+
+    const nextMetersValue = unitSystems[unitSystem].toMeters(nextDisplayValue);
+
     setSettings((current) => ({
       ...current,
-      [key]: clampControlValue(key, nextValue),
+      [key]: nextMetersValue,
     }));
+  };
+
+  const handleControlInputChange = (key, rawValue) => {
+    setControlInputs((current) => ({
+      ...current,
+      [key]: rawValue,
+    }));
+
+    if (rawValue.trim() === "") {
+      setControlErrors((current) => ({
+        ...current,
+        [key]: `Enter a number for ${controlsByKey[key].label.toLowerCase()}.`,
+      }));
+      return;
+    }
+
+    updateSettingFromDisplay(key, Number(rawValue));
+  };
+
+  const handleRangeChange = (key, nextDisplayValue) => {
+    const inputValue = `${Math.round(nextDisplayValue)}`;
+
+    setControlInputs((current) => ({
+      ...current,
+      [key]: inputValue,
+    }));
+    updateSettingFromDisplay(key, nextDisplayValue);
+  };
+
+  const handleUnitSystemChange = (nextUnitSystem) => {
+    setUnitSystem(nextUnitSystem);
+    setControlInputs({
+      height: formatInputValue(settings.height, nextUnitSystem),
+      levelOutLength: formatInputValue(settings.levelOutLength, nextUnitSystem),
+    });
+    setControlErrors({});
   };
 
   const model = useMemo(() => {
@@ -136,15 +286,10 @@ const SimulatorPanel = ({
     const plateauStartX = 28;
     const dropStartX = 94;
     const maxHeightPx = 128;
-    const minHeight = controls[0].min;
-    const maxHeight = controls[0].max;
-    const minLength = controls[1].min;
-    const maxLength = controls[1].max;
-
-    const heightRatio =
-      (settings.height - minHeight) / (maxHeight - minHeight);
-    const lengthRatio =
-      (settings.levelOutLength - minLength) / (maxLength - minLength);
+    const visualMaxHeight = feetToMeters(400);
+    const visualMaxLength = feetToMeters(900);
+    const heightRatio = Math.min(1, Math.max(0, settings.height / visualMaxHeight));
+    const lengthRatio = Math.min(1, Math.max(0, settings.levelOutLength / visualMaxLength));
 
     const heightPx = 72 + maxHeightPx * heightRatio * 0.72;
     const topY = Math.max(topPadding, bottomY - heightPx);
@@ -189,7 +334,7 @@ const SimulatorPanel = ({
   return (
     <div className="grid items-start gap-8 xl:grid-cols-[0.95fr_1.05fr]">
       <div className={`${panelClass} p-6 sm:p-8`}>
-        <div className="mb-8 flex items-center justify-between gap-4">
+        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className={`text-sm uppercase tracking-[0.18em] ${mutedClass}`}>
               Interactive Lab
@@ -198,9 +343,35 @@ const SimulatorPanel = ({
               Roller Coaster Drop Simulator
             </h3>
           </div>
-          <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100">
-            Live
-          </span>
+          <div>
+            <p className={`mb-2 text-right text-xs font-semibold uppercase tracking-[0.16em] ${mutedClass}`}>
+              Units
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {unitOptions.map((option) => {
+                const active = unitSystem === option.key;
+
+                return (
+                  <button
+                    key={option.key}
+                    type="button"
+                    onClick={() => handleUnitSystemChange(option.key)}
+                    className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                      active
+                        ? isDark
+                          ? "border-cyan-300/40 bg-cyan-300/10 text-cyan-100"
+                          : "border-sky-300 bg-sky-50 text-sky-700"
+                        : isDark
+                          ? "border-white/10 bg-white/[0.03] text-slate-200 hover:bg-white/[0.07]"
+                          : "border-slate-300/70 bg-white/70 text-slate-700 hover:bg-white"
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         <p className={`mb-8 text-base leading-7 ${copyClass}`}>
@@ -208,64 +379,76 @@ const SimulatorPanel = ({
         </p>
 
         <div className="space-y-7">
-          {controls.map((control) => (
-            <label key={control.key} className="block">
-              <div className="mb-3 flex items-center justify-between gap-4 text-sm">
-                <span className={titleClass}>{control.label}</span>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    min={control.min}
-                    max={control.max}
-                    step={control.step}
-                    value={settings[control.key]}
-                    onChange={(event) => {
-                      const nextValue = event.target.valueAsNumber;
+          {controls.map((control) => {
+            const unitConfig = unitSystems[unitSystem];
+            const displayValue = unitConfig.fromMeters(settings[control.key]);
+            const sliderBounds = getSliderBounds(control, settings[control.key], unitSystem);
+            const maxDisplayValue =
+              control.key === "height"
+                ? unitConfig.fromMeters(MAX_DROP_HEIGHT_METERS)
+                : undefined;
+            const error = controlErrors[control.key];
 
-                      if (Number.isNaN(nextValue)) {
-                        return;
+            return (
+              <label key={control.key} className="block">
+                <div className="mb-3 flex items-center justify-between gap-4 text-sm">
+                  <span className={titleClass}>{control.label}</span>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      inputMode="decimal"
+                      min="0"
+                      max={maxDisplayValue}
+                      step="any"
+                      value={controlInputs[control.key]}
+                      onChange={(event) =>
+                        handleControlInputChange(control.key, event.target.value)
                       }
-
-                      updateSetting(control.key, nextValue);
-                    }}
-                    className={`w-24 rounded-full border px-3 py-1 text-right font-semibold outline-none transition ${
-                      isDark
-                        ? "border-white/10 bg-white/5 text-slate-100 focus:border-cyan-300/40"
-                        : "border-slate-300 bg-white text-slate-900 focus:border-sky-400"
-                    }`}
-                    aria-label={`${control.label} input`}
-                  />
-                  <span className={`text-xs font-semibold uppercase tracking-[0.12em] ${mutedClass}`}>
-                    {control.unit}
-                  </span>
+                      className={`w-28 rounded-full border px-3 py-1 text-right font-semibold outline-none transition ${
+                        error
+                          ? isDark
+                            ? "border-amber-300/60 bg-amber-300/10 text-amber-100 focus:border-amber-200"
+                            : "border-amber-400 bg-amber-50 text-amber-900 focus:border-amber-500"
+                          : isDark
+                            ? "border-white/10 bg-white/5 text-slate-100 focus:border-cyan-300/40"
+                            : "border-slate-300 bg-white text-slate-900 focus:border-sky-400"
+                      }`}
+                      aria-label={`${control.label} input`}
+                    />
+                    <span className={`text-xs font-semibold uppercase tracking-[0.12em] ${mutedClass}`}>
+                      {unitConfig.lengthUnit}
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <input
-                type="range"
-                min={control.min}
-                max={control.max}
-                step={control.step}
-                value={settings[control.key]}
-                onChange={(event) =>
-                  updateSetting(control.key, Number(event.target.value))
-                }
-                className={`h-2 w-full cursor-pointer appearance-none rounded-full ${
-                  isDark
-                    ? "bg-white/10 accent-cyan-300"
-                    : "bg-slate-300/70 accent-sky-600"
-                }`}
-              />
-              <div className={`mt-2 flex justify-between text-xs ${mutedClass}`}>
-                <span>
-                  {control.min} {control.unit}
-                </span>
-                <span>
-                  {control.max} {control.unit}
-                </span>
-              </div>
-            </label>
-          ))}
+                <input
+                  type="range"
+                  min={sliderBounds.min}
+                  max={sliderBounds.max}
+                  step="1"
+                  value={Math.min(sliderBounds.max, Math.max(sliderBounds.min, Math.round(displayValue)))}
+                  onChange={(event) =>
+                    handleRangeChange(control.key, Number(event.target.value))
+                  }
+                  className={`h-2 w-full cursor-pointer appearance-none rounded-full ${
+                    isDark
+                      ? "bg-white/10 accent-cyan-300"
+                      : "bg-slate-300/70 accent-sky-600"
+                  }`}
+                />
+                <div className={`mt-2 flex justify-between text-xs ${mutedClass}`}>
+                  <span>
+                    {sliderBounds.min} {unitConfig.lengthUnit}
+                  </span>
+                  <span>{sliderBounds.maxLabel}</span>
+                </div>
+                {error ? (
+                  <p className={`mt-2 text-xs font-semibold ${isDark ? "text-amber-200" : "text-amber-700"}`}>
+                    {error}
+                  </p>
+                ) : null}
+              </label>
+            );
+          })}
 
           <div>
             <div className="mb-3 flex items-center justify-between gap-4 text-sm">
@@ -324,7 +507,11 @@ const SimulatorPanel = ({
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <MetricCard
               label="Max speed"
-              value={`${model.maxSpeedMph.toFixed(1)} mph`}
+              value={
+                unitSystem === "imperial"
+                  ? `${model.maxSpeedMph.toFixed(1)} mph`
+                  : `${model.maxSpeed.toFixed(1)} m/s`
+              }
               accent="cyan"
               isDark={isDark}
             />
@@ -336,7 +523,7 @@ const SimulatorPanel = ({
             />
             <MetricCard
               label="Transition radius"
-              value={`${model.transitionRadius.toFixed(1)} m`}
+              value={formatLength(model.transitionRadius, unitSystem)}
               accent="amber"
               isDark={isDark}
             />
@@ -451,7 +638,7 @@ const SimulatorPanel = ({
                 fill={isDark ? "#cbd5e1" : "#475569"}
                 fontSize="12"
               >
-                {settings.height} m
+                {formatLength(settings.height, unitSystem)}
               </text>
 
               <line
@@ -472,7 +659,7 @@ const SimulatorPanel = ({
                 fill={isDark ? "#cbd5e1" : "#475569"}
                 fontSize="12"
               >
-                level-out {settings.levelOutLength} m
+                level-out {formatLength(settings.levelOutLength, unitSystem)}
               </text>
 
               <circle cx={track.dropStartX} cy={track.topY} r="6" fill="#f8fafc" />
