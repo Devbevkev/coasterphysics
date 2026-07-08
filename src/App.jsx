@@ -199,7 +199,7 @@ const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "
   return (
     <div
       className={`overflow-hidden rounded-[1.25rem] border-[6px] shadow-[0_18px_38px_rgba(15,23,42,0.13)] ${
-        isDark ? "border-slate-100/85 bg-slate-100/95" : "border-slate-100/95 bg-slate-100/95"
+        isDark ? "border-slate-100/85 bg-slate-100/95" : "border-white/90 bg-white/92"
       } ${className}`}
     >
       <img
@@ -215,8 +215,8 @@ const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "
 };
 
 const HeroCollage = ({ isDark }) => {
-  const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-300/35";
-  const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-200/35";
+  const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-200/50";
+  const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-100/45";
   const mobilePhotos = [
     {
       src: "/hero-coaster-frame.png",
@@ -6883,10 +6883,10 @@ const App = () => {
       : "py-10 sm:py-12 lg:py-16";
   const panelClass = isDark
     ? "panel border-white/10 bg-white/5"
-    : "panel border-slate-400/65 bg-slate-100/88 shadow-[0_24px_60px_rgba(71,85,105,0.16)]";
+    : "panel border-slate-300/75 bg-white/78 shadow-[0_24px_60px_rgba(148,163,184,0.18)]";
   const subtlePanelClass = isDark
     ? "border-white/10 bg-white/[0.04]"
-    : "border-slate-400/55 bg-slate-100/90";
+    : "border-slate-300/75 bg-slate-50/88";
   const titleClass = isDark ? "text-white" : "text-slate-950";
   const copyClass = isDark ? "text-slate-300" : "text-slate-600";
   const mutedClass = isDark ? "text-slate-400" : "text-slate-500";
