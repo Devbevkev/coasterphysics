@@ -7040,7 +7040,7 @@ const App = () => {
           </section>
         ) : view === "topics" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 flex items-center gap-4">
+            <div className="mb-5 flex items-center justify-end gap-4">
               <button
                 type="button"
                 onClick={() => navigateToView("home")}
@@ -7073,7 +7073,6 @@ const App = () => {
 
               <div className="mt-10 grid gap-4">
                 {sections.map((section) => {
-                  const isActive = section.id === activeSection.id;
                   const lesson = lessonMap[section.id];
                   const completedSteps = progress.completedSteps?.[section.id] ?? {};
                   const quizScore = progress.quizScores?.[section.id] ?? null;
@@ -7094,13 +7093,9 @@ const App = () => {
                         openLesson(section);
                       }}
                       className={`${panelClass} flex flex-col gap-4 p-5 text-left transition lg:flex-row lg:items-center lg:justify-between ${
-                        isActive
-                          ? isDark
-                            ? "border-cyan-300/40 bg-cyan-300/10"
-                            : "border-sky-300 bg-sky-50"
-                          : isDark
-                            ? "hover:border-white/15 hover:bg-white/[0.07]"
-                          : "hover:border-slate-400 hover:bg-white"
+                        isDark
+                          ? "border-cyan-300/40 bg-cyan-300/10 hover:bg-cyan-300/15"
+                          : "border-sky-300 bg-sky-50 hover:bg-sky-50"
                       }`}
                     >
                       <div className="flex min-w-0 flex-1 items-start gap-4">
@@ -7217,7 +7212,7 @@ const App = () => {
           </section>
         ) : view === "simulation" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 flex items-center justify-end gap-4">
+            <div className="mb-5 mt-5 flex items-center justify-end gap-4 sm:mt-6 lg:mt-7">
               <button
                 type="button"
                 onClick={() => navigateToView("home")}
