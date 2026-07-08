@@ -104,13 +104,13 @@
   .physics-initial-subscript {
     font-size: 0.58em;
     line-height: 0;
-    vertical-align: -0.48em;
+    vertical-align: -0.62em;
   }
 
   .physics-nested-initial-zero {
     display: inline-block;
     font-size: 0.82em;
-    transform: translateY(0.28em);
+    transform: translateY(0.38em);
   }
 
   .section-shell {

@@ -920,15 +920,15 @@ const sections = [
     ],
   },
   {
-    id: "design-safety",
+    id: "final-review",
     number: "8",
-    title: "Real-World Coaster Design and Safety",
-    subtitle: "Putting Mechanics Together",
+    title: "Final Review",
+    subtitle: "Everything to Know Before the Final Exam",
     topics: [
-      "banking and comfort",
-      "energy budgets",
-      "jerk and smooth transitions",
-      "brakes and safety systems",
+      "chapter-by-chapter review",
+      "graph and motion models",
+      "forces, energy, momentum, and rotation",
+      "equation and variable sheets",
     ],
   },
   {
@@ -939,7 +939,7 @@ const sections = [
     topics: [
       "mixed concepts",
       "new calculation numbers",
-      "all eight units",
+      "all seven units",
       "full-course review",
     ],
   },
@@ -1285,16 +1285,19 @@ const kinematicsLesson = createLesson(
           "Not quite. Use v = v0 + at. Because the coaster starts from rest, v0 = 0, so the final velocity is (4.0)(3.0) = 12 m/s.",
         ),
         practiceQuestion(
-          "A coaster speeds up from 4.0 m/s to 14 m/s in 5.0 s with constant acceleration. How far does it travel during that time?",
+          "The velocity-time graph shows a coaster speeding up from 4.0 m/s to 14 m/s over 5.0 s. Using the graph relationship from this section, what is the coaster's acceleration?",
           [
-            "A. 25 m",
-            "B. 35 m",
-            "C. 45 m",
-            "D. 70 m",
+            "A. 2.0 m/s²",
+            "B. 5.0 m/s²",
+            "C. 10 m/s²",
+            "D. 18 m/s²",
           ],
-          2,
-          "Correct. Use Δx = one-half(v0 + v)t = one-half(4.0 + 14)(5.0) = 45 m.",
-          "Not quite. Use the average-velocity displacement equation: Δx = one-half(v0 + v)t = one-half(18)(5.0) = 45 m.",
+          0,
+          "Correct. Use the slope of a velocity-time graph: acceleration = Δv/Δt = (14 - 4.0)/5.0 = 2.0 m/s².",
+          "Not quite. The section says slope of a velocity-time graph equals acceleration. The slope is Δv/Δt = (14 - 4.0)/5.0 = 2.0 m/s².",
+          {
+            render: (isDark) => <KinematicsVelocityGraph isDark={isDark} />,
+          },
         ),
         practiceQuestion(
           "A coaster starts from rest and accelerates at 3.0 m/s² for 4.0 s on a straight launch track. How far does it travel?",
@@ -4425,479 +4428,302 @@ const rotationLesson = createLesson(
   ],
 );
 
-const designSafetyLesson = createLesson(
-  "Lesson 8: Real-World Coaster Design and Safety",
-  "Putting Mechanics Together",
-  "Students synthesize the entire mechanics sequence into a realistic view of coaster engineering, where speed, force, comfort, and safety all have to work at the same time.",
+const finalReviewLesson = createLesson(
+  "Lesson 8: Final Review",
+  "Everything to Know Before the Final Exam",
+  "Students review the major ideas, equations, and variables from the seven physics units before taking the final course quiz.",
   [
-    createStep("goal", "Big Idea", "A Real Coaster Is Applied Mechanics", {
+    createStep("kinematics-review", "Kinematics", "Kinematics Review", {
       body: [
-        "A roller coaster is not just a collection of separate textbook problems. It is a tightly connected engineering system in which motion, forces, energy, circular motion, work, impulse, and rotation all have to agree with one another.",
-        "The final lesson asks students to think like designers. The question is no longer only 'can I solve for the speed?' It becomes 'is this layout physically plausible, exciting, comfortable, and safe?'",
+        "Kinematics describes motion before explaining what causes it. For coaster problems, focus on position, displacement, velocity, acceleration, graphs, and projectile-style airtime motion.",
       ],
       bullets: [
-        "Use mechanics to judge whether a layout is physically consistent.",
-        "Balance thrill with rider comfort and safety limits.",
-        "Plan where energy is added, converted, lost, and removed.",
-        "Treat safety systems as part of the physics story rather than as an afterthought.",
-      ],
-    }),
-    createStep(
-      "core-concepts",
-      "Core Concepts",
-      "Design Constraints and Safety Thinking",
-      {
-        body: [
-          "Real coaster design is constrained by maximum height, maximum speed, track length, rider comfort, g-force limits, available land, materials, and cost. A design can be mathematically interesting and still be a poor coaster if it ignores these realities.",
-          "G-forces matter in several ways. Positive g-forces can make riders feel very heavy, negative g-forces can create airtime, and lateral forces can become uncomfortable or unsafe if turns are not designed carefully. That is why smooth transitions, proper banking, and changing-radius elements matter so much.",
-          "Engineers also care about jerk, which is the rate at which acceleration changes. A force can be within a safe range and still feel rough if it changes too suddenly, so smooth transitions are about controlling both acceleration and how quickly acceleration changes.",
-          "Safety also depends on systems beyond the track shape itself. Restraints, block zones, sensors, control systems, and emergency brakes are all examples of layered design thinking. Excitement and control have to coexist.",
-        ],
-        bullets: [
-          "A safe coaster needs enough speed to complete elements but not so much that forces exceed acceptable limits.",
-          "Clothoid loops are safer than simple circular loops because the radius changes with position.",
-          "Longer braking distances usually reduce stopping force.",
-          "Good design manages both the size of forces and how quickly those forces change.",
-        ],
-        callout:
-          "The most common beginner design mistake is assuming that 'faster' automatically means 'better.' In real ride design, faster without control can quickly become uncomfortable or unsafe.",
-        practice: practiceQuestion(
-          "Why do engineers prefer smooth transitions between track elements instead of abrupt shape changes?",
-          [
-            "A. They make gravity stronger during the ride.",
-            "B. They reduce rapid changes in rider force and improve comfort.",
-            "C. They remove the need for brakes.",
-            "D. They guarantee the coaster never loses energy.",
-          ],
-          1,
-          "Correct. Smooth transitions help control how quickly the forces on riders change, which improves both comfort and safety.",
-          "Not quite. The key reason is rider force management. Smooth transitions reduce sudden changes in acceleration and force.",
-        ),
-      },
-    ),
-    createStep("equations", "Equations", "Key Equations", {
-      body: [
-        "A real design lesson does not introduce many new equations. Instead, it combines the earlier equations and asks which one governs each part of the track.",
+        "Speed has magnitude only; velocity includes direction.",
+        "Acceleration means velocity changes, so a coaster can accelerate by speeding up, slowing down, or changing direction.",
+        "Slope of a position-time graph equals velocity.",
+        "Slope of a velocity-time graph equals acceleration.",
+        "Area under a velocity-time graph equals displacement.",
+        "Area under an acceleration-time graph equals change in velocity.",
+        "Projectile motion separates horizontal constant velocity from vertical acceleration due to gravity.",
       ],
       equations: [
+        equation("Velocity update", <>v = <Initial symbol="v" /> + at</>),
         equation(
-          "Energy comparison",
+          "Position with constant acceleration",
+          <>
+            x = <Initial symbol="x" /> + <Initial symbol="v" />t +{" "}
+            <Fraction numerator="1" denominator="2" />at²
+          </>,
+        ),
+        equation(
+          "Velocity-position relation",
+          <>
+            v² = <Initial symbol="v" />² + 2aΔx
+          </>,
+        ),
+        equation(
+          "Average-velocity displacement",
+          <>
+            Δx = <Fraction numerator="1" denominator="2" />(<Initial symbol="v" /> + v)t
+          </>,
+        ),
+        equation("Horizontal projectile motion", <>x = v<sub>x</sub>t</>),
+        equation("Vertical acceleration", <>a<sub>y</sub> = -g</>),
+      ],
+    }),
+    createStep("forces-review", "Forces", "Forces and Newton's Laws Review", {
+      body: [
+        "Forces explain why coaster motion changes. A free-body diagram should show real forces on one chosen object before you split forces into components for calculation.",
+      ],
+      bullets: [
+        "Newton's First Law explains inertia: objects resist changes in motion.",
+        "Newton's Second Law connects net force to acceleration.",
+        "Newton's Third Law pairs act on different objects, so they do not cancel on one free-body diagram.",
+        "Weight is a gravitational force, not mass.",
+        "The normal force is the support force riders feel, and it is not always equal to mg.",
+        "On slopes, mg sinθ acts parallel to the track and mg cosθ acts perpendicular to the track.",
+      ],
+      equations: [
+        equation("Newton's Second Law", <>F<sub>net</sub> = ma</>),
+        equation("Weight", <>F<sub>g</sub> = mg</>),
+        equation("Kinetic friction", <>f<sub>k</sub> = μ<sub>k</sub>N</>),
+        equation("Parallel gravity component", <>mg sinθ</>),
+        equation("Perpendicular gravity component", <>mg cosθ</>),
+        equation("Level-track rider support", <>N = mg</>),
+      ],
+    }),
+    createStep("energy-review", "Energy", "Energy Review", {
+      body: [
+        "Energy lets you predict speed from height without solving every force along the track. The big idea is conservation: energy can change form, and real coasters lose some mechanical energy to friction and drag.",
+      ],
+      bullets: [
+        "Gravitational potential energy increases with height.",
+        "Kinetic energy increases with the square of speed, so doubling speed quadruples kinetic energy.",
+        "Mechanical energy is kinetic energy plus gravitational potential energy.",
+        "In the ideal model, K + Ug stays constant.",
+        "Friction, drag, and brakes do nonconservative work and reduce mechanical energy.",
+        "Speed from a vertical drop can be estimated with v = sqrt(2gh).",
+      ],
+      equations: [
+        equation("Kinetic energy", <>K = <Fraction numerator="1" denominator="2" />mv²</>),
+        equation("Gravitational potential energy", <>U<sub>g</sub> = mgh</>),
+        equation("Mechanical energy", <>E<sub>mech</sub> = K + U<sub>g</sub></>),
+        equation(
+          "Energy conservation",
           <>
             K<sub>i</sub> + U<sub>gi</sub> = K<sub>f</sub> + U<sub>gf</sub>
           </>,
         ),
-        equation("Newton's Second Law", <>F<sub>net</sub> = ma</>),
+        equation("Speed from height", <>v = <Radical>2gh</Radical></>),
         equation(
-          "Curved-motion force condition",
+          "Nonconservative work",
           <>
-            F<sub>c</sub> = m
-            <Fraction numerator="v²" denominator="r" />
+            W<sub>nc</sub> = ΔE<sub>mech</sub>
           </>,
         ),
+      ],
+    }),
+    createStep("circular-review", "Circular Motion", "Circular Motion Review", {
+      body: [
+        "Curved motion is what explains loops, hills, dips, valleys, and turns. Always identify the inward direction first, then write the force equation toward the center of curvature.",
+      ],
+      bullets: [
+        "Centripetal acceleration points inward, not necessarily downward.",
+        "Increasing speed has a large effect because v is squared.",
+        "A smaller radius means a tighter curve and larger inward acceleration.",
+        "At the bottom of a dip, inward is upward, so the normal force is larger than weight.",
+        "At the top of a hill, inward is downward, so the normal force is smaller than weight.",
+        "At the top of a loop, gravity points inward and helps provide centripetal force.",
+      ],
+      equations: [
+        equation("Centripetal acceleration", <>a<sub>c</sub> = <Fraction numerator="v²" denominator="r" /></>),
+        equation("Centripetal force", <>F<sub>c</sub> = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Bottom of a dip", <>N - mg = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Top of a hill", <>mg - N = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Top of a loop", <>mg + N = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Minimum loop speed", <>v = <Radical>gr</Radical></>),
+      ],
+    }),
+    createStep("work-review", "Work and Power", "Work, Friction, and Power Review", {
+      body: [
+        "Work tracks energy transfer by forces over distance, while power tracks how quickly energy is transferred. Launches, lifts, friction, and brakes all fit into this unit.",
+      ],
+      bullets: [
+        "Positive work adds kinetic energy when force points with motion.",
+        "Negative work removes kinetic energy when force points opposite motion.",
+        "Only the component of force along displacement does work.",
+        "The work-energy theorem says net work equals change in kinetic energy.",
+        "Power is the rate of doing work or transferring energy.",
+        "For a force acting along motion, instantaneous power can be found with P = Fv.",
+      ],
+      equations: [
+        equation("Work", <>W = Fd cosθ</>),
+        equation("Work-energy theorem", <>W<sub>net</sub> = ΔK</>),
         equation(
           "Mechanical-energy loss",
           <>
             W<sub>nc</sub> = ΔE<sub>mech</sub>
           </>,
         ),
-        equation("Impulse", <>J = Δp</>),
-        equation(
-          "Jerk",
-          <>
-            j = <Fraction numerator="Δa" denominator="Δt" />
-          </>,
-        ),
-        equation(
-          "Rolling kinetic energy",
-          <>
-            K<sub>total</sub> = <Fraction numerator="1" denominator="2" />
-            mv² + <Fraction numerator="1" denominator="2" />
-            Iω²
-          </>,
-        ),
+        equation("Average power", <>P = <Fraction numerator="W" denominator="t" /></>),
+        equation("Instantaneous power", <>P = Fv</>),
+        equation("Braking work magnitude", <>F = <Fraction numerator="|W|" denominator="d" /></>),
       ],
-      variables: [
-        {
-          symbol: "Ki",
-          display: (
-            <>
-              K<sub>i</sub>
-            </>
-          ),
-          meaning: "initial kinetic energy",
-          note: "The kinetic energy before the motion segment or event.",
-        },
-        {
-          symbol: "Ugi",
-          display: (
-            <>
-              U<sub>gi</sub>
-            </>
-          ),
-          meaning: "initial gravitational potential energy",
-          note: "The gravitational potential energy at the starting point.",
-        },
-        {
-          symbol: "Kf",
-          display: (
-            <>
-              K<sub>f</sub>
-            </>
-          ),
-          meaning: "final kinetic energy",
-          note: "The kinetic energy after the motion segment or event.",
-        },
-        {
-          symbol: "Ugf",
-          display: (
-            <>
-              U<sub>gf</sub>
-            </>
-          ),
-          meaning: "final gravitational potential energy",
-          note: "The gravitational potential energy at the ending point.",
-        },
-        {
-          symbol: "Fnet",
-          display: (
-            <>
-              F<sub>net</sub>
-            </>
-          ),
-          meaning: "net force",
-          note: "The vector sum of all forces acting on the coaster or rider.",
-        },
-        {
-          symbol: "a",
-          meaning: "acceleration",
-          note: "The rate at which velocity changes.",
-        },
-        {
-          symbol: "Fc",
-          display: (
-            <>
-              F<sub>c</sub>
-            </>
-          ),
-          meaning: "centripetal force",
-          note: "The net inward force required to keep the coaster following a curved path.",
-        },
-        {
-          symbol: "m",
-          meaning: "mass",
-          note: "The mass of the coaster car, train, or rider being analyzed.",
-        },
-        {
-          symbol: "v",
-          meaning: "speed",
-          note: "The magnitude of the coaster's velocity.",
-        },
-        {
-          symbol: "r",
-          meaning: "radius of curvature",
-          note: "How tight the hill, dip, loop, or turn is.",
-        },
-        {
-          symbol: "Wnc",
-          display: (
-            <>
-              W<sub>nc</sub>
-            </>
-          ),
-          meaning: "nonconservative work",
-          note: "Work done by friction, drag, brakes, or other nonconservative forces.",
-        },
-        {
-          symbol: "Emech",
-          display: (
-            <>
-              E<sub>mech</sub>
-            </>
-          ),
-          meaning: "mechanical energy",
-          note: "The total kinetic-plus-potential energy in the idealized coaster model.",
-        },
-        {
-          symbol: "J",
-          meaning: "impulse",
-          note: "The total effect of force acting over time during a short interaction.",
-        },
-        {
-          symbol: "j",
-          meaning: "jerk",
-          note: "The rate at which acceleration changes; lower jerk usually feels smoother to riders.",
-        },
-        {
-          symbol: "Δp",
-          meaning: "change in momentum",
-          note: "The difference between final and initial momentum.",
-        },
-        {
-          symbol: "Ktotal",
-          display: (
-            <>
-              K<sub>total</sub>
-            </>
-          ),
-          meaning: "total kinetic energy",
-          note: "The combined translational and rotational kinetic energy.",
-        },
-        {
-          symbol: "I",
-          meaning: "rotational inertia",
-          note: "The rotational resistance to changes in spinning motion.",
-        },
-        {
-          symbol: "ω",
-          meaning: "angular speed",
-          note: "How quickly a rotating part spins.",
-        },
+    }),
+    createStep("momentum-review", "Momentum", "Momentum and Impulse Review", {
+      body: [
+        "Momentum and impulse are especially useful for launches, brakes, coupling cars, and short interactions where force and time matter together.",
       ],
       bullets: [
-        "A full ride uses different equations in different places, but the physics still has to agree from start to finish.",
-        "Design work often means choosing the right model at the right location, not using one formula everywhere.",
-        "A comfortable layout controls jerk, not just maximum speed or maximum acceleration.",
+        "Momentum depends on mass, speed, and direction.",
+        "Impulse is the change in momentum.",
+        "The same momentum change spread over more time means a smaller average force.",
+        "Launches create impulse by applying force over a short time.",
+        "Brakes create impulse opposite the motion.",
+        "Momentum is conserved only when external impulse is negligible.",
       ],
-      practice: practiceSet(
-        practiceQuestion(
-          "A coaster enters a brake run with 90,000 J of kinetic energy and comes to rest at the same height. How much nonconservative work must the brakes do?",
-          [
-            "A. -90,000 J",
-            "B. 0 J",
-            "C. 90,000 J",
-            "D. 180,000 J",
-          ],
-          0,
-          "Correct. Since the coaster stops at the same height, its mechanical energy decreases by 90,000 J, so the brakes must do -90,000 J of nonconservative work.",
-          "Not quite. At the same height, the lost kinetic energy must be removed by the brakes. That means W_nc = ΔE_mech = -90,000 J.",
+      equations: [
+        equation("Momentum", <>p = mv</>),
+        equation("Impulse from force", <>J = F<sub>avg</sub>Δt</>),
+        equation("Impulse-momentum theorem", <>J = Δp</>),
+        equation("Average force", <>F<sub>avg</sub> = <Fraction numerator="Δp" denominator="Δt" /></>),
+        equation("Momentum change", <>Δp = m(v<sub>f</sub> - v<sub>i</sub>)</>),
+        equation(
+          "Momentum conservation",
+          <>
+            p<sub>total,i</sub> = p<sub>total,f</sub>
+          </>,
         ),
-        practiceQuestion(
-          "A 700 kg coaster car moves through a turn at 16 m/s with radius 32 m. What inward force is required?",
-          [
-            "A. 350 N",
-            "B. 2800 N",
-            "C. 5600 N",
-            "D. 11,200 N",
-          ],
-          2,
-          "Correct. Use Fc = mv²/r = (700)(16²)/32 = (700)(8) = 5600 N inward.",
-          "Not quite. Use the curved-motion force equation Fc = mv²/r. Square the speed first: 16²/32 = 8, so Fc = 5600 N.",
-        ),
-        practiceQuestion(
-          "A transition changes rider acceleration from 3.0 m/s² to 9.0 m/s² in 2.0 s. What is the average jerk?",
-          [
-            "A. 2.0 m/s³",
-            "B. 3.0 m/s³",
-            "C. 6.0 m/s³",
-            "D. 12 m/s³",
-          ],
-          1,
-          "Correct. Use j = Δa/Δt. The acceleration changes by 6.0 m/s² over 2.0 s, so j = 3.0 m/s³.",
-          "Not quite. Jerk is acceleration change divided by time: (9.0 - 3.0)/2.0 = 3.0 m/s³.",
-        ),
-      ),
+      ],
     }),
-    createStep(
-      "coaster-explanation",
-      "Explain",
-      "How Engineers Read a Full Layout",
-      {
-        body: [
-          "The first hill sets the initial energy budget. The first drop often creates the maximum speed, which means it also strongly influences later g-forces in valleys, loops, and turns. If the early energy budget is misjudged, the rest of the ride will be inconsistent.",
-          "Curved elements must be designed so the required inward acceleration does not create unacceptable normal forces on riders. That is why engineers care deeply about radius, transition smoothness, and the precise sequence of hills, valleys, and banking.",
-          "Brake runs and block zones are just as important as the thrill elements. A ride is only successful if it can remove energy as deliberately as it adds and redistributes it. In that sense, safety design is not separate from mechanics. It is mechanics applied responsibly.",
-        ],
-        bullets: [
-          "Identify where energy is highest, where speed is highest, and where riders feel the largest normal force.",
-          "Check whether later hills are consistent with losses from friction and drag.",
-          "Use banking and smooth transitions to reduce unwanted lateral and jerking forces.",
-        ],
-      },
-    ),
-    createStep(
-      "common-mistakes",
-      "Common Mistakes",
-      "Design Errors That Ignore the Physics",
-      {
-        body: [
-          "The easiest way to make an unrealistic coaster is to forget that every exciting feature has to be paid for by energy and constrained by force limits.",
-        ],
-        bullets: [
-          "Designing later hills too tall without accounting for energy loss.",
-          "Ignoring g-forces in loops, dips, and tight turns.",
-          "Assuming faster is always better.",
-          "Forgetting rider comfort and smooth transitions.",
-          "Treating idealized classroom physics as if it were identical to real engineering practice.",
-        ],
-        practice: practiceQuestion(
-          "Why is it a design mistake to judge a coaster only by maximum speed?",
-          [
-            "A. Speed is unrelated to physics.",
-            "B. A safe design also has to manage forces, energy loss, braking, and smooth transitions.",
-            "C. Faster trains always have smaller g-forces.",
-            "D. Maximum speed guarantees every later hill is reachable.",
-          ],
-          1,
-          "Correct. A good design balances speed with force limits, energy budget, braking, and rider comfort.",
-          "Not quite. Speed matters, but it is only one constraint. A realistic coaster also has to control forces, losses, transitions, and stopping.",
-        ),
-      },
-    ),
-    createStep("practice", "Practice", "Multiple Choice Practice", {
+    createStep("rotation-review", "Rotation", "Rotation and Torque Review", {
       body: [
-        "This first question checks whether you are treating energy loss realistically instead of drawing a ride that would stall or require impossible behavior later on.",
+        "Rotation extends the motion story to wheels, axles, and spinning coaster cars. It connects linear motion to angular motion and explains why torque and rotational inertia matter.",
       ],
-      practice: practiceQuestion(
-        "Why is it usually a design mistake to make a later hill taller than the first hill on a traditional non-launched coaster?",
-        [
-          "A. The second hill receives less sunlight.",
-          "B. The train has already lost some mechanical energy to friction and drag.",
-          "C. The normal force disappears after the first drop.",
-          "D. The mass of the train must be smaller on later hills.",
-        ],
-        1,
-        "Correct. After the first drop, the train has already lost some mechanical energy, so a later hill that is too tall may be physically unreachable.",
-        "Not quite. The key problem is the energy budget. Friction and drag reduce the mechanical energy available after the first hill.",
-      ),
+      bullets: [
+        "Angular velocity describes how quickly something rotates.",
+        "For rolling without slipping, linear speed equals radius times angular speed.",
+        "Torque is the turning effect of a force.",
+        "A larger lever arm creates larger torque for the same force.",
+        "Rotational inertia measures how hard an object is to spin up or slow down.",
+        "Rolling objects can store kinetic energy in both translation and rotation.",
+      ],
+      equations: [
+        equation("Rolling speed", <>v = rω</>),
+        equation("Tangential acceleration", <>a = rα</>),
+        equation("Torque", <>τ = rF sinθ</>),
+        equation("Rotational Newton's Second Law", <>τ<sub>net</sub> = Iα</>),
+        equation("Rotational kinetic energy", <>K<sub>rot</sub> = <Fraction numerator="1" denominator="2" />Iω²</>),
+        equation(
+          "Total rolling kinetic energy",
+          <>
+            K<sub>total</sub> = <Fraction numerator="1" denominator="2" />mv² +{" "}
+            <Fraction numerator="1" denominator="2" />Iω²
+          </>,
+        ),
+      ],
     }),
-    createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
+    createStep("equations-sheet", "Equations Sheet", "All Equations Sheet", {
+      compact: true,
       body: [
-        "These ten questions focus on design judgments about banking, force limits, energy budgeting, and rider comfort.",
+        "Use this as a compact equation sheet before the final exam. Match each equation to the physical situation before substituting numbers.",
       ],
-      quiz: [
-        quizQuestion(
-          "Why are banked turns important on a real coaster?",
-          [
-            "A. They remove the need for gravity entirely.",
-            "B. They help redirect the normal force and reduce uncomfortable lateral force.",
-            "C. They make the train's mass smaller in the turn.",
-            "D. They guarantee the speed is constant.",
-          ],
-          1,
-          "Correct. Banking lets the normal force help provide the needed inward acceleration, which reduces reliance on sideways friction and improves rider comfort.",
-          "Not quite. The point of banking is to redirect the support force so that the turn feels smoother and safer.",
-        ),
-        quizQuestion(
-          "If a braking section increases the stopping time for the same arriving train speed, what happens to the average force on riders?",
-          [
-            "A. It increases.",
-            "B. It stays exactly the same.",
-            "C. It decreases.",
-            "D. It becomes impossible to determine.",
-          ],
-          2,
-          "Correct. For the same momentum change, a longer stopping time means a smaller average force.",
-          "Not quite. Use the impulse idea: the same change in momentum spread over more time reduces the average force.",
-        ),
-        quizQuestion(
-          "Why are clothoid loops safer than simple circular loops?",
-          [
-            "A. Their changing radius helps control g-forces through the loop.",
-            "B. They remove the need for centripetal acceleration.",
-            "C. They make the train mass smaller at the top.",
-            "D. They prevent gravity from acting inside the loop.",
-          ],
-          0,
-          "Correct. A clothoid loop changes radius from place to place, which helps manage the forces riders feel instead of keeping the same tight curvature everywhere.",
-          "Not quite. The key safety advantage is the changing radius, which helps control g-forces around the loop.",
-        ),
-        quizQuestion(
-          "If friction and drag losses increase on a coaster design, what is the safest response for later non-launched hills?",
-          [
-            "A. Make the later hills taller",
-            "B. Keep the same hill heights and ignore the losses",
-            "C. Lower later hills or add more energy earlier in the ride",
-            "D. Remove all banking from the turns",
-          ],
-          2,
-          "Correct. If more mechanical energy is lost, later elements must demand less energy or the ride must receive more energy earlier.",
-          "Not quite. A coaster with larger losses needs a safer energy budget, which usually means lower later hills or additional energy input earlier.",
-        ),
-        quizQuestion(
-          "A high-speed turn with too small a radius most directly risks what?",
-          [
-            "A. Lower kinetic energy than expected",
-            "B. Excessive g-forces on riders",
-            "C. Zero normal force everywhere on the train",
-            "D. Perfect mechanical-energy conservation",
-          ],
-          1,
-          "Correct. A small radius at high speed requires a large inward acceleration, which can create excessive forces on riders.",
-          "Not quite. Tight turns at high speed require large centripetal acceleration, which is why they can create unsafe or uncomfortable g-forces.",
-        ),
-        quizQuestion(
-          "A transition changes a rider's acceleration from 2.0 m/s² to 8.0 m/s² in 3.0 s. What is the average jerk?",
-          [
-            "A. 2.0 m/s³",
-            "B. 3.0 m/s³",
-            "C. 6.0 m/s³",
-            "D. 10 m/s³",
-          ],
-          0,
-          "Correct. Jerk is change in acceleration divided by time: j = Δa/Δt = (8.0 - 2.0)/3.0 = 2.0 m/s³.",
-          "Not quite. Use j = Δa/Δt. The acceleration changes by 6.0 m/s² over 3.0 s, so the average jerk is 2.0 m/s³.",
-        ),
-        quizQuestion(
-          "A brake run removes 60,000 J of kinetic energy over 30 m. What average braking force magnitude does this represent?",
-          [
-            "A. 500 N",
-            "B. 1000 N",
-            "C. 2000 N",
-            "D. 30,000 N",
-          ],
-          2,
-          "Correct. Work magnitude is force times distance, so F = W/d = 60,000/30 = 2000 N.",
-          "Not quite. Brakes remove energy by doing negative work. The force magnitude is |W|/d = 60,000/30 = 2000 N.",
-        ),
-        quizQuestion(
-          "A design target limits centripetal acceleration to 12 m/s² in a turn. If the train enters at 18 m/s, what is the smallest allowed turn radius?",
-          [
-            "A. 12 m",
-            "B. 18 m",
-            "C. 27 m",
-            "D. 54 m",
-          ],
-          2,
-          "Correct. Use r = v²/ac = 18²/12 = 27 m.",
-          "Not quite. A tighter radius would increase acceleration. Use r = v²/ac to find 27 m.",
-        ),
-        quizQuestion(
-          "A coaster has 500,000 J of mechanical energy, loses 80,000 J before a hill, and the hill requires 450,000 J to reach. What should the designer conclude?",
-          [
-            "A. The train has enough energy with 50,000 J left over.",
-            "B. The train is short by 30,000 J.",
-            "C. The hill needs no energy because gravity pulls downward.",
-            "D. The train's mass must become zero.",
-          ],
-          1,
-          "Correct. After losses, the train has 420,000 J, which is 30,000 J less than the hill requires.",
-          "Not quite. Subtract the loss first: 500,000 J - 80,000 J = 420,000 J. That is not enough for a 450,000 J hill.",
-        ),
-        quizQuestion(
-          "A transition changes acceleration by 9.0 m/s² in 1.5 s. What is the average jerk?",
-          [
-            "A. 1.5 m/s³",
-            "B. 6.0 m/s³",
-            "C. 9.0 m/s³",
-            "D. 13.5 m/s³",
-          ],
-          1,
-          "Correct. Jerk is j = Δa/Δt = 9.0/1.5 = 6.0 m/s³.",
-          "Not quite. Divide the acceleration change by the time interval. That gives 6.0 m/s³.",
-        ),
+      equations: [
+        equation("Velocity update", <>v = <Initial symbol="v" /> + at</>),
+        equation("Position update", <>x = <Initial symbol="x" /> + <Initial symbol="v" />t + <Fraction numerator="1" denominator="2" />at²</>),
+        equation("Velocity-position", <>v² = <Initial symbol="v" />² + 2aΔx</>),
+        equation("Average velocity displacement", <>Δx = <Fraction numerator="1" denominator="2" />(<Initial symbol="v" /> + v)t</>),
+        equation("Horizontal projectile motion", <>x = v<sub>x</sub>t</>),
+        equation("Vertical acceleration", <>a<sub>y</sub> = -g</>),
+        equation("Vertical projectile motion", <>y = <Initial symbol="y" /> + v<sub>y0</sub>t - <Fraction numerator="1" denominator="2" />gt²</>),
+        equation("Newton's Second Law", <>F<sub>net</sub> = ma</>),
+        equation("Weight", <>F<sub>g</sub> = mg</>),
+        equation("Kinetic friction", <>f<sub>k</sub> = μ<sub>k</sub>N</>),
+        equation("Parallel component", <>mg sinθ</>),
+        equation("Perpendicular component", <>mg cosθ</>),
+        equation("Kinetic energy", <>K = <Fraction numerator="1" denominator="2" />mv²</>),
+        equation("Potential energy", <>U<sub>g</sub> = mgh</>),
+        equation("Mechanical energy", <>E<sub>mech</sub> = K + U<sub>g</sub></>),
+        equation("Energy conservation", <>K<sub>i</sub> + U<sub>gi</sub> = K<sub>f</sub> + U<sub>gf</sub></>),
+        equation("Speed from height", <>v = <Radical>2gh</Radical></>),
+        equation("Height from speed", <>h = <Fraction numerator="v²" denominator="2g" /></>),
+        equation("Centripetal acceleration", <>a<sub>c</sub> = <Fraction numerator="v²" denominator="r" /></>),
+        equation("Centripetal force", <>F<sub>c</sub> = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Bottom of dip", <>N - mg = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Top of hill", <>mg - N = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Top of loop", <>mg + N = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Minimum loop speed", <>v = <Radical>gr</Radical></>),
+        equation("Work", <>W = Fd cosθ</>),
+        equation("Work-energy theorem", <>W<sub>net</sub> = ΔK</>),
+        equation("Nonconservative work", <>W<sub>nc</sub> = ΔE<sub>mech</sub></>),
+        equation("Average power", <>P = <Fraction numerator="W" denominator="t" /></>),
+        equation("Instantaneous power", <>P = Fv</>),
+        equation("Momentum", <>p = mv</>),
+        equation("Impulse", <>J = F<sub>avg</sub>Δt</>),
+        equation("Impulse-momentum", <>J = Δp</>),
+        equation("Average force", <>F<sub>avg</sub> = <Fraction numerator="Δp" denominator="Δt" /></>),
+        equation("Momentum conservation", <>p<sub>total,i</sub> = p<sub>total,f</sub></>),
+        equation("Rolling speed", <>v = rω</>),
+        equation("Tangential acceleration", <>a = rα</>),
+        equation("Torque", <>τ = rF sinθ</>),
+        equation("Rotational Newton's Second Law", <>τ<sub>net</sub> = Iα</>),
+        equation("Rotational kinetic energy", <>K<sub>rot</sub> = <Fraction numerator="1" denominator="2" />Iω²</>),
+        equation("Total rolling kinetic energy", <>K<sub>total</sub> = <Fraction numerator="1" denominator="2" />mv² + <Fraction numerator="1" denominator="2" />Iω²</>),
       ],
     }),
-    createStep(
-      "next-lesson",
-      "Next Lesson",
-      "Connection to the Next Lesson",
-      {
-        body: [
-          "This final lesson closes the sequence by showing that roller coasters are not a collection of disconnected formulas. They are a full mechanics system.",
-          "When students can move fluidly between motion, forces, energy, circular motion, work, momentum, rotation, and safety reasoning, they are thinking about coasters the way an engineer or physicist does.",
-        ],
-      },
-    ),
+    createStep("variables-sheet", "All Variables", "All Variables", {
+      compact: true,
+      body: [
+        "These are the variables used across the course. Check units and meanings before choosing an equation.",
+      ],
+      variables: [
+        { symbol: "x", meaning: "position", note: "Location along a chosen axis or track direction." },
+        { symbol: "x0", display: <Initial symbol="x" />, meaning: "initial position", note: "The starting position for a motion interval." },
+        { symbol: "Δx", meaning: "displacement", note: "Change in position, including direction." },
+        { symbol: "d", meaning: "distance", note: "Path length traveled; used in work when force acts over a distance." },
+        { symbol: "t", meaning: "time", note: "Elapsed time for motion, work, power, or impulse." },
+        { symbol: "Δt", meaning: "time interval", note: "The amount of time over which a change happens." },
+        { symbol: "v", meaning: "velocity or speed", note: "Velocity includes direction; speed is the magnitude." },
+        { symbol: "v0", display: <Initial symbol="v" />, meaning: "initial velocity", note: "Velocity at the start of the interval." },
+        { symbol: "vf", display: <>v<sub>f</sub></>, meaning: "final velocity", note: "Velocity at the end of the interval." },
+        { symbol: "vx", display: <>v<sub>x</sub></>, meaning: "horizontal velocity", note: "Horizontal part of velocity in projectile motion." },
+        { symbol: "y", meaning: "vertical position", note: "Position measured in the vertical direction." },
+        { symbol: "y0", display: <Initial symbol="y" />, meaning: "initial vertical position", note: "Starting vertical position in projectile motion." },
+        { symbol: "vy0", display: <>v<sub>y0</sub></>, meaning: "initial vertical velocity", note: "Starting vertical part of velocity." },
+        { symbol: "a", meaning: "acceleration", note: "Rate of change of velocity." },
+        { symbol: "ac", display: <>a<sub>c</sub></>, meaning: "centripetal acceleration", note: "Inward acceleration for curved motion." },
+        { symbol: "g", meaning: "gravitational field strength", note: "Near Earth, about 9.8 m/s² downward." },
+        { symbol: "θ", meaning: "angle", note: "Used for slopes, force direction, work, and torque." },
+        { symbol: "m", meaning: "mass", note: "Amount of matter in an object, measured in kilograms." },
+        { symbol: "h", meaning: "height", note: "Vertical height above a reference level." },
+        { symbol: "F", meaning: "force", note: "A push or pull that can change motion or do work." },
+        { symbol: "Fnet", display: <>F<sub>net</sub></>, meaning: "net force", note: "Vector sum of all forces on one object." },
+        { symbol: "Fg", display: <>F<sub>g</sub></>, meaning: "weight", note: "Gravitational force on an object." },
+        { symbol: "Fc", display: <>F<sub>c</sub></>, meaning: "centripetal force", note: "Net inward force needed for circular motion." },
+        { symbol: "Favg", display: <>F<sub>avg</sub></>, meaning: "average force", note: "Force averaged over a time interval." },
+        { symbol: "N", meaning: "normal force", note: "Support force from a surface, seat, or track." },
+        { symbol: "fk", display: <>f<sub>k</sub></>, meaning: "kinetic friction", note: "Friction force opposing sliding or rolling in the simple model." },
+        { symbol: "μk", display: <>μ<sub>k</sub></>, meaning: "coefficient of kinetic friction", note: "Number describing friction strength in the simple model." },
+        { symbol: "K", meaning: "kinetic energy", note: "Energy of motion." },
+        { symbol: "Ug", display: <>U<sub>g</sub></>, meaning: "gravitational potential energy", note: "Energy stored because of height." },
+        { symbol: "Emech", display: <>E<sub>mech</sub></>, meaning: "mechanical energy", note: "Kinetic plus gravitational potential energy." },
+        { symbol: "W", meaning: "work", note: "Energy transferred by a force over a distance." },
+        { symbol: "Wnet", display: <>W<sub>net</sub></>, meaning: "net work", note: "Total work by all forces." },
+        { symbol: "Wnc", display: <>W<sub>nc</sub></>, meaning: "nonconservative work", note: "Work by friction, drag, brakes, or other energy-removing forces." },
+        { symbol: "P", meaning: "power", note: "Rate of energy transfer or work done per time." },
+        { symbol: "r", meaning: "radius", note: "Distance from the center of a curve or rotation axis." },
+        { symbol: "p", meaning: "momentum", note: "Mass times velocity, including direction." },
+        { symbol: "Δp", meaning: "change in momentum", note: "Final momentum minus initial momentum." },
+        { symbol: "J", meaning: "impulse", note: "Force over time; equal to change in momentum." },
+        { symbol: "ω", meaning: "angular speed", note: "How quickly an object rotates." },
+        { symbol: "α", meaning: "angular acceleration", note: "Rate of change of angular speed." },
+        { symbol: "τ", meaning: "torque", note: "Turning effect of a force." },
+        { symbol: "τnet", display: <>τ<sub>net</sub></>, meaning: "net torque", note: "Total torque that changes angular motion." },
+        { symbol: "I", meaning: "rotational inertia", note: "Resistance to changes in rotational motion." },
+        { symbol: "Krot", display: <>K<sub>rot</sub></>, meaning: "rotational kinetic energy", note: "Energy stored in spinning motion." },
+        { symbol: "Ktotal", display: <>K<sub>total</sub></>, meaning: "total kinetic energy", note: "Translational plus rotational kinetic energy." },
+      ],
+    }),
   ],
 );
 
@@ -4908,7 +4734,7 @@ const finalQuizLesson = createLesson(
   [
     createStep("quiz", "Final Quiz", "Full Course Review: 50 Questions", {
       body: [
-        "This final quiz mixes concepts and calculations from the full course: kinematics, projectile motion, Newton's laws, energy, circular motion, work, momentum, rotation, and coaster safety design.",
+        "This final quiz mixes concepts and calculations from the full course: kinematics, projectile motion, Newton's laws, energy, circular motion, work, momentum, and rotation.",
       ],
       quiz: [
         quizQuestion(
@@ -5452,16 +5278,16 @@ const finalQuizLesson = createLesson(
           "Not quite. Rotational inertia depends on mass distribution, not just total mass.",
         ),
         quizQuestion(
-          "A transition changes rider acceleration from 3.0 m/s² to 9.0 m/s² in 2.0 s. What is the average jerk?",
+          "A wheel has radius 0.40 m and angular acceleration 5.0 rad/s². What is the tangential acceleration at the rim?",
           [
-            "A. 2.0 m/s³",
-            "B. 3.0 m/s³",
-            "C. 6.0 m/s³",
-            "D. 12 m/s³",
+            "A. 0.80 m/s²",
+            "B. 2.0 m/s²",
+            "C. 5.4 m/s²",
+            "D. 12.5 m/s²",
           ],
           1,
-          "Correct. Jerk is Δa/Δt = (9.0 - 3.0)/2.0 = 3.0 m/s³.",
-          "Not quite. Divide the acceleration change by the time interval.",
+          "Correct. Use a = rα = (0.40)(5.0) = 2.0 m/s².",
+          "Not quite. Tangential acceleration comes from a = rα, so multiply 0.40 by 5.0.",
         ),
         quizQuestion(
           "A brake run removes 96,000 J of kinetic energy over 40 m. What average braking force magnitude does that represent?",
@@ -5476,19 +5302,19 @@ const finalQuizLesson = createLesson(
           "Not quite. Braking work removes energy over distance. Divide energy removed by distance.",
         ),
         quizQuestion(
-          "Why do engineers bank high-speed coaster turns?",
+          "At the bottom of a dip, why is the normal force larger than the rider's weight?",
           [
-            "A. To make gravity disappear",
-            "B. To redirect the normal force so the turn feels smoother",
-            "C. To make the train's mass smaller",
-            "D. To guarantee zero friction everywhere",
+            "A. Gravity disappears at the bottom.",
+            "B. The seat must support the rider and provide upward inward force.",
+            "C. The rider's mass becomes larger.",
+            "D. The coaster has zero centripetal acceleration.",
           ],
           1,
-          "Correct. Banking lets the normal force help provide inward acceleration, reducing uncomfortable sideways force.",
-          "Not quite. Banking is about directing forces more comfortably through the turn.",
+          "Correct. At the bottom, inward is upward, so N - mg = mv²/r and N must be larger than mg.",
+          "Not quite. At the bottom of a dip, the inward direction is upward, so the seat's normal force must exceed weight.",
         ),
         quizQuestion(
-          "A design has later non-launched hills almost as tall as the first hill even though the ride has large friction and drag losses. What is the main concern?",
+          "A coaster has later non-launched hills almost as tall as the first hill even though the ride has large friction and drag losses. What is the main energy concern?",
           [
             "A. The train may not have enough mechanical energy to clear those hills.",
             "B. The train's mass will become zero.",
@@ -5497,10 +5323,10 @@ const finalQuizLesson = createLesson(
           ],
           0,
           "Correct. Energy losses reduce the usable mechanical energy available for later hills.",
-          "Not quite. Later hills have to fit the remaining energy budget after losses.",
+          "Not quite. Later hills have to fit the remaining mechanical-energy budget after losses.",
         ),
         quizQuestion(
-          "Why is a tight high-speed turn a rider-comfort concern?",
+          "Why does a tight high-speed turn require a large inward force?",
           [
             "A. It always removes all kinetic energy.",
             "B. It requires large centripetal acceleration and can create excessive g-forces.",
@@ -5508,7 +5334,7 @@ const finalQuizLesson = createLesson(
             "D. It prevents the track from exerting normal force.",
           ],
           1,
-          "Correct. Large speed and small radius make v²/r large, which can create uncomfortable or unsafe forces.",
+          "Correct. Large speed and small radius make v²/r large, so the required inward force is large.",
           "Not quite. The key issue is the large inward acceleration required by a tight fast turn.",
         ),
       ],
@@ -5524,8 +5350,75 @@ const lessonMap = {
   work: workLesson,
   momentum: momentumLesson,
   rotation: rotationLesson,
-  "design-safety": designSafetyLesson,
+  "final-review": finalReviewLesson,
   "final-quiz": finalQuizLesson,
+};
+
+const defaultRoute = { view: "home" };
+
+const normalizePathname = (pathname) => {
+  const normalizedPathname = pathname.replace(/\/+$/, "");
+  return normalizedPathname || "/";
+};
+
+const getSectionById = (sectionId) =>
+  sections.find((section) => section.id === sectionId) ?? sections[0];
+
+const getRouteFromPathname = (pathname) => {
+  const path = normalizePathname(pathname);
+
+  if (path === "/" || path === "/home") {
+    return defaultRoute;
+  }
+
+  if (path === "/chapters" || path === "/topics") {
+    return { view: "topics" };
+  }
+
+  if (path === "/simulation") {
+    return { view: "simulation" };
+  }
+
+  if (path === "/credits") {
+    return { view: "credits" };
+  }
+
+  const lessonMatch = path.match(/^\/chapters\/([^/]+)$/);
+
+  if (lessonMatch) {
+    const lessonId = decodeURIComponent(lessonMatch[1]);
+
+    if (lessonMap[lessonId]) {
+      return { view: "lesson", lessonId };
+    }
+  }
+
+  return defaultRoute;
+};
+
+const getBrowserRoute = () =>
+  typeof window === "undefined"
+    ? defaultRoute
+    : getRouteFromPathname(window.location.pathname);
+
+const getPathForRoute = (route) => {
+  if (route.view === "topics") {
+    return "/chapters";
+  }
+
+  if (route.view === "lesson") {
+    return `/chapters/${encodeURIComponent(route.lessonId)}`;
+  }
+
+  if (route.view === "simulation") {
+    return "/simulation";
+  }
+
+  if (route.view === "credits") {
+    return "/credits";
+  }
+
+  return "/";
 };
 
 const progressStorageKey = "coasterphysics-progress-v1";
@@ -5562,6 +5455,17 @@ const getLessonProgressSummary = (lesson, completedSteps = {}, quizScore = null)
   };
 };
 
+const getQuizScorePercent = (score) =>
+  score?.total ? Math.round((score.correct / score.total) * 100) : 0;
+
+const isBetterQuizScore = (candidate, current) => {
+  if (!current) {
+    return true;
+  }
+
+  return getQuizScorePercent(candidate) > getQuizScorePercent(current);
+};
+
 const LessonView = ({
   lessonId,
   lesson,
@@ -5592,7 +5496,8 @@ const LessonView = ({
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === lesson.steps.length - 1;
   const isTerminalQuizStep = isQuizStep && isLastStep;
-  const [tocOpen, setTocOpen] = useState(true);
+  const canContinueFromLastStep = isLastStep && hasNextLesson && !isQuizStep;
+  const [tocOpen, setTocOpen] = useState(false);
   const [practiceIndex, setPracticeIndex] = useState(0);
   const [selectedPracticeChoice, setSelectedPracticeChoice] = useState(null);
   const [practiceChecked, setPracticeChecked] = useState(false);
@@ -5600,7 +5505,10 @@ const LessonView = ({
   const [selectedQuizChoice, setSelectedQuizChoice] = useState(null);
   const [quizChecked, setQuizChecked] = useState(false);
   const [quizResults, setQuizResults] = useState({});
+  const [quizSummary, setQuizSummary] = useState(null);
   const hideLessonSidebar = lessonId === "final-quiz";
+  const isFinalExam = lessonId === "final-quiz";
+  const quizNoun = isFinalExam ? "Final Exam" : "Quiz";
 
   const practiceQuestions = step.practice?.questions ?? (step.practice ? [step.practice] : []);
   const currentPracticeProblem = practiceQuestions[practiceIndex] ?? null;
@@ -5614,21 +5522,22 @@ const LessonView = ({
   const currentQuizQuestion = step.quiz?.[quizIndex] ?? null;
   const quizIsCorrect =
     currentQuizQuestion && selectedQuizChoice === currentQuizQuestion.correctChoice;
-  const quizComplete =
-    step.id === "quiz" && quizIndex === step.quiz.length - 1 && quizChecked;
+  const quizResultScreenVisible = Boolean(quizSummary);
   const stepAlreadyComplete = Boolean(completedSteps?.[step.id]);
   const quizAlreadyComplete = Boolean(quizScore);
   const canMarkCurrentStepComplete =
     !isQuizStep && practiceQuestions.length === 0;
   const nextButtonDisabled = isTerminalQuizStep
-    ? !(quizComplete || quizAlreadyComplete)
+    ? !(quizResultScreenVisible || quizAlreadyComplete)
     : (practiceQuestions.length > 0 && !(practiceComplete || stepAlreadyComplete)) ||
-      (step.id === "quiz" && !(quizComplete || quizAlreadyComplete)) ||
-      isLastStep;
+      (step.id === "quiz" && !(quizResultScreenVisible || quizAlreadyComplete)) ||
+      (isLastStep && !canContinueFromLastStep);
   const nextButtonLabel = isTerminalQuizStep
     ? hasNextLesson
       ? "Next Unit"
       : "Finish Course"
+    : canContinueFromLastStep
+      ? "Final Exam"
     : "Next";
   const completedStepCircleClass = isDark
     ? "bg-emerald-300/20 text-emerald-100 ring-1 ring-emerald-300/35"
@@ -5659,6 +5568,7 @@ const LessonView = ({
     setSelectedQuizChoice(null);
     setQuizChecked(false);
     setQuizResults({});
+    setQuizSummary(null);
   }, [step.id]);
 
   useEffect(() => {
@@ -5701,15 +5611,6 @@ const LessonView = ({
       setQuizResults(nextResults);
       setQuizChecked(true);
 
-      if (quizIndex === step.quiz.length - 1) {
-        const correctCount = step.quiz.reduce(
-          (total, _question, index) => total + (nextResults[index] ? 1 : 0),
-          0,
-        );
-
-        onQuizComplete(lessonId, correctCount, step.quiz.length);
-      }
-
       return;
     }
 
@@ -5718,10 +5619,38 @@ const LessonView = ({
       return;
     }
 
-    setStepIndex((current) =>
-      Math.min(current + 1, lesson.steps.length - 1),
+    const correctCount = step.quiz.reduce(
+      (total, _question, index) => total + (quizResults[index] ? 1 : 0),
+      0,
     );
+    const attemptScore = {
+      correct: correctCount,
+      total: step.quiz.length,
+      completedAt: Date.now(),
+    };
+
+    onQuizComplete(lessonId, attemptScore.correct, attemptScore.total);
+    setQuizSummary(attemptScore);
   };
+
+  const restartQuiz = () => {
+    setQuizIndex(0);
+    setSelectedQuizChoice(null);
+    setQuizChecked(false);
+    setQuizResults({});
+    setQuizSummary(null);
+  };
+
+  const quizSummaryPercent = getQuizScorePercent(quizSummary);
+  const visibleBestQuizScore =
+    quizSummary && isBetterQuizScore(quizSummary, quizScore)
+      ? quizSummary
+      : quizScore;
+  const visibleBestQuizPercent = getQuizScorePercent(visibleBestQuizScore);
+  const quizSummaryMessage =
+    quizSummaryPercent >= 60
+      ? `Great job. You showed solid understanding on this ${isFinalExam ? "final exam" : "quiz"}.`
+      : `Good effort, but I recommend you try again to strengthen ${isFinalExam ? "the final review" : "this section"}.`;
 
   const equationTextClass = `font-body font-medium tracking-normal ${titleClass}`;
   const realWorldEquationClass = `mt-2 overflow-x-auto pb-1 ${equationTextClass} text-xl leading-relaxed`;
@@ -5999,12 +5928,12 @@ const LessonView = ({
               {step.label}
             </p>
           ) : null}
-          <h3 className={`${isQuizStep ? "" : "mt-4"} font-display text-3xl font-semibold ${titleClass}`}>
+          <h3 className={`${isQuizStep ? "" : "mt-4"} font-display ${step.compact ? "text-2xl sm:text-3xl" : "text-3xl"} font-semibold ${titleClass}`}>
             {step.title}
           </h3>
 
           {step.body ? (
-            <div className={`mt-6 space-y-4 text-lg leading-8 ${copyClass}`}>
+            <div className={`mt-6 space-y-4 ${step.compact ? "text-base leading-7" : "text-lg leading-8"} ${copyClass}`}>
               {step.body.map((paragraph) => (
                 <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
               ))}
@@ -6061,14 +5990,14 @@ const LessonView = ({
 
           {step.equations ? (
             <div className="mt-6">
-              <div className="grid auto-rows-fr gap-4 sm:grid-cols-2">
+              <div className={step.compact ? "grid auto-rows-fr gap-3 sm:grid-cols-2 xl:grid-cols-3" : "grid auto-rows-fr gap-4 sm:grid-cols-2"}>
                 {step.equations.map((item) => (
-                  <div key={item.label} className={`flex h-full min-h-[9.75rem] flex-col rounded-3xl border p-4 sm:p-5 ${subtlePanelClass}`}>
-                    <p className={`flex min-h-[3.25rem] items-start text-sm font-semibold uppercase leading-6 tracking-[0.18em] ${mutedClass}`}>
+                  <div key={item.label} className={`flex h-full flex-col rounded-3xl border ${step.compact ? "min-h-[7.25rem] p-3 sm:p-4" : "min-h-[9.75rem] p-4 sm:p-5"} ${subtlePanelClass}`}>
+                    <p className={`flex items-start font-semibold uppercase ${step.compact ? "min-h-[2.35rem] text-[0.68rem] leading-5 tracking-[0.14em]" : "min-h-[3.25rem] text-sm leading-6 tracking-[0.18em]"} ${mutedClass}`}>
                       {item.label}
                     </p>
                     <div
-                      className={`mt-1 flex min-h-[4.1rem] items-center overflow-x-auto pb-2 ${equationTextClass} text-[1.55rem] leading-[1.35] sm:text-[1.9rem]`}
+                      className={`mt-1 flex items-center overflow-x-auto pb-2 ${equationTextClass} ${step.compact ? "min-h-[3.25rem] text-lg leading-[1.35] sm:text-xl" : "min-h-[4.1rem] text-[1.55rem] leading-[1.35] sm:text-[1.9rem]"}`}
                     >
                       {item.expression}
                     </div>
@@ -6083,12 +6012,12 @@ const LessonView = ({
               <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
                 Variable Explanations
               </p>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className={step.compact ? "mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" : "mt-4 grid gap-4 sm:grid-cols-2"}>
                 {step.variables.map((item) => (
-                  <div key={item.symbol} className={`rounded-3xl border p-5 ${subtlePanelClass}`}>
-                    <div className="flex items-start gap-4">
+                  <div key={item.symbol} className={`rounded-3xl border ${step.compact ? "p-4" : "p-5"} ${subtlePanelClass}`}>
+                    <div className={`flex items-start ${step.compact ? "gap-3" : "gap-4"}`}>
                       <div
-                        className={`min-w-[5.5rem] rounded-2xl border px-3 py-3 text-center font-body text-2xl font-medium leading-none ${
+                        className={`${step.compact ? "min-w-[4.25rem] px-2 py-2 text-xl" : "min-w-[5.5rem] px-3 py-3 text-2xl"} rounded-2xl border text-center font-body font-medium leading-none ${
                           isDark
                             ? "border-white/10 bg-white/[0.04] text-white"
                             : "border-slate-300/70 bg-white/80 text-slate-900"
@@ -6115,10 +6044,10 @@ const LessonView = ({
                         )}
                       </div>
                       <div>
-                        <p className={`text-lg font-semibold capitalize ${titleClass}`}>
+                        <p className={`${step.compact ? "text-base" : "text-lg"} font-semibold capitalize ${titleClass}`}>
                           {item.meaning}
                         </p>
-                        <p className={`mt-2 text-base leading-7 ${copyClass}`}>
+                        <p className={`mt-2 ${step.compact ? "text-sm leading-6" : "text-base leading-7"} ${copyClass}`}>
                           {item.note}
                         </p>
                       </div>
@@ -6296,107 +6225,179 @@ const LessonView = ({
 
           {step.quiz ? (
             <div className={`mt-6 rounded-3xl border p-6 ${subtlePanelClass}`}>
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-                    Section Quiz
-                  </p>
-                  <h4 className={`mt-2 text-xl font-semibold ${titleClass}`}>
-                    Question {quizIndex + 1} of {step.quiz.length}
-                  </h4>
-                </div>
-                <div className={`text-sm font-semibold ${mutedClass}`}>
-                  Answer each one before moving on
-                </div>
-              </div>
-
-              <FormattedPhysicsText
-                as="p"
-                className={`mt-6 text-base leading-7 ${copyClass}`}
-                text={currentQuizQuestion.question}
-              />
-
-              <div className="mt-6 grid gap-3">
-                {currentQuizQuestion.choices.map((choice, index) => {
-                  const selected = selectedQuizChoice === index;
-
-                  return (
-                    <button
-                      key={choice}
-                      type="button"
-                      onClick={() => {
-                        setSelectedQuizChoice(index);
-                        if (quizChecked && selectedQuizChoice !== index) {
-                          setQuizChecked(false);
-                          setQuizResults((current) => {
-                            const nextResults = { ...current };
-                            delete nextResults[quizIndex];
-                            return nextResults;
-                          });
-                        }
-                      }}
-                      className={`rounded-2xl border px-4 py-4 text-left transition ${
-                        selected
-                          ? isDark
-                            ? "border-cyan-300/40 bg-cyan-300/10"
-                            : "border-sky-300 bg-sky-50"
-                          : isDark
-                            ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
-                            : "border-slate-300/70 bg-white/70 hover:bg-white"
-                      } ${quizChecked ? "cursor-default" : ""}`}
+              {quizSummary ? (
+                <>
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                      <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                        {quizNoun} Results
+                      </p>
+                      <h4 className={`mt-2 text-2xl font-semibold ${titleClass}`}>
+                        You got {quizSummary.correct}/{quizSummary.total} correct
+                      </h4>
+                    </div>
+                    <div
+                      className={`rounded-2xl border px-5 py-4 text-center ${
+                        isDark
+                          ? "border-cyan-300/20 bg-cyan-300/10"
+                          : "border-sky-200 bg-sky-50"
+                      }`}
                     >
-                      <FormattedPhysicsText
-                        className={isDark ? "text-slate-100" : "text-slate-800"}
-                        text={choice}
-                      />
-                    </button>
-                  );
-                })}
-              </div>
+                      <p className={`text-xs font-semibold uppercase tracking-[0.16em] ${mutedClass}`}>
+                        Score
+                      </p>
+                      <p className={`mt-1 text-3xl font-semibold ${titleClass}`}>
+                        {quizSummaryPercent}%
+                      </p>
+                    </div>
+                  </div>
 
-              {quizChecked ? (
-                <div
-                  className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
-                    quizIsCorrect
-                      ? isDark
-                        ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-50"
-                        : "border-emerald-200 bg-emerald-50 text-emerald-900"
-                      : isDark
-                        ? "border-rose-300/20 bg-rose-300/10 text-rose-50"
-                        : "border-rose-200 bg-rose-50 text-rose-900"
-                  }`}
-                >
-                  <p className="font-semibold">{quizIsCorrect ? "Correct" : "Not quite"}</p>
+                  <div
+                    className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
+                      quizSummaryPercent >= 60
+                        ? isDark
+                          ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-50"
+                          : "border-emerald-200 bg-emerald-50 text-emerald-900"
+                        : isDark
+                          ? "border-amber-300/20 bg-amber-300/10 text-amber-50"
+                          : "border-amber-200 bg-amber-50 text-amber-950"
+                    }`}
+                  >
+                    <p className="font-semibold">{quizSummaryMessage}</p>
+                    {visibleBestQuizScore ? (
+                      <p className="mt-2">
+                        Best score saved for this {isFinalExam ? "final exam" : "chapter"}: {visibleBestQuizScore.correct}/
+                        {visibleBestQuizScore.total} ({visibleBestQuizPercent}%)
+                      </p>
+                    ) : null}
+                  </div>
+
+                  <div className="mt-6 flex flex-wrap gap-4">
+                    <button
+                      type="button"
+                      onClick={restartQuiz}
+                      className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                        isDark
+                          ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                          : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+                      }`}
+                    >
+                      {isFinalExam ? "Retake Exam" : "Try Again"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={onNextLesson}
+                      className="inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
+                    >
+                      {hasNextLesson ? "Next Unit" : "Finish Course"}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                        {quizNoun}
+                      </p>
+                      <h4 className={`mt-2 text-xl font-semibold ${titleClass}`}>
+                        Question {quizIndex + 1} of {step.quiz.length}
+                      </h4>
+                    </div>
+                    <div className={`text-sm font-semibold ${mutedClass}`}>
+                      Answer each one before moving on
+                    </div>
+                  </div>
+
                   <FormattedPhysicsText
                     as="p"
-                    className="mt-2"
-                    text={
-                      quizIsCorrect
-                        ? currentQuizQuestion.correctExplanation
-                        : currentQuizQuestion.incorrectExplanation
-                    }
+                    className={`mt-6 text-base leading-7 ${copyClass}`}
+                    text={currentQuizQuestion.question}
                   />
-                </div>
-              ) : null}
 
-              <div className="mt-6 flex flex-wrap gap-4">
-                <button
-                  type="button"
-                  onClick={handleQuizAdvance}
-                  disabled={selectedQuizChoice === null}
-                  className={`inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition ${
-                    selectedQuizChoice === null
-                      ? "cursor-not-allowed opacity-50"
-                      : "hover:bg-cyan-200"
-                  }`}
-                >
-                  {!quizChecked
-                    ? "Check Answer"
-                    : quizIndex < step.quiz.length - 1
-                      ? "Next Question"
-                      : "Finish Quiz"}
-                </button>
-              </div>
+                  <div className="mt-6 grid gap-3">
+                    {currentQuizQuestion.choices.map((choice, index) => {
+                      const selected = selectedQuizChoice === index;
+
+                      return (
+                        <button
+                          key={choice}
+                          type="button"
+                          onClick={() => {
+                            setSelectedQuizChoice(index);
+                            if (quizChecked && selectedQuizChoice !== index) {
+                              setQuizChecked(false);
+                              setQuizResults((current) => {
+                                const nextResults = { ...current };
+                                delete nextResults[quizIndex];
+                                return nextResults;
+                              });
+                            }
+                          }}
+                          className={`rounded-2xl border px-4 py-4 text-left transition ${
+                            selected
+                              ? isDark
+                                ? "border-cyan-300/40 bg-cyan-300/10"
+                                : "border-sky-300 bg-sky-50"
+                              : isDark
+                                ? "border-white/10 bg-white/[0.03] hover:bg-white/[0.07]"
+                                : "border-slate-300/70 bg-white/70 hover:bg-white"
+                          } ${quizChecked ? "cursor-default" : ""}`}
+                        >
+                          <FormattedPhysicsText
+                            className={isDark ? "text-slate-100" : "text-slate-800"}
+                            text={choice}
+                          />
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {quizChecked ? (
+                    <div
+                      className={`mt-6 rounded-3xl border p-5 text-base leading-7 ${
+                        quizIsCorrect
+                          ? isDark
+                            ? "border-emerald-300/20 bg-emerald-300/10 text-emerald-50"
+                            : "border-emerald-200 bg-emerald-50 text-emerald-900"
+                          : isDark
+                            ? "border-rose-300/20 bg-rose-300/10 text-rose-50"
+                            : "border-rose-200 bg-rose-50 text-rose-900"
+                      }`}
+                    >
+                      <p className="font-semibold">{quizIsCorrect ? "Correct" : "Not quite"}</p>
+                      <FormattedPhysicsText
+                        as="p"
+                        className="mt-2"
+                        text={
+                          quizIsCorrect
+                            ? currentQuizQuestion.correctExplanation
+                            : currentQuizQuestion.incorrectExplanation
+                        }
+                      />
+                    </div>
+                  ) : null}
+
+                  <div className="mt-6 flex flex-wrap gap-4">
+                    <button
+                      type="button"
+                      onClick={handleQuizAdvance}
+                      disabled={selectedQuizChoice === null}
+                      className={`inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition ${
+                        selectedQuizChoice === null
+                          ? "cursor-not-allowed opacity-50"
+                          : "hover:bg-cyan-200"
+                      }`}
+                    >
+                      {!quizChecked
+                        ? "Check Answer"
+                        : quizIndex < step.quiz.length - 1
+                          ? "Next Question"
+                          : "Finish Quiz"}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           ) : null}
 
@@ -6420,7 +6421,7 @@ const LessonView = ({
             <button
               type="button"
               onClick={() => {
-                if (isTerminalQuizStep) {
+                if (isTerminalQuizStep || canContinueFromLastStep) {
                   onNextLesson();
                   return;
                 }
@@ -6581,7 +6582,10 @@ const ImageCreditsView = ({
 };
 
 const App = () => {
-  const [activeSection, setActiveSection] = useState(sections[0]);
+  const initialRoute = getBrowserRoute();
+  const [activeSection, setActiveSection] = useState(() =>
+    getSectionById(initialRoute.lessonId),
+  );
   const [theme, setTheme] = useState(() => {
     try {
       const savedTheme = window.localStorage.getItem("coasterphysics-theme");
@@ -6598,9 +6602,12 @@ const App = () => {
     }
   });
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [view, setView] = useState("home");
-  const [activeLessonId, setActiveLessonId] = useState("kinematics");
+  const [view, setView] = useState(initialRoute.view);
+  const [activeLessonId, setActiveLessonId] = useState(
+    initialRoute.lessonId ?? sections[0].id,
+  );
   const [lessonStepIndex, setLessonStepIndex] = useState(0);
+  const [pagePath, setPagePath] = useState(() => getPathForRoute(initialRoute));
   const [progress, setProgress] = useState(() => {
     try {
       const savedProgress = window.localStorage.getItem(progressStorageKey);
@@ -6612,6 +6619,43 @@ const App = () => {
     }
   });
   const settingsRef = useRef(null);
+
+  const syncRouteState = (route, options = {}) => {
+    const nextLessonId = route.lessonId ?? activeLessonId;
+
+    setView(route.view);
+    setPagePath(getPathForRoute(route));
+    setSettingsOpen(false);
+
+    if (route.view === "lesson") {
+      setActiveLessonId(nextLessonId);
+      setActiveSection(getSectionById(nextLessonId));
+
+      if (options.resetStep !== false) {
+        setLessonStepIndex(0);
+      }
+    }
+  };
+
+  const navigateToRoute = (route, options = {}) => {
+    const nextPath = getPathForRoute(route);
+    const currentPath = normalizePathname(window.location.pathname);
+
+    setSettingsOpen(false);
+
+    if (currentPath === nextPath && view === route.view) {
+      scrollPageToTop();
+      return;
+    }
+
+    if (options.replace) {
+      window.history.replaceState(route, "", nextPath);
+    } else {
+      window.history.pushState(route, "", nextPath);
+    }
+
+    syncRouteState(route, options);
+  };
 
   useEffect(() => {
     const previousScrollRestoration = window.history.scrollRestoration;
@@ -6626,6 +6670,24 @@ const App = () => {
       if ("scrollRestoration" in window.history) {
         window.history.scrollRestoration = previousScrollRestoration;
       }
+    };
+  }, []);
+
+  useEffect(() => {
+    const route = getBrowserRoute();
+    const path = getPathForRoute(route);
+
+    window.history.replaceState(route, "", path);
+    syncRouteState(route, { resetStep: false });
+
+    const handlePopState = () => {
+      syncRouteState(getBrowserRoute());
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 
@@ -6649,7 +6711,7 @@ const App = () => {
     const frame = window.requestAnimationFrame(scrollPageToTop);
 
     return () => window.cancelAnimationFrame(frame);
-  }, [view]);
+  }, [pagePath]);
 
   useEffect(() => {
     if (!settingsOpen) {
@@ -6714,24 +6776,31 @@ const App = () => {
   };
 
   const recordQuizScore = (lessonId, correct, total) => {
-    setProgress((current) => ({
-      ...current,
-      quizScores: {
-        ...current.quizScores,
-        [lessonId]: {
-          correct,
-          total,
-          completedAt: Date.now(),
+    const attemptScore = {
+      correct,
+      total,
+      completedAt: Date.now(),
+    };
+
+    setProgress((current) => {
+      const currentBest = current.quizScores?.[lessonId] ?? null;
+
+      if (!isBetterQuizScore(attemptScore, currentBest)) {
+        return current;
+      }
+
+      return {
+        ...current,
+        quizScores: {
+          ...current.quizScores,
+          [lessonId]: attemptScore,
         },
-      },
-    }));
+      };
+    });
   };
 
   const openLesson = (section) => {
-    setActiveSection(section);
-    setActiveLessonId(section.id);
-    setLessonStepIndex(0);
-    setView("lesson");
+    navigateToRoute({ view: "lesson", lessonId: section.id });
   };
 
   const goToNextLesson = () => {
@@ -6740,22 +6809,15 @@ const App = () => {
       return;
     }
 
-    setView("topics");
+    navigateToRoute({ view: "topics" });
   };
 
   const returnToSections = () => {
-    setView("topics");
+    navigateToRoute({ view: "topics" });
   };
 
   const navigateToView = (nextView) => {
-    setSettingsOpen(false);
-
-    if (view === nextView) {
-      scrollPageToTop();
-      return;
-    }
-
-    setView(nextView);
+    navigateToRoute({ view: nextView });
   };
 
   return (
@@ -6827,14 +6889,14 @@ const App = () => {
               <div className="mt-10 flex flex-col items-start gap-3">
                 <button
                   type="button"
-                  onClick={() => setView("topics")}
+                  onClick={() => navigateToView("topics")}
                   className="inline-flex min-w-[18rem] items-center justify-center rounded-full bg-cyan-300 px-8 py-5 text-lg font-semibold text-slate-950 transition hover:scale-[1.01] hover:bg-cyan-200"
                 >
                   Start Learning
                 </button>
                 <button
                   type="button"
-                  onClick={() => setView("simulation")}
+                  onClick={() => navigateToView("simulation")}
                   className={`inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
                     isDark
                       ? "border-cyan-300/30 bg-white/5 text-cyan-100 hover:bg-white/10"
@@ -6855,7 +6917,7 @@ const App = () => {
             <div className="mb-5 flex items-center justify-between gap-4">
               <button
                 type="button"
-                onClick={() => setView("home")}
+                onClick={() => navigateToView("home")}
                 className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
                   isDark
                     ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
@@ -6911,7 +6973,7 @@ const App = () => {
                     quizScore,
                   );
                   const quizScoreText = quizScore
-                    ? `${Math.round((quizScore.correct / quizScore.total) * 100)}% (${quizScore.correct}/${quizScore.total})`
+                    ? `${getQuizScorePercent(quizScore)}% (${quizScore.correct}/${quizScore.total})`
                     : "n/a";
 
                   return (
@@ -6994,7 +7056,7 @@ const App = () => {
                           }`}
                         >
                           <p className={`text-xs font-semibold uppercase tracking-[0.14em] ${mutedClass}`}>
-                            Quiz
+                            {section.id === "final-quiz" ? "Best Exam" : "Best Quiz"}
                           </p>
                           <p className={`mt-1 text-sm font-semibold ${titleClass}`}>
                             {quizScoreText}
@@ -7023,7 +7085,7 @@ const App = () => {
             <div className="mb-5 flex items-center justify-between gap-4">
               <button
                 type="button"
-                onClick={() => setView("home")}
+                onClick={() => navigateToView("home")}
                 className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
                   isDark
                     ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
@@ -7064,7 +7126,7 @@ const App = () => {
             <div className="mb-5 flex items-center justify-between gap-4">
               <button
                 type="button"
-                onClick={() => setView("home")}
+                onClick={() => navigateToView("home")}
                 className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
                   isDark
                     ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
