@@ -28,7 +28,7 @@ const FooterSectionTitle = ({ children, className }) => {
 const SiteFooter = ({ isDark, onNavigate }) => {
   const footerClass = isDark
     ? "border-white/10 bg-slate-950/92 text-slate-200"
-    : "border-slate-400/50 bg-slate-200/94 text-slate-900 shadow-[0_-24px_72px_rgba(15,23,42,0.13)]";
+    : "border-slate-400/45 bg-slate-200/92 text-slate-900 shadow-[0_-24px_72px_rgba(15,23,42,0.12)]";
   const titleClass = isDark ? "text-white" : "text-slate-950";
   const copyClass = isDark ? "text-slate-300" : "text-slate-700";
   const navTextClass = isDark ? "text-slate-300" : "text-slate-700";
@@ -36,8 +36,8 @@ const SiteFooter = ({ isDark, onNavigate }) => {
   const sectionTitleClass = isDark ? "text-cyan-200/90" : "text-sky-800";
   const ruleClass = isDark ? "border-white/10" : "border-slate-400/45";
   const copyrightClass = isDark ? "text-slate-400" : "text-slate-600";
-  const topGlowClass = isDark ? "bg-cyan-300/10" : "bg-cyan-200/11";
-  const bottomGlowClass = isDark ? "bg-amber-300/5" : "bg-amber-200/9";
+  const topGlowClass = isDark ? "bg-cyan-300/10" : "bg-cyan-200/12";
+  const bottomGlowClass = isDark ? "bg-amber-300/5" : "bg-amber-200/10";
   const dividerGlowClass = isDark ? "via-cyan-300/45" : "via-sky-700/40";
 
   return (

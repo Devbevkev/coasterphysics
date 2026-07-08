@@ -147,7 +147,6 @@ const siteImagePreloadSources = [
   "/maverick-second-launch.png",
   "/velocicoaster-momentum.png",
   "/time-traveler-spin.png",
-  "/slope-components-reference.png",
   "/hero-collage-1.png",
   "/hero-collage-2.png",
   "/hero-collage-3.png",
@@ -199,7 +198,7 @@ const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "
   return (
     <div
       className={`overflow-hidden rounded-[1.25rem] border-[6px] shadow-[0_18px_38px_rgba(15,23,42,0.13)] ${
-        isDark ? "border-slate-100/85 bg-slate-100/95" : "border-white/90 bg-white/92"
+        isDark ? "border-slate-100/85 bg-slate-100/95" : "border-white/95 bg-white/95"
       } ${className}`}
     >
       <img
@@ -215,8 +214,8 @@ const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "
 };
 
 const HeroCollage = ({ isDark }) => {
-  const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-200/50";
-  const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-100/45";
+  const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-200/55";
+  const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-100/50";
   const mobilePhotos = [
     {
       src: "/hero-coaster-frame.png",
@@ -499,80 +498,168 @@ const KinematicsVelocityGraph = ({ isDark }) => {
 };
 
 const SlopeCartDiagram = ({ isDark }) => {
-  const panelFill = isDark ? "#0f172a" : "#f8fafc";
-  const panelGlow = isDark ? "rgba(148,163,184,0.1)" : "rgba(255,255,255,0.95)";
   const trackColor = isDark ? "#94a3b8" : "#64748b";
+  const guideColor = isDark ? "#64748b" : "#94a3b8";
   const cartFill = isDark ? "#22d3ee" : "#38bdf8";
   const wheelFill = isDark ? "#475569" : "#475569";
   const accentFill = isDark ? "#f8fafc" : "#ffffff";
   const textColor = isDark ? "#e2e8f0" : "#334155";
 
   return (
-    <svg viewBox="0 0 320 180" className="h-48 w-full" role="img" aria-label="Roller coaster cart on a sloped track">
-      <defs>
-        <radialGradient id="slopeGlow" cx="50%" cy="42%" r="78%">
-          <stop offset="0%" stopColor={panelGlow} />
-          <stop offset="100%" stopColor={panelFill} />
-        </radialGradient>
-      </defs>
-
-      <rect x="0" y="0" width="320" height="180" rx="24" fill="url(#slopeGlow)" />
-
+    <svg viewBox="0 0 520 220" className="h-60 w-full" role="img" aria-label="Roller coaster cart on a sloped track">
       <line
-        x1="0"
-        y1="161"
-        x2="300"
-        y2="77"
+        x1="58"
+        y1="176"
+        x2="462"
+        y2="68"
+        stroke={guideColor}
+        strokeWidth="12"
+        strokeLinecap="round"
+        opacity="0.18"
+      />
+      <line
+        x1="58"
+        y1="176"
+        x2="462"
+        y2="68"
         stroke={trackColor}
         strokeWidth="6"
         strokeLinecap="round"
         opacity="0.92"
       />
 
-      <g transform="translate(116 111) rotate(-15)">
-        <rect x="-52" y="-26" width="104" height="32" rx="14" fill={cartFill} />
-        <rect x="-26" y="-40" width="56" height="18" rx="9" fill={accentFill} opacity="0.95" />
-        <circle cx="-22" cy="4" r="11" fill={wheelFill} />
-        <circle cx="24" cy="4" r="11" fill={wheelFill} />
-        <circle cx="-22" cy="4" r="4.25" fill={accentFill} />
-        <circle cx="24" cy="4" r="4.25" fill={accentFill} />
+      <g transform="translate(238 128) rotate(-15)">
+        <rect x="-64" y="-30" width="128" height="38" rx="17" fill={cartFill} />
+        <rect x="-30" y="-47" width="68" height="20" rx="10" fill={accentFill} opacity="0.95" />
+        <circle cx="-28" cy="8" r="15" fill={wheelFill} />
+        <circle cx="30" cy="8" r="15" fill={wheelFill} />
+        <circle cx="-28" cy="8" r="6" fill={accentFill} />
+        <circle cx="30" cy="8" r="6" fill={accentFill} />
       </g>
 
       <line
-        x1="0"
-        y1="162"
-        x2="68"
-        y2="162"
+        x1="58"
+        y1="176"
+        x2="150"
+        y2="176"
         stroke={trackColor}
         strokeWidth="3"
         strokeLinecap="round"
-        opacity="0.82"
+        opacity="0.7"
       />
       <path
-        d="M35 162 A35 35 0 0 0 33.7 151.9"
+        d="M116 176 A58 58 0 0 0 112 160"
         fill="none"
         stroke={trackColor}
-        strokeWidth="2.5"
+        strokeWidth="3"
+        strokeLinecap="round"
       />
-      <text x="48" y="153" fill={textColor} fontSize="16" fontWeight="600">
+      <text x="130" y="162" fill={textColor} fontSize="18" fontWeight="700">
         θ
       </text>
     </svg>
   );
 };
 
-const SlopeComponentsDiagram = () => {
+const SlopeComponentsDiagram = ({ isDark }) => {
+  const trackColor = isDark ? "#94a3b8" : "#64748b";
+  const guideColor = isDark ? "#64748b" : "#94a3b8";
+  const bodyFill = isDark ? "#f8fafc" : "#0f172a";
+  const forceColor = isDark ? "#38bdf8" : "#0284c7";
+  const componentColor = isDark ? "#fbbf24" : "#d97706";
+  const textColor = isDark ? "#e2e8f0" : "#334155";
+
   return (
-    <div className="overflow-hidden rounded-[1.5rem] bg-white p-3">
-      <img
-        src="/slope-components-reference.png"
-        alt="Slope free-body diagram showing N, mg, mg sin theta, and mg cos theta"
-        loading="eager"
-        decoding="async"
-        fetchPriority="high"
-        className="h-48 w-full object-contain"
+    <svg viewBox="0 0 520 220" className="h-60 w-full" role="img" aria-label="Slope free-body diagram showing N, mg, mg sin theta, and mg cos theta">
+      <defs>
+        <marker id="slopeForceArrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill={forceColor} />
+        </marker>
+        <marker id="slopeForceArrowOrange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill={componentColor} />
+        </marker>
+      </defs>
+
+      <line
+        x1="76"
+        y1="154"
+        x2="454"
+        y2="54"
+        stroke={guideColor}
+        strokeWidth="12"
+        strokeLinecap="round"
+        opacity="0.14"
       />
-    </div>
+      <line
+        x1="76"
+        y1="154"
+        x2="454"
+        y2="54"
+        stroke={trackColor}
+        strokeWidth="5"
+        strokeLinecap="round"
+        opacity="0.92"
+      />
+
+      <circle cx="270" cy="103" r="14" fill={bodyFill} />
+
+      <line
+        x1="270"
+        y1="103"
+        x2="247"
+        y2="24"
+        stroke={forceColor}
+        strokeWidth="6"
+        strokeLinecap="round"
+        markerEnd="url(#slopeForceArrowBlue)"
+      />
+      <text x="219" y="47" fill={textColor} fontSize="20" fontWeight="700">
+        N
+      </text>
+
+      <line
+        x1="270"
+        y1="103"
+        x2="270"
+        y2="190"
+        stroke={forceColor}
+        strokeWidth="6"
+        strokeLinecap="round"
+        markerEnd="url(#slopeForceArrowBlue)"
+      />
+      <text x="226" y="191" fill={textColor} fontSize="18" fontWeight="700">
+        mg
+      </text>
+
+      <line
+        x1="270"
+        y1="103"
+        x2="176"
+        y2="128"
+        stroke={componentColor}
+        strokeWidth="6"
+        strokeLinecap="round"
+        markerEnd="url(#slopeForceArrowOrange)"
+      />
+      <text x="103" y="112" fill={textColor} fontSize="17" fontWeight="700">
+        mg sinθ
+      </text>
+
+      <line
+        x1="270"
+        y1="103"
+        x2="294"
+        y2="190"
+        stroke={componentColor}
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeDasharray="8 7"
+        markerEnd="url(#slopeForceArrowOrange)"
+      />
+      <text x="317" y="160" fill={textColor} fontSize="17" fontWeight="700">
+        mg cosθ
+      </text>
+    </svg>
   );
 };
 
@@ -1217,14 +1304,6 @@ const otherSiteImageCredits = [
     title: "Circular G-Force Coaster",
     file: "/circular-gforce-example.png",
     usedIn: "Circular Motion real-world example",
-    source: "Existing project image asset.",
-    copyrightNote:
-      "Original source and license are not documented in the project files yet.",
-  },
-  {
-    title: "Slope Components Reference",
-    file: "/slope-components-reference.png",
-    usedIn: "Forces slope components figure",
     source: "Existing project image asset.",
     copyrightNote:
       "Original source and license are not documented in the project files yet.",
@@ -6883,10 +6962,10 @@ const App = () => {
       : "py-10 sm:py-12 lg:py-16";
   const panelClass = isDark
     ? "panel border-white/10 bg-white/5"
-    : "panel border-slate-300/75 bg-white/78 shadow-[0_24px_60px_rgba(148,163,184,0.18)]";
+    : "panel border-slate-300/70 bg-white/80 shadow-[0_24px_60px_rgba(148,163,184,0.16)]";
   const subtlePanelClass = isDark
     ? "border-white/10 bg-white/[0.04]"
-    : "border-slate-300/75 bg-slate-50/88";
+    : "border-slate-300/70 bg-slate-50/90";
   const titleClass = isDark ? "text-white" : "text-slate-950";
   const copyClass = isDark ? "text-slate-300" : "text-slate-600";
   const mutedClass = isDark ? "text-slate-400" : "text-slate-500";
@@ -7040,7 +7119,7 @@ const App = () => {
           </section>
         ) : view === "topics" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 flex items-center justify-end gap-4">
+            <div className="mb-5 mt-8 flex items-center justify-end gap-4 sm:mt-10 lg:mt-12">
               <button
                 type="button"
                 onClick={() => navigateToView("home")}
@@ -7212,7 +7291,7 @@ const App = () => {
           </section>
         ) : view === "simulation" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 mt-5 flex items-center justify-end gap-4 sm:mt-6 lg:mt-7">
+            <div className="mb-5 mt-8 flex items-center justify-end gap-4 sm:mt-10 lg:mt-12">
               <button
                 type="button"
                 onClick={() => navigateToView("home")}

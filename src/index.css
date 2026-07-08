@@ -7,11 +7,11 @@
 @layer base {
   :root {
     --page-text: #0f172a;
-    --page-solid-bg: #e6effa;
+    --page-solid-bg: #e8f0fb;
     --page-bg:
-      radial-gradient(circle at top, rgba(125, 211, 252, 0.18), transparent 32%),
-      radial-gradient(circle at 85% 0%, rgba(253, 224, 71, 0.16), transparent 24%),
-      linear-gradient(180deg, #f7fbff 0%, #edf4ff 48%, #e6effa 100%);
+      radial-gradient(circle at top, rgba(125, 211, 252, 0.2), transparent 32%),
+      radial-gradient(circle at 85% 0%, rgba(253, 224, 71, 0.18), transparent 24%),
+      linear-gradient(180deg, #f8fbff 0%, #eef5ff 48%, #e8f0fb 100%);
     font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
     color-scheme: light;
     scroll-behavior: smooth;

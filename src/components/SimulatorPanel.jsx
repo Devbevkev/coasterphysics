@@ -382,7 +382,7 @@ const SimulatorPanel = ({
                             : "border-amber-400 bg-amber-50 text-amber-900 focus:border-amber-500"
                           : isDark
                             ? "border-white/10 bg-white/5 text-slate-100 focus:border-cyan-300/40"
-                            : "border-slate-300/85 bg-white/95 text-slate-900 focus:border-sky-500"
+                            : "border-slate-300 bg-white text-slate-900 focus:border-sky-400"
                       }`}
                       aria-label={`${control.label} input`}
                     />
@@ -392,7 +392,7 @@ const SimulatorPanel = ({
                       className={`w-24 rounded-full border px-3 py-1 text-sm font-semibold outline-none transition ${
                         isDark
                           ? "border-white/10 bg-slate-950 text-slate-100 focus:border-cyan-300/40"
-                          : "border-slate-300/85 bg-white/95 text-slate-700 focus:border-sky-500"
+                          : "border-slate-300 bg-white text-slate-700 focus:border-sky-400"
                       }`}
                       aria-label={`${control.label} units`}
                     >
@@ -416,7 +416,7 @@ const SimulatorPanel = ({
                   className={`h-2 w-full cursor-pointer appearance-none rounded-full ${
                     isDark
                       ? "bg-white/10 accent-cyan-300"
-                      : "bg-slate-300/80 accent-sky-700"
+                      : "bg-slate-300/70 accent-sky-600"
                   }`}
                 />
                 <div className={`mt-2 flex justify-between text-xs ${mutedClass}`}>
@@ -462,7 +462,7 @@ const SimulatorPanel = ({
                           : "border-sky-300 bg-sky-50 text-sky-700"
                         : isDark
                           ? "border-white/10 bg-white/[0.03] text-slate-200 hover:bg-white/[0.07]"
-                          : "border-slate-300/75 bg-white/72 text-slate-700 hover:bg-white/95"
+                          : "border-slate-300/70 bg-white/70 text-slate-700 hover:bg-white"
                     }`}
                   >
                     {profile.label}
@@ -515,7 +515,7 @@ const SimulatorPanel = ({
             className={`mt-8 rounded-[1.6rem] border p-5 ${
               isDark
                 ? "border-white/10 bg-slate-950/70"
-                : "border-slate-300/75 bg-white/88"
+                : "border-slate-300/70 bg-white/90"
             }`}
           >
             <div className={`mb-4 flex items-center justify-between text-sm ${copyClass}`}>
@@ -661,7 +661,7 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-slate-300/70 bg-slate-50/94 shadow-[0_14px_30px_rgba(148,163,184,0.1)]",
+          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
           label: "text-slate-500",
           value: "text-slate-900",
         },
@@ -672,7 +672,7 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-slate-300/70 bg-slate-50/94 shadow-[0_14px_30px_rgba(148,163,184,0.1)]",
+          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
           label: "text-slate-500",
           value: "text-slate-900",
         },
@@ -683,7 +683,7 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-slate-300/70 bg-slate-50/94 shadow-[0_14px_30px_rgba(148,163,184,0.1)]",
+          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
           label: "text-slate-500",
           value: "text-slate-900",
         },
@@ -694,7 +694,7 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-slate-300/70 bg-slate-50/94 shadow-[0_14px_30px_rgba(148,163,184,0.1)]",
+          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
           label: "text-slate-500",
           value: "text-slate-900",
         },
