@@ -699,7 +699,6 @@ const TorqueWheelDiagram = ({ isDark }) => {
   const axleFill = isDark ? "#f8fafc" : "#0f172a";
   const forceColor = isDark ? "#22d3ee" : "#0284c7";
   const radiusColor = isDark ? "#fbbf24" : "#d97706";
-  const torqueColor = isDark ? "#a78bfa" : "#7c3aed";
   const textColor = isDark ? "#e2e8f0" : "#334155";
   const mutedText = isDark ? "#cbd5e1" : "#475569";
 
@@ -746,23 +745,161 @@ const TorqueWheelDiagram = ({ isDark }) => {
         tangent
       </text>
 
-      <path
-        d="M105 72 C137 42 188 47 213 82"
-        fill="none"
-        stroke={torqueColor}
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-      <polygon points="222,96 201,87 219,74" fill={torqueColor} />
-      <text x="94" y="55" fill={textColor} fontSize="18" fontWeight="700">
-        τ
-      </text>
-
       <text x="128" y="212" fill={mutedText} fontSize="14" fontWeight="600">
         axle
       </text>
       <text x="38" y="32" fill={textColor} fontSize="16" fontWeight="700">
         Tangential force creates torque
+      </text>
+      <text x="38" y="54" fill={mutedText} fontSize="13" fontWeight="700">
+        τ = rF sin(90°) = rF
+      </text>
+    </svg>
+  );
+};
+
+const AngledTorqueWheelDiagram = ({ isDark }) => {
+  const panelFill = isDark ? "#0f172a" : "#f8fafc";
+  const wheelStroke = isDark ? "#94a3b8" : "#64748b";
+  const wheelFill = isDark ? "rgba(148,163,184,0.12)" : "rgba(226,232,240,0.72)";
+  const axleFill = isDark ? "#f8fafc" : "#0f172a";
+  const forceColor = isDark ? "#22d3ee" : "#0284c7";
+  const componentColor = isDark ? "#38bdf8" : "#0ea5e9";
+  const radiusColor = isDark ? "#fbbf24" : "#d97706";
+  const angleColor = isDark ? "#a78bfa" : "#7c3aed";
+  const textColor = isDark ? "#e2e8f0" : "#334155";
+  const mutedText = isDark ? "#cbd5e1" : "#475569";
+  const guideColor = isDark ? "#64748b" : "#94a3b8";
+
+  return (
+    <svg
+      viewBox="0 0 360 240"
+      className="h-64 w-full"
+      role="img"
+      aria-label="Torque diagram showing a force applied at an angle theta to the radius"
+    >
+      <defs>
+        <marker
+          id="angled-force-arrow"
+          markerWidth="16"
+          markerHeight="16"
+          refX="14"
+          refY="8"
+          orient="auto"
+          markerUnits="userSpaceOnUse"
+        >
+          <path d="M 0 0 L 16 8 L 0 16 z" fill={forceColor} />
+        </marker>
+        <marker
+          id="angled-component-arrow"
+          markerWidth="12"
+          markerHeight="12"
+          refX="10"
+          refY="6"
+          orient="auto"
+          markerUnits="userSpaceOnUse"
+        >
+          <path d="M 0 0 L 12 6 L 0 12 z" fill={componentColor} />
+        </marker>
+      </defs>
+
+      <rect x="0" y="0" width="360" height="240" rx="24" fill={panelFill} />
+
+      <circle cx="132" cy="132" r="66" fill={wheelFill} stroke={wheelStroke} strokeWidth="4" />
+      <circle cx="132" cy="132" r="10" fill={axleFill} />
+      <circle cx="132" cy="132" r="3.5" fill={panelFill} />
+
+      {[0, 45, 90, 135].map((angle) => (
+        <line
+          key={angle}
+          x1="132"
+          y1="132"
+          x2="198"
+          y2="132"
+          stroke={wheelStroke}
+          strokeWidth="2"
+          strokeLinecap="round"
+          opacity="0.35"
+          transform={`rotate(${angle} 132 132)`}
+        />
+      ))}
+
+      <line x1="132" y1="132" x2="198" y2="132" stroke={radiusColor} strokeWidth="5" strokeLinecap="round" />
+      <circle cx="198" cy="132" r="6" fill={radiusColor} />
+      <text x="164" y="120" fill={textColor} fontSize="18" fontWeight="700">
+        r
+      </text>
+
+      <line
+        x1="198"
+        y1="132"
+        x2="288"
+        y2="132"
+        stroke={guideColor}
+        strokeWidth="2"
+        strokeDasharray="6 7"
+        strokeLinecap="round"
+        opacity="0.7"
+      />
+      <path
+        d="M 232 132 A 34 34 0 0 0 222 108"
+        fill="none"
+        stroke={angleColor}
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+      <text x="238" y="115" fill={angleColor} fontSize="18" fontWeight="800">
+        θ
+      </text>
+
+      <line
+        x1="198"
+        y1="132"
+        x2="274"
+        y2="78"
+        stroke={forceColor}
+        strokeWidth="6"
+        strokeLinecap="round"
+        markerEnd="url(#angled-force-arrow)"
+      />
+      <text x="284" y="75" fill={textColor} fontSize="18" fontWeight="700">
+        F
+      </text>
+
+      <line
+        x1="198"
+        y1="132"
+        x2="198"
+        y2="78"
+        stroke={componentColor}
+        strokeWidth="4"
+        strokeDasharray="7 6"
+        strokeLinecap="round"
+        markerEnd="url(#angled-component-arrow)"
+      />
+      <line
+        x1="198"
+        y1="78"
+        x2="274"
+        y2="78"
+        stroke={guideColor}
+        strokeWidth="2"
+        strokeDasharray="5 6"
+        strokeLinecap="round"
+        opacity="0.45"
+      />
+      <text x="208" y="96" fill={mutedText} fontSize="13" fontWeight="700">
+        F sinθ
+      </text>
+
+      <text x="110" y="216" fill={mutedText} fontSize="14" fontWeight="600">
+        axle
+      </text>
+      <text x="34" y="32" fill={textColor} fontSize="16" fontWeight="700">
+        Angled force creates less torque
+      </text>
+      <text x="34" y="54" fill={mutedText} fontSize="13" fontWeight="700">
+        τ = rF sinθ
       </text>
     </svg>
   );
@@ -3972,7 +4109,12 @@ const rotationLesson = createLesson(
           figure(
             "Torque on a Wheel",
             (isDark) => <TorqueWheelDiagram isDark={isDark} />,
-            "The force arrow is tangent to the wheel, so it makes a strong turning effect. The radius r is the lever arm from the axle to where the force acts.",
+            "Torque uses τ = rF sinθ. Here the force is tangent to the wheel, so it is perpendicular to the radius: θ = 90°, sinθ = 1, and the equation becomes τ = rF.",
+          ),
+          figure(
+            "Torque at an Angle",
+            (isDark) => <AngledTorqueWheelDiagram isDark={isDark} />,
+            "Torque uses τ = rF sinθ. Use sinθ when the force is applied at an angle to the radius; θ is the angle between r and F, and sinθ keeps only the perpendicular part of the force.",
           ),
         ],
         callout:
@@ -4213,7 +4355,7 @@ const rotationLesson = createLesson(
               label: "4. Estimate the angular acceleration",
               equation: (
                 <>
-                  α = <Fraction numerator={<span>τ<sub>net</sub></span>} denominator="I" /> ={" "}
+                  α = <Fraction numerator={<span className="physics-fraction-numerator-lift">τ<sub>net</sub></span>} denominator="I" /> ={" "}
                   <Fraction numerator="96" denominator="240" /> = 0.40 rad/s²
                 </>
               ),
@@ -4635,7 +4777,16 @@ const finalReviewLesson = createLesson(
         equation("Average velocity displacement", <>Δx = <Fraction numerator="1" denominator="2" />(<Initial symbol="v" /> + v)t</>),
         equation("Horizontal projectile motion", <>x = v<sub>x</sub>t</>),
         equation("Vertical acceleration", <>a<sub>y</sub> = -g</>),
-        equation("Vertical projectile motion", <>y = <Initial symbol="y" /> + v<sub>y0</sub>t - <Fraction numerator="1" denominator="2" />gt²</>),
+        equation(
+          "Vertical projectile motion",
+          <>
+            y = <Initial symbol="y" /> + v
+            <sub>
+              y<span className="physics-nested-initial-zero">0</span>
+            </sub>
+            t - <Fraction numerator="1" denominator="2" />gt²
+          </>,
+        ),
         equation("Newton's Second Law", <>F<sub>net</sub> = ma</>),
         equation("Weight", <>F<sub>g</sub> = mg</>),
         equation("Kinetic friction", <>f<sub>k</sub> = μ<sub>k</sub>N</>),
@@ -4689,7 +4840,19 @@ const finalReviewLesson = createLesson(
         { symbol: "vx", display: <>v<sub>x</sub></>, meaning: "horizontal velocity", note: "Horizontal part of velocity in projectile motion." },
         { symbol: "y", meaning: "vertical position", note: "Position measured in the vertical direction." },
         { symbol: "y0", display: <Initial symbol="y" />, meaning: "initial vertical position", note: "Starting vertical position in projectile motion." },
-        { symbol: "vy0", display: <>v<sub>y0</sub></>, meaning: "initial vertical velocity", note: "Starting vertical part of velocity." },
+        {
+          symbol: "vy0",
+          display: (
+            <>
+              v
+              <sub>
+                y<span className="physics-nested-initial-zero">0</span>
+              </sub>
+            </>
+          ),
+          meaning: "initial vertical velocity",
+          note: "Starting vertical part of velocity.",
+        },
         { symbol: "a", meaning: "acceleration", note: "Rate of change of velocity." },
         { symbol: "ac", display: <>a<sub>c</sub></>, meaning: "centripetal acceleration", note: "Inward acceleration for curved motion." },
         { symbol: "g", meaning: "gravitational field strength", note: "Near Earth, about 9.8 m/s² downward." },

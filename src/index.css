@@ -101,16 +101,24 @@
     border-top: max(3px, 0.065em) solid currentColor;
   }
 
+  .physics-fraction-numerator-lift {
+    display: inline-block;
+    transform: translateY(-0.12em);
+  }
+
   .physics-initial-subscript {
-    font-size: 0.58em;
-    line-height: 0;
-    vertical-align: -0.62em;
+    display: inline-block;
+    margin-left: 0.02em;
+    font-size: 0.6em;
+    line-height: 1;
+    vertical-align: baseline;
+    transform: translateY(0.34em);
   }
 
   .physics-nested-initial-zero {
     display: inline-block;
     font-size: 0.82em;
-    transform: translateY(0.38em);
+    transform: translateY(0.14em);
   }
 
   .section-shell {
