@@ -528,7 +528,7 @@ const SlopeCartDiagram = ({ isDark }) => {
         opacity="0.92"
       />
 
-      <g transform="translate(238 122) rotate(-15)">
+      <g transform="translate(238 119) rotate(-15)">
         <rect x="-64" y="-30" width="128" height="38" rx="17" fill={cartFill} />
         <rect x="-30" y="-47" width="68" height="20" rx="10" fill={accentFill} opacity="0.95" />
         <circle cx="-28" cy="8" r="15" fill={wheelFill} />
@@ -554,7 +554,7 @@ const SlopeCartDiagram = ({ isDark }) => {
         strokeWidth="3"
         strokeLinecap="round"
       />
-      <text x="128" y="169" fill={textColor} fontSize="18" fontWeight="700">
+      <text x="128" y="174" fill={textColor} fontSize="18" fontWeight="700">
         θ
       </text>
     </svg>
