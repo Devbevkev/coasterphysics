@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import SimulatorPanel from "./components/SimulatorPanel";
 import SiteFooter from "./components/SiteFooter";
 
@@ -128,16 +128,86 @@ const figure = (title, render, description) => ({
   description,
 });
 
+const siteImagePreloadSources = [
+  "/hero-coaster-frame.png",
+  "/mako-drop.png",
+  "/hero-collage-superman.png",
+  "/hero-collage-white-loop.png",
+  "/hero-collage-red-inversion.png",
+  "/hero-collage-wood-sunset.png",
+  "/hero-collage-loop-blue.png",
+  "/hero-collage-blue-crest-wide.png",
+  "/hero-collage-orange-turn.png",
+  "/hero-collage-red-loop-tower.png",
+  "/hero-collage-inverted-train.png",
+  "/hero-collage-vegas-glider.png",
+  "/copperhead-strike-train.png",
+  "/el-toro-airtime.png",
+  "/circular-gforce-example.png",
+  "/maverick-second-launch.png",
+  "/velocicoaster-momentum.png",
+  "/time-traveler-spin.png",
+  "/slope-components-reference.png",
+  "/hero-collage-1.png",
+  "/hero-collage-2.png",
+  "/hero-collage-3.png",
+  "/roller-coaster-hero.png",
+];
+
+const preloadSiteImages = () => {
+  if (typeof window === "undefined" || typeof document === "undefined") {
+    return;
+  }
+
+  const preloadedImages = window.__coasterPhysicsPreloadedImages ?? new Set();
+  const imageCache = window.__coasterPhysicsImageCache ?? [];
+  window.__coasterPhysicsPreloadedImages = preloadedImages;
+  window.__coasterPhysicsImageCache = imageCache;
+
+  siteImagePreloadSources.forEach((src, index) => {
+    if (preloadedImages.has(src)) {
+      return;
+    }
+
+    preloadedImages.add(src);
+    const absoluteHref = new URL(src, window.location.href).href;
+    const priority = index < 12 ? "high" : "low";
+    const existingPreload = Array.from(
+      document.querySelectorAll('link[rel="preload"][as="image"]'),
+    ).some((link) => link.href === absoluteHref);
+
+    if (!existingPreload) {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.href = src;
+      link.fetchPriority = priority;
+      link.dataset.coasterPhysicsPreload = "true";
+      document.head.appendChild(link);
+    }
+
+    const image = new Image();
+    image.decoding = "async";
+    image.loading = "eager";
+    image.fetchPriority = priority;
+    image.src = src;
+    imageCache.push(image);
+  });
+};
+
 const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "" }) => {
   return (
     <div
       className={`overflow-hidden rounded-[1.25rem] border-[6px] shadow-[0_18px_38px_rgba(15,23,42,0.13)] ${
-        isDark ? "border-slate-100/85 bg-slate-100/95" : "border-white/95 bg-white/95"
+        isDark ? "border-slate-100/85 bg-slate-100/95" : "border-slate-100/95 bg-slate-100/95"
       } ${className}`}
     >
       <img
         src={src}
         alt={alt}
+        loading="eager"
+        decoding="async"
+        fetchPriority="high"
         className={`h-full w-full rounded-[0.8rem] object-cover ${imageClassName}`}
       />
     </div>
@@ -145,8 +215,8 @@ const HeroCollagePhoto = ({ src, alt, isDark, className = "", imageClassName = "
 };
 
 const HeroCollage = ({ isDark }) => {
-  const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-200/55";
-  const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-100/50";
+  const glowPrimaryClass = isDark ? "bg-cyan-300/16" : "bg-cyan-300/35";
+  const glowSecondaryClass = isDark ? "bg-sky-300/12" : "bg-sky-200/35";
   const mobilePhotos = [
     {
       src: "/hero-coaster-frame.png",
@@ -312,121 +382,6 @@ const HeroCollage = ({ isDark }) => {
   );
 };
 
-const SettingsControl = ({
-  className = "",
-  copyClass,
-  isDark,
-  mutedClass,
-  panelClass,
-  settingsOpen,
-  setSettingsOpen,
-  settingsRef,
-  setShowCoasterExamples,
-  setTheme,
-  showCoasterExamples,
-  subtlePanelClass,
-  theme,
-  titleClass,
-}) => {
-  return (
-    <div ref={settingsRef} className={`relative z-[70] ${className}`}>
-      <button
-        type="button"
-        onClick={() => setSettingsOpen((open) => !open)}
-        className={`inline-flex items-center gap-3 rounded-full border px-4 py-2.5 text-sm font-semibold transition ${
-          isDark
-            ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
-            : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
-        }`}
-      >
-        Settings
-        <span className={`text-xs ${mutedClass}`}>{settingsOpen ? "-" : "+"}</span>
-      </button>
-
-      {settingsOpen ? (
-        <div
-          className={`absolute right-0 top-[calc(100%+0.75rem)] z-[80] w-72 rounded-3xl border p-4 ${panelClass}`}
-        >
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className={`text-sm font-semibold ${titleClass}`}>Appearance</p>
-              <p className={`mt-1 text-sm leading-6 ${copyClass}`}>
-                Switch between dark and light mode.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() =>
-                setTheme((currentTheme) =>
-                  currentTheme === "dark" ? "light" : "dark",
-                )
-              }
-              className={`relative inline-flex h-8 w-16 shrink-0 items-center rounded-full p-1 transition ${
-                isDark
-                  ? "bg-cyan-300/80"
-                  : "border border-slate-300/80 bg-slate-300/80"
-              }`}
-              aria-label="Toggle light mode and dark mode"
-              aria-pressed={theme !== "dark"}
-            >
-              <span
-                className={`inline-block h-6 w-6 rounded-full bg-white shadow-sm transition-transform ${
-                  isDark ? "translate-x-0" : "translate-x-8"
-                }`}
-              />
-            </button>
-          </div>
-
-          <div
-            className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${subtlePanelClass} ${copyClass}`}
-          >
-            Current mode:{" "}
-            <span className={titleClass}>{isDark ? "Dark" : "Light"}</span>
-          </div>
-
-          <div className={`mt-4 rounded-2xl border p-4 ${subtlePanelClass}`}>
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className={`text-sm font-semibold ${titleClass}`}>
-                  Coaster examples
-                </p>
-                <p className={`mt-1 text-sm leading-6 ${copyClass}`}>
-                  Show or hide the real-world coaster example cards in lessons.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowCoasterExamples((current) => !current)}
-                className={`relative inline-flex h-8 w-16 shrink-0 items-center rounded-full p-1 transition ${
-                  showCoasterExamples
-                    ? "bg-cyan-300/80"
-                    : isDark
-                      ? "bg-white/10"
-                      : "border border-slate-300/80 bg-slate-300/80"
-                }`}
-                aria-label="Toggle real-world coaster examples"
-                aria-pressed={showCoasterExamples}
-              >
-                <span
-                  className={`inline-block h-6 w-6 rounded-full bg-white shadow-sm transition-transform ${
-                    showCoasterExamples ? "translate-x-8" : "translate-x-0"
-                  }`}
-                />
-              </button>
-            </div>
-            <p className={`mt-3 text-sm ${copyClass}`}>
-              Current setting:{" "}
-              <span className={titleClass}>
-                {showCoasterExamples ? "On" : "Off"}
-              </span>
-            </p>
-          </div>
-        </div>
-      ) : null}
-    </div>
-  );
-};
-
 const FlatTrackCartDiagram = ({ isDark }) => {
   const lineColor = isDark ? "#94a3b8" : "#64748b";
   const panelFill = isDark ? "#0f172a" : "#f8fafc";
@@ -584,7 +539,7 @@ const SlopeCartDiagram = ({ isDark }) => {
       </g>
 
       <line
-        x1="18"
+        x1="0"
         y1="162"
         x2="68"
         y2="162"
@@ -594,12 +549,12 @@ const SlopeCartDiagram = ({ isDark }) => {
         opacity="0.82"
       />
       <path
-        d="M44 162 A14 14 0 0 0 41.5 151.2"
+        d="M35 162 A35 35 0 0 0 33.7 151.9"
         fill="none"
         stroke={trackColor}
         strokeWidth="2.5"
       />
-      <text x="50" y="158" fill={textColor} fontSize="16" fontWeight="600">
+      <text x="48" y="153" fill={textColor} fontSize="16" fontWeight="600">
         θ
       </text>
     </svg>
@@ -608,11 +563,14 @@ const SlopeCartDiagram = ({ isDark }) => {
 
 const SlopeComponentsDiagram = () => {
   return (
-    <div className="overflow-hidden rounded-[1.5rem] bg-white">
+    <div className="overflow-hidden rounded-[1.5rem] bg-white p-3">
       <img
         src="/slope-components-reference.png"
         alt="Slope free-body diagram showing N, mg, mg sin theta, and mg cos theta"
-        className="h-48 w-full object-cover"
+        loading="eager"
+        decoding="async"
+        fetchPriority="high"
+        className="h-48 w-full object-contain"
       />
     </div>
   );
@@ -1750,7 +1708,7 @@ const forcesLesson = createLesson(
     createStep("goal", "Big Idea", "Forces Explain Motion Changes", {
       body: [
         "Once kinematics tells us what a coaster is doing, the next question is why the motion changes. If the train speeds up, slows down, or turns, there must be a net force responsible for that acceleration.",
-        "Newton's laws turn coaster sensations into precise mechanics. They explain why riders feel thrown forward in a brake run, why a train accelerates down a slope, and why the seat pushes differently at the bottom and top of a hill.",
+        "Newton's laws turn coaster sensations into precise mechanics. They explain why riders seem to lurch forward in a brake run as their bodies resist the sudden slowdown, why a train accelerates down a slope, and why the seat pushes differently at the bottom and top of a hill.",
       ],
       bullets: [
         "Use Newton's First Law to connect inertia to rider experience.",
@@ -2714,7 +2672,7 @@ const circularMotionLesson = createLesson(
       {
         body: [
           "Centripetal acceleration points inward, toward the center of curvature. Its job is to change the direction of the velocity vector so the train follows the track instead of continuing in a straight line.",
-          "Centripetal force is not a separate physical force like gravity or friction. It is the name we give to the net inward force that results from the real forces acting on the train or rider.",
+          "Centripetal force is not a separate physical force like gravity or friction. In this lesson, Fc means the net inward force made by real forces such as gravity and the normal force.",
           "Location matters. At the bottom of a valley, inward is upward. At the top of a hill, inward is downward. At the top of a loop, inward is also downward. Students who identify inward direction first usually avoid most sign mistakes.",
         ],
         bullets: [
@@ -2751,7 +2709,7 @@ const circularMotionLesson = createLesson(
           </>,
         ),
         equation(
-          "Centripetal force",
+          "Net inward force",
           <>
             F<sub>c</sub> = m
             <Fraction numerator="v²" denominator="r" />
@@ -3690,8 +3648,8 @@ const momentumLesson = createLesson(
       {
         body: [
           "Momentum is defined as mass times velocity, so it is a vector. That means direction matters. A heavy train moving slowly can have as much momentum as a lighter train moving quickly, and a braking problem must account for the sign of the velocity change rather than just its magnitude.",
-          "Impulse is the change in momentum. It can also be written as force times time for an average-force model. This is the key link between motion change and rider safety: if the same change in momentum happens over a longer time, the average force can be smaller.",
-          "Conservation of momentum is important in some systems, but ordinary coaster motion along a track is not the best place to emphasize it because the track and brakes can apply substantial external forces. The most useful coaster applications are launches, braking, and connected-car interactions.",
+          "Impulse is the change in momentum. It can also be written as average force times time. This is the key link between motion change and rider safety: if the same change in momentum happens over a longer time, the average force can be smaller.",
+          "Conservation of momentum is useful only for a short interaction where outside impulse is small. Ordinary coaster motion along a track usually has large external forces from the track, launch system, or brakes, so launches and braking are usually impulse problems rather than pure conservation problems.",
         ],
         bullets: [
           "Momentum is a vector, so direction matters.",
@@ -3722,7 +3680,7 @@ const momentumLesson = createLesson(
       equations: [
         equation("Momentum", <>p = mv</>),
         equation("Impulse as momentum change", <>J = Δp</>),
-        equation("Impulse from force and time", <>J = FΔt</>),
+        equation("Impulse from average force and time", <>J = F<sub>avg</sub>Δt</>),
         equation(
           "Momentum conservation",
           <>
@@ -3806,8 +3764,8 @@ const momentumLesson = createLesson(
             "D. 24,000 N·s opposite the motion",
           ],
           2,
-          "Correct. Use J = FΔt = (4000)(3.0) = 12,000 N·s, directed opposite the motion because the braking force points backward.",
-          "Not quite. Impulse from average force is J = FΔt. The magnitude is 12,000 N·s, and the direction is opposite the motion.",
+          "Correct. Use J = FavgΔt = (4000)(3.0) = 12,000 N·s, directed opposite the motion because the braking force points backward.",
+          "Not quite. Impulse from average force is J = FavgΔt. The magnitude is 12,000 N·s, and the direction is opposite the motion.",
         ),
       ),
     }),
@@ -4011,8 +3969,8 @@ const momentumLesson = createLesson(
             "D. 24,000 N·s opposite the motion",
           ],
           2,
-          "Correct. Impulse from average force is J = FΔt = (3000)(4.0) = 12,000 N·s, directed opposite the motion.",
-          "Not quite. Use J = FΔt. The impulse magnitude is (3000)(4.0) = 12,000 N·s, and its direction is opposite the train's motion.",
+          "Correct. Impulse from average force is J = FavgΔt = (3000)(4.0) = 12,000 N·s, directed opposite the motion.",
+          "Not quite. Use J = FavgΔt. The impulse magnitude is (3000)(4.0) = 12,000 N·s, and its direction is opposite the train's motion.",
         ),
         quizQuestion(
           "A 900 kg coaster car moves west at 8.0 m/s. What is its momentum?",
@@ -4035,7 +3993,7 @@ const momentumLesson = createLesson(
             "D. 108,000 N",
           ],
           1,
-          "Correct. Use J = FΔt, so F = J/Δt = 18,000/6.0 = 3000 N.",
+          "Correct. Use J = FavgΔt, so Favg = J/Δt = 18,000/6.0 = 3000 N.",
           "Not quite. Divide impulse by the time interval to get the average force magnitude.",
         ),
         quizQuestion(
@@ -4237,7 +4195,7 @@ const rotationLesson = createLesson(
             "D. 160 N·m",
           ],
           1,
-          "Correct. Use τ = rF sinθ. With a perpendicular force, sin 90° = 1, so τ = (0.25)(40) = 10 N·m.",
+          "Correct. Use τ = rF sinθ. With a perpendicular force, sin(90°) = 1, so τ = (0.25)(40) = 10 N·m.",
           "Not quite. Use τ = rF sinθ. Because the force is perpendicular, the torque is (0.25)(40) = 10 N·m.",
         ),
         practiceQuestion(
@@ -4307,8 +4265,8 @@ const rotationLesson = createLesson(
             "D. 150 N·m",
           ],
           1,
-          "Correct. Because the force is perpendicular, sin90° = 1, so τ = rF = (0.40)(60) = 24 N·m.",
-          "Not quite. For a perpendicular force, use τ = rF because sin90° = 1. That gives (0.40)(60) = 24 N·m.",
+          "Correct. Because the force is perpendicular, sin(90°) = 1, so τ = rF = (0.40)(60) = 24 N·m.",
+          "Not quite. For a perpendicular force, use τ = rF because sin(90°) = 1. That gives (0.40)(60) = 24 N·m.",
         ),
         practiceQuestion(
           "A 50 N force is applied 0.40 m from an axle at an angle of 30° to the radius. What torque is produced?",
@@ -4377,10 +4335,10 @@ const rotationLesson = createLesson(
               label: "2. Calculate the torque",
               equation: (
                 <>
-                  τ = rF sinθ = (0.80)(120)sin90° = 96 N·m
+                  τ = rF sinθ = (0.80)(120)sin(90°) = 96 N·m
                 </>
               ),
-              note: "The force is perpendicular to the lever arm in this model, so sin90° = 1.",
+              note: "The force is perpendicular to the lever arm in this model, so sin(90°) = 1.",
             },
             {
               label: "3. Connect torque to angular acceleration",
@@ -4520,7 +4478,7 @@ const rotationLesson = createLesson(
           ],
           2,
           "Correct. For a perpendicular force, τ = rF = (0.20)(50) = 10 N·m.",
-          "Not quite. Use τ = rF sinθ. Because the force is perpendicular, sin 90° = 1, so the torque is 10 N·m.",
+          "Not quite. Use τ = rF sinθ. Because the force is perpendicular, sin(90°) = 1, so the torque is 10 N·m.",
         ),
         quizQuestion(
           "Why does a rolling wheel have more total kinetic energy than just one-half mv²?",
@@ -4719,7 +4677,7 @@ const finalReviewLesson = createLesson(
       ],
       equations: [
         equation("Centripetal acceleration", <>a<sub>c</sub> = <Fraction numerator="v²" denominator="r" /></>),
-        equation("Centripetal force", <>F<sub>c</sub> = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Net inward force", <>F<sub>c</sub> = m<Fraction numerator="v²" denominator="r" /></>),
         equation("Bottom of a dip", <>N - mg = m<Fraction numerator="v²" denominator="r" /></>),
         equation("Top of a hill", <>mg - N = m<Fraction numerator="v²" denominator="r" /></>),
         equation("Top of a loop", <>mg + N = m<Fraction numerator="v²" denominator="r" /></>),
@@ -4839,7 +4797,7 @@ const finalReviewLesson = createLesson(
         equation("Speed from height", <>v = <Radical>2gh</Radical></>),
         equation("Height from speed", <>h = <Fraction numerator="v²" denominator="2g" /></>),
         equation("Centripetal acceleration", <>a<sub>c</sub> = <Fraction numerator="v²" denominator="r" /></>),
-        equation("Centripetal force", <>F<sub>c</sub> = m<Fraction numerator="v²" denominator="r" /></>),
+        equation("Net inward force", <>F<sub>c</sub> = m<Fraction numerator="v²" denominator="r" /></>),
         equation("Bottom of dip", <>N - mg = m<Fraction numerator="v²" denominator="r" /></>),
         equation("Top of hill", <>mg - N = m<Fraction numerator="v²" denominator="r" /></>),
         equation("Top of loop", <>mg + N = m<Fraction numerator="v²" denominator="r" /></>),
@@ -4912,7 +4870,7 @@ const finalReviewLesson = createLesson(
         { symbol: "Emech", display: <>E<sub>mech</sub></>, meaning: "mechanical energy", note: "Kinetic plus gravitational potential energy." },
         { symbol: "W", meaning: "work", note: "Energy transferred by a force over a distance." },
         { symbol: "Wnet", display: <>W<sub>net</sub></>, meaning: "net work", note: "Total work by all forces." },
-        { symbol: "Wnc", display: <>W<sub>nc</sub></>, meaning: "nonconservative work", note: "Work by friction, drag, brakes, or other energy-removing forces." },
+        { symbol: "Wnc", display: <>W<sub>nc</sub></>, meaning: "nonconservative work", note: "Work by friction, drag, brakes, launches, or other forces that change mechanical energy." },
         { symbol: "P", meaning: "power", note: "Rate of energy transfer or work done per time." },
         { symbol: "r", meaning: "radius", note: "Distance from the center of a curve or rotation axis." },
         { symbol: "p", meaning: "momentum", note: "Mass times velocity, including direction." },
@@ -5393,7 +5351,7 @@ const finalQuizLesson = createLesson(
             "D. 42,000 N·s",
           ],
           2,
-          "Correct. Impulse magnitude is J = FΔt = (4200)(3.5) = 14,700 N·s.",
+          "Correct. Impulse magnitude is J = FavgΔt = (4200)(3.5) = 14,700 N·s.",
           "Not quite. Multiply average force by the time interval.",
         ),
         quizQuestion(
@@ -5686,13 +5644,13 @@ const LessonView = ({
   stepIndex,
   setStepIndex,
   onBack,
+  onHome,
   hasNextLesson,
   onNextLesson,
   completedSteps,
   quizScore,
   onStepComplete,
   onQuizComplete,
-  showCoasterExamples,
 }) => {
   const step = lesson.steps[stepIndex];
   const lessonHeading = lesson.chapterName ?? getChapterName(lesson.title);
@@ -5907,6 +5865,9 @@ const LessonView = ({
             <img
               src={example.imageSrc}
               alt={example.imageAlt}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
               className={`block h-auto w-full rounded-[1.5rem] border ${
                 isDark ? "border-white/10" : "border-slate-300/70"
               }`}
@@ -5992,7 +5953,7 @@ const LessonView = ({
   );
 
   return (
-    <section className="py-8 sm:py-10">
+    <section className="pb-8 pt-0 sm:pb-10 sm:pt-0">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <button
           type="button"
@@ -6006,8 +5967,21 @@ const LessonView = ({
           Back to Sections
         </button>
 
-        <div className={`text-sm font-semibold ${mutedClass}`}>
-          Step {stepIndex + 1} of {lesson.steps.length}
+        <div className="flex flex-wrap items-center justify-end gap-3">
+          <div className={`text-sm font-semibold ${mutedClass}`}>
+            Step {stepIndex + 1} of {lesson.steps.length}
+          </div>
+          <button
+            type="button"
+            onClick={onHome}
+            className={`inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
+              isDark
+                ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+            }`}
+          >
+            Back Home
+          </button>
         </div>
       </div>
 
@@ -6175,8 +6149,7 @@ const LessonView = ({
             </div>
           ) : null}
 
-          {showCoasterExamples &&
-          step.realWorldExample &&
+          {step.realWorldExample &&
           !["afterFigures", "bottom"].includes(step.realWorldExample.position)
             ? renderRealWorldExample(step.realWorldExample)
             : null}
@@ -6190,6 +6163,19 @@ const LessonView = ({
                 </li>
               ))}
             </ul>
+          ) : null}
+
+          {step.callout ? (
+            <div className={`mt-6 rounded-3xl border p-5 ${subtlePanelClass}`}>
+              <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                Key Idea
+              </p>
+              <FormattedPhysicsText
+                as="p"
+                className={`mt-3 text-base leading-7 ${copyClass}`}
+                text={step.callout}
+              />
+            </div>
           ) : null}
 
           {step.equations ? (
@@ -6304,15 +6290,11 @@ const LessonView = ({
             </div>
           ) : null}
 
-          {showCoasterExamples &&
-          step.realWorldExample &&
-          step.realWorldExample.position === "afterFigures"
+          {step.realWorldExample && step.realWorldExample.position === "afterFigures"
             ? renderRealWorldExample(step.realWorldExample)
             : null}
 
-          {showCoasterExamples &&
-          step.realWorldExample &&
-          step.realWorldExample.position === "bottom"
+          {step.realWorldExample && step.realWorldExample.position === "bottom"
             ? renderRealWorldExample(step.realWorldExample)
             : null}
 
@@ -6689,6 +6671,8 @@ const ImageCreditsView = ({
           <img
             src={credit.file}
             alt={credit.title}
+            loading="eager"
+            decoding="async"
             className="aspect-[4/3] h-full w-full object-cover"
           />
         </div>
@@ -6790,22 +6774,6 @@ const App = () => {
   const [activeSection, setActiveSection] = useState(() =>
     getSectionById(initialRoute.lessonId),
   );
-  const [theme, setTheme] = useState(() => {
-    try {
-      const savedTheme = window.localStorage.getItem("coasterphysics-theme");
-      return savedTheme === "light" || savedTheme === "dark" ? savedTheme : "light";
-    } catch {
-      return "light";
-    }
-  });
-  const [showCoasterExamples, setShowCoasterExamples] = useState(() => {
-    try {
-      return window.localStorage.getItem("coasterphysics-show-examples") !== "false";
-    } catch {
-      return true;
-    }
-  });
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [view, setView] = useState(initialRoute.view);
   const [activeLessonId, setActiveLessonId] = useState(
     initialRoute.lessonId ?? sections[0].id,
@@ -6822,14 +6790,15 @@ const App = () => {
       return emptyProgress;
     }
   });
-  const settingsRef = useRef(null);
+  useEffect(() => {
+    preloadSiteImages();
+  }, []);
 
   const syncRouteState = (route, options = {}) => {
     const nextLessonId = route.lessonId ?? activeLessonId;
 
     setView(route.view);
     setPagePath(getPathForRoute(route));
-    setSettingsOpen(false);
 
     if (route.view === "lesson") {
       setActiveLessonId(nextLessonId);
@@ -6844,8 +6813,6 @@ const App = () => {
   const navigateToRoute = (route, options = {}) => {
     const nextPath = getPathForRoute(route);
     const currentPath = normalizePathname(window.location.pathname);
-
-    setSettingsOpen(false);
 
     if (currentPath === nextPath && view === route.view) {
       scrollPageToTop();
@@ -6896,16 +6863,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem("coasterphysics-theme", theme);
-  }, [theme]);
-
-  useEffect(() => {
-    window.localStorage.setItem(
-      "coasterphysics-show-examples",
-      showCoasterExamples ? "true" : "false",
-    );
-  }, [showCoasterExamples]);
+    document.documentElement.dataset.theme = "light";
+  }, []);
 
   useEffect(() => {
     window.localStorage.setItem(progressStorageKey, JSON.stringify(progress));
@@ -6917,33 +6876,17 @@ const App = () => {
     return () => window.cancelAnimationFrame(frame);
   }, [pagePath]);
 
-  useEffect(() => {
-    if (!settingsOpen) {
-      return;
-    }
-
-    const handlePointerDown = (event) => {
-      if (!settingsRef.current?.contains(event.target)) {
-        setSettingsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("touchstart", handlePointerDown);
-
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("touchstart", handlePointerDown);
-    };
-  }, [settingsOpen]);
-
-  const isDark = theme === "dark";
+  const isDark = false;
+  const mainSpacingClass =
+    view === "lesson" || view === "simulation"
+      ? "pt-3 pb-10 sm:pt-4 sm:pb-12 lg:pt-5 lg:pb-16"
+      : "py-10 sm:py-12 lg:py-16";
   const panelClass = isDark
     ? "panel border-white/10 bg-white/5"
-    : "panel border-slate-300/70 bg-white/80 shadow-[0_24px_60px_rgba(148,163,184,0.16)]";
+    : "panel border-slate-400/65 bg-slate-100/88 shadow-[0_24px_60px_rgba(71,85,105,0.16)]";
   const subtlePanelClass = isDark
     ? "border-white/10 bg-white/[0.04]"
-    : "border-slate-300/70 bg-slate-50/90";
+    : "border-slate-400/55 bg-slate-100/90";
   const titleClass = isDark ? "text-white" : "text-slate-950";
   const copyClass = isDark ? "text-slate-300" : "text-slate-600";
   const mutedClass = isDark ? "text-slate-400" : "text-slate-500";
@@ -7026,28 +6969,7 @@ const App = () => {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <main className="section-shell relative flex-1 py-10 sm:py-12 lg:py-16">
-        {view === "home" || view === "lesson" ? (
-          <div className="absolute right-0 top-1 z-[60] sm:right-0 sm:top-2 lg:-right-4 lg:top-3">
-            <SettingsControl
-              copyClass={copyClass}
-              isDark={isDark}
-              mutedClass={mutedClass}
-              panelClass={panelClass}
-              settingsOpen={settingsOpen}
-              setSettingsOpen={setSettingsOpen}
-              settingsRef={settingsRef}
-              setShowCoasterExamples={setShowCoasterExamples}
-              setTheme={setTheme}
-              showCoasterExamples={showCoasterExamples}
-              subtlePanelClass={subtlePanelClass}
-              theme={theme}
-              titleClass={titleClass}
-              className="translate-x-2 sm:translate-x-4"
-            />
-          </div>
-        ) : null}
-
+      <main className={`section-shell relative flex-1 ${mainSpacingClass}`}>
         {view === "lesson" ? (
           <LessonView
             lessonId={activeLessonId}
@@ -7065,13 +6987,13 @@ const App = () => {
             stepIndex={lessonStepIndex}
             setStepIndex={setLessonStepIndex}
             onBack={returnToSections}
+            onHome={() => navigateToView("home")}
             hasNextLesson={Boolean(nextSection)}
             onNextLesson={goToNextLesson}
             completedSteps={progress.completedSteps?.[activeLessonId] ?? {}}
             quizScore={progress.quizScores?.[activeLessonId] ?? null}
             onStepComplete={markStepComplete}
             onQuizComplete={recordQuizScore}
-            showCoasterExamples={showCoasterExamples}
           />
         ) : view === "home" ? (
           <section className="grid min-h-[calc(100svh-5rem)] items-center gap-10 lg:min-h-[calc(100svh-8rem)] lg:grid-cols-[minmax(0,42rem)_minmax(18rem,1fr)] lg:gap-14">
@@ -7118,7 +7040,7 @@ const App = () => {
           </section>
         ) : view === "topics" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 flex items-center justify-between gap-4">
+            <div className="mb-5 flex items-center gap-4">
               <button
                 type="button"
                 onClick={() => navigateToView("home")}
@@ -7130,22 +7052,6 @@ const App = () => {
               >
                 Back Home
               </button>
-              <SettingsControl
-                copyClass={copyClass}
-                isDark={isDark}
-                mutedClass={mutedClass}
-                panelClass={panelClass}
-                settingsOpen={settingsOpen}
-                setSettingsOpen={setSettingsOpen}
-                settingsRef={settingsRef}
-                setShowCoasterExamples={setShowCoasterExamples}
-                setTheme={setTheme}
-                showCoasterExamples={showCoasterExamples}
-                subtlePanelClass={subtlePanelClass}
-                theme={theme}
-                titleClass={titleClass}
-                className="translate-x-2 sm:translate-x-4"
-              />
             </div>
 
             <section id="topics" className="pt-0">
@@ -7286,7 +7192,7 @@ const App = () => {
           </section>
         ) : view === "credits" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 flex items-center justify-between gap-4">
+            <div className="mb-5 flex items-center gap-4">
               <button
                 type="button"
                 onClick={() => navigateToView("home")}
@@ -7298,22 +7204,6 @@ const App = () => {
               >
                 Back Home
               </button>
-              <SettingsControl
-                copyClass={copyClass}
-                isDark={isDark}
-                mutedClass={mutedClass}
-                panelClass={panelClass}
-                settingsOpen={settingsOpen}
-                setSettingsOpen={setSettingsOpen}
-                settingsRef={settingsRef}
-                setShowCoasterExamples={setShowCoasterExamples}
-                setTheme={setTheme}
-                showCoasterExamples={showCoasterExamples}
-                subtlePanelClass={subtlePanelClass}
-                theme={theme}
-                titleClass={titleClass}
-                className="translate-x-2 sm:translate-x-4"
-              />
             </div>
 
             <ImageCreditsView
@@ -7327,7 +7217,7 @@ const App = () => {
           </section>
         ) : view === "simulation" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 flex items-center justify-between gap-4">
+            <div className="mb-5 flex items-center justify-end gap-4">
               <button
                 type="button"
                 onClick={() => navigateToView("home")}
@@ -7339,22 +7229,6 @@ const App = () => {
               >
                 Back Home
               </button>
-              <SettingsControl
-                copyClass={copyClass}
-                isDark={isDark}
-                mutedClass={mutedClass}
-                panelClass={panelClass}
-                settingsOpen={settingsOpen}
-                setSettingsOpen={setSettingsOpen}
-                settingsRef={settingsRef}
-                setShowCoasterExamples={setShowCoasterExamples}
-                setTheme={setTheme}
-                showCoasterExamples={showCoasterExamples}
-                subtlePanelClass={subtlePanelClass}
-                theme={theme}
-                titleClass={titleClass}
-                className="translate-x-2 sm:translate-x-4"
-              />
             </div>
 
             <section id="simulation" className="pt-0">

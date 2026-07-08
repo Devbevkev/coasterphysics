@@ -334,7 +334,7 @@ const SimulatorPanel = ({
   return (
     <div className="grid items-start gap-8 xl:grid-cols-[0.95fr_1.05fr]">
       <div className={`${panelClass} p-6 sm:p-8`}>
-        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
+        <div className="mb-8">
           <div>
             <p className={`text-sm uppercase tracking-[0.18em] ${mutedClass}`}>
               Interactive Lab
@@ -342,35 +342,6 @@ const SimulatorPanel = ({
             <h3 className={`mt-2 text-2xl font-semibold ${titleClass}`}>
               Roller Coaster Drop Simulator
             </h3>
-          </div>
-          <div>
-            <p className={`mb-2 text-right text-xs font-semibold uppercase tracking-[0.16em] ${mutedClass}`}>
-              Units
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {unitOptions.map((option) => {
-                const active = unitSystem === option.key;
-
-                return (
-                  <button
-                    key={option.key}
-                    type="button"
-                    onClick={() => handleUnitSystemChange(option.key)}
-                    className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
-                      active
-                        ? isDark
-                          ? "border-cyan-300/40 bg-cyan-300/10 text-cyan-100"
-                          : "border-sky-300 bg-sky-50 text-sky-700"
-                        : isDark
-                          ? "border-white/10 bg-white/[0.03] text-slate-200 hover:bg-white/[0.07]"
-                          : "border-slate-300/70 bg-white/70 text-slate-700 hover:bg-white"
-                    }`}
-                  >
-                    {option.label}
-                  </button>
-                );
-              })}
-            </div>
           </div>
         </div>
 
@@ -404,20 +375,33 @@ const SimulatorPanel = ({
                       onChange={(event) =>
                         handleControlInputChange(control.key, event.target.value)
                       }
-                      className={`w-28 rounded-full border px-3 py-1 text-right font-semibold outline-none transition ${
+                      className={`w-28 rounded-full border px-3 py-1 text-right font-semibold outline-none transition sm:w-32 ${
                         error
                           ? isDark
                             ? "border-amber-300/60 bg-amber-300/10 text-amber-100 focus:border-amber-200"
                             : "border-amber-400 bg-amber-50 text-amber-900 focus:border-amber-500"
                           : isDark
                             ? "border-white/10 bg-white/5 text-slate-100 focus:border-cyan-300/40"
-                            : "border-slate-300 bg-white text-slate-900 focus:border-sky-400"
+                            : "border-slate-400/70 bg-slate-50 text-slate-900 focus:border-sky-500"
                       }`}
                       aria-label={`${control.label} input`}
                     />
-                    <span className={`text-xs font-semibold uppercase tracking-[0.12em] ${mutedClass}`}>
-                      {unitConfig.lengthUnit}
-                    </span>
+                    <select
+                      value={unitSystem}
+                      onChange={(event) => handleUnitSystemChange(event.target.value)}
+                      className={`w-24 rounded-full border px-3 py-1 text-sm font-semibold outline-none transition ${
+                        isDark
+                          ? "border-white/10 bg-slate-950 text-slate-100 focus:border-cyan-300/40"
+                          : "border-slate-400/70 bg-slate-50 text-slate-700 focus:border-sky-500"
+                      }`}
+                      aria-label={`${control.label} units`}
+                    >
+                      {unitOptions.map((option) => (
+                        <option key={option.key} value={option.key}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <input
@@ -432,7 +416,7 @@ const SimulatorPanel = ({
                   className={`h-2 w-full cursor-pointer appearance-none rounded-full ${
                     isDark
                       ? "bg-white/10 accent-cyan-300"
-                      : "bg-slate-300/70 accent-sky-600"
+                      : "bg-slate-400/55 accent-sky-700"
                   }`}
                 />
                 <div className={`mt-2 flex justify-between text-xs ${mutedClass}`}>
@@ -478,7 +462,7 @@ const SimulatorPanel = ({
                           : "border-sky-300 bg-sky-50 text-sky-700"
                         : isDark
                           ? "border-white/10 bg-white/[0.03] text-slate-200 hover:bg-white/[0.07]"
-                          : "border-slate-300/70 bg-white/70 text-slate-700 hover:bg-white"
+                          : "border-slate-400/60 bg-slate-50/75 text-slate-700 hover:bg-slate-50"
                     }`}
                   >
                     {profile.label}
@@ -486,10 +470,6 @@ const SimulatorPanel = ({
                 );
               })}
             </div>
-            <p className={`mt-3 text-sm leading-6 ${copyClass}`}>
-              Friction blends rolling resistance and aerodynamic drag into the
-              speed and g-force estimates.
-            </p>
           </div>
         </div>
 
@@ -500,11 +480,7 @@ const SimulatorPanel = ({
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-transparent to-amber-300/10" />
         ) : null}
         <div className="relative">
-          <h3 className={`text-2xl font-semibold ${titleClass}`}>
-            Changing Track Profile
-          </h3>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             <MetricCard
               label="Max speed"
               value={
@@ -539,7 +515,7 @@ const SimulatorPanel = ({
             className={`mt-8 rounded-[1.6rem] border p-5 ${
               isDark
                 ? "border-white/10 bg-slate-950/70"
-                : "border-slate-300/70 bg-white/90"
+                : "border-slate-400/60 bg-slate-100/90"
             }`}
           >
             <div className={`mb-4 flex items-center justify-between text-sm ${copyClass}`}>
@@ -685,7 +661,7 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
+          card: "border-slate-300/80 bg-slate-100/95 shadow-[0_14px_30px_rgba(71,85,105,0.1)]",
           label: "text-slate-500",
           value: "text-slate-900",
         },
@@ -696,7 +672,7 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
+          card: "border-slate-300/80 bg-slate-100/95 shadow-[0_14px_30px_rgba(71,85,105,0.1)]",
           label: "text-slate-500",
           value: "text-slate-900",
         },
@@ -707,7 +683,7 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
+          card: "border-slate-300/80 bg-slate-100/95 shadow-[0_14px_30px_rgba(71,85,105,0.1)]",
           label: "text-slate-500",
           value: "text-slate-900",
         },
@@ -718,7 +694,7 @@ const MetricCard = ({ label, value, accent, isDark }) => {
           value: "text-white",
         }
       : {
-          card: "border-slate-200/80 bg-slate-50/95 shadow-[0_14px_30px_rgba(148,163,184,0.08)]",
+          card: "border-slate-300/80 bg-slate-100/95 shadow-[0_14px_30px_rgba(71,85,105,0.1)]",
           label: "text-slate-500",
           value: "text-slate-900",
         },
