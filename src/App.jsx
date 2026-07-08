@@ -736,12 +736,12 @@ const TorqueWheelDiagram = ({ isDark }) => {
         r
       </text>
 
-      <line x1="220" y1="124" x2="220" y2="58" stroke={forceColor} strokeWidth="6" strokeLinecap="round" />
-      <polygon points="220,42 208,64 232,64" fill={forceColor} />
-      <text x="238" y="68" fill={textColor} fontSize="18" fontWeight="700">
+      <line x1="220" y1="124" x2="220" y2="72" stroke={forceColor} strokeWidth="5.5" strokeLinecap="round" />
+      <polygon points="220,54 210,76 230,76" fill={forceColor} />
+      <text x="238" y="80" fill={textColor} fontSize="18" fontWeight="700">
         F
       </text>
-      <text x="238" y="90" fill={mutedText} fontSize="14" fontWeight="600">
+      <text x="238" y="102" fill={mutedText} fontSize="14" fontWeight="600">
         tangent
       </text>
 
@@ -750,9 +750,6 @@ const TorqueWheelDiagram = ({ isDark }) => {
       </text>
       <text x="38" y="32" fill={textColor} fontSize="16" fontWeight="700">
         Tangential force creates torque
-      </text>
-      <text x="38" y="54" fill={mutedText} fontSize="13" fontWeight="700">
-        τ = rF sin(90°) = rF
       </text>
     </svg>
   );
@@ -842,13 +839,13 @@ const AngledTorqueWheelDiagram = ({ isDark }) => {
         opacity="0.7"
       />
       <path
-        d="M 232 132 A 34 34 0 0 0 222 108"
+        d="M 222 132 A 24 24 0 0 0 217 120"
         fill="none"
         stroke={angleColor}
         strokeWidth="3"
         strokeLinecap="round"
       />
-      <text x="238" y="115" fill={angleColor} fontSize="18" fontWeight="800">
+      <text x="230" y="126" fill={angleColor} fontSize="18" fontWeight="800">
         θ
       </text>
 
@@ -897,9 +894,6 @@ const AngledTorqueWheelDiagram = ({ isDark }) => {
       </text>
       <text x="34" y="32" fill={textColor} fontSize="16" fontWeight="700">
         Angled force creates less torque
-      </text>
-      <text x="34" y="54" fill={mutedText} fontSize="13" fontWeight="700">
-        τ = rF sinθ
       </text>
     </svg>
   );
@@ -4105,18 +4099,6 @@ const rotationLesson = createLesson(
           "Rotational inertia depends on mass distribution, not only total mass.",
           "Rolling objects can have both translational and rotational kinetic energy.",
         ],
-        figures: [
-          figure(
-            "Torque on a Wheel",
-            (isDark) => <TorqueWheelDiagram isDark={isDark} />,
-            "Torque uses τ = rF sinθ. Here the force is tangent to the wheel, so it is perpendicular to the radius: θ = 90°, sinθ = 1, and the equation becomes τ = rF.",
-          ),
-          figure(
-            "Torque at an Angle",
-            (isDark) => <AngledTorqueWheelDiagram isDark={isDark} />,
-            "Torque uses τ = rF sinθ. Use sinθ when the force is applied at an angle to the radius; θ is the angle between r and F, and sinθ keeps only the perpendicular part of the force.",
-          ),
-        ],
         callout:
           "Students often treat rotational inertia like ordinary mass. It plays a similar role, but it depends on where the mass is relative to the axis, not just how much mass there is.",
         practice: practiceQuestion(
@@ -4281,6 +4263,64 @@ const rotationLesson = createLesson(
           1,
           "Correct. Use v = rω = (0.25)(48) = 12 m/s.",
           "Not quite. Linear rim speed is radius times angular speed: v = rω = 12 m/s.",
+        ),
+      ),
+    }),
+    createStep("torque-examples", "Torque Examples", "Understanding Torque More Deeply", {
+      body: [
+        "Torque is the turning effect of a force. It gets larger when the force is stronger, when the force is applied farther from the axis, and when more of the force points perpendicular to the radius.",
+        "The equation is τ = rF sinθ. The angle θ is measured between the radius r and the force F. If the force is perpendicular to the radius, θ = 90° and sinθ = 1, so the equation simplifies to τ = rF. If the force is angled, use sinθ to keep only the perpendicular part of the force.",
+      ],
+      cards: [
+        card(
+          "Door or wrench example",
+          "A door opens more easily when you push near the handle instead of near the hinge. The same idea helps a wrench loosen a bolt: a longer handle gives a larger radius r, so the same force makes more torque.",
+        ),
+        card(
+          "Coaster wheel example",
+          "Forces from the track and bearings can twist wheels and axles. A force acting near the outside of a wheel creates more torque than the same force acting close to the axle.",
+        ),
+        card(
+          "Angled force example",
+          "Pulling at an angle does not use all of the force for rotation. The part parallel to the radius mostly pushes inward or outward, while the perpendicular part creates the torque.",
+        ),
+      ],
+      figures: [
+        figure(
+          "Torque on a Wheel",
+          (isDark) => <TorqueWheelDiagram isDark={isDark} />,
+          "Torque uses τ = rF sinθ. Here the force is tangent to the wheel, so it is perpendicular to the radius: θ = 90°, sinθ = 1, and the equation becomes τ = rF.",
+        ),
+        figure(
+          "Torque at an Angle",
+          (isDark) => <AngledTorqueWheelDiagram isDark={isDark} />,
+          "Torque uses τ = rF sinθ. Use sinθ when the force is applied at an angle to the radius; θ is the angle between r and F, and sinθ keeps only the perpendicular part of the force.",
+        ),
+      ],
+      practice: practiceSet(
+        practiceQuestion(
+          "A 60 N force is applied perpendicular to a wrench 0.40 m from the bolt. What torque is produced?",
+          [
+            "A. 15 N·m",
+            "B. 24 N·m",
+            "C. 60 N·m",
+            "D. 150 N·m",
+          ],
+          1,
+          "Correct. Because the force is perpendicular, sin90° = 1, so τ = rF = (0.40)(60) = 24 N·m.",
+          "Not quite. For a perpendicular force, use τ = rF because sin90° = 1. That gives (0.40)(60) = 24 N·m.",
+        ),
+        practiceQuestion(
+          "A 50 N force is applied 0.40 m from an axle at an angle of 30° to the radius. What torque is produced?",
+          [
+            "A. 10 N·m",
+            "B. 20 N·m",
+            "C. 25 N·m",
+            "D. 40 N·m",
+          ],
+          0,
+          "Correct. Use τ = rF sinθ = (0.40)(50)sin30°. Since sin30° = 0.5, τ = 10 N·m.",
+          "Not quite. Because the force is angled, use sinθ: τ = (0.40)(50)(0.5) = 10 N·m.",
         ),
       ),
     }),
@@ -5595,13 +5635,12 @@ const normalizeProgress = (value) => ({
   quizScores: value?.quizScores ?? {},
 });
 
-const getTrackableSteps = (lesson) =>
-  lesson.steps.filter((step) => step.id !== "quiz");
+const getProgressSteps = (lesson) => lesson.steps;
 
 const getLessonProgressSummary = (lesson, completedSteps = {}, quizScore = null) => {
-  const trackableSteps = getTrackableSteps(lesson);
+  const progressSteps = getProgressSteps(lesson);
 
-  if (trackableSteps.length === 0) {
+  if (progressSteps.length === 0) {
     return {
       completedCount: quizScore ? 1 : 0,
       totalCount: 1,
@@ -5609,12 +5648,14 @@ const getLessonProgressSummary = (lesson, completedSteps = {}, quizScore = null)
     };
   }
 
-  const completedCount = trackableSteps.filter((step) => completedSteps[step.id]).length;
+  const completedCount = progressSteps.filter((step) =>
+    step.id === "quiz" ? Boolean(quizScore) : Boolean(completedSteps[step.id]),
+  ).length;
 
   return {
     completedCount,
-    totalCount: trackableSteps.length,
-    percent: Math.round((completedCount / trackableSteps.length) * 100),
+    totalCount: progressSteps.length,
+    percent: Math.round((completedCount / progressSteps.length) * 100),
   };
 };
 
