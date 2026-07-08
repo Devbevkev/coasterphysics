@@ -528,7 +528,7 @@ const SlopeCartDiagram = ({ isDark }) => {
         opacity="0.92"
       />
 
-      <g transform="translate(238 128) rotate(-15)">
+      <g transform="translate(238 122) rotate(-15)">
         <rect x="-64" y="-30" width="128" height="38" rx="17" fill={cartFill} />
         <rect x="-30" y="-47" width="68" height="20" rx="10" fill={accentFill} opacity="0.95" />
         <circle cx="-28" cy="8" r="15" fill={wheelFill} />
@@ -554,7 +554,7 @@ const SlopeCartDiagram = ({ isDark }) => {
         strokeWidth="3"
         strokeLinecap="round"
       />
-      <text x="130" y="162" fill={textColor} fontSize="18" fontWeight="700">
+      <text x="128" y="169" fill={textColor} fontSize="18" fontWeight="700">
         θ
       </text>
     </svg>
@@ -572,10 +572,10 @@ const SlopeComponentsDiagram = ({ isDark }) => {
   return (
     <svg viewBox="0 0 520 220" className="h-60 w-full" role="img" aria-label="Slope free-body diagram showing N, mg, mg sin theta, and mg cos theta">
       <defs>
-        <marker id="slopeForceArrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <marker id="slopeForceArrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill={forceColor} />
         </marker>
-        <marker id="slopeForceArrowOrange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <marker id="slopeForceArrowOrange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill={componentColor} />
         </marker>
       </defs>
@@ -604,8 +604,8 @@ const SlopeComponentsDiagram = ({ isDark }) => {
       <circle cx="270" cy="103" r="14" fill={bodyFill} />
 
       <line
-        x1="270"
-        y1="103"
+        x1="266"
+        y1="88"
         x2="247"
         y2="24"
         stroke={forceColor}
@@ -619,7 +619,7 @@ const SlopeComponentsDiagram = ({ isDark }) => {
 
       <line
         x1="270"
-        y1="103"
+        y1="119"
         x2="270"
         y2="190"
         stroke={forceColor}
@@ -632,8 +632,8 @@ const SlopeComponentsDiagram = ({ isDark }) => {
       </text>
 
       <line
-        x1="270"
-        y1="103"
+        x1="255"
+        y1="107"
         x2="176"
         y2="128"
         stroke={componentColor}
@@ -646,8 +646,8 @@ const SlopeComponentsDiagram = ({ isDark }) => {
       </text>
 
       <line
-        x1="270"
-        y1="103"
+        x1="274"
+        y1="118"
         x2="294"
         y2="190"
         stroke={componentColor}
@@ -7119,35 +7119,35 @@ const App = () => {
           </section>
         ) : view === "topics" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 mt-8 flex items-center justify-end gap-4 sm:mt-10 lg:mt-12">
-              <button
-                type="button"
-                onClick={() => navigateToView("home")}
-                className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
-                  isDark
-                    ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
-                    : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
-                }`}
-              >
-                Back Home
-              </button>
-            </div>
-
             <section id="topics" className="pt-0">
-              <div className="max-w-6xl">
-                <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-                  Learning Path
-                </p>
-                <h2
-                  className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+              <div className="mt-8 flex items-start justify-between gap-6 sm:mt-10 lg:mt-12">
+                <div className="max-w-6xl">
+                  <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+                    Learning Path
+                  </p>
+                  <h2
+                    className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+                  >
+                    Select a Roller Coaster Physics Section
+                  </h2>
+                  <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
+                    Start with kinematics, then build through forces, energy,
+                    circular motion, losses, momentum, rotation, and full coaster
+                    design reasoning.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => navigateToView("home")}
+                  className={`inline-flex shrink-0 items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                    isDark
+                      ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                      : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+                  }`}
                 >
-                  Select a Roller Coaster Physics Section
-                </h2>
-                <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
-                  Start with kinematics, then build through forces, energy,
-                  circular motion, losses, momentum, rotation, and full coaster
-                  design reasoning.
-                </p>
+                  Back Home
+                </button>
               </div>
 
               <div className="mt-10 grid gap-4">
@@ -7291,35 +7291,35 @@ const App = () => {
           </section>
         ) : view === "simulation" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 mt-8 flex items-center justify-end gap-4 sm:mt-10 lg:mt-12">
-              <button
-                type="button"
-                onClick={() => navigateToView("home")}
-                className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
-                  isDark
-                    ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
-                    : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
-                }`}
-              >
-                Back Home
-              </button>
-            </div>
-
             <section id="simulation" className="pt-0">
-              <div className="max-w-6xl">
-                <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-                  Interactive Lab
-                </p>
-                <h2
-                  className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+              <div className="mt-8 flex items-start justify-between gap-6 sm:mt-10 lg:mt-12">
+                <div className="max-w-6xl">
+                  <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
+                    Interactive Lab
+                  </p>
+                  <h2
+                    className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
+                  >
+                    Coaster simulation
+                  </h2>
+                  <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
+                    Change the drop height and the level-out length to see how the
+                    coaster profile, maximum speed, and peak g-force respond
+                    together.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => navigateToView("home")}
+                  className={`inline-flex shrink-0 items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
+                    isDark
+                      ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                      : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
+                  }`}
                 >
-                  Coaster simulation
-                </h2>
-                <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
-                  Change the drop height and the level-out length to see how the
-                  coaster profile, maximum speed, and peak g-force respond
-                  together.
-                </p>
+                  Back Home
+                </button>
               </div>
 
               <div className="mt-10">
