@@ -1011,18 +1011,141 @@ const createRealWorldExampleStep = (sourceStep) => {
   );
 };
 
+const hasStepDisplayContent = (step) =>
+  Boolean(
+    step.body?.length ||
+      step.cards?.length ||
+      step.derivations?.length ||
+      step.realWorldExample ||
+      step.bullets?.length ||
+      step.callout ||
+      step.equations?.length ||
+      step.variables?.length ||
+      step.figures?.length ||
+      step.practice ||
+      step.quiz,
+  );
+
+const createCheckStep = (sourceStep) => {
+  if (!sourceStep.practice) {
+    return null;
+  }
+
+  return createStep(
+    `${sourceStep.id}-check`,
+    "Check",
+    `${sourceStep.title}: Check Your Understanding`,
+    {
+      compact: true,
+      practice: sourceStep.practice,
+    },
+  );
+};
+
+const createStepPart = (sourceStep, suffix, label, title, config) =>
+  createStep(`${sourceStep.id}-${suffix}`, label, title, {
+    compact: sourceStep.compact,
+    ...config,
+  });
+
+const splitLessonStep = (step) => {
+  const pages = [];
+  const { practice, realWorldExample, ...contentStep } = step;
+
+  if (contentStep.derivations?.length > 1) {
+    const { derivations, body, ...rest } = contentStep;
+
+    derivations.forEach((derivation, index) => {
+      pages.push(
+        createStepPart(
+          step,
+          `derivation-${index + 1}`,
+          index === 0 ? step.label : "Derive",
+          derivation.title,
+          {
+            ...rest,
+            body: index === 0 ? body : undefined,
+            derivations: [derivation],
+          },
+        ),
+      );
+    });
+  } else {
+    const workingStep = { ...contentStep };
+    const splitKeyIdeas =
+      workingStep.cards?.length && workingStep.bullets?.length && workingStep.callout;
+    const splitFigures =
+      workingStep.figures?.length &&
+      (workingStep.body?.length ||
+        workingStep.cards?.length ||
+        workingStep.bullets?.length ||
+        workingStep.callout ||
+        workingStep.equations?.length);
+    const splitVariables = workingStep.variables?.length && workingStep.equations?.length;
+    const keyIdeasPage = splitKeyIdeas
+      ? createStepPart(step, "key-ideas", "Key Ideas", `${step.title}: Key Ideas`, {
+          bullets: workingStep.bullets,
+          callout: workingStep.callout,
+        })
+      : null;
+    const figuresPage = splitFigures
+      ? createStepPart(step, "diagrams", "Diagrams", `${step.title}: Diagrams`, {
+          figures: workingStep.figures,
+        })
+      : null;
+    const variablesPage = splitVariables
+      ? createStepPart(step, "variables", "Variables", `${step.title}: Variables`, {
+          compact: true,
+          variables: workingStep.variables,
+        })
+      : null;
+
+    if (splitKeyIdeas) {
+      delete workingStep.bullets;
+      delete workingStep.callout;
+    }
+
+    if (splitFigures) {
+      delete workingStep.figures;
+    }
+
+    if (splitVariables) {
+      delete workingStep.variables;
+    }
+
+    if (hasStepDisplayContent(workingStep)) {
+      pages.push(workingStep);
+    }
+
+    if (figuresPage) {
+      pages.push(figuresPage);
+    }
+
+    if (variablesPage) {
+      pages.push(variablesPage);
+    }
+
+    if (keyIdeasPage) {
+      pages.push(keyIdeasPage);
+    }
+  }
+
+  if (realWorldExample) {
+    pages.push(createRealWorldExampleStep(step));
+  }
+
+  if (practice) {
+    pages.push(createCheckStep(step));
+  }
+
+  return pages.filter(Boolean);
+};
+
 const createLesson = (title, subtitle, goal, steps) => {
   const chapterName = getChapterName(title);
   const expandedSteps = steps
     .filter((step) => step.id !== "next-lesson" && step.id !== "practice")
-    .flatMap((step) => {
-      if (!step.realWorldExample) {
-        return [step];
-      }
-
-      const { realWorldExample, ...stepWithoutExample } = step;
-      return [stepWithoutExample, createRealWorldExampleStep(step)];
-    })
+    .flatMap((step) => splitLessonStep(step))
     .filter(Boolean);
 
   return {
@@ -5919,6 +6042,17 @@ const LessonView = ({
 
   const practiceQuestions = step.practice?.questions ?? (step.practice ? [step.practice] : []);
   const currentPracticeProblem = practiceQuestions[practiceIndex] ?? null;
+  const isPracticeOnlyStep =
+    practiceQuestions.length > 0 &&
+    !step.body?.length &&
+    !step.cards?.length &&
+    !step.derivations?.length &&
+    !step.realWorldExample &&
+    !step.bullets?.length &&
+    !step.callout &&
+    !step.equations?.length &&
+    !step.variables?.length &&
+    !step.figures?.length;
   const practiceIsCorrect =
     currentPracticeProblem &&
     selectedPracticeChoice === currentPracticeProblem.correctChoice;
@@ -6555,7 +6689,13 @@ const LessonView = ({
             : null}
 
           {step.practice ? (
-            <div className={`mt-8 border-t pt-8 ${isDark ? "border-white/10" : "border-slate-300/70"}`}>
+            <div
+              className={
+                isPracticeOnlyStep
+                  ? "mt-6"
+                  : `mt-8 border-t pt-8 ${isDark ? "border-white/10" : "border-slate-300/70"}`
+              }
+            >
             <div className={`rounded-3xl border p-6 ${subtlePanelClass}`}>
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
