@@ -5956,7 +5956,7 @@ const LessonView = ({
     return (
       <>
         {!standalone ? <div className={realWorldDividerClass} /> : null}
-        <div className={standalone ? "mt-6" : "mt-8"}>
+        <div className={`${standalone ? "mt-6" : "mt-8"} rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
           {!example.hideHeading ? (
             <>
               <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
@@ -5969,15 +5969,17 @@ const LessonView = ({
           ) : null}
 
           {example.goal ? (
-            <FormattedPhysicsText
-              as="p"
-              className={`mt-4 max-w-4xl text-base leading-7 ${copyClass}`}
-              text={example.goal}
-            />
+            <div className={`mt-4 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${subtlePanelClass}`}>
+              <FormattedPhysicsText
+                as="p"
+                className={copyClass}
+                text={example.goal}
+              />
+            </div>
           ) : null}
 
           <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
-            <div>
+            <div className="lg:max-h-[34rem] lg:overflow-y-auto lg:pr-1">
               {example.imageSrc ? (
                 <img
                   src={example.imageSrc}
@@ -5985,14 +5987,14 @@ const LessonView = ({
                   loading="eager"
                   decoding="async"
                   fetchPriority="high"
-                  className={`block h-auto w-full rounded-[1.25rem] border ${
+                  className={`block h-auto w-full rounded-[1.5rem] border ${
                     isDark ? "border-white/10" : "border-slate-300/70"
                   }`}
                 />
               ) : null}
 
               {example.stats?.length ? (
-                <div className={`${example.imageSrc ? "mt-4" : ""} space-y-1 text-sm leading-5`}>
+                <div className={`${example.imageSrc ? "mt-3" : ""} rounded-[1.5rem] border p-3 text-sm leading-5 ${subtlePanelClass}`}>
                   {example.stats.map((item) => (
                     <p key={item.label} className={copyClass}>
                       <span className={`font-semibold ${titleClass}`}>
@@ -6005,61 +6007,63 @@ const LessonView = ({
               ) : null}
             </div>
 
-            <div className={`space-y-5 text-base leading-7 ${copyClass}`}>
-              {example.rightFigure ? (
-                <div>
-                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-                    {example.rightFigure.title}
-                  </p>
-                  {example.rightFigure.description ? (
-                    <FormattedPhysicsText
-                      as="p"
-                      className={`mt-2 text-sm leading-6 ${copyClass}`}
-                      text={example.rightFigure.description}
-                    />
-                  ) : null}
-                  <div className="mt-4">{example.rightFigure.render(isDark)}</div>
-                </div>
-              ) : null}
+            <div className="min-h-0">
+              <div className={`space-y-4 text-base leading-7 ${copyClass} lg:max-h-[34rem] lg:overflow-y-auto lg:pr-3`}>
+                {example.rightFigure ? (
+                  <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
+                    <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                      {example.rightFigure.title}
+                    </p>
+                    {example.rightFigure.description ? (
+                      <FormattedPhysicsText
+                        as="p"
+                        className={`mt-2 text-sm leading-6 ${copyClass}`}
+                        text={example.rightFigure.description}
+                      />
+                    ) : null}
+                    <div className="mt-4">{example.rightFigure.render(isDark)}</div>
+                  </div>
+                ) : null}
 
-              {example.paragraphs?.length ? (
-                <div className="space-y-3">
-                  {example.paragraphs.map((paragraph) => (
-                    <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
-                  ))}
-                </div>
-              ) : null}
-
-              {example.calculationSteps?.length ? (
-                <div className={`border-t pt-5 ${isDark ? "border-white/10" : "border-slate-300/70"}`}>
-                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-                    Calculation Steps
-                  </p>
-                  <div className="mt-4 grid gap-4">
-                    {example.calculationSteps.map((item) => (
-                      <div key={item.label} className={`border-l-2 pl-4 ${isDark ? "border-cyan-300/35" : "border-sky-300"}`}>
-                        <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
-                        {renderRealWorldEquation(item.equation)}
-                        {item.note ? (
-                          <FormattedPhysicsText
-                            as="p"
-                            className={`mt-2 text-sm leading-6 ${copyClass}`}
-                            text={item.note}
-                          />
-                        ) : null}
-                      </div>
+                {example.paragraphs?.length ? (
+                  <div className="space-y-4">
+                    {example.paragraphs.map((paragraph) => (
+                      <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
                     ))}
                   </div>
-                </div>
-              ) : null}
+                ) : null}
 
-              {example.afterParagraphs?.length ? (
-                <div className="space-y-3">
-                  {example.afterParagraphs.map((paragraph) => (
-                    <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
-                  ))}
-                </div>
-              ) : null}
+                {example.calculationSteps?.length ? (
+                  <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
+                    <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                      Calculation Steps
+                    </p>
+                    <div className="mt-4 grid gap-3">
+                      {example.calculationSteps.map((item) => (
+                        <div key={item.label} className={`rounded-2xl border p-4 ${subtlePanelClass}`}>
+                          <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
+                          {renderRealWorldEquation(item.equation)}
+                          {item.note ? (
+                            <FormattedPhysicsText
+                              as="p"
+                              className={`mt-2 text-sm leading-6 ${copyClass}`}
+                              text={item.note}
+                            />
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {example.afterParagraphs?.length ? (
+                  <div className="space-y-4">
+                    {example.afterParagraphs.map((paragraph) => (
+                      <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
