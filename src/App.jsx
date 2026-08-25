@@ -1370,6 +1370,24 @@ const kinematicsLesson = createLesson(
           "Speed tells how fast. Velocity tells how fast and which direction, so it changes in turns and loops.",
           "Acceleration means velocity changes. That can mean speeding up, slowing down, or changing direction.",
         ],
+        cards: [
+          card(
+            "Position",
+            "Position is where the coaster is compared with a chosen starting point. For example, the train might be 30 m down the track from the station.",
+          ),
+          card(
+            "Distance vs. Displacement",
+            "Distance is the full path traveled. Displacement is only the change from start to finish, including direction.",
+          ),
+          card(
+            "Velocity",
+            "Velocity is speed with direction. If a coaster turns, its velocity changes even if the speed number stays the same.",
+          ),
+          card(
+            "Acceleration",
+            "Acceleration means velocity changes. That includes speeding up, slowing down, or turning.",
+          ),
+        ],
         bullets: [
           "Scalars have magnitude only: speed and distance are scalars.",
           "Vectors have magnitude and direction: velocity, displacement, and acceleration are vectors.",
@@ -1556,7 +1574,6 @@ const kinematicsLesson = createLesson(
           position: "bottom",
           eyebrow: "Real-World Example",
           title: "El Toro Airtime Hills",
-          goal: "This example shows how airtime connects to projectile motion: riders keep moving forward while gravity accelerates them downward.",
           imageSrc: "/el-toro-airtime.png",
           imageAlt: "El Toro wooden roller coaster train cresting an airtime hill.",
           stats: [
@@ -1839,6 +1856,24 @@ const forcesLesson = createLesson(
           "Newton's Second Law says acceleration depends on net force: Fnet = ma.",
           "Newton's Third Law says force pairs act on different objects, so they do not cancel on one free-body diagram.",
         ],
+        cards: [
+          card(
+            "Inertia",
+            "Inertia is an object's tendency to keep doing what it is already doing. A rider keeps moving forward when brakes slow the train.",
+          ),
+          card(
+            "Net Force",
+            "Net force is the total force after all pushes and pulls are combined. Acceleration depends on this total, not just one force.",
+          ),
+          card(
+            "Free-Body Diagram",
+            "A free-body diagram is a simple force picture for one object. Draw only real forces acting on that object.",
+          ),
+          card(
+            "Normal Force",
+            "Normal force is the support push from a surface, seat, or track. This is the force riders usually feel as heavy or light.",
+          ),
+        ],
         bullets: [
           "A free-body diagram should show only the real forces on the chosen object.",
           "Motion direction is not a force and should not be drawn as one.",
@@ -1863,7 +1898,7 @@ const forcesLesson = createLesson(
           position: "afterFigures",
           eyebrow: "Real-World Example",
           title: "Copperhead Strike Car Mass Example",
-          goal: "This example calculates the weight and normal force for one empty Copperhead Strike car, then repeats the calculation with riders added.",
+          goal: "Find the empty and loaded car weight, then find the normal force on level track.",
           imageSrc: "/copperhead-strike-train.png",
           imageAlt: "Copperhead Strike roller coaster train banking through orange track.",
           stats: [
@@ -2342,6 +2377,24 @@ const energyLesson = createLesson(
           "Mechanical energy is K + Ug. If friction and drag are ignored, that total stays constant.",
           "In ideal drop problems, mass cancels. Same height means same ideal speed, even for different masses.",
         ],
+        cards: [
+          card(
+            "Gravitational Potential Energy",
+            "Gravitational potential energy is stored energy from height. A coaster at the top of a hill has energy available to turn into motion.",
+          ),
+          card(
+            "Kinetic Energy",
+            "Kinetic energy is energy of motion. A faster train has more kinetic energy, and speed matters a lot because it is squared.",
+          ),
+          card(
+            "Mechanical Energy",
+            "Mechanical energy is the useful coaster energy we track: kinetic energy plus gravitational potential energy.",
+          ),
+          card(
+            "Conservation",
+            "Conservation means the total stays the same in the ideal model. Energy changes form from height to speed, but it is not lost.",
+          ),
+        ],
         bullets: [
           "At the top of the first hill, the coaster has mostly gravitational potential energy.",
           "At the bottom of the first drop, the coaster has mostly kinetic energy.",
@@ -2505,7 +2558,7 @@ const energyLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "Mako Coaster Example",
-          goal: "This example estimates Mako's ideal bottom speed from its height, then compares that estimate with the published top speed.",
+          goal: "Find the ideal final speed at the bottom of Mako's 200 ft drop, then compare it with the published 73 mph top speed.",
           imageSrc: "/mako-drop.png",
           imageAlt: "Mako roller coaster train descending a steep drop.",
           stats: [
@@ -2787,6 +2840,24 @@ const circularMotionLesson = createLesson(
           "Fc is not a new force. It is the net inward force made by real forces like gravity and normal force.",
           "Always find inward first. It changes from valley to hill to loop.",
         ],
+        cards: [
+          card(
+            "Centripetal Acceleration",
+            "Centripetal acceleration is inward acceleration for curved motion. It changes direction, not necessarily speed.",
+          ),
+          card(
+            "Center of Curvature",
+            "The center of curvature is the center of the circle-like path at that moment. Inward always points toward it.",
+          ),
+          card(
+            "Net Inward Force",
+            "Net inward force is the total force toward the center. It can come from gravity, the track, the seat, or a mix of forces.",
+          ),
+          card(
+            "Radius",
+            "Radius is how wide the curve is. A smaller radius means a tighter curve and a larger inward acceleration at the same speed.",
+          ),
+        ],
         bullets: [
           "At the bottom of a dip, riders feel heavier because the normal force is large.",
           "At the top of a hill, riders feel lighter because the normal force is smaller.",
@@ -2954,8 +3025,16 @@ const circularMotionLesson = createLesson(
         ],
         cards: [
           card(
+            "G-Force",
+            "G-force is a comparison. It tells how strong the seat or restraint feels compared with your normal weight.",
+          ),
+          card(
             "What N Means",
             "N is the normal force: the push from the seat or restraint on the rider.",
+          ),
+          card(
+            "Apparent Weight",
+            "Apparent weight is what you feel. It changes when the normal force changes, even though your mass and true weight do not.",
           ),
           card(
             "How to Read the Ratio",
@@ -2967,7 +3046,7 @@ const circularMotionLesson = createLesson(
           position: "bottom",
           eyebrow: "Ride Feel",
           title: "Skyrush G-Force Example",
-          goal: "This example uses a crest and a valley to show how normal force changes the g-force a rider feels.",
+          goal: "Find the felt g-force for a light crest and a heavy valley, then find the normal force for a 600 N rider at 5 g.",
           imageSrc: "/circular-gforce-example.png",
           imageAlt: "Roller coaster crest showing a place where riders can feel light.",
           stats: [
@@ -3277,6 +3356,24 @@ const workLesson = createLesson(
           "Net work changes kinetic energy. Friction and drag reduce mechanical energy by converting it to heat, sound, and vibration.",
           "Power is how quickly energy is transferred.",
         ],
+        cards: [
+          card(
+            "Work",
+            "Work is energy transferred by a force acting over a distance. A launch does work by pushing the train forward.",
+          ),
+          card(
+            "Positive Work",
+            "Positive work adds energy to the coaster's motion, like a launch or lift system.",
+          ),
+          card(
+            "Negative Work",
+            "Negative work removes mechanical energy from the coaster, like brakes or friction acting opposite motion.",
+          ),
+          card(
+            "Power",
+            "Power is how fast work is done. A launch that adds energy in a short time has high power.",
+          ),
+        ],
         bullets: [
           "Positive work adds mechanical energy to the coaster.",
           "Negative work removes mechanical energy from the coaster model.",
@@ -3454,7 +3551,7 @@ const workLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "Maverick Second Launch Energy Example",
-          goal: "This example calculates the kinetic energy added by Maverick's second launch and the average power of that launch.",
+          goal: "Find the launch speed in m/s, the kinetic energy added, and the average launch power.",
           imageSrc: "/maverick-second-launch.png",
           imageAlt: "Maverick roller coaster train banking on red track at Cedar Point.",
           stats: [
@@ -3763,6 +3860,24 @@ const momentumLesson = createLesson(
           "Impulse is change in momentum. It also equals average force times time.",
           "Momentum conservation works best for short interactions with little outside impulse.",
         ],
+        cards: [
+          card(
+            "Momentum",
+            "Momentum is how much motion an object has: mass times velocity. A heavy fast train has a lot of momentum.",
+          ),
+          card(
+            "Impulse",
+            "Impulse is what changes momentum. A launch gives forward impulse; brakes give impulse opposite the motion.",
+          ),
+          card(
+            "Stopping Time",
+            "Stopping time matters because the same momentum change over more time usually means a smaller average force.",
+          ),
+          card(
+            "Conservation of Momentum",
+            "Momentum conservation means total momentum stays the same, but only when outside impulse is small.",
+          ),
+        ],
         bullets: [
           "Momentum is a vector, so direction matters.",
           "Impulse can increase momentum, decrease momentum, or reverse it.",
@@ -3894,7 +4009,7 @@ const momentumLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "VelociCoaster Launch Impulse Example",
-          goal: "This example calculates the impulse delivered during VelociCoaster's second launch from the change in speed.",
+          goal: "Find the impulse per kilogram when VelociCoaster speeds up from about 40 mph to 70 mph.",
           imageSrc: "/velocicoaster-momentum.png",
           imageAlt: "Jurassic World VelociCoaster train twisting through an inversion.",
           stats: [
@@ -4163,6 +4278,24 @@ const rotationLesson = createLesson(
           "Torque is the turning effect of a force. A longer lever arm usually means more torque.",
           "Rotational inertia depends on mass distribution. Mass farther from the axis is harder to spin up or slow down.",
         ],
+        cards: [
+          card(
+            "Angular Motion",
+            "Angular motion means rotation. Instead of asking how far forward something moved, ask how far it turned.",
+          ),
+          card(
+            "Torque",
+            "Torque is a turning effect. A force makes more torque when it acts farther from the rotation axis or more perpendicular to the radius.",
+          ),
+          card(
+            "Rotational Inertia",
+            "Rotational inertia is resistance to changing rotation. Mass farther from the axis makes an object harder to spin up.",
+          ),
+          card(
+            "Rotational Kinetic Energy",
+            "Rotational kinetic energy is energy stored in spinning motion, like energy in rotating coaster wheels.",
+          ),
+        ],
         bullets: [
           "Rolling without slipping links linear speed and angular speed.",
           "Torque depends on force, lever arm, and angle.",
@@ -4407,7 +4540,7 @@ const rotationLesson = createLesson(
         realWorldExample: {
           eyebrow: "Real-World Example",
           title: "Time Traveler Controlled Spin Example",
-          goal: "This example explains how torque changes a spinning coaster car's angular motion, and why rotational inertia affects how quickly that spin changes.",
+          goal: "Find the torque, angular acceleration, and spin-speed change for a simple spin-control model.",
           imageSrc: "/time-traveler-spin.png",
           imageAlt: "Time Traveler spinning coaster cars rotating on the track at Silver Dollar City.",
           stats: [
@@ -5956,7 +6089,7 @@ const LessonView = ({
     return (
       <>
         {!standalone ? <div className={realWorldDividerClass} /> : null}
-        <div className={`${standalone ? "mt-6" : "mt-8"} rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
+        <div className={standalone ? "mt-6" : "mt-8"}>
           {!example.hideHeading ? (
             <>
               <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
@@ -5969,17 +6102,20 @@ const LessonView = ({
           ) : null}
 
           {example.goal ? (
-            <div className={`mt-4 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${subtlePanelClass}`}>
+            <div className={`mt-4 max-w-4xl border-l-2 pl-4 ${isDark ? "border-cyan-300/35" : "border-sky-300"}`}>
+              <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                Problem
+              </p>
               <FormattedPhysicsText
                 as="p"
-                className={copyClass}
+                className={`mt-2 text-base leading-7 ${copyClass}`}
                 text={example.goal}
               />
             </div>
           ) : null}
 
           <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
-            <div className="lg:max-h-[34rem] lg:overflow-y-auto lg:pr-1">
+            <div>
               {example.imageSrc ? (
                 <img
                   src={example.imageSrc}
@@ -6008,7 +6144,7 @@ const LessonView = ({
             </div>
 
             <div className="min-h-0">
-              <div className={`space-y-4 text-base leading-7 ${copyClass} lg:max-h-[34rem] lg:overflow-y-auto lg:pr-3`}>
+              <div className={`space-y-4 text-base leading-7 ${copyClass}`}>
                 {example.rightFigure ? (
                   <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
                     <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
@@ -6034,7 +6170,7 @@ const LessonView = ({
                 ) : null}
 
                 {example.calculationSteps?.length ? (
-                  <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
+                  <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass} lg:max-h-[34rem] lg:overflow-y-auto lg:pr-3`}>
                     <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
                       Calculation Steps
                     </p>
@@ -6238,6 +6374,28 @@ const LessonView = ({
             </div>
           ) : null}
 
+          {step.cards ? (
+            <div className={`mt-6 grid gap-5 ${step.cardStyle === "boxed" ? "" : ""}`}>
+              {step.cards.map((stepCard) => (
+                <div
+                  key={stepCard.title}
+                  className={
+                    step.cardStyle === "boxed"
+                      ? `rounded-3xl border p-5 ${subtlePanelClass}`
+                      : `border-l-2 pl-4 ${isDark ? "border-cyan-300/35" : "border-sky-300"}`
+                  }
+                >
+                  <h4 className={`text-lg font-semibold ${titleClass}`}>{stepCard.title}</h4>
+                  <FormattedPhysicsText
+                    as="p"
+                    className={`mt-2 text-base leading-7 ${copyClass}`}
+                    text={stepCard.text}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : null}
+
           {step.derivations ? (
             <div className="mt-6 grid gap-5">
               {step.derivations.map((item) => (
@@ -6365,28 +6523,6 @@ const LessonView = ({
                   </div>
                 ))}
               </div>
-            </div>
-          ) : null}
-
-          {step.cards ? (
-            <div className={`mt-6 grid gap-4 ${step.cardStyle === "boxed" ? "" : "gap-6"}`}>
-              {step.cards.map((stepCard) => (
-                <div
-                  key={stepCard.title}
-                  className={
-                    step.cardStyle === "boxed"
-                      ? `rounded-3xl border p-5 ${subtlePanelClass}`
-                      : ""
-                  }
-                >
-                  <h4 className={`text-lg font-semibold ${titleClass}`}>{stepCard.title}</h4>
-                  <FormattedPhysicsText
-                    as="p"
-                    className={`mt-3 text-base leading-7 ${copyClass}`}
-                    text={stepCard.text}
-                  />
-                </div>
-              ))}
             </div>
           ) : null}
 
