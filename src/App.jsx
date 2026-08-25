@@ -988,16 +988,49 @@ const createStep = (id, label, title, config = {}) => ({
 const getChapterName = (lessonTitle) =>
   lessonTitle.replace(/^Lesson\s+\d+:\s*/, "");
 
+const createRealWorldExampleStep = (sourceStep) => {
+  const example = sourceStep.realWorldExample;
+
+  if (!example) {
+    return null;
+  }
+
+  return createStep(
+    `${sourceStep.id}-real-world`,
+    "Real-World Example",
+    example.title ?? "Real-World Example",
+    {
+      compact: true,
+      standaloneRealWorldExample: true,
+      realWorldExample: {
+        ...example,
+        position: "standalone",
+        hideHeading: true,
+      },
+    },
+  );
+};
+
 const createLesson = (title, subtitle, goal, steps) => {
   const chapterName = getChapterName(title);
+  const expandedSteps = steps
+    .filter((step) => step.id !== "next-lesson" && step.id !== "practice")
+    .flatMap((step) => {
+      if (!step.realWorldExample) {
+        return [step];
+      }
+
+      const { realWorldExample, ...stepWithoutExample } = step;
+      return [stepWithoutExample, createRealWorldExampleStep(step)];
+    })
+    .filter(Boolean);
 
   return {
     title,
     subtitle,
     goal,
     chapterName,
-    steps: steps
-      .filter((step) => step.id !== "next-lesson" && step.id !== "practice")
+    steps: expandedSteps
       .map((step) =>
         step.id === "quiz"
           ? {
@@ -1313,12 +1346,12 @@ const otherSiteImageCredits = [
 const kinematicsLesson = createLesson(
   "Lesson 1: Kinematics",
   "Describing Motion Before Explaining It",
-  "Students learn how to describe roller coaster motion with position, displacement, velocity, speed, acceleration, and graphs before later lessons explain what causes that motion.",
+  "Students learn how to describe coaster motion with position, displacement, velocity, acceleration, and graphs.",
   [
     createStep("goal", "Big Idea", "Kinematics Is the Language of Motion", {
       body: [
-        "Before a physicist asks why a coaster speeds up, slows down, or changes direction, the first job is to describe exactly what the train is doing. Kinematics is the branch of mechanics that gives us that descriptive language.",
-        "A roller coaster may feel like one continuous ride, but it becomes easier to analyze when we break it into smaller segments: a straight drop, a curved valley, a hill crest, a launch track, or a braking zone. Each segment can be described using motion variables, and that description becomes the foundation for every later lesson.",
+        "Before explaining why motion changes, first describe what the train is doing. Kinematics gives us that language.",
+        "Break the ride into small parts: drops, turns, hills, launches, and brakes. Each part can be described with position, velocity, and acceleration.",
       ],
       bullets: [
         "Track the coaster's position and how far it has moved from a starting point.",
@@ -1333,9 +1366,9 @@ const kinematicsLesson = createLesson(
       "Position, Velocity, and Acceleration",
       {
         body: [
-          "Position tells where the coaster is. Distance is the total path length traveled. Displacement is the change in position from start to finish. On a winding ride, distance and displacement can be dramatically different, because the train may travel a long track length while ending only a short distance from where it began.",
-          "Speed tells how fast the coaster moves, while velocity tells both speed and direction. That distinction matters immediately on a roller coaster because the train often moves through turns, hills, and loops where direction changes constantly.",
-          "Acceleration is the rate at which velocity changes. A coaster can accelerate by speeding up, slowing down, or changing direction. That last case is easy to miss, but it is exactly what happens when a coaster moves through a curve at constant speed.",
+          "Position tells where the coaster is. Distance is total path length; displacement is the start-to-finish change in position.",
+          "Speed tells how fast. Velocity tells how fast and which direction, so it changes in turns and loops.",
+          "Acceleration means velocity changes. That can mean speeding up, slowing down, or changing direction.",
         ],
         bullets: [
           "Scalars have magnitude only: speed and distance are scalars.",
@@ -1344,7 +1377,7 @@ const kinematicsLesson = createLesson(
           "A coaster can have constant speed and still accelerate if the direction changes.",
         ],
         callout:
-          "If a coaster moves at 18 m/s through a turnaround, the speed can stay 18 m/s while the velocity keeps changing because the train keeps pointing in a new direction.",
+          "A coaster can keep the same speed through a turn and still accelerate because its direction changes.",
         practice: practiceQuestion(
           "A coaster moves through a curve at a constant speed, but its direction keeps changing. Which statement best describes the motion?",
           [
@@ -1361,8 +1394,8 @@ const kinematicsLesson = createLesson(
     ),
     createStep("equations", "Equations", "Key Equations", {
       body: [
-        "These constant-acceleration equations are useful when a coaster section can be approximated as straight and the acceleration is roughly constant over the interval. They are not universal formulas for every part of the ride.",
-        "Kinematics also depends on graph relationships. Students should not memorize slope and area as isolated facts; they should connect them directly to what the coaster is physically doing.",
+        "Use these equations only when acceleration is roughly constant over the section.",
+        "For graphs, connect slope and area to the coaster's actual motion.",
       ],
       equations: [
         equation(
@@ -1438,7 +1471,7 @@ const kinematicsLesson = createLesson(
         "Area under acceleration-time graph = change in velocity.",
       ],
       callout:
-        "The moment a section of track becomes strongly curved or the forces start changing significantly, these constant-acceleration equations stop being the right model.",
+        "If the track curves sharply or forces change a lot, constant-acceleration equations may not fit.",
       practice: practiceSet(
         practiceQuestion(
           "A coaster starts from rest and accelerates at 4.0 m/s² for 3.0 s on a straight section of track. What is its final velocity?",
@@ -1487,9 +1520,9 @@ const kinematicsLesson = createLesson(
       "Forward Motion and Downward Acceleration",
       {
         body: [
-          "Projectile motion is a two-dimensional kind of kinematics. The object keeps moving horizontally while gravity accelerates it downward. Those two motions happen at the same time, but they can be analyzed separately.",
-          "In the ideal model, horizontal motion has constant velocity because there is no horizontal acceleration. Vertical motion has constant downward acceleration from gravity. That is why a launched ball can move forward while also falling.",
-          "A rider on a coaster is not actually flying freely off the track, but airtime hills can be compared to projectile motion because the rider continues forward while gravity pulls downward. The feeling comes from the support force getting very small for a short moment.",
+          "Projectile motion combines forward motion with downward acceleration from gravity.",
+          "In the ideal model, horizontal velocity stays constant while vertical velocity changes downward.",
+          "Airtime hills are not true free flight, but they use the same idea: forward motion continues while gravity pulls down.",
         ],
         bullets: [
           "Horizontal motion: forward velocity continues if no horizontal force changes it.",
@@ -1545,9 +1578,9 @@ const kinematicsLesson = createLesson(
             },
           ],
           paragraphs: [
-            "El Toro's airtime hills are a strong real-world example of this idea. When the train moves quickly over the top of a hill, the rider's body wants to keep moving forward because of inertia while gravity pulls the rider downward.",
-            "This creates a short feeling of weightlessness, called airtime. It connects to projectile motion because the rider has forward motion and downward acceleration at the same time, similar to how a ball moves through the air after being launched.",
-            "The coaster train, track, and restraints still control the actual motion, so this is not a perfect free-projectile situation. It is a useful kinematics comparison: forward motion continues while gravity supplies the downward acceleration.",
+            "El Toro's airtime hills show forward motion plus downward gravity. The rider keeps moving forward while support from the seat gets very small.",
+            "That low support force creates airtime, a short light or weightless feeling.",
+            "The train is still controlled by the track and restraints, so this is a comparison, not true free flight.",
           ],
         },
         practice: practiceSet(
@@ -1596,9 +1629,9 @@ const kinematicsLesson = createLesson(
       "How These Ideas Show Up on a Coaster",
       {
         body: [
-          "Imagine a coaster car at the top of a straight first drop. If it starts from rest and the track is approximately straight over a short interval, we can model the motion with constant acceleration. The train's velocity points down the track, and the magnitude of that velocity grows as time passes.",
-          "Now compare that to a turn or a hill crest. Even if the numerical speed is nearly constant, the train's direction is changing, so the velocity vector is changing. That means the coaster is accelerating even when a rider's speedometer reading barely changes.",
-          "Real coaster motion is rarely perfectly constant acceleration for long. The track slope changes, the curvature changes, friction acts, and air resistance grows with speed. That is why kinematics is a starting point rather than the whole story: it tells us what the motion looks like before later lessons explain why it happens.",
+          "On a short straight drop, velocity points down the track and grows as the train speeds up.",
+          "On a turn or hill crest, speed may stay nearly constant, but direction changes. That still means acceleration.",
+          "Real tracks change slope, curve, friction, and air resistance, so kinematics is the starting model, not the whole story.",
         ],
         bullets: [
           "On a position-time graph, a steeper slope means a greater velocity.",
@@ -1614,7 +1647,7 @@ const kinematicsLesson = createLesson(
       "Where Students Usually Get Tripped Up",
       {
         body: [
-          "Kinematics mistakes are often not algebra mistakes at first. They are meaning mistakes: using the wrong quantity, forgetting direction, or applying an equation in a situation where the assumptions are not valid.",
+          "Most kinematics mistakes start with meaning: wrong quantity, missing direction, or using an equation outside its assumptions.",
         ],
         bullets: [
           "Thinking speed and velocity are the same quantity.",
@@ -1640,7 +1673,7 @@ const kinematicsLesson = createLesson(
     ),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These ten questions start with graph reading, then shift into direct equation use and projectile-motion calculations. Each answer explanation is meant to model the kind of reasoning you should write out when solving problems on your own.",
+        "These questions mix graph reading, equation use, and projectile-motion reasoning.",
       ],
       quiz: [
         quizQuestion(
@@ -1771,7 +1804,7 @@ const kinematicsLesson = createLesson(
       "Connection to the Next Lesson",
       {
         body: [
-          "Kinematics tells us what the motion looks like. It can tell us that a coaster speeds up, slows down, or changes direction, but it does not explain the cause of those changes.",
+          "Kinematics tells what the motion looks like, but not what causes it.",
           "The next lesson adds forces and Newton's laws so we can move from description to explanation.",
         ],
       },
@@ -1786,8 +1819,8 @@ const forcesLesson = createLesson(
   [
     createStep("goal", "Big Idea", "Forces Explain Motion Changes", {
       body: [
-        "Once kinematics tells us what a coaster is doing, the next question is why the motion changes. If the train speeds up, slows down, or turns, there must be a net force responsible for that acceleration.",
-        "Newton's laws turn coaster sensations into precise mechanics. They explain why riders seem to lurch forward in a brake run as their bodies resist the sudden slowdown, why a train accelerates down a slope, and why the seat pushes differently at the bottom and top of a hill.",
+        "Once kinematics describes the motion, forces explain why it changes.",
+        "Newton's laws connect coaster sensations to mechanics: launches, drops, braking, slopes, and changing seat forces.",
       ],
       bullets: [
         "Use Newton's First Law to connect inertia to rider experience.",
@@ -1802,9 +1835,9 @@ const forcesLesson = createLesson(
       "Inertia, Net Force, and Free-Body Diagrams",
       {
         body: [
-          "Newton's First Law says an object keeps its state of motion unless acted on by a net external force. This is inertia. Riders feel inertia during launches, drops, turns, and braking because their bodies resist changes in motion.",
-          "Newton's Second Law says Fnet = ma. The important word is net. A coaster can experience gravity, normal force, friction, air resistance, and a chain or launch force all at once, but acceleration depends on the vector sum of those forces.",
-          "Newton's Third Law says forces come in equal and opposite pairs acting on different objects. If the seat pushes up on a rider, the rider pushes down on the seat with equal magnitude. Those two forces do not cancel because they act on different bodies.",
+          "Newton's First Law is inertia: objects resist changes in motion.",
+          "Newton's Second Law says acceleration depends on net force: Fnet = ma.",
+          "Newton's Third Law says force pairs act on different objects, so they do not cancel on one free-body diagram.",
         ],
         bullets: [
           "A free-body diagram should show only the real forces on the chosen object.",
@@ -1857,8 +1890,8 @@ const forcesLesson = createLesson(
             render: (isDark) => <FlatTrackFreeBodyDiagram isDark={isDark} />,
           },
           paragraphs: [
-            "Copperhead Strike uses trains with 4 cars, and each car carries 4 riders. The exact empty mass is not publicly listed, so this lesson uses an engineering estimate of about 1,600 kg for one empty car.",
-            "The free-body diagram tells us what to calculate. On level track at rest, the vertical forces balance, so after finding the weight mg, set the normal force equal to that same size.",
+            "Copperhead Strike has 4-car trains with 4 riders per car. Since the empty car mass is not public, this uses a 1,600 kg classroom estimate.",
+            "On level track at rest, vertical forces balance. Find weight with mg, then set N equal to that value.",
           ],
           calculationSteps: [
             {
@@ -1933,7 +1966,7 @@ const forcesLesson = createLesson(
     ),
     createStep("equations", "Equations", "Key Equations", {
       body: [
-        "These equations let us translate a track shape into a net force and then into acceleration. On an incline, splitting gravity into components is the key step that makes the rest of the analysis straightforward.",
+        "These equations connect track forces to acceleration. On slopes, split gravity into parallel and perpendicular components.",
       ],
       equations: [
         equation("Newton's Second Law", <>F<sub>net</sub> = ma</>),
@@ -2057,16 +2090,16 @@ const forcesLesson = createLesson(
       "Forces on Lift Hills, Drops, and Valleys",
       {
         body: [
-          "On a lift hill, a chain or launch system applies a force that moves the coaster upward. On a drop, gravity pulls downward and the component of gravity along the track causes the train to accelerate.",
-          "On a slope, the parallel component mg sinθ pulls the coaster down the track while the perpendicular component mg cosθ presses the train into the track. That is why incline problems become much cleaner once you align your axes with the slope.",
-          "When you draw the actual free-body diagram, keep only the real forces like weight and normal force. Break weight into components afterward as a math step instead of mixing both versions onto the same diagram.",
-          "The normal force matters especially because it connects the math to what riders feel. At the bottom of a valley, the track pushes strongly upward to bend the rider's motion. At the top of a hill, the normal force may be smaller, so riders feel lighter even though their true weight has not changed.",
+          "A lift or launch applies force to move the train. On a drop, gravity's along-track component speeds it up.",
+          "On a slope, mg sinθ pulls along the track and mg cosθ presses into the track.",
+          "Draw only real forces first, like weight and normal force. Resolve components afterward.",
+          "Normal force is what riders feel: larger feels heavier, smaller feels lighter.",
         ],
         bullets: [
           "Main forces on a coaster: gravity, normal force, friction, air resistance, and chain or launch force.",
           "A larger normal force feels heavier to a rider.",
           "A smaller normal force feels lighter to a rider.",
-          "On a true free-body diagram, draw the real forces first. Resolve them into components afterward instead of drawing both the full force and its components as separate applied forces.",
+          "Draw real forces first. Resolve components afterward.",
         ],
         figures: [
           figure(
@@ -2100,7 +2133,7 @@ const forcesLesson = createLesson(
       "Force Errors That Break the Model",
       {
         body: [
-          "Most force mistakes come from misidentifying what actually acts on the coaster. If the free-body diagram is wrong, the algebra can look clean and still produce nonsense.",
+          "Most force mistakes start with the wrong free-body diagram.",
         ],
         bullets: [
           "Thinking an object needs a force to keep moving at constant velocity.",
@@ -2143,7 +2176,7 @@ const forcesLesson = createLesson(
     }),
     createStep("quiz", "Answer Explanations", "More Multiple Choice and Explanations", {
       body: [
-        "These ten questions focus on apparent weight, force components, and Newton's Second Law. Use them to practice turning a physical description into a force statement before you calculate.",
+        "These questions focus on apparent weight, force components, and Newton's Second Law.",
       ],
       quiz: [
         quizQuestion(
@@ -2274,7 +2307,7 @@ const forcesLesson = createLesson(
       "Connection to the Next Lesson",
       {
         body: [
-          "Forces are powerful because they explain acceleration directly, but many coaster problems become easier if we step back and track how height and speed exchange energy.",
+          "Forces explain acceleration directly, but energy often makes height-and-speed problems faster.",
           "The next lesson uses energy to predict coaster speed without solving the force at every point on the track.",
         ],
       },
@@ -2289,8 +2322,8 @@ const energyLesson = createLesson(
   [
     createStep("goal", "Big Idea", "Energy Makes the Whole Ride Coherent", {
       body: [
-        "Energy is one of the clearest ways to understand a roller coaster because the ride constantly trades height for speed and speed for height. Instead of following every force moment by moment, we can compare the energy at one point on the track to the energy at another.",
-        "This is why roller coasters are such a strong introduction to energy methods in mechanics. The first hill acts like an energy budget, and the rest of the ride shows that budget being transformed, redistributed, and gradually reduced by losses.",
+        "A coaster constantly trades height for speed and speed for height.",
+        "The first hill acts like an energy budget. The rest of the ride spends, transforms, and gradually loses part of that budget.",
       ],
       bullets: [
         "Use height to reason about stored gravitational potential energy.",
@@ -2305,9 +2338,9 @@ const energyLesson = createLesson(
       "Potential Energy, Kinetic Energy, and Conservation",
       {
         body: [
-          "Gravitational potential energy depends on how high the coaster is above a chosen reference level. Kinetic energy depends on speed, and it depends on speed squared, which means a modest increase in speed can represent a large increase in kinetic energy.",
-          "Mechanical energy is the sum of kinetic and gravitational potential energy. If friction and air resistance are ignored, that mechanical energy stays constant. In that ideal model, the train does not need a different equation at every point on the track. It only needs a comparison between the start and the finish.",
-          "One of the most important coaster results is that mass cancels out in many ideal energy problems. That is why a heavier coaster car does not automatically go faster than a lighter one if both start from the same height and friction is ignored.",
+          "Potential energy depends on height. Kinetic energy depends on speed squared.",
+          "Mechanical energy is K + Ug. If friction and drag are ignored, that total stays constant.",
+          "In ideal drop problems, mass cancels. Same height means same ideal speed, even for different masses.",
         ],
         bullets: [
           "At the top of the first hill, the coaster has mostly gravitational potential energy.",
@@ -2333,7 +2366,7 @@ const energyLesson = createLesson(
     ),
     createStep("equations", "Equations", "Key Equations", {
       body: [
-        "These equations let us treat the coaster as an energy story rather than a point-by-point force story. They are especially useful when the train moves along a complex path but the start and finish points are clear.",
+        "Use energy when the start and finish points are clear, even if the track between them is complicated.",
       ],
       equations: [
         equation("Gravitational potential energy", <>U<sub>g</sub> = mgh</>),
@@ -2465,9 +2498,9 @@ const energyLesson = createLesson(
       "How a Coaster Trades Height for Speed",
       {
         body: [
-          "At the top of the lift hill, the coaster has been given a large amount of gravitational potential energy. As the train descends, that stored energy changes into kinetic energy, which is why the first big drop produces the ride's fastest motion on many coasters.",
-          "At the bottom of the drop, the train may be moving very quickly but it no longer has as much height available to convert. When it climbs the next hill, kinetic energy changes back into gravitational potential energy, so the speed falls as the height rises.",
-          "This repeating exchange explains the rhythm of a coaster. It also explains why the first hill is usually the tallest on a traditional coaster. Without an additional launch or lift, the ride cannot give itself back the mechanical energy it has already lost.",
+          "At the top, the coaster stores gravitational potential energy. On the drop, that energy becomes kinetic energy.",
+          "At the bottom, speed is high. On the next hill, kinetic energy turns back into height, so speed falls.",
+          "Real losses explain why traditional coasters usually make later hills lower than the first.",
         ],
         realWorldExample: {
           eyebrow: "Real-World Example",
@@ -2494,8 +2527,8 @@ const energyLesson = createLesson(
             },
           ],
           paragraphs: [
-            "Using published stats for Mako at SeaWorld Orlando, the ideal energy model gives a quick estimate for how fast the train could be moving near the bottom of the first drop.",
-            "The calculation below assumes the train starts from rest and ignores friction and air resistance. That makes it an ideal estimate, not an exact real ride measurement.",
+            "Mako's published height gives a quick ideal speed estimate for the bottom of the first drop.",
+            "This model starts from rest and ignores friction and drag, so it is an estimate, not an exact ride measurement.",
           ],
           calculationSteps: [
             {
@@ -2529,8 +2562,8 @@ const energyLesson = createLesson(
             },
           ],
           afterParagraphs: [
-            "That ideal estimate is a little higher than the published 73 mph top speed because a real coaster is not frictionless. Wheels, bearings, and track contact create friction, air resistance removes energy, and some energy is also dissipated as sound and heat.",
-            "So the energy equation is still very useful, but in real life it gives an estimate rather than a perfect exact speed.",
+            "The estimate is higher than 73 mph because real wheels, bearings, air resistance, sound, and heat remove mechanical energy.",
+            "Energy equations are still useful; they give a strong first estimate.",
           ],
         },
         bullets: [
@@ -2546,7 +2579,7 @@ const energyLesson = createLesson(
       "Where Energy Reasoning Breaks Down",
       {
         body: [
-          "Energy problems usually look shorter than force problems, so students often rush them. The most common errors come from using the wrong height change or forgetting which terms belong at each point.",
+          "Energy mistakes usually come from using the wrong height change or forgetting which energy terms belong at each point.",
         ],
         bullets: [
           "Using total height instead of change in height.",
@@ -2734,8 +2767,8 @@ const circularMotionLesson = createLesson(
   [
     createStep("goal", "Big Idea", "Curves Create a New Kind of Question", {
       body: [
-        "A coaster rarely moves in a straight line for long. Hills, valleys, loops, and turns all require the train's direction to change, and that means the train must have an inward acceleration toward the center of curvature.",
-        "Circular-motion ideas are where coaster physics starts to feel especially distinctive. This is the lesson that explains why riders feel heavy at the bottom of a dip, light at the top of a hill, and secure inside a loop even while upside down.",
+        "Coasters rarely move straight for long. Hills, valleys, loops, and turns all require inward acceleration.",
+        "Circular motion explains why riders feel heavy in valleys, light on crests, and secure in loops.",
       ],
       bullets: [
         "Changing direction is acceleration even when speed stays constant.",
@@ -2750,9 +2783,9 @@ const circularMotionLesson = createLesson(
       "Centripetal Acceleration and Net Inward Force",
       {
         body: [
-          "Centripetal acceleration points inward, toward the center of curvature. Its job is to change the direction of the velocity vector so the train follows the track instead of continuing in a straight line.",
-          "Centripetal force is not a separate physical force like gravity or friction. In this lesson, Fc means the net inward force made by real forces such as gravity and the normal force.",
-          "Location matters. At the bottom of a valley, inward is upward. At the top of a hill, inward is downward. At the top of a loop, inward is also downward. Students who identify inward direction first usually avoid most sign mistakes.",
+          "Centripetal acceleration points inward, toward the center of curvature.",
+          "Fc is not a new force. It is the net inward force made by real forces like gravity and normal force.",
+          "Always find inward first. It changes from valley to hill to loop.",
         ],
         bullets: [
           "At the bottom of a dip, riders feel heavier because the normal force is large.",
@@ -2761,7 +2794,7 @@ const circularMotionLesson = createLesson(
           "The tighter the radius or the larger the speed, the larger the inward acceleration.",
         ],
         callout:
-          "One of the most common errors in circular motion is saying the force points outward because the rider feels pushed outward. The real acceleration and net force point inward.",
+          "The rider may feel pushed outward, but the real net force and acceleration point inward.",
         practice: practiceQuestion(
           "A coaster is at the bottom of a dip. Which direction is inward for the circular-motion analysis?",
           [
@@ -2778,7 +2811,7 @@ const circularMotionLesson = createLesson(
     ),
     createStep("equations", "Equations", "Key Equations", {
       body: [
-        "These are the two core circular-motion relationships. Once you know the speed and radius, the next section shows how a free-body diagram turns them into valley, hill, and loop equations.",
+        "These two equations connect speed and radius to inward acceleration and net force.",
       ],
       equations: [
         equation(
@@ -2844,7 +2877,7 @@ const circularMotionLesson = createLesson(
       "How the Valley, Hill, and Loop Equations Are Built",
       {
         body: [
-          "Start every derivation by choosing the inward direction first. Then draw only the real forces on the dot, add them along the inward axis, and set that net force equal to Fc = m(v²/r).",
+          "Choose inward first. Then add the real forces along that inward axis and set the result equal to Fc = m(v²/r).",
           "The sign changes from one location to another because inward changes from upward at the bottom of a dip to downward at the top of a hill or loop.",
         ],
         derivations: [
@@ -2907,9 +2940,9 @@ const circularMotionLesson = createLesson(
       "How Roller Coasters Create G-Force",
       {
         body: [
-          "On a roller coaster, g-force is a way to compare what the rider feels to ordinary gravity. The most useful rider version comes from the normal force: how hard the seat or restraint pushes on you.",
-          "At rest on flat ground, N = mg, so the ratio is 1 g. If the seat pushes less than mg, the rider feels lighter than normal. If it pushes more than mg, the rider feels heavier than normal.",
-          "This section stays with that basic rider idea first. It does not yet use the bottom-of-loop case; it only explains how to read g-force from the seat force compared with weight.",
+          "G-force compares what the rider feels to ordinary gravity.",
+          "For riders, use the normal force: if N = mg, the rider feels 1 g.",
+          "Less than mg feels light; more than mg feels heavy.",
         ],
         equations: [
           equation(
@@ -2956,7 +2989,7 @@ const circularMotionLesson = createLesson(
             },
           ],
           paragraphs: [
-            "Near the top of a crest, the normal force can drop below the rider's usual weight. That makes the felt g-force less than 1 g, which is why riders often describe the moment as light or floaty.",
+            "Near a crest, normal force can drop below the rider's weight, so the rider feels less than 1 g.",
             "At the bottom of a tight valley or dip, the opposite can happen. The steps below show how the normal-force ratio turns into the felt g-force.",
           ],
           calculationSteps: [
@@ -2996,7 +3029,7 @@ const circularMotionLesson = createLesson(
             },
           ],
           afterParagraphs: [
-            "This is why the same coaster can feel floaty over a crest and extremely heavy at the bottom of a valley. The rider's mass did not change; the normal force changed.",
+            "The rider's mass did not change. The normal force changed.",
           ],
         },
         practice: practiceQuestion(
@@ -3019,9 +3052,9 @@ const circularMotionLesson = createLesson(
       "Why Riders Feel Heavy in Valleys and Light on Crests",
       {
         body: [
-          "At the bottom of a valley, the track must bend the rider's motion upward. Gravity still points downward, so the seat must push upward with enough force not only to support the rider's weight but also to provide the extra upward net force needed for the turn. That is why the normal force is large there.",
-          "At the top of a hill, gravity already points toward the center of curvature, so the seat does not need to push as hard. The normal force becomes smaller, and riders feel light. If the normal force falls all the way to zero, the rider experiences weightlessness relative to the seat.",
-          "Loops use the same logic. At the top of the loop, gravity helps provide the inward force. That is why the coaster can keep riders in contact with the track as long as the speed is high enough and the loop is designed with a safe radius profile.",
+          "At the bottom of a valley, inward is upward, so the seat must push harder than usual.",
+          "At the top of a hill, gravity already points inward, so the seat can push less and riders feel light.",
+          "Loops use the same logic: at the top, gravity helps provide the inward force.",
         ],
         bullets: [
           "Real loops are not perfect circles because changing radius helps control g-forces.",
@@ -3036,7 +3069,7 @@ const circularMotionLesson = createLesson(
       "How Circular-Motion Problems Go Wrong",
       {
         body: [
-          "Circular-motion equations are short enough that students can get an answer quickly even when the setup is wrong. That makes conceptual discipline especially important here.",
+          "Circular-motion math is short, so setup mistakes can hide easily.",
         ],
         bullets: [
           "Thinking centripetal force points outward.",
@@ -3209,7 +3242,7 @@ const circularMotionLesson = createLesson(
       "Connection to the Next Lesson",
       {
         body: [
-          "Circular motion explains curved-track forces, but it still assumes we can talk about the coaster's energy budget clearly. Real coasters do not keep all of their mechanical energy.",
+          "Circular motion explains curved-track forces, but real coasters still lose mechanical energy.",
           "The next lesson studies work, friction, and power so we can explain where energy goes and how launches, lifts, and brakes transfer it.",
         ],
       },
@@ -3220,12 +3253,12 @@ const circularMotionLesson = createLesson(
 const workLesson = createLesson(
   "Lesson 5: Work, Friction, and Power",
   "Where Coaster Energy Goes",
-  "Students learn how work transfers energy, why friction and air resistance reduce mechanical energy, and how power describes the rate at which a coaster system adds or removes energy.",
+  "Students learn how work transfers energy, why losses reduce mechanical energy, and how power measures transfer rate.",
   [
     createStep("goal", "Big Idea", "Real Coasters Need Energy Transfers", {
       body: [
-        "If energy is so powerful for analyzing coasters, why does a train not simply keep returning to the same height forever? The answer is that mechanical energy is not isolated from the rest of the world. Forces can add energy, remove energy, and convert it into other forms.",
-        "Work, friction, and power give us the language for those transfers. They explain how a lift hill adds energy, why later hills are lower, and how a braking section can stop a fast-moving train safely instead of violently.",
+        "Real coasters do not keep all their mechanical energy. Forces can add it, remove it, or convert it.",
+        "Work, friction, and power explain lifts, launches, losses, and braking.",
       ],
       bullets: [
         "Work measures energy transfer by a force acting through a displacement.",
@@ -3240,9 +3273,9 @@ const workLesson = createLesson(
       "Positive Work, Negative Work, and Power",
       {
         body: [
-          "Work is defined by both force and displacement. A force can do positive work, negative work, or zero work depending on how it points relative to the motion. That is why gravity can add kinetic energy on a drop but remove it on an uphill segment.",
-          "The work-energy theorem says net work changes kinetic energy. A related idea is that nonconservative work changes mechanical energy. Friction and air resistance are the central nonconservative forces in coaster analysis because they convert organized mechanical energy into thermal energy, sound, and vibration.",
-          "Power is the rate of doing work. A chain lift may add a large amount of energy gradually, while a launch system may add a similar amount of energy in just a few seconds. The faster process requires more power.",
+          "Work depends on force, displacement, and the angle between them.",
+          "Net work changes kinetic energy. Friction and drag reduce mechanical energy by converting it to heat, sound, and vibration.",
+          "Power is how quickly energy is transferred.",
         ],
         bullets: [
           "Positive work adds mechanical energy to the coaster.",
@@ -3414,9 +3447,9 @@ const workLesson = createLesson(
       "Launches, Lifts, Losses, and Brakes",
       {
         body: [
-          "A chain lift does positive work on the train by pulling it upward and increasing its gravitational potential energy. A launch system does positive work more directly by increasing the train's kinetic energy over a short distance and time.",
-          "During the ride, friction at the wheels and bearings plus air resistance do negative work on the coaster's mechanical energy. That is why a real train gradually loses some of its ability to climb back to its original height.",
-          "At the end of the ride, brakes deliberately remove energy. A good braking zone is not just strong. It is controlled. Engineers want enough negative work to stop the train while keeping the force change tolerable for riders and hardware.",
+          "A lift adds potential energy. A launch adds kinetic energy.",
+          "Friction, bearings, and air resistance do negative work, so the train loses some climb-back ability.",
+          "Brakes remove kinetic energy in a controlled way so stopping feels safe.",
         ],
         realWorldExample: {
           eyebrow: "Real-World Example",
@@ -3444,7 +3477,7 @@ const workLesson = createLesson(
           ],
           paragraphs: [
             "Maverick uses a second LSM launch in a tunnel. Cedar Point describes this launch as sending riders through a 400 ft tunnel and reaching 70 mph in 3 s.",
-            "The launch adds kinetic energy very quickly. To keep the work clear, convert the speed, find the kinetic energy added, and then divide by time to estimate power.",
+            "Convert the speed, find the kinetic energy added, then divide by time to estimate power.",
           ],
           calculationSteps: [
             {
@@ -3505,8 +3538,8 @@ const workLesson = createLesson(
             },
           ],
           afterParagraphs: [
-            "After the launch, kinetic energy K and gravitational potential energy Ug trade back and forth as the train rises and drops. Friction and air resistance do negative nonconservative work, so W_nc = ΔE_mech is negative over the ride.",
-            "At the end, the brakes do negative work to remove the remaining kinetic energy safely.",
+            "After the launch, K and Ug trade as the train rises and drops. Friction and drag make W_nc negative.",
+            "At the end, brakes do negative work to remove the remaining kinetic energy.",
           ],
         },
         bullets: [
@@ -3522,7 +3555,7 @@ const workLesson = createLesson(
       "Common Misreadings of Work and Power",
       {
         body: [
-          "Students often mix up the size of a force with the amount of work, or the amount of energy with the rate at which it is transferred. This lesson requires keeping those ideas separate.",
+          "Keep force, work, energy, and power separate. They are related, but not the same.",
         ],
         bullets: [
           "Thinking friction destroys energy instead of converting it.",
@@ -3695,7 +3728,7 @@ const workLesson = createLesson(
       "Connection to the Next Lesson",
       {
         body: [
-          "Work and power describe energy transfer over distance and time, but some coaster events are best described as very short interactions instead of long motion segments.",
+          "Work and power track energy transfer. Momentum and impulse focus on short interactions.",
           "The next lesson studies momentum and impulse, which are especially useful for launches, braking, and sudden changes over short time intervals.",
         ],
       },
@@ -3710,8 +3743,8 @@ const momentumLesson = createLesson(
   [
     createStep("goal", "Big Idea", "Short Time Intervals Need a Different Lens", {
       body: [
-        "Energy is powerful for analyzing large sections of a coaster, but some ride events are best understood through the change in momentum over a short time. Launches, emergency stops, and braking zones are the clearest examples.",
-        "Momentum and impulse give us a way to connect force, time, and motion change directly. They are especially valuable in safety reasoning because they explain why a longer stopping time can dramatically reduce the average force on riders.",
+        "Some coaster events happen over short times: launches, emergency stops, and braking zones.",
+        "Momentum and impulse connect force, time, and motion change. Longer stopping time means smaller average force.",
       ],
       bullets: [
         "Momentum combines mass and velocity into one motion quantity.",
@@ -3726,9 +3759,9 @@ const momentumLesson = createLesson(
       "Momentum, Impulse, and Safety",
       {
         body: [
-          "Momentum is defined as mass times velocity, so it is a vector. That means direction matters. A heavy train moving slowly can have as much momentum as a lighter train moving quickly, and a braking problem must account for the sign of the velocity change rather than just its magnitude.",
-          "Impulse is the change in momentum. It can also be written as average force times time. This is the key link between motion change and rider safety: if the same change in momentum happens over a longer time, the average force can be smaller.",
-          "Conservation of momentum is useful only for a short interaction where outside impulse is small. Ordinary coaster motion along a track usually has large external forces from the track, launch system, or brakes, so launches and braking are usually impulse problems rather than pure conservation problems.",
+          "Momentum is mass times velocity, so direction matters.",
+          "Impulse is change in momentum. It also equals average force times time.",
+          "Momentum conservation works best for short interactions with little outside impulse.",
         ],
         bullets: [
           "Momentum is a vector, so direction matters.",
@@ -3754,7 +3787,7 @@ const momentumLesson = createLesson(
     ),
     createStep("equations", "Equations", "Key Equations", {
       body: [
-        "These equations make short-time problems manageable. They are especially effective when a launch or brake run produces a clear before-and-after change in velocity.",
+        "Use these when a launch or brake run gives a clear before-and-after velocity.",
       ],
       equations: [
         equation("Momentum", <>p = mv</>),
@@ -3854,9 +3887,9 @@ const momentumLesson = createLesson(
       "Why Launches and Brakes Belong Here",
       {
         body: [
-          "A launch system applies a force over a short interval to increase the train's momentum rapidly. The same idea works in reverse for brakes, which apply a force over time to reduce the train's momentum to zero before the station.",
-          "From a rider-safety perspective, the time interval is as important as the speed change. A harsh stop and a smooth stop can produce the same total momentum change, but the harsh stop does it in much less time and therefore requires a larger average force.",
-          "Momentum also helps us reason about coaster trains as connected systems. Internal forces between cars can be large even when the overall train is treated as one system from the outside.",
+          "Launches increase momentum quickly. Brakes reduce momentum before the station.",
+          "The same speed change over more time gives a smaller average force.",
+          "Momentum also helps with connected train cars and coupling-style problems.",
         ],
         realWorldExample: {
           eyebrow: "Real-World Example",
@@ -3871,8 +3904,8 @@ const momentumLesson = createLesson(
             { label: "Height", value: "155 ft" },
           ],
           paragraphs: [
-            "VelociCoaster is a strong momentum example because its launch system changes the train's velocity over a short time. A change in velocity means a change in momentum, so the launch delivers an impulse.",
-            "For this calculation, use the second launch speed change from about 40 mph to 70 mph. The exact train mass is not needed if we first find the impulse for 1 kg of train mass.",
+            "VelociCoaster's launch changes velocity over a short time, so it delivers impulse.",
+            "Use the second launch speed change from about 40 mph to 70 mph. First find impulse per 1 kg.",
           ],
           calculationSteps: [
             {
@@ -3905,7 +3938,7 @@ const momentumLesson = createLesson(
             },
           ],
           afterParagraphs: [
-            "This is why launches belong in the momentum chapter: they are not just energy transfers. They are short-time force events that rapidly change the train's momentum.",
+            "Launches are not just energy transfers; they are short-time force events.",
             "The same idea works in reverse during braking. A brake run gives the train an impulse opposite its motion, which reduces the train's momentum.",
           ],
         },
@@ -4110,8 +4143,8 @@ const rotationLesson = createLesson(
   [
     createStep("goal", "Big Idea", "Coasters Translate and Rotate at the Same Time", {
       body: [
-        "A coaster train does not move like a single featureless block. Its wheels spin, axles experience torques, and some of the ride's energy goes into rotational motion instead of pure translation.",
-        "This lesson expands the mechanics picture from 'where is the train going?' to 'how are the moving parts turning?' That shift matters for efficiency, wear, stability, and realistic engineering decisions.",
+        "A coaster train is not just one sliding block. Wheels spin, axles feel torque, and energy can go into rotation.",
+        "Rotation matters for efficiency, wear, stability, and real engineering decisions.",
       ],
       bullets: [
         "Connect linear motion to angular motion through the wheel radius.",
@@ -4126,9 +4159,9 @@ const rotationLesson = createLesson(
       "Angular Motion, Torque, and Rotational Inertia",
       {
         body: [
-          "Angular position, angular velocity, and angular acceleration describe rotational motion the way position, velocity, and acceleration describe translational motion. For a wheel rolling without slipping, those two descriptions are connected rather than separate.",
-          "Torque measures the rotational effect of a force. A force applied farther from an axle generally produces a larger turning effect than the same force applied near the center. This is why lever arm matters as much as force magnitude.",
-          "Rotational inertia is the resistance to changes in rotational motion. It depends on how the mass is distributed. Mass concentrated farther from the axis makes an object harder to spin up or slow down, which is why wheel design matters physically and not just aesthetically.",
+          "Angular position, velocity, and acceleration describe rotation.",
+          "Torque is the turning effect of a force. A longer lever arm usually means more torque.",
+          "Rotational inertia depends on mass distribution. Mass farther from the axis is harder to spin up or slow down.",
         ],
         bullets: [
           "Rolling without slipping links linear speed and angular speed.",
@@ -4137,7 +4170,7 @@ const rotationLesson = createLesson(
           "Rolling objects can have both translational and rotational kinetic energy.",
         ],
         callout:
-          "Students often treat rotational inertia like ordinary mass. It plays a similar role, but it depends on where the mass is relative to the axis, not just how much mass there is.",
+          "Rotational inertia depends on where the mass is, not just how much mass there is.",
         practice: practiceQuestion(
           "Two coaster wheels rotate at the same angular speed. Which wheel has the greater linear speed at its rim?",
           [
@@ -4154,7 +4187,7 @@ const rotationLesson = createLesson(
     ),
     createStep("equations", "Equations", "Key Equations", {
       body: [
-        "These equations connect wheel motion, turning effect, and energy storage in rotating parts. They matter most when the coaster's forward motion is being transferred into spinning motion at the wheels.",
+        "These equations connect wheel motion, torque, and rotational energy.",
       ],
       equations: [
         equation("Linear and angular speed", <>v = rω</>),
@@ -4305,33 +4338,33 @@ const rotationLesson = createLesson(
     }),
     createStep("torque-examples", "Torque Examples", "Understanding Torque More Deeply", {
       body: [
-        "Torque is the turning effect of a force. It gets larger when the force is stronger, when the force is applied farther from the axis, and when more of the force points perpendicular to the radius.",
-        "The equation is τ = rF sinθ. The angle θ is measured between the radius r and the force F. If the force is perpendicular to the radius, θ = 90° and sinθ = 1, so the equation simplifies to τ = rF. If the force is angled, use sinθ to keep only the perpendicular part of the force.",
+        "Torque is the turning effect of a force. It grows with force size, lever arm, and perpendicular angle.",
+        "Use τ = rF sinθ. If the force is perpendicular to r, sinθ = 1 and τ = rF. If the force is angled, sinθ keeps only the perpendicular part.",
       ],
       cards: [
         card(
           "Door or wrench example",
-          "A door opens more easily when you push near the handle instead of near the hinge. The same idea helps a wrench loosen a bolt: a longer handle gives a larger radius r, so the same force makes more torque.",
+          "A door opens more easily near the handle than near the hinge because the lever arm is longer.",
         ),
         card(
           "Coaster wheel example",
-          "Forces from the track and bearings can twist wheels and axles. A force acting near the outside of a wheel creates more torque than the same force acting close to the axle.",
+          "A force near a wheel's rim creates more torque than the same force near the axle.",
         ),
         card(
           "Angled force example",
-          "Pulling at an angle does not use all of the force for rotation. The part parallel to the radius mostly pushes inward or outward, while the perpendicular part creates the torque.",
+          "An angled pull creates torque only from the part perpendicular to the radius.",
         ),
       ],
       figures: [
         figure(
           "Torque on a Wheel",
           (isDark) => <TorqueWheelDiagram isDark={isDark} />,
-          "Torque uses τ = rF sinθ. Here the force is tangent to the wheel, so it is perpendicular to the radius: θ = 90°, sinθ = 1, and the equation becomes τ = rF.",
+          "The force is tangent to the wheel, so θ = 90°, sinθ = 1, and τ = rF.",
         ),
         figure(
           "Torque at an Angle",
           (isDark) => <AngledTorqueWheelDiagram isDark={isDark} />,
-          "Torque uses τ = rF sinθ. Use sinθ when the force is applied at an angle to the radius; θ is the angle between r and F, and sinθ keeps only the perpendicular part of the force.",
+          "Use sinθ when the force is angled from the radius; it keeps the perpendicular part of F.",
         ),
       ],
       practice: practiceSet(
@@ -4367,9 +4400,9 @@ const rotationLesson = createLesson(
       "Why Wheels and Axles Matter on Real Rides",
       {
         body: [
-          "As the train moves forward, each wheel rotates. That means part of the ride's energy is stored in wheel spin rather than only in the translation of the train's center of mass. In many classroom problems this effect is small enough to ignore, but in engineering it is real.",
-          "Torque matters because forces from the track and axle can twist components, and the wheel geometry determines how forward motion and rotation stay linked. Bearings, wheel materials, and alignment all matter because they influence both energy loss and mechanical stress.",
-          "This is also where students see that the simplified 'particle model' of earlier lessons has limits. The full train is a system of translating and rotating parts, and realistic design decisions have to respect both.",
+          "As the train moves, each wheel rotates, so some energy is stored in wheel spin.",
+          "Track and axle forces create torques. Wheel geometry links forward motion to rotation.",
+          "A real train is a system of translating and rotating parts, not just a single point mass.",
         ],
         realWorldExample: {
           eyebrow: "Real-World Example",
@@ -4396,9 +4429,9 @@ const rotationLesson = createLesson(
             },
           ],
           paragraphs: [
-            "Time Traveler is a launched spinning coaster, so each car can rotate while the train is also moving along the track. That makes it a strong example for this unit because the ride is not only translating forward; parts of the vehicle are rotating too.",
-            "A spinning car changes its spin only when a net torque acts on it. In a simplified model, a sideways spin-control force acting away from the car's center creates torque. The farther that force acts from the rotation axis, the larger the torque.",
-            "Rotational inertia matters too. If the car and riders have more mass spread farther from the center, the same torque produces a smaller angular acceleration. That is why rotation is about both the applied turning effect and how the mass is distributed.",
+            "Time Traveler's cars can spin while the train moves forward, so translation and rotation happen together.",
+            "A spinning car changes spin only when a net torque acts on it.",
+            "More mass spread away from the center means larger rotational inertia and smaller angular acceleration.",
           ],
           calculationSteps: [
             {
@@ -4449,8 +4482,8 @@ const rotationLesson = createLesson(
             },
           ],
           afterParagraphs: [
-            "The lesson is not that every spin on Time Traveler can be calculated from these exact numbers. The lesson is the relationship: torque starts or changes rotation, while rotational inertia resists that change.",
-            "This is why spinning coaster design has to control more than speed along the track. Engineers also care about how quickly the cars rotate, how smooth the changes feel, and how the rotating hardware handles repeated torques.",
+            "The key relationship is simple: torque changes rotation, while rotational inertia resists that change.",
+            "Spinning coaster design must control both track speed and rotation smoothness.",
           ],
         },
         bullets: [
@@ -4466,7 +4499,7 @@ const rotationLesson = createLesson(
       "What Students Mix Up in Rotation",
       {
         body: [
-          "Rotation introduces new symbols, but the deeper difficulty is conceptual. Students often know the formula and still miss what is actually harder to rotate or why a larger lever arm matters.",
+          "Rotation has new symbols, but the main ideas are lever arm, angle, and mass distribution.",
         ],
         bullets: [
           "Confusing torque with force.",
@@ -4639,7 +4672,7 @@ const rotationLesson = createLesson(
       "Connection to the Next Lesson",
       {
         body: [
-          "By this point the course has built motion, forces, energy, curved motion, losses, impulse, and rotation as separate tools. Real coaster engineering uses them together.",
+          "The course has built motion, forces, energy, curved motion, losses, impulse, and rotation as separate tools.",
           "The final lesson synthesizes those ideas into full-track design and safety reasoning.",
         ],
       },
@@ -4654,7 +4687,7 @@ const finalReviewLesson = createLesson(
   [
     createStep("kinematics-review", "Kinematics", "Kinematics Review", {
       body: [
-        "Kinematics describes motion before explaining what causes it. For coaster problems, focus on position, displacement, velocity, acceleration, graphs, and projectile-style airtime motion.",
+        "Kinematics describes motion: position, displacement, velocity, acceleration, graphs, and airtime motion.",
       ],
       bullets: [
         "Speed has magnitude only; velocity includes direction.",
@@ -4692,7 +4725,7 @@ const finalReviewLesson = createLesson(
     }),
     createStep("forces-review", "Forces", "Forces and Newton's Laws Review", {
       body: [
-        "Forces explain why coaster motion changes. A free-body diagram should show real forces on one chosen object before you split forces into components for calculation.",
+        "Forces explain why motion changes. Draw real forces first, then split components.",
       ],
       bullets: [
         "Newton's First Law explains inertia: objects resist changes in motion.",
@@ -4713,7 +4746,7 @@ const finalReviewLesson = createLesson(
     }),
     createStep("energy-review", "Energy", "Energy Review", {
       body: [
-        "Energy lets you predict speed from height without solving every force along the track. The big idea is conservation: energy can change form, and real coasters lose some mechanical energy to friction and drag.",
+        "Energy predicts speed from height. It changes form, while real rides lose some mechanical energy to friction and drag.",
       ],
       bullets: [
         "Gravitational potential energy increases with height.",
@@ -4744,7 +4777,7 @@ const finalReviewLesson = createLesson(
     }),
     createStep("circular-review", "Circular Motion", "Circular Motion Review", {
       body: [
-        "Curved motion is what explains loops, hills, dips, valleys, and turns. Always identify the inward direction first, then write the force equation toward the center of curvature.",
+        "Curved motion explains loops, hills, dips, and turns. Identify inward first.",
       ],
       bullets: [
         "Centripetal acceleration points inward, not necessarily downward.",
@@ -4765,7 +4798,7 @@ const finalReviewLesson = createLesson(
     }),
     createStep("work-review", "Work and Power", "Work, Friction, and Power Review", {
       body: [
-        "Work tracks energy transfer by forces over distance, while power tracks how quickly energy is transferred. Launches, lifts, friction, and brakes all fit into this unit.",
+        "Work tracks energy transfer over distance. Power tracks how fast that transfer happens.",
       ],
       bullets: [
         "Positive work adds kinetic energy when force points with motion.",
@@ -4817,7 +4850,7 @@ const finalReviewLesson = createLesson(
     }),
     createStep("rotation-review", "Rotation", "Rotation and Torque Review", {
       body: [
-        "Rotation extends the motion story to wheels, axles, and spinning coaster cars. It connects linear motion to angular motion and explains why torque and rotational inertia matter.",
+        "Rotation connects linear motion to wheels, axles, torque, and rotational inertia.",
       ],
       bullets: [
         "Angular velocity describes how quickly something rotates.",
@@ -4974,7 +5007,7 @@ const finalQuizLesson = createLesson(
   [
     createStep("quiz", "Final Quiz", "Full Course Review: 50 Questions", {
       body: [
-        "This final quiz mixes concepts and calculations from the full course: kinematics, projectile motion, Newton's laws, energy, circular motion, work, momentum, and rotation.",
+        "This final quiz mixes concepts and calculations from the full course.",
       ],
       quiz: [
         quizQuestion(
@@ -5917,119 +5950,123 @@ const LessonView = ({
           ? "22rem minmax(0,1fr)"
           : "5.25rem minmax(0,1fr)",
       };
-  const renderRealWorldExample = (example) => (
-    <>
-      <div className={realWorldDividerClass} />
-      <div className={`rounded-[2rem] border p-5 sm:p-6 ${subtlePanelClass}`}>
-        <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-          {example.eyebrow}
-        </p>
-        <h4 className={`mt-3 text-2xl font-semibold ${titleClass}`}>
-          {example.title}
-        </h4>
+  const renderRealWorldExample = (example) => {
+    const standalone = example.position === "standalone";
 
-        {example.goal ? (
-          <div className={`mt-4 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${subtlePanelClass}`}>
+    return (
+      <>
+        {!standalone ? <div className={realWorldDividerClass} /> : null}
+        <div className={standalone ? "mt-6" : "mt-8"}>
+          {!example.hideHeading ? (
+            <>
+              <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                {example.eyebrow}
+              </p>
+              <h4 className={`mt-3 text-2xl font-semibold ${titleClass}`}>
+                {example.title}
+              </h4>
+            </>
+          ) : null}
+
+          {example.goal ? (
             <FormattedPhysicsText
               as="p"
-              className={copyClass}
+              className={`mt-4 max-w-4xl text-base leading-7 ${copyClass}`}
               text={example.goal}
             />
-          </div>
-        ) : null}
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
-        <div className="lg:max-h-[34rem] lg:overflow-y-auto lg:pr-1">
-          {example.imageSrc ? (
-            <img
-              src={example.imageSrc}
-              alt={example.imageAlt}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              className={`block h-auto w-full rounded-[1.5rem] border ${
-                isDark ? "border-white/10" : "border-slate-300/70"
-              }`}
-            />
           ) : null}
 
-          {example.stats?.length ? (
-            <div className={`${example.imageSrc ? "mt-3" : ""} rounded-[1.5rem] border p-3 text-sm leading-5 ${subtlePanelClass}`}>
-              {example.stats.map((item) => (
-                <p key={item.label} className={copyClass}>
-                  <span className={`font-semibold ${titleClass}`}>
-                    {item.label}:
-                  </span>{" "}
-                  {item.value}
-                </p>
-              ))}
-            </div>
-          ) : null}
-        </div>
+          <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
+            <div>
+              {example.imageSrc ? (
+                <img
+                  src={example.imageSrc}
+                  alt={example.imageAlt}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                  className={`block h-auto w-full rounded-[1.25rem] border ${
+                    isDark ? "border-white/10" : "border-slate-300/70"
+                  }`}
+                />
+              ) : null}
 
-        <div className="min-h-0">
-          <div className={`space-y-4 text-base leading-7 ${copyClass} lg:max-h-[34rem] lg:overflow-y-auto lg:pr-3`}>
-            {example.rightFigure ? (
-              <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
-                <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-                  {example.rightFigure.title}
-                </p>
-                {example.rightFigure.description ? (
-                  <FormattedPhysicsText
-                    as="p"
-                    className={`mt-2 text-sm leading-6 ${copyClass}`}
-                    text={example.rightFigure.description}
-                  />
-                ) : null}
-                <div className="mt-4">{example.rightFigure.render(isDark)}</div>
-              </div>
-            ) : null}
-
-            {example.paragraphs?.length ? (
-              <div className={example.rightFigure ? "space-y-4" : "space-y-4"}>
-                {example.paragraphs.map((paragraph) => (
-                  <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
-                ))}
-              </div>
-            ) : null}
-
-            {example.calculationSteps?.length ? (
-              <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass}`}>
-                <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-                  Calculation Steps
-                </p>
-                <div className="mt-4 grid gap-3">
-                  {example.calculationSteps.map((item) => (
-                    <div key={item.label} className={`rounded-2xl border p-4 ${subtlePanelClass}`}>
-                      <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
-                      {renderRealWorldEquation(item.equation)}
-                      {item.note ? (
-                        <FormattedPhysicsText
-                          as="p"
-                          className={`mt-2 text-sm leading-6 ${copyClass}`}
-                          text={item.note}
-                        />
-                      ) : null}
-                    </div>
+              {example.stats?.length ? (
+                <div className={`${example.imageSrc ? "mt-4" : ""} space-y-1 text-sm leading-5`}>
+                  {example.stats.map((item) => (
+                    <p key={item.label} className={copyClass}>
+                      <span className={`font-semibold ${titleClass}`}>
+                        {item.label}:
+                      </span>{" "}
+                      {item.value}
+                    </p>
                   ))}
                 </div>
-              </div>
-            ) : null}
+              ) : null}
+            </div>
 
-            {example.afterParagraphs?.length ? (
-              <div className="space-y-4">
-                {example.afterParagraphs.map((paragraph) => (
-                  <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
-                ))}
-              </div>
-            ) : null}
+            <div className={`space-y-5 text-base leading-7 ${copyClass}`}>
+              {example.rightFigure ? (
+                <div>
+                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                    {example.rightFigure.title}
+                  </p>
+                  {example.rightFigure.description ? (
+                    <FormattedPhysicsText
+                      as="p"
+                      className={`mt-2 text-sm leading-6 ${copyClass}`}
+                      text={example.rightFigure.description}
+                    />
+                  ) : null}
+                  <div className="mt-4">{example.rightFigure.render(isDark)}</div>
+                </div>
+              ) : null}
+
+              {example.paragraphs?.length ? (
+                <div className="space-y-3">
+                  {example.paragraphs.map((paragraph) => (
+                    <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+                  ))}
+                </div>
+              ) : null}
+
+              {example.calculationSteps?.length ? (
+                <div className={`border-t pt-5 ${isDark ? "border-white/10" : "border-slate-300/70"}`}>
+                  <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                    Calculation Steps
+                  </p>
+                  <div className="mt-4 grid gap-4">
+                    {example.calculationSteps.map((item) => (
+                      <div key={item.label} className={`border-l-2 pl-4 ${isDark ? "border-cyan-300/35" : "border-sky-300"}`}>
+                        <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
+                        {renderRealWorldEquation(item.equation)}
+                        {item.note ? (
+                          <FormattedPhysicsText
+                            as="p"
+                            className={`mt-2 text-sm leading-6 ${copyClass}`}
+                            text={item.note}
+                          />
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {example.afterParagraphs?.length ? (
+                <div className="space-y-3">
+                  {example.afterParagraphs.map((paragraph) => (
+                    <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
-      </div>
-      </div>
-      <div className={realWorldDividerClass} />
-    </>
-  );
+        {!standalone ? <div className={realWorldDividerClass} /> : null}
+      </>
+    );
+  };
 
   return (
     <section className="pb-8 pt-0 sm:pb-10 sm:pt-0">
@@ -6190,7 +6227,7 @@ const LessonView = ({
           </h3>
 
           {step.body ? (
-            <div className={`mt-6 space-y-4 ${step.compact ? "text-base leading-7" : "text-lg leading-8"} ${copyClass}`}>
+            <div className={`mt-6 max-w-5xl space-y-3 text-base leading-7 ${copyClass}`}>
               {step.body.map((paragraph) => (
                 <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
               ))}
@@ -6245,13 +6282,13 @@ const LessonView = ({
           ) : null}
 
           {step.callout ? (
-            <div className={`mt-6 rounded-3xl border p-5 ${subtlePanelClass}`}>
+            <div className={`mt-6 border-l-2 pl-4 ${isDark ? "border-cyan-300/35" : "border-sky-300"}`}>
               <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
                 Key Idea
               </p>
               <FormattedPhysicsText
                 as="p"
-                className={`mt-3 text-base leading-7 ${copyClass}`}
+                className={`mt-2 text-base leading-7 ${copyClass}`}
                 text={step.callout}
               />
             </div>
@@ -6328,14 +6365,14 @@ const LessonView = ({
           ) : null}
 
           {step.cards ? (
-            <div className={`mt-6 grid gap-4 ${step.cardStyle === "plain" ? "gap-6" : ""}`}>
+            <div className={`mt-6 grid gap-4 ${step.cardStyle === "boxed" ? "" : "gap-6"}`}>
               {step.cards.map((stepCard) => (
                 <div
                   key={stepCard.title}
                   className={
-                    step.cardStyle === "plain"
-                      ? ""
-                      : `rounded-3xl border p-5 ${subtlePanelClass}`
+                    step.cardStyle === "boxed"
+                      ? `rounded-3xl border p-5 ${subtlePanelClass}`
+                      : ""
                   }
                 >
                   <h4 className={`text-lg font-semibold ${titleClass}`}>{stepCard.title}</h4>
@@ -6378,7 +6415,8 @@ const LessonView = ({
             : null}
 
           {step.practice ? (
-            <div className={`mt-6 rounded-3xl border p-6 ${subtlePanelClass}`}>
+            <div className={`mt-8 border-t pt-8 ${isDark ? "border-white/10" : "border-slate-300/70"}`}>
+            <div className={`rounded-3xl border p-6 ${subtlePanelClass}`}>
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
@@ -6485,6 +6523,7 @@ const LessonView = ({
                       : "Answer Checked"}
                 </button>
               </div>
+            </div>
             </div>
           ) : null}
 
