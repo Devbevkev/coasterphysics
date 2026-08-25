@@ -1740,6 +1740,38 @@ const kinematicsLesson = createLesson(
             "That low support force creates airtime, a short light or weightless feeling.",
             "The train is still controlled by the track and restraints, so this is a comparison, not true free flight.",
           ],
+          goal: "Estimate how far forward the train moves during 0.75 s of airtime at about 70 mph, then estimate how far gravity would pull it downward in that same time.",
+          calculationSteps: [
+            {
+              label: "1. Convert the speed",
+              equation: "70 mph × 0.447 ≈ 31.3 m/s",
+              note: "Projectile-motion equations use meters and seconds, so start by converting the speed.",
+            },
+            {
+              label: "2. Find the forward motion",
+              equation: (
+                <>
+                  x = v<sub>x</sub>t = (31.3)(0.75) ≈ 23.5 m
+                </>
+              ),
+              note: "The train keeps moving forward while gravity acts downward.",
+            },
+            {
+              label: "3. Estimate the downward change",
+              equation: (
+                <>
+                  Δy = <Fraction numerator="1" denominator="2" />
+                  gt² = <Fraction numerator="1" denominator="2" />
+                  (9.8)(0.75²) ≈ 2.8 m downward
+                </>
+              ),
+              note: "This is not saying the rider leaves the coaster. It shows how much downward acceleration matters during a short airtime moment.",
+            },
+          ],
+          afterParagraphs: [
+            "Airtime happens when the track curves downward enough that the seat does not need to push up as hard as usual.",
+            "The forward distance is much larger than the downward change, which is why an airtime hill can feel smooth while still making riders feel light.",
+          ],
         },
         practice: practiceSet(
           practiceQuestion(
@@ -2124,6 +2156,10 @@ const forcesLesson = createLesson(
               ),
               note: "Using N = mg on level track, that gives about 62,700 N empty and 74,500 N loaded for the full-train normal force.",
             },
+          ],
+          afterParagraphs: [
+            "The loaded car needs a larger normal force because the track has to support more weight.",
+            "This is a level-track estimate. On hills, valleys, and curves, acceleration changes the normal force.",
           ],
         },
         practice: practiceQuestion(
@@ -5979,7 +6015,46 @@ const normalizeProgress = (value) => ({
   quizScores: value?.quizScores ?? {},
 });
 
-const getProgressSteps = (lesson) => lesson.steps;
+const getLessonOutlineItems = (lesson) =>
+  lesson.steps.reduce((items, item, index) => {
+    const outlineId = item.tocId ?? item.id;
+    const existingItem = items.find((outlineItem) => outlineItem.id === outlineId);
+
+    if (existingItem) {
+      existingItem.steps.push({ step: item, index });
+      return items;
+    }
+
+    items.push({
+      id: outlineId,
+      label: item.tocLabel ?? item.label,
+      title: item.tocTitle ?? item.title,
+      startIndex: index,
+      steps: [{ step: item, index }],
+    });
+
+    return items;
+  }, []);
+
+const isLessonOutlineItemComplete = (
+  item,
+  completedSteps = {},
+  quizScore = null,
+) => {
+  if (item.steps.some(({ step }) => step.id === "quiz")) {
+    return Boolean(quizScore);
+  }
+
+  const checkSteps = item.steps.filter(({ step }) => step.practice);
+
+  if (checkSteps.length > 0) {
+    return checkSteps.every(({ step }) => Boolean(completedSteps[step.id]));
+  }
+
+  return Boolean(completedSteps[item.id]);
+};
+
+const getProgressSteps = (lesson) => getLessonOutlineItems(lesson);
 
 const getLessonProgressSummary = (lesson, completedSteps = {}, quizScore = null) => {
   const progressSteps = getProgressSteps(lesson);
@@ -5992,8 +6067,8 @@ const getLessonProgressSummary = (lesson, completedSteps = {}, quizScore = null)
     };
   }
 
-  const completedCount = progressSteps.filter((step) =>
-    step.id === "quiz" ? Boolean(quizScore) : Boolean(completedSteps[step.id]),
+  const completedCount = progressSteps.filter((item) =>
+    isLessonOutlineItemComplete(item, completedSteps, quizScore),
   ).length;
 
   return {
@@ -6040,25 +6115,7 @@ const LessonView = ({
 }) => {
   const step = lesson.steps[stepIndex];
   const lessonHeading = lesson.chapterName ?? getChapterName(lesson.title);
-  const lessonOutlineItems = lesson.steps.reduce((items, item, index) => {
-    const outlineId = item.tocId ?? item.id;
-    const existingItem = items.find((outlineItem) => outlineItem.id === outlineId);
-
-    if (existingItem) {
-      existingItem.steps.push({ step: item, index });
-      return items;
-    }
-
-    items.push({
-      id: outlineId,
-      label: item.tocLabel ?? item.label,
-      title: item.tocTitle ?? item.title,
-      startIndex: index,
-      steps: [{ step: item, index }],
-    });
-
-    return items;
-  }, []);
+  const lessonOutlineItems = getLessonOutlineItems(lesson);
   const currentOutlineId = step.tocId ?? step.id;
   const currentOutlineIndex = lessonOutlineItems.findIndex(
     (item) => item.id === currentOutlineId,
@@ -6069,6 +6126,11 @@ const LessonView = ({
   const currentPageIndexInSection = currentOutlineSteps.findIndex(
     (item) => item.index === stepIndex,
   );
+  const currentOutlineHasCheck = currentOutlineSteps.some(
+    ({ step: outlineStep }) => Boolean(outlineStep.practice),
+  );
+  const isLastPageInCurrentOutline =
+    currentPageIndexInSection === currentOutlineSteps.length - 1;
   const hasNextPageInSection =
     currentPageIndexInSection >= 0 &&
     currentPageIndexInSection < currentOutlineSteps.length - 1;
@@ -6091,6 +6153,7 @@ const LessonView = ({
   const [quizChecked, setQuizChecked] = useState(false);
   const [quizResults, setQuizResults] = useState({});
   const [quizSummary, setQuizSummary] = useState(null);
+  const [revealedRealWorldExamples, setRevealedRealWorldExamples] = useState({});
   const hideLessonSidebar = lessonId === "final-quiz";
   const isFinalExam = lessonId === "final-quiz";
   const quizNoun = isFinalExam ? "Final Exam" : "Quiz";
@@ -6121,8 +6184,14 @@ const LessonView = ({
   const quizResultScreenVisible = Boolean(quizSummary);
   const stepAlreadyComplete = Boolean(completedSteps?.[step.id]);
   const quizAlreadyComplete = Boolean(quizScore);
-  const canMarkCurrentStepComplete =
-    !isQuizStep && practiceQuestions.length === 0;
+  const currentOutlineComplete = currentOutlineItem
+    ? isLessonOutlineItemComplete(currentOutlineItem, completedSteps, quizScore)
+    : false;
+  const canMarkCurrentUnderstanding =
+    !isQuizStep &&
+    Boolean(currentOutlineItem) &&
+    !currentOutlineHasCheck &&
+    isLastPageInCurrentOutline;
   const currentStepNeedsPractice =
     practiceQuestions.length > 0 && !(practiceComplete || stepAlreadyComplete);
   const currentStepNeedsQuiz =
@@ -6158,12 +6227,8 @@ const LessonView = ({
   const completedCollapsedStepClass = isDark
     ? "border-emerald-300/40 bg-emerald-300/15 text-emerald-100 hover:bg-emerald-300/20"
     : "border-emerald-300 bg-emerald-100 text-emerald-800 hover:bg-emerald-50";
-  const isLessonStepComplete = (item) =>
-    item.id === "quiz" ? Boolean(quizScore) : Boolean(completedSteps?.[item.id]);
   const isOutlineItemComplete = (item) =>
-    item.steps.length > 0 && item.steps.every(({ step: outlineStep }) =>
-      isLessonStepComplete(outlineStep),
-    );
+    isLessonOutlineItemComplete(item, completedSteps, quizScore);
 
   useEffect(() => {
     setPracticeIndex(0);
@@ -6295,6 +6360,10 @@ const LessonView = ({
       };
   const renderRealWorldExample = (example) => {
     const standalone = example.position === "standalone";
+    const revealKey = `${lessonId}:${step.id}:${example.title ?? "real-world"}`;
+    const shouldRevealWorkedSolution = Boolean(example.calculationSteps?.length);
+    const workedSolutionRevealed =
+      !shouldRevealWorkedSolution || Boolean(revealedRealWorldExamples[revealKey]);
 
     return (
       <>
@@ -6379,30 +6448,72 @@ const LessonView = ({
                   </div>
                 ) : null}
 
-                {example.calculationSteps?.length ? (
-                  <div className={`rounded-[1.5rem] border p-4 ${subtlePanelClass} lg:max-h-[34rem] lg:overflow-y-auto lg:pr-3`}>
-                    <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
-                      Calculation Steps
-                    </p>
-                    <div className="mt-4 grid gap-3">
-                      {example.calculationSteps.map((item) => (
-                        <div key={item.label} className={`rounded-2xl border p-4 ${subtlePanelClass}`}>
-                          <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
-                          {renderRealWorldEquation(item.equation)}
-                          {item.note ? (
-                            <FormattedPhysicsText
-                              as="p"
-                              className={`mt-2 text-sm leading-6 ${copyClass}`}
-                              text={item.note}
-                            />
-                          ) : null}
+                {shouldRevealWorkedSolution ? (
+                  <div className="relative overflow-hidden rounded-[1.5rem]">
+                    <div
+                      className={`grid gap-4 transition duration-300 ${
+                        workedSolutionRevealed
+                          ? ""
+                          : "pointer-events-none select-none blur-sm"
+                      }`}
+                    >
+                      <div className={`max-h-[34rem] overflow-y-auto rounded-[1.5rem] border p-4 pr-3 ${subtlePanelClass}`}>
+                        <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                          Calculation Steps
+                        </p>
+                        <div className="mt-4 grid gap-3">
+                          {example.calculationSteps.map((item) => (
+                            <div key={item.label} className={`rounded-2xl border p-4 ${subtlePanelClass}`}>
+                              <p className={`text-sm font-semibold ${titleClass}`}>{item.label}</p>
+                              {renderRealWorldEquation(item.equation)}
+                              {item.note ? (
+                                <FormattedPhysicsText
+                                  as="p"
+                                  className={`mt-2 text-sm leading-6 ${copyClass}`}
+                                  text={item.note}
+                                />
+                              ) : null}
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
+                      </div>
 
-                {example.afterParagraphs?.length ? (
+                      {example.afterParagraphs?.length ? (
+                        <div className="space-y-4">
+                          {example.afterParagraphs.map((paragraph) => (
+                            <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {!workedSolutionRevealed ? (
+                      <div
+                        className={`absolute inset-0 z-10 flex items-center justify-center p-4 text-center backdrop-blur-[1px] ${
+                          isDark ? "bg-slate-950/50" : "bg-white/60"
+                        }`}
+                      >
+                        <div className={`rounded-3xl border px-6 py-5 shadow-xl ${subtlePanelClass}`}>
+                          <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${accentLabelClass}`}>
+                            Try it first.
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setRevealedRealWorldExamples((current) => ({
+                                ...current,
+                                [revealKey]: true,
+                              }))
+                            }
+                            className="mt-4 inline-flex items-center justify-center rounded-full bg-cyan-300 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
+                          >
+                            I'm done
+                          </button>
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : example.afterParagraphs?.length ? (
                   <div className="space-y-4">
                     {example.afterParagraphs.map((paragraph) => (
                       <FormattedPhysicsText key={paragraph} as="p" text={paragraph} />
@@ -7104,20 +7215,20 @@ const LessonView = ({
             >
               {nextButtonLabel}
             </button>
-            {canMarkCurrentStepComplete ? (
+            {canMarkCurrentUnderstanding ? (
               <button
                 type="button"
-                onClick={() => onStepComplete(lessonId, step.id)}
-                disabled={stepAlreadyComplete}
+                onClick={() => onStepComplete(lessonId, currentOutlineItem.id)}
+                disabled={currentOutlineComplete}
                 className={`ml-auto inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
-                  stepAlreadyComplete
+                  currentOutlineComplete
                     ? "cursor-default opacity-70"
                     : isDark
                       ? "border-emerald-300/30 bg-emerald-300/10 text-emerald-50 hover:bg-emerald-300/15"
                       : "border-emerald-200 bg-emerald-50 text-emerald-900 hover:bg-emerald-100"
                 }`}
               >
-                {stepAlreadyComplete ? "Completed" : "Mark Complete"}
+                {currentOutlineComplete ? "Understood" : "Mark Understanding"}
               </button>
             ) : null}
           </div>
