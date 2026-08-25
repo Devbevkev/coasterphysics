@@ -1001,6 +1001,9 @@ const createRealWorldExampleStep = (sourceStep) => {
     example.title ?? "Real-World Example",
     {
       compact: true,
+      tocId: `${sourceStep.id}-real-world`,
+      tocLabel: "Real-World Example",
+      tocTitle: example.title ?? "Real-World Example",
       standaloneRealWorldExample: true,
       realWorldExample: {
         ...example,
@@ -1037,6 +1040,9 @@ const createCheckStep = (sourceStep) => {
     `${sourceStep.title}: Check Your Understanding`,
     {
       compact: true,
+      tocId: sourceStep.id,
+      tocLabel: sourceStep.label,
+      tocTitle: sourceStep.title,
       practice: sourceStep.practice,
     },
   );
@@ -1045,8 +1051,18 @@ const createCheckStep = (sourceStep) => {
 const createStepPart = (sourceStep, suffix, label, title, config) =>
   createStep(`${sourceStep.id}-${suffix}`, label, title, {
     compact: sourceStep.compact,
+    tocId: sourceStep.id,
+    tocLabel: sourceStep.label,
+    tocTitle: sourceStep.title,
     ...config,
   });
+
+const withTocMetadata = (step, sourceStep = step) => ({
+  ...step,
+  tocId: step.tocId ?? sourceStep.id,
+  tocLabel: step.tocLabel ?? sourceStep.label,
+  tocTitle: step.tocTitle ?? sourceStep.title,
+});
 
 const splitLessonStep = (step) => {
   const pages = [];
@@ -1114,7 +1130,7 @@ const splitLessonStep = (step) => {
     }
 
     if (hasStepDisplayContent(workingStep)) {
-      pages.push(workingStep);
+      pages.push(withTocMetadata(workingStep, step));
     }
 
     if (figuresPage) {
@@ -1138,7 +1154,7 @@ const splitLessonStep = (step) => {
     pages.push(createCheckStep(step));
   }
 
-  return pages.filter(Boolean);
+  return pages.filter(Boolean).map((page) => withTocMetadata(page));
 };
 
 const createLesson = (title, subtitle, goal, steps) => {
@@ -1160,6 +1176,8 @@ const createLesson = (title, subtitle, goal, steps) => {
               ...step,
               label: "Quiz",
               title: `${chapterName}: Quiz`,
+              tocLabel: "Quiz",
+              tocTitle: `${chapterName}: Quiz`,
             }
           : step,
       ),
@@ -6022,6 +6040,43 @@ const LessonView = ({
 }) => {
   const step = lesson.steps[stepIndex];
   const lessonHeading = lesson.chapterName ?? getChapterName(lesson.title);
+  const lessonOutlineItems = lesson.steps.reduce((items, item, index) => {
+    const outlineId = item.tocId ?? item.id;
+    const existingItem = items.find((outlineItem) => outlineItem.id === outlineId);
+
+    if (existingItem) {
+      existingItem.steps.push({ step: item, index });
+      return items;
+    }
+
+    items.push({
+      id: outlineId,
+      label: item.tocLabel ?? item.label,
+      title: item.tocTitle ?? item.title,
+      startIndex: index,
+      steps: [{ step: item, index }],
+    });
+
+    return items;
+  }, []);
+  const currentOutlineId = step.tocId ?? step.id;
+  const currentOutlineIndex = lessonOutlineItems.findIndex(
+    (item) => item.id === currentOutlineId,
+  );
+  const currentOutlineItem =
+    lessonOutlineItems[currentOutlineIndex] ?? lessonOutlineItems[0] ?? null;
+  const currentOutlineSteps = currentOutlineItem?.steps ?? [{ step, index: stepIndex }];
+  const currentPageIndexInSection = currentOutlineSteps.findIndex(
+    (item) => item.index === stepIndex,
+  );
+  const hasNextPageInSection =
+    currentPageIndexInSection >= 0 &&
+    currentPageIndexInSection < currentOutlineSteps.length - 1;
+  const hasNextOutlineSection =
+    currentOutlineIndex >= 0 && currentOutlineIndex < lessonOutlineItems.length - 1;
+  const nextOutlineSection = hasNextOutlineSection
+    ? lessonOutlineItems[currentOutlineIndex + 1]
+    : null;
   const isQuizStep = step.id === "quiz";
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === lesson.steps.length - 1;
@@ -6068,18 +6123,35 @@ const LessonView = ({
   const quizAlreadyComplete = Boolean(quizScore);
   const canMarkCurrentStepComplete =
     !isQuizStep && practiceQuestions.length === 0;
+  const currentStepNeedsPractice =
+    practiceQuestions.length > 0 && !(practiceComplete || stepAlreadyComplete);
+  const currentStepNeedsQuiz =
+    isQuizStep && !(quizResultScreenVisible || quizAlreadyComplete);
+  const hasNextDestination =
+    hasNextPageInSection ||
+    hasNextOutlineSection ||
+    isTerminalQuizStep ||
+    canContinueFromLastStep;
   const nextButtonDisabled = isTerminalQuizStep
-    ? !(quizResultScreenVisible || quizAlreadyComplete)
-    : (practiceQuestions.length > 0 && !(practiceComplete || stepAlreadyComplete)) ||
-      (step.id === "quiz" && !(quizResultScreenVisible || quizAlreadyComplete)) ||
-      (isLastStep && !canContinueFromLastStep);
-  const nextButtonLabel = isTerminalQuizStep
-    ? hasNextLesson
-      ? "Next Unit"
-      : "Finish Course"
-    : canContinueFromLastStep
-      ? "Final Exam"
-    : "Next";
+    ? currentStepNeedsQuiz
+    : currentStepNeedsPractice || currentStepNeedsQuiz || !hasNextDestination;
+  const nextButtonLabel = (() => {
+    if (hasNextPageInSection) return "Next Page";
+    if (hasNextOutlineSection) {
+      return nextOutlineSection?.id === "quiz" ? "Start Quiz" : "Next Section";
+    }
+    if (isTerminalQuizStep) return hasNextLesson ? "Next Unit" : "Finish Course";
+    if (canContinueFromLastStep) return "Final Exam";
+    return "Next";
+  })();
+  const sectionCounterText =
+    lessonOutlineItems.length > 0
+      ? `Section ${Math.max(currentOutlineIndex, 0) + 1} of ${lessonOutlineItems.length}${
+          currentOutlineSteps.length > 1
+            ? ` · Page ${Math.max(currentPageIndexInSection, 0) + 1} of ${currentOutlineSteps.length}`
+            : ""
+        }`
+      : `Step ${stepIndex + 1} of ${lesson.steps.length}`;
   const completedStepCircleClass = isDark
     ? "bg-emerald-300/20 text-emerald-100 ring-1 ring-emerald-300/35"
     : "bg-emerald-100 text-emerald-800 ring-1 ring-emerald-300";
@@ -6088,6 +6160,10 @@ const LessonView = ({
     : "border-emerald-300 bg-emerald-100 text-emerald-800 hover:bg-emerald-50";
   const isLessonStepComplete = (item) =>
     item.id === "quiz" ? Boolean(quizScore) : Boolean(completedSteps?.[item.id]);
+  const isOutlineItemComplete = (item) =>
+    item.steps.length > 0 && item.steps.every(({ step: outlineStep }) =>
+      isLessonStepComplete(outlineStep),
+    );
 
   useEffect(() => {
     setPracticeIndex(0);
@@ -6359,7 +6435,7 @@ const LessonView = ({
 
         <div className="flex flex-wrap items-center justify-end gap-3">
           <div className={`text-sm font-semibold ${mutedClass}`}>
-            Step {stepIndex + 1} of {lesson.steps.length}
+            {sectionCounterText}
           </div>
           <button
             type="button"
@@ -6412,15 +6488,15 @@ const LessonView = ({
             }`}
           >
             <div className="grid gap-3">
-              {lesson.steps.map((item, index) => {
-                const active = index === stepIndex;
-                const stepComplete = isLessonStepComplete(item);
+              {lessonOutlineItems.map((item, index) => {
+                const active = item.id === currentOutlineId;
+                const stepComplete = isOutlineItemComplete(item);
 
                 return (
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => setStepIndex(index)}
+                    onClick={() => setStepIndex(item.startIndex)}
                     className={`rounded-2xl border px-4 py-3 text-left transition ${
                       active
                         ? isDark
@@ -6458,15 +6534,15 @@ const LessonView = ({
             }`}
           >
             <div className="flex flex-col items-center gap-3 py-0.5">
-              {lesson.steps.map((item, index) => {
-                const active = index === stepIndex;
-                const stepComplete = isLessonStepComplete(item);
+              {lessonOutlineItems.map((item, index) => {
+                const active = item.id === currentOutlineId;
+                const stepComplete = isOutlineItemComplete(item);
 
                 return (
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => setStepIndex(index)}
+                    onClick={() => setStepIndex(item.startIndex)}
                     className={`inline-flex h-10 w-10 items-center justify-center rounded-full border text-xs font-semibold transition ${
                       stepComplete
                         ? completedCollapsedStepClass
@@ -7005,14 +7081,19 @@ const LessonView = ({
             <button
               type="button"
               onClick={() => {
-                if (isTerminalQuizStep || canContinueFromLastStep) {
-                  onNextLesson();
+                if (hasNextPageInSection) {
+                  setStepIndex(currentOutlineSteps[currentPageIndexInSection + 1].index);
                   return;
                 }
 
-                setStepIndex((current) =>
-                  Math.min(current + 1, lesson.steps.length - 1),
-                );
+                if (hasNextOutlineSection && nextOutlineSection) {
+                  setStepIndex(nextOutlineSection.startIndex);
+                  return;
+                }
+
+                if (isTerminalQuizStep || canContinueFromLastStep) {
+                  onNextLesson();
+                }
               }}
               disabled={nextButtonDisabled}
               className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-slate-950 transition ${
