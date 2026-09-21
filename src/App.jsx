@@ -1295,195 +1295,6 @@ const sections = [
   },
 ];
 
-const uploadedImageCredits = [
-  {
-    title: "Copperhead Strike Train",
-    file: "/copperhead-strike-train.png",
-    usedIn: "Forces and Newton's Laws real-world example",
-    source: "Closest verified source found: Carowinds / Six Flags official Copperhead Strike page.",
-    sourceUrl: "https://www.sixflags.com/carowinds/attractions/copperhead-strike",
-    copyrightNote:
-      "Exact original upload page was not confirmed by search. Treat this as a traced ride/source citation, not a confirmed reuse license.",
-  },
-  {
-    title: "Maverick Second Launch",
-    file: "/maverick-second-launch.png",
-    usedIn: "Work, Friction, and Power real-world example",
-    source: "Closest verified source found: Maverick page on Wikimedia/Wikipedia, with ride photos and source links.",
-    sourceUrl: "https://en.wikipedia.org/wiki/Maverick_(roller_coaster)",
-    copyrightNote:
-      "Exact image match was not confirmed by search. Use a verified replacement image or confirm the original photographer before final publication.",
-  },
-  {
-    title: "El Toro Airtime Hills",
-    file: "/el-toro-airtime.png",
-    usedIn: "Kinematics projectile motion real-world example",
-    source: "Visible image watermark reads © Joel N...; closest verified coaster source found: El Toro public image pages.",
-    sourceUrl: "https://www.pa-community.com/parques/six-flags-great-adventure/atracciones/el-toro",
-    copyrightNote:
-      "The original posting URL for the watermarked image was not confirmed by search. The visible watermark should be kept or the image should be replaced with a clearly licensed version.",
-  },
-  {
-    title: "VelociCoaster Launch and Roll",
-    file: "/velocicoaster-momentum.png",
-    usedIn: "Momentum and Impulse real-world example",
-    source: "Pais&Filhos article; photo credit listed there as Nicole Moshe - NBCUniversal.",
-    sourceUrl: "https://paisefilhos.com.br/familia/velocicoaster-a-mais-rapida-e-veloz-montanha-russa-da-florida-esta-na-universal-orlando-resorts/",
-    copyrightNote:
-      "This appears to be the strongest traced match. Credit does not automatically mean reuse permission is granted.",
-  },
-  {
-    title: "Time Traveler Controlled Spin",
-    file: "/time-traveler-spin.png",
-    usedIn: "Rotation and Torque real-world example",
-    source: "Amusement Insider article supplied with the image.",
-    sourceUrl:
-      "https://www.amusementinsider.com/2018/10/time-traveler-silver-dollar-city.html",
-    copyrightNote:
-      "Crediting the image source does not automatically grant reuse permission. Confirm permission or replace with a clearly licensed image before final public publication if needed.",
-  },
-];
-
-const homeCoverImageCredits = [
-  {
-    title: "Millennium Force Cover Photo",
-    file: "/hero-coaster-frame.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest visual match found: Millennium Force page on Coaster Wiki / Fandom.",
-    sourceUrl: "https://coaster.wikia.com/wiki/Millennium_Force",
-    copyrightNote:
-      "Exact original image page was not confirmed by search. Use this as a traced visual/source citation, not a confirmed reuse license.",
-  },
-  {
-    title: "Mako Drop Cover Photo",
-    file: "/mako-drop.png",
-    usedIn: "Home page cover collage and Energy real-world example",
-    source:
-      "Closest visual match found: Orlando Florida guide page for SeaWorld Orlando roller coasters.",
-    sourceUrl:
-      "https://www.orlando-florida.net/top-3-seaworld-orlando-rollercoasters-you-can-ride-in-2022/",
-    copyrightNote:
-      "Exact original image page was not confirmed by search. Credit does not automatically grant permission to reuse it.",
-  },
-  {
-    title: "Superman Coaster Cover Photo",
-    file: "/hero-collage-superman.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest visual match found: Milenio article using a Superman coaster image.",
-    sourceUrl:
-      "https://www.milenio.com/politica/comunidad/denuncian-discriminacion-pareja-gay-besarse-six-flags",
-    copyrightNote:
-      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
-  },
-  {
-    title: "White Inversion Cover Photo",
-    file: "/hero-collage-white-loop.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest visual match found: Six Flags Magic Mountain memberships page.",
-    sourceUrl: "https://www.sixflags.com/magicmountain/memberships",
-    copyrightNote:
-      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
-  },
-  {
-    title: "Wooden Inversion Cover Photo",
-    file: "/hero-collage-red-inversion.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest visual match found: The Gravity Group Timberliner trains page.",
-    sourceUrl: "https://thegravitygroup.com/timberliner/",
-    copyrightNote:
-      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
-  },
-  {
-    title: "Wooden Coaster Sunset Cover Photo",
-    file: "/hero-collage-wood-sunset.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest visual match found: Wisconsin Dells amusement parks guide.",
-    sourceUrl:
-      "https://www.wisdells.com/blog-stories/Best-Amusement-Parks-in-Wisconsin-Dells",
-    copyrightNote:
-      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
-  },
-  {
-    title: "Blue Loop Cover Photo",
-    file: "/hero-collage-loop-blue.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Existing project image asset; exact original source was not confirmed by image search.",
-    copyrightNote:
-      "Replace with the original photographer, website URL, and license before final publication if available.",
-  },
-  {
-    title: "Blue Crest Cover Photo",
-    file: "/hero-collage-blue-crest-wide.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest visual match found: Visit Cincy page for Kings Island Amusement Park.",
-    sourceUrl:
-      "https://www.visitcincy.com/listing/kings-island-amusement-park/4778/",
-    copyrightNote:
-      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
-  },
-  {
-    title: "Copperhead Strike Cover Photo",
-    file: "/hero-collage-orange-turn.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest verified source found: Carowinds / Six Flags official Copperhead Strike page.",
-    sourceUrl: "https://www.sixflags.com/carowinds/attractions/copperhead-strike",
-    copyrightNote:
-      "Exact original image page was not confirmed by search. Use this as a traced ride/source citation, not a confirmed reuse license.",
-  },
-  {
-    title: "Red Loop Tower Cover Photo",
-    file: "/hero-collage-red-loop-tower.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest visual match found: Gazeta.pl roller coaster article.",
-    sourceUrl:
-      "https://podroze.gazeta.pl/podroze/56%2C114158%2C23711374%2Cnajciekawsze-roller-coastery-w-polsce-mamy-m-in-najwyzszy.html",
-    copyrightNote:
-      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
-  },
-  {
-    title: "Manta-Style Inverted Train Cover Photo",
-    file: "/hero-collage-inverted-train.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest verified ride/source found: SeaWorld Manta coaster pages; exact image source was not confirmed.",
-    sourceUrl: "https://seaworld.com/orlando/rides/manta/",
-    copyrightNote:
-      "The image appears to show a Manta-style flying coaster, but the exact original photographer/license was not confirmed by search.",
-  },
-  {
-    title: "Strat Tower Ride Cover Photo",
-    file: "/hero-collage-vegas-glider.png",
-    usedIn: "Home page cover collage",
-    source:
-      "Closest visual match found: Tiqets page for The STRAT Tower thrill rides.",
-    sourceUrl:
-      "https://www.tiqets.com/en/las-vegas-attractions-c82073/tickets-for-the-strat-tower-entry-optional-thrill-rides-p976687/",
-    copyrightNote:
-      "Exact original photographer/license was not confirmed by search. Replace with the original source if found.",
-  },
-];
-
-const otherSiteImageCredits = [
-  ...homeCoverImageCredits,
-  {
-    title: "Circular G-Force Coaster",
-    file: "/circular-gforce-example.png",
-    usedIn: "Circular Motion real-world example",
-    source: "Existing project image asset.",
-    copyrightNote:
-      "Original source and license are not documented in the project files yet.",
-  },
-];
-
 const kinematicsLesson = createLesson(
   "Lesson 1: Kinematics",
   "Describing Motion Before Explaining It",
@@ -5962,10 +5773,6 @@ const getRouteFromPathname = (pathname) => {
     return { view: "simulation" };
   }
 
-  if (path === "/credits") {
-    return { view: "credits" };
-  }
-
   const lessonMatch = path.match(/^\/chapters\/([^/]+)$/);
 
   if (lessonMatch) {
@@ -5995,10 +5802,6 @@ const getPathForRoute = (route) => {
 
   if (route.view === "simulation") {
     return "/simulation";
-  }
-
-  if (route.view === "credits") {
-    return "/credits";
   }
 
   return "/";
@@ -7238,127 +7041,6 @@ const LessonView = ({
   );
 };
 
-const ImageCreditsView = ({
-  isDark,
-  subtlePanelClass,
-  titleClass,
-  copyClass,
-  mutedClass,
-  accentLabelClass,
-}) => {
-  const imageBorderClass = isDark ? "border-white/10" : "border-slate-300/70";
-  const sourceBoxClass = isDark
-    ? "border-cyan-300/15 bg-cyan-300/10 text-cyan-50"
-    : "border-sky-200 bg-sky-50 text-sky-950";
-  const warningBoxClass = isDark
-    ? "border-amber-300/20 bg-amber-300/10 text-amber-50"
-    : "border-amber-200 bg-amber-50 text-amber-950";
-
-  const renderCreditCard = (credit) => (
-    <article key={credit.title} className={`rounded-[2rem] border p-4 sm:p-5 ${subtlePanelClass}`}>
-      <div className="grid gap-4 sm:grid-cols-[9rem_minmax(0,1fr)]">
-        <div className={`overflow-hidden rounded-2xl border ${imageBorderClass}`}>
-          <img
-            src={credit.file}
-            alt={credit.title}
-            loading="eager"
-            decoding="async"
-            className="aspect-[4/3] h-full w-full object-cover"
-          />
-        </div>
-
-        <div className="min-w-0">
-          <h3 className={`text-lg font-semibold ${titleClass}`}>{credit.title}</h3>
-          <p className={`mt-1 text-sm leading-6 ${copyClass}`}>{credit.usedIn}</p>
-
-          <div className="mt-4 grid gap-3 lg:grid-cols-2">
-            <div className={`rounded-2xl border p-3 text-sm leading-6 ${sourceBoxClass}`}>
-              <p className="font-semibold">Source</p>
-              <p className="mt-1">{credit.source}</p>
-              {credit.sourceUrl ? (
-                <a
-                  href={credit.sourceUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-2 inline-flex break-all text-xs font-semibold underline underline-offset-4"
-                >
-                  {credit.sourceUrl}
-                </a>
-              ) : null}
-            </div>
-            <div className={`rounded-2xl border p-3 text-sm leading-6 ${warningBoxClass}`}>
-              <p className="font-semibold">Copyright note</p>
-              <p className="mt-1">{credit.copyrightNote}</p>
-            </div>
-          </div>
-
-          <p className={`mt-3 break-all text-xs leading-5 ${mutedClass}`}>
-            Site file: {credit.file}
-          </p>
-
-          {credit.relatedFiles?.length ? (
-            <div className={`mt-3 rounded-2xl border p-3 text-xs leading-5 ${subtlePanelClass}`}>
-              <p className={`font-semibold uppercase tracking-[0.14em] ${accentLabelClass}`}>
-                Included files
-              </p>
-              <ul className={`mt-2 grid gap-1 break-all ${mutedClass}`}>
-                {credit.relatedFiles.map((file) => (
-                  <li key={file}>{file}</li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-        </div>
-      </div>
-    </article>
-  );
-
-  return (
-    <section id="credits" className="pt-0">
-      <div className="max-w-6xl">
-        <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-          Image Credits
-        </p>
-        <h2 className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}>
-          Image sources used on this site
-        </h2>
-        <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
-          These credits list the strongest sources found through image and web
-          searches. Some entries are exact traced matches, while others are
-          marked as closest verified sources when the original image page could
-          not be confirmed.
-        </p>
-        <div className={`mt-5 max-w-4xl rounded-[1.5rem] border p-4 text-sm leading-7 ${subtlePanelClass}`}>
-          <p className={copyClass}>
-            Before a final public submission, replace any closest-match entries
-            with the original photographer, website URL, and license if those
-            details become available. Crediting an image does not automatically
-            grant permission to reuse it.
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-10">
-        <p className={`text-sm font-semibold uppercase tracking-[0.2em] ${accentLabelClass}`}>
-          Images Uploaded in This Project Thread
-        </p>
-        <div className="mt-5 grid gap-4">
-          {uploadedImageCredits.map(renderCreditCard)}
-        </div>
-      </div>
-
-      <div className="mt-10">
-        <p className={`text-sm font-semibold uppercase tracking-[0.2em] ${accentLabelClass}`}>
-          Other Site Image Assets
-        </p>
-        <div className="mt-5 grid gap-4">
-          {otherSiteImageCredits.map(renderCreditCard)}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const App = () => {
   const initialRoute = getBrowserRoute();
   const [activeSection, setActiveSection] = useState(() =>
@@ -7631,7 +7313,7 @@ const App = () => {
         ) : view === "topics" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
             <section id="topics" className="pt-0">
-              <div className="mt-8 flex items-start justify-between gap-6 sm:mt-10 lg:mt-12">
+              <div className="mt-8 flex flex-col items-start gap-6 sm:mt-10 sm:flex-row sm:justify-between lg:mt-12">
                 <div className="max-w-6xl">
                   <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
                     Learning Path
@@ -7661,7 +7343,7 @@ const App = () => {
                 </button>
               </div>
 
-              <div className="mt-10 grid gap-4">
+              <div className="mt-10 grid gap-6">
                 {sections.map((section) => {
                   const lesson = lessonMap[section.id];
                   const completedSteps = progress.completedSteps?.[section.id] ?? {};
@@ -7682,11 +7364,7 @@ const App = () => {
                       onClick={() => {
                         openLesson(section);
                       }}
-                      className={`${panelClass} flex flex-col gap-4 p-5 text-left transition lg:flex-row lg:items-center lg:justify-between ${
-                        isDark
-                          ? "border-cyan-300/40 bg-cyan-300/10 hover:bg-cyan-300/15"
-                          : "border-sky-300 bg-sky-50 hover:bg-sky-50"
-                      }`}
+                      className="lesson-path-card flex flex-col gap-6 text-left lg:flex-row lg:items-center lg:justify-between"
                     >
                       <div className="flex min-w-0 flex-1 items-start gap-4">
                         <span
@@ -7774,31 +7452,6 @@ const App = () => {
                 })}
               </div>
             </section>
-          </section>
-        ) : view === "credits" ? (
-          <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
-            <div className="mb-5 flex items-center gap-4">
-              <button
-                type="button"
-                onClick={() => navigateToView("home")}
-                className={`inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold transition ${
-                  isDark
-                    ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
-                    : "border-slate-300 bg-white/80 text-slate-900 hover:bg-white"
-                }`}
-              >
-                Back Home
-              </button>
-            </div>
-
-            <ImageCreditsView
-              isDark={isDark}
-              subtlePanelClass={subtlePanelClass}
-              titleClass={titleClass}
-              copyClass={copyClass}
-              mutedClass={mutedClass}
-              accentLabelClass={accentLabelClass}
-            />
           </section>
         ) : view === "simulation" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">

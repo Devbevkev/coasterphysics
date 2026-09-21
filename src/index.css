@@ -73,6 +73,65 @@
     @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl;
   }
 
+  .lesson-path-card {
+    position: relative;
+    isolation: isolate;
+    padding: 2rem;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    transition: transform 180ms ease;
+  }
+
+  .lesson-path-card::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.85);
+    clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px,
+      100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%,
+      0 calc(100% - 12px), 0 12px);
+    transition: background-color 180ms ease;
+  }
+
+  .lesson-path-card::after {
+    content: "";
+    position: absolute;
+    /* Offset the PNG's transparent margins. Nine-slice scaling preserves
+       the generated corners while the straight edges follow card size. */
+    inset: -18px -9px -26px;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 40px 52px 48px;
+    border-image-source: url("/lesson-frame-instrument.png");
+    border-image-slice: 200 260 240 260;
+    border-image-repeat: stretch;
+    pointer-events: none;
+  }
+
+  .lesson-path-card:hover::before {
+    background-color: #f0f9ff;
+  }
+
+  .lesson-path-card:focus-visible {
+    outline: 3px solid #0284c7;
+    outline-offset: 6px;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .lesson-path-card:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lesson-path-card,
+    .lesson-path-card::before {
+      transition: none;
+    }
+  }
+
   .physics-radical {
     display: inline-flex;
     align-items: flex-start;
