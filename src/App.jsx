@@ -7482,7 +7482,6 @@ const App = () => {
               <div className="mt-10">
                 <SimulatorPanel
                   isDark={isDark}
-                  panelClass={panelClass}
                   subtlePanelClass={subtlePanelClass}
                   titleClass={titleClass}
                   copyClass={copyClass}

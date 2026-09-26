@@ -155,7 +155,6 @@ const getSliderBounds = (control, metersValue, unitSystem) => {
 
 const SimulatorPanel = ({
   isDark,
-  panelClass,
   subtlePanelClass,
   titleClass,
   copyClass,
@@ -333,7 +332,7 @@ const SimulatorPanel = ({
 
   return (
     <div className="grid items-start gap-8 xl:grid-cols-[0.95fr_1.05fr]">
-      <div className={`${panelClass} p-6 sm:p-8`}>
+      <div className={`simulator-panel simulator-controls-panel p-6 sm:p-8 ${isDark ? "simulator-panel-dark" : ""}`}>
         <div className="mb-8">
           <div>
             <p className={`text-sm uppercase tracking-[0.18em] ${mutedClass}`}>
@@ -362,7 +361,7 @@ const SimulatorPanel = ({
 
             return (
               <label key={control.key} className="block">
-                <div className="mb-3 flex items-center justify-between gap-4 text-sm">
+                <div className="mb-3 flex flex-col items-start gap-2 text-sm sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                   <span className={titleClass}>{control.label}</span>
                   <div className="flex items-center gap-2">
                     <input
@@ -455,7 +454,7 @@ const SimulatorPanel = ({
                         friction: profile.key,
                       }))
                     }
-                    className={`rounded-full border px-4 py-3 text-sm font-semibold transition ${
+                    className={`rounded-full border px-2 py-3 text-sm font-semibold transition sm:px-4 ${
                       active
                         ? isDark
                           ? "border-cyan-300/40 bg-cyan-300/10 text-cyan-100"
@@ -475,50 +474,16 @@ const SimulatorPanel = ({
 
       </div>
 
-      <div className={`${panelClass} relative overflow-hidden p-6 sm:p-8`}>
-        {isDark ? (
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-transparent to-amber-300/10" />
-        ) : null}
+      <div className={`simulator-panel simulator-results-panel p-6 sm:p-8 ${isDark ? "simulator-panel-dark" : ""}`}>
         <div className="relative">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <MetricCard
-              label="Max speed"
-              value={
-                unitSystem === "imperial"
-                  ? `${model.maxSpeedMph.toFixed(1)} mph`
-                  : `${model.maxSpeed.toFixed(1)} m/s`
-              }
-              accent="cyan"
-              isDark={isDark}
-            />
-            <MetricCard
-              label="Peak g-force"
-              value={`${model.peakGForce.toFixed(2)} g`}
-              accent="rose"
-              isDark={isDark}
-            />
-            <MetricCard
-              label="Transition radius"
-              value={formatLength(model.transitionRadius, unitSystem)}
-              accent="amber"
-              isDark={isDark}
-            />
-            <MetricCard
-              label="Ride feel"
-              value={model.intensity}
-              accent="emerald"
-              isDark={isDark}
-            />
-          </div>
-
           <div
-            className={`mt-8 rounded-[1.6rem] border p-5 ${
+            className={`rounded-[1.6rem] border p-5 ${
               isDark
                 ? "border-white/10 bg-slate-950/70"
                 : "border-slate-300/70 bg-white/90"
             }`}
           >
-            <div className={`mb-4 flex items-center justify-between text-sm ${copyClass}`}>
+            <div className={`mb-4 flex flex-wrap items-center justify-between gap-2 text-sm ${copyClass}`}>
               <span>Projected drop profile</span>
               <span>{model.entryAngle.toFixed(1)}° entry slope</span>
             </div>
@@ -645,6 +610,37 @@ const SimulatorPanel = ({
                 <rect x="-14" y="-10" width="28" height="12" rx="6" fill="#f8fafc" />
               </g>
             </svg>
+          </div>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <MetricCard
+              label="Max speed"
+              value={
+                unitSystem === "imperial"
+                  ? `${model.maxSpeedMph.toFixed(1)} mph`
+                  : `${model.maxSpeed.toFixed(1)} m/s`
+              }
+              accent="cyan"
+              isDark={isDark}
+            />
+            <MetricCard
+              label="Peak g-force"
+              value={`${model.peakGForce.toFixed(2)} g`}
+              accent="rose"
+              isDark={isDark}
+            />
+            <MetricCard
+              label="Transition radius"
+              value={formatLength(model.transitionRadius, unitSystem)}
+              accent="amber"
+              isDark={isDark}
+            />
+            <MetricCard
+              label="Ride feel"
+              value={model.intensity}
+              accent="emerald"
+              isDark={isDark}
+            />
           </div>
         </div>
       </div>

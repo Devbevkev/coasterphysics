@@ -73,6 +73,51 @@
     @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl;
   }
 
+  .simulator-panel {
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+  }
+
+  .simulator-panel::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.9);
+    clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px,
+      100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%,
+      0 calc(100% - 16px), 0 16px);
+    pointer-events: none;
+  }
+
+  .simulator-panel-dark::before {
+    background: #0b1d2e;
+  }
+
+  .simulator-panel::after {
+    content: "";
+    position: absolute;
+    inset: var(--simulator-frame-inset);
+    border: 44px solid transparent;
+    border-image-source: var(--simulator-frame-image);
+    /* Render each 220px corner at 20% scale; resize only the straight rails. */
+    border-image-slice: 220;
+    border-image-repeat: stretch;
+    pointer-events: none;
+  }
+
+  .simulator-controls-panel {
+    --simulator-frame-image: url("/simulator-controls-frame.png");
+    /* Compensate for transparent margins in the original PNG at 20% scale. */
+    --simulator-frame-inset: -11.2px -8.2px -11.6px -7px;
+  }
+
+  .simulator-results-panel {
+    --simulator-frame-image: url("/simulator-results-frame.png");
+    --simulator-frame-inset: -10px -6.4px -11px -5.8px;
+  }
+
   .lesson-path-card {
     position: relative;
     isolation: isolate;
