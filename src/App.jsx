@@ -7313,23 +7313,7 @@ const App = () => {
         ) : view === "topics" ? (
           <section className="pb-10 pt-0 sm:pb-14 sm:pt-0">
             <section id="topics" className="pt-0">
-              <div className="mt-8 flex flex-col items-start gap-6 sm:mt-10 sm:flex-row sm:justify-between lg:mt-12">
-                <div className="max-w-6xl">
-                  <p className={`text-sm font-semibold uppercase tracking-[0.22em] ${accentLabelClass}`}>
-                    Learning Path
-                  </p>
-                  <h2
-                    className={`mt-4 font-display text-3xl font-semibold sm:text-4xl ${titleClass}`}
-                  >
-                    Select a Roller Coaster Physics Section
-                  </h2>
-                  <p className={`mt-4 max-w-3xl text-lg leading-8 ${copyClass}`}>
-                    Start with kinematics, then build through forces, energy,
-                    circular motion, losses, momentum, rotation, and full coaster
-                    design reasoning.
-                  </p>
-                </div>
-
+              <div className="mt-8 flex justify-end sm:mt-10 lg:mt-12">
                 <button
                   type="button"
                   onClick={() => navigateToView("home")}
