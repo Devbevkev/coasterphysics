@@ -76,7 +76,7 @@
   .lesson-path-card {
     position: relative;
     isolation: isolate;
-    padding: 2rem;
+    padding: 1rem;
     border: 0;
     border-radius: 12px;
     background: transparent;
@@ -93,6 +93,12 @@
       100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%,
       0 calc(100% - 12px), 0 12px);
     transition: background-color 180ms ease;
+  }
+
+  @media (min-width: 640px) {
+    .lesson-path-card {
+      padding: 2rem;
+    }
   }
 
   .lesson-path-card::after {
@@ -112,6 +118,89 @@
 
   .lesson-path-card:hover::before {
     background-color: #f0f9ff;
+  }
+
+  .lesson-path-number {
+    background: url("/lesson-number-frame-circular.png") center / contain no-repeat;
+  }
+
+  .lesson-path-progress {
+    --progress-height: 2rem;
+    --progress-cap-width: calc(var(--progress-height) * 208 / 229);
+    position: relative;
+    width: 100%;
+    height: var(--progress-height);
+  }
+
+  .lesson-path-progress-track {
+    position: absolute;
+    inset: 18% calc(var(--progress-height) * 66 / 229);
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e2ebf3;
+    box-shadow: inset 0 2px 3px #123c5618;
+  }
+
+  .lesson-path-progress-fill {
+    position: absolute;
+    inset: 0;
+    background: #14a9e5 url("/lesson-progress-fill.png") left center / auto 100% repeat-x;
+    /* Clip the full-width texture so 0% is empty and 100% fills the track. */
+    clip-path: inset(0 calc(100% - var(--lesson-progress, 0%)) 0 0);
+  }
+
+  .lesson-path-progress-frame {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .lesson-path-progress-cap,
+  .lesson-path-progress-rail {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  .lesson-path-progress-cap {
+    width: var(--progress-cap-width);
+  }
+
+  .lesson-path-progress-cap-left { left: 0; }
+  .lesson-path-progress-cap-right { right: 0; }
+
+  /* Three slices preserve the round end caps at their native proportions.
+     Only the straight middle rails extend to fit the available width. */
+  .lesson-path-progress-cap img {
+    position: absolute;
+    width: calc(var(--progress-height) * 2073 / 229);
+    max-width: none;
+    height: auto;
+    top: calc(var(--progress-height) * -256 / 229);
+  }
+
+  .lesson-path-progress-cap-left img {
+    left: calc(var(--progress-height) * -32 / 229);
+  }
+
+  .lesson-path-progress-cap-right img {
+    right: calc(var(--progress-height) * -32 / 229);
+  }
+
+  .lesson-path-progress-rail {
+    left: var(--progress-cap-width);
+    right: var(--progress-cap-width);
+  }
+
+  .lesson-path-progress-rail img {
+    position: absolute;
+    max-width: none;
+    left: -15.066%;
+    top: -111.79%;
+    width: 130.132%;
+    height: 331.005%;
   }
 
   .lesson-path-card:focus-visible {

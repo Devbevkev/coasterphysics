@@ -7364,16 +7364,16 @@ const App = () => {
                       onClick={() => {
                         openLesson(section);
                       }}
-                      className="lesson-path-card flex flex-col gap-6 text-left lg:flex-row lg:items-center lg:justify-between"
+                      className="lesson-path-card grid grid-cols-[minmax(0,1fr)_8rem] items-center gap-3 text-left sm:grid-cols-[minmax(0,1fr)_18rem] sm:gap-6 xl:grid-cols-[minmax(0,1fr)_30rem]"
                     >
-                      <div className="flex min-w-0 flex-1 items-start gap-4">
+                      <div className="flex min-w-0 flex-col items-start gap-3 sm:flex-row sm:gap-4">
                         <span
-                          className={`mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${accentNumberClass}`}
+                          className="lesson-path-number mt-0.5 inline-flex h-12 w-12 shrink-0 items-center justify-center text-sm font-semibold text-sky-800"
                         >
                           {section.number}
                         </span>
-                        <div className="min-w-0">
-                          <h3 className={`text-xl font-semibold ${titleClass}`}>
+                        <div className="min-w-0 break-words">
+                          <h3 className={`text-base font-semibold sm:text-xl ${titleClass}`}>
                             {section.title}
                           </h3>
                           <p
@@ -7394,9 +7394,9 @@ const App = () => {
                         </div>
                       </div>
 
-                      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-end lg:w-auto">
-                        <div className="w-full sm:min-w-[16rem] sm:pr-2 lg:min-w-[17rem] lg:pr-3">
-                          <div className="mb-1 flex items-center justify-between gap-3">
+                      <div className="grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 xl:grid-cols-[minmax(0,1fr)_auto_auto]">
+                        <div className="col-span-2 min-w-0 xl:col-span-1">
+                          <div className="mb-2 flex items-center justify-between gap-3">
                             <span className={`text-xs font-semibold uppercase tracking-[0.14em] ${mutedClass}`}>
                               Progress
                             </span>
@@ -7405,24 +7405,33 @@ const App = () => {
                             </span>
                           </div>
                           <div
-                            className={`h-3 overflow-hidden rounded-full border ${
-                              isDark
-                                ? "border-white/10 bg-white/10"
-                                : "border-slate-300 bg-slate-200/80"
-                            }`}
-                            aria-label={`${section.title} progress ${progressSummary.percent}%`}
+                            className="lesson-path-progress"
+                            role="progressbar"
+                            aria-label={`${section.title} progress`}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                            aria-valuenow={progressSummary.percent}
+                            style={{ "--lesson-progress": `${progressSummary.percent}%` }}
                           >
-                            <div
-                              className={`h-full rounded-full ${
-                                isDark ? "bg-cyan-300" : "bg-sky-500"
-                              }`}
-                              style={{ width: `${progressSummary.percent}%` }}
-                            />
+                            <div className="lesson-path-progress-track">
+                              <div className="lesson-path-progress-fill" />
+                            </div>
+                            <div className="lesson-path-progress-frame" aria-hidden="true">
+                              <span className="lesson-path-progress-cap lesson-path-progress-cap-left">
+                                <img src="/lesson-progress-frame.png" alt="" />
+                              </span>
+                              <span className="lesson-path-progress-rail">
+                                <img src="/lesson-progress-frame.png" alt="" />
+                              </span>
+                              <span className="lesson-path-progress-cap lesson-path-progress-cap-right">
+                                <img src="/lesson-progress-frame.png" alt="" />
+                              </span>
+                            </div>
                           </div>
                         </div>
 
                         <div
-                          className={`min-w-[6.5rem] rounded-2xl border px-3 py-2 ${
+                          className={`col-span-2 min-w-0 rounded-2xl border px-3 py-2 sm:col-span-1 ${
                             isDark
                               ? "border-white/10 bg-white/[0.04]"
                               : "border-slate-300/70 bg-white/70"
@@ -7437,7 +7446,7 @@ const App = () => {
                         </div>
 
                         <span
-                          className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-xl transition ${
+                          className={`col-start-2 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-xl transition sm:col-start-auto ${
                             isDark
                               ? "border-white/10 bg-white/[0.04] text-slate-200"
                               : "border-slate-300/70 bg-white/70 text-slate-700"
